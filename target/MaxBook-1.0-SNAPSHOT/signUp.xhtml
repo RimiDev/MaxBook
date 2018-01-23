@@ -6,6 +6,7 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html">
     <h:head>
+        <h:outputStylesheet library="css" name="styles.css" />
         <title>#{msgs.signUpTitle}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     </h:head>
@@ -18,31 +19,65 @@
         
         <h:form>
             
-            #{msgs.firstNameLabel} <h:inputText id="firstName" value="#{client.firstName}"/>
+            <!--Validation errors will show up here-->
+            <h:messages styleClass="error"/>
+            
+            #{msgs.firstNameLabel}
+            <h:inputText id="firstName" value="#{client.firstName}" required="true"/>
         <br/>
-            #{msgs.lastNameLabel} <h:inputText id="lastName" value="#{client.lastName}"/>
+            #{msgs.lastNameLabel}
+            <h:inputText id="lastName" value="#{client.lastName}" required="true"/>
         <br/>
-            #{msgs.titleLabel} <h:inputText id="title" value="#{client.title}"/>
+            #{msgs.titleLabel}
+            <h:inputText id="title" value="#{client.title}"/>
         <br/>
-            #{msgs.companyLabel} <h:inputText id="company" value="#{client.company}"/>
+            #{msgs.companyLabel}
+            <h:inputText id="company" value="#{client.company}"/>
         <br/>
-            #{msgs.emailLabel} <h:inputText id="email" value="#{client.email}"/>
+            #{msgs.emailLabel}
+            <h:inputText id="email" value="#{client.email}" required="true"/>
         <br/>
-            #{msgs.cellPhoneLabel} <h:inputText id="cellPhone" value="#{client.cellPhone}"/>
+            #{msgs.cellPhoneLabel}
+            <h:inputText id="cellPhone" value="#{client.cellPhone}" required="true"/>
         <br/>
-            #{msgs.homePhoneLabel} <h:inputText id="homePhone"  value="#{client.homePhone}"/>
+            #{msgs.homePhoneLabel}
+            <h:inputText id="homePhone"  value="#{client.homePhone}"/>
         <br/>
-            #{msgs.postalCodeLabel} <h:inputText id="postalCode" value="#{client.postalCode}"/>
+            #{msgs.postalCodeLabel} 
+            <h:inputText id="postalCode" value="#{client.postalCode}" required="true"/>
         <br/>
-            #{msgs.countryLabel} <h:inputText id="country" value="#{client.country}"/>
+            #{msgs.countryLabel}
+            <h:selectOneMenu value="#{client.country}" required="true">
+                <f:selectItems value="#{client.countryOptions}"/>
+            </h:selectOneMenu>
         <br/>
-            #{msgs.provinceLabel} <h:inputText id="province" value="#{client.province}"/>
+           <!-- #{msgs.provinceLabel} <h:inputText id="province" value="#{client.province}"/>-->
+        #{msgs.provinceLabel} <h:selectOneMenu value="#{client.province}">
+             <f:selectItem itemValue="Alberta" itemLabel="Alberta" />     
+             <f:selectItem itemValue="British Columbia" itemLabel="British Columbia" />
+             <f:selectItem itemValue="Manitoba" itemLabel="Manitoba" />
+             <f:selectItem itemValue="New Brunswick" itemLabel="New Brunswick" />
+             <f:selectItem itemValue="Newfoundland and Labrador" itemLabel="Newfoundland and Labrador" />
+             <f:selectItem itemValue="Northwest Territories" itemLabel="Northwest Territories" />
+             <f:selectItem itemValue="Nova Scotia" itemLabel="Nova Scotia" />
+             <f:selectItem itemValue="Nunavut" itemLabel="Nunavut" />
+             <f:selectItem itemValue="Ontario" itemLabel="Ontario" />
+             <f:selectItem itemValue="Prince Edward Island" itemLabel="Prince Edward Island" />
+             <f:selectItem itemValue="Quebec" itemLabel="Quebec" />
+             <f:selectItem itemValue="Saskatchewan" itemLabel="Saskatchewan" />
+             <f:selectItem itemValue="Yukon" itemLabel="Yukon" />
+
+        </h:selectOneMenu>
+        
         <br/>
-            #{msgs.cityLabel} <h:inputText id="city" value="#{client.city}"/>
+            #{msgs.cityLabel}
+            <h:inputText id="city" value="#{client.city}" required="true"/>
         <br/>
-            #{msgs.addressLabel} <h:inputText id="address" value="#{client.address}"/>
+            #{msgs.addressLabel}
+            <h:inputText id="address" value="#{client.address}" required="true"/>
         <br/>
-            #{msgs.address2Label} <h:inputText id="address2" value="#{client.address2}"/>
+            #{msgs.address2Label}
+            <h:inputText id="address2" value="#{client.address2}"/>
         <br/>
             <h:commandButton value="Submit" action="signedUp"/>
             

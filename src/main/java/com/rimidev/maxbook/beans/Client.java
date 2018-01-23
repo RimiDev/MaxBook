@@ -5,6 +5,9 @@
  */
 package com.rimidev.maxbook.beans;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Locale;
 import javax.faces.bean.ManagedBean;
 
 /**
@@ -14,6 +17,7 @@ import javax.faces.bean.ManagedBean;
 @ManagedBean
 public class Client {
     
+    //Client information
     private String firstName;
     private String lastName;
     private String title;
@@ -25,7 +29,36 @@ public class Client {
     private String country;
     private String city;
     private String province;
+    
+    //Country names for drop-down list
+    private ArrayList<String> countryOptions;
+    
+    
+    /**
+     * Creates a new instance of Client
+     */
+    public Client() {
+        //Pre-populating the options
+        getCountryNames();
+        
+        //Can set any variable to anything and it will show in the sign in page.
+        //Ex:firstName = "Max"
+    }
+    
+    /*
+     Setters and getters
+    */
 
+    public ArrayList<String> getCountryOptions() {
+        return countryOptions;
+    }
+
+    public void setCountryOptions(ArrayList<String> countryOptions) {
+        this.countryOptions = countryOptions;
+    }
+
+    
+    
     public String getProvince() {
         return province;
     }
@@ -131,11 +164,29 @@ public class Client {
     public void setAddress2(String address2) {
         this.address2 = address2;
     }
-
+    
     /**
-     * Creates a new instance of Client
+     * This grabs the country names
+     * @return List of countries
      */
-    public Client() {
+    public void getCountryNames(){
+        //Get all the available locales
+        Locale[] locale = Locale.getAvailableLocales();
+        //Create an arrayList of strings to place the countries.
+        ArrayList<String> countries = new ArrayList<String>();
+        //SIngle country, which will be added to the arrayList.
+        String country;
+        //Iterate through all of the locales and add it to the countries
+        //Check for duplicates and if the country's length is 0 (empty).
+        for( Locale loc : locale ){
+            country = loc.getDisplayCountry();
+            if( country.length() > 0 && !countries.contains(country) ){
+                countries.add( country );
+            }
+        }
+        //Sort the arrayList
+        Collections.sort(countries, String.CASE_INSENSITIVE_ORDER);
+        this.countryOptions = countries;
     }
     
     
