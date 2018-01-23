@@ -19,14 +19,26 @@
         
         <h:form>
             
-            <!--Validation errors will show up here-->
-            <h:messages styleClass="error"/>
+            <!--
+                    Validation errors will show up here
+                    The label tag is required for the fields that are up for validation
+                    Since this will be the label that will be used to warn the user which 
+                    input is incorrect.
+            -->
             
             #{msgs.firstNameLabel}
-            <h:inputText id="firstName" value="#{client.firstName}" required="true"/>
+            <h:inputText id="firstName" value="#{client.firstName}" 
+                                                            label="#{msgs.firstNameLabel}"
+                                                            required="true"
+                                                            requiredMessage="#{msgs.firstNameRequired}"/>
+            <h:message for="firstName" styleClass="error" />
         <br/>
             #{msgs.lastNameLabel}
-            <h:inputText id="lastName" value="#{client.lastName}" required="true"/>
+            <h:inputText id="lastName" value="#{client.lastName}"
+                                                          label="#{msgs.lastNameLabel}"
+                                                          required="true"
+                                                          requiredMessage="#{msgs.lastNameRequired}"/>
+            <h:message for="lastName" styleClass="error" />
         <br/>
             #{msgs.titleLabel}
             <h:inputText id="title" value="#{client.title}"/>
@@ -35,20 +47,37 @@
             <h:inputText id="company" value="#{client.company}"/>
         <br/>
             #{msgs.emailLabel}
-            <h:inputText id="email" value="#{client.email}" required="true"/>
+            <h:inputText id="email" value="#{client.email}"
+                                                    label="#{msgs.emailLabel}"
+                                                    required="true"
+                                                    requiredMessage="#{msgs.emailRequired}"/>
+            <h:message for="email" styleClass="error" />
+
         <br/>
             #{msgs.cellPhoneLabel}
-            <h:inputText id="cellPhone" value="#{client.cellPhone}" required="true"/>
+            <h:inputText id="cellPhone" value="#{client.cellPhone}" 
+                                                           label="#{msgs.cellPhoneLabel}"
+                                                           required="true"
+                                                           requiredMessage="#{msgs.cellPhoneRequired}"/>
+            <h:message for="cellPhone" styleClass="error" />
         <br/>
             #{msgs.homePhoneLabel}
             <h:inputText id="homePhone"  value="#{client.homePhone}"/>
         <br/>
             #{msgs.postalCodeLabel} 
-            <h:inputText id="postalCode" value="#{client.postalCode}" required="true"/>
+            <h:inputText id="postalCode" value="#{client.postalCode}" 
+                                                             label="#{msgs.postalCodeLabel}"
+                                                             required="true"
+                                                             requiredMessage="#{msgs.postalCodeRequired}"/>
+            <h:message for="postalCode" styleClass="error"/>
         <br/>
             #{msgs.countryLabel}
-            <h:selectOneMenu value="#{client.country}" required="true">
+            <h:selectOneMenu value="#{client.country}"                             
+                                          label="#{msgs.countryLabel}">
+                
+                <!--The list of countries generated in the managed bean-->
                 <f:selectItems value="#{client.countryOptions}"/>
+                
             </h:selectOneMenu>
         <br/>
            <!-- #{msgs.provinceLabel} <h:inputText id="province" value="#{client.province}"/>-->
@@ -71,10 +100,20 @@
         
         <br/>
             #{msgs.cityLabel}
-            <h:inputText id="city" value="#{client.city}" required="true"/>
+            <h:inputText id="city" value="#{client.city}" 
+                                                   label="#{msgs.cityLabel}"
+                                                  required="true"
+                                                  requiredMessage="#{msgs.cityRequired}"/>
+            <h:message for="city" styleClass="error" />
+
         <br/>
             #{msgs.addressLabel}
-            <h:inputText id="address" value="#{client.address}" required="true"/>
+            <h:inputText id="address" value="#{client.address}" 
+                                                        label="#{msgs.addressLabel}"
+                                                        required="true"
+                                                        requiredMessage="#{addressRequired}"/>
+            <h:message for="address" styleClass="error" />
+
         <br/>
             #{msgs.address2Label}
             <h:inputText id="address2" value="#{client.address2}"/>
