@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html">
+    <h:head>
+        <title>#{msgs.signUpTitle}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </h:head>
+    
+    
+    
+    <h:body>
+        <div>Welcome to the sign up page</div>
+        <br/>
+        
+        <h:form>
+            
+            #{msgs.firstNameLabel} <h:inputText id="firstName" value="#{client.firstName}"/>
+        <br/>
+            #{msgs.lastNameLabel} <h:inputText id="lastName" value="#{client.lastName}"/>
+        <br/>
+            #{msgs.titleLabel} <h:inputText id="title" value="#{client.title}"/>
+        <br/>
+            #{msgs.companyLabel} <h:inputText id="company" value="#{client.company}"/>
+        <br/>
+            #{msgs.emailLabel} <h:inputText id="email" value="#{client.email}"/>
+        <br/>
+            #{msgs.cellPhoneLabel} <h:inputText id="cellPhone" value="#{client.cellPhone}"/>
+        <br/>
+            #{msgs.homePhoneLabel} <h:inputText id="homePhone"  value="#{client.homePhone}"/>
+        <br/>
+            #{msgs.postalCodeLabel} <h:inputText id="postalCode" value="#{client.postalCode}"/>
+        <br/>
+            #{msgs.countryLabel} <h:inputText id="country" value="#{client.country}"/>
+        <br/>
+            #{msgs.provinceLabel} <h:inputText id="province" value="#{client.province}"/>
+        <br/>
+            #{msgs.cityLabel} <h:inputText id="city" value="#{client.city}"/>
+        <br/>
+            #{msgs.addressLabel} <h:inputText id="address" value="#{client.address}"/>
+        <br/>
+            #{msgs.address2Label} <h:inputText id="address2" value="#{client.address2}"/>
+        <br/>
+            <h:commandButton value="Submit" action="signedUp"/>
+            
+        </h:form>
+        
+        
+    </h:body>
+</html>

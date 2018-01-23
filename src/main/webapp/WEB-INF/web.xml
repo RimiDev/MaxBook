@@ -35,6 +35,6 @@
     </session-config>
     <!-- if there is no page in the in the URL then this page will be called upon -->
     <welcome-file-list>
-        <welcome-file>index.xhtml</welcome-file>
+        <welcome-file>signUp.xhtml</welcome-file>
     </welcome-file-list>
 </web-app>
