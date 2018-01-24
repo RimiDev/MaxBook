@@ -16,28 +16,59 @@
     
     
     <h:body>
-        <div>Welcome to the sign up page</div>
-        <br/>
         
-      
+        <!--MENU BAR-->
+        
+        <h:form id="menuBar">
+        
+        <p:menubar>
+        <p:submenu label="File" icon="ui-icon-document">
+            <p:submenu label="New" icon="ui-icon-contact">
+                <p:menuitem value="Project" url="#" />
+                <p:menuitem value="Other" url="#" />
+            </p:submenu>
+            <p:menuitem value="Open" url="#" />
+            <p:separator />
+            <p:menuitem value="Quit" url="#" />
+        </p:submenu>
+                    <p:submenu label="File" icon="ui-icon-document">
+            <p:submenu label="New" icon="ui-icon-contact">
+                <p:menuitem value="Project" url="#" />
+                <p:menuitem value="Other" url="#" />
+            </p:submenu>
+            <p:menuitem value="Open" url="#" />
+            <p:separator />
+            <p:menuitem value="Quit" url="#" />
+        </p:submenu>
+            </p:menubar>
             
-        <div class="inputData">                         
+            </h:form>
+
         
-            <h:form>
+       <h:form>    
+       
+        <div class="inputData"> 
+            
+            <p:panel id="signUpPanel">
+            
+            <div>Welcome to the sign up page, stranger.</div>
+            <br/>
 
                 <!--This will show ALL validation required on TOP of the page-->
-                            <!--<p:messages styleClass="error" />-->
+                           <!-- <p:messages styleClass="error" />-->
 
 
             
-            <p:outputLabel value="#{msgs.firstNameLabel}"/>
+            <p:outputLabel value="#{msgs.firstNameLabel}"
+                                     for="firstName"/>
             <p:inputText id="firstName" value="#{client.firstName}" 
                                                             label="#{msgs.firstNameLabel}"
                                                             required="true"
                                                             requiredMessage="#{msgs.firstNameRequired}"/>
             <p:message for="firstName" styleClass="error" />
         <br/>
-            <p:outputLabel value="#{msgs.lastNameLabel}"/>
+            <p:outputLabel value="#{msgs.lastNameLabel}"
+                                     for="lastName"/>
             <p:inputText id="lastName" value="#{client.lastName}"
                                                           label="#{msgs.lastNameLabel}"
                                                           required="true"
@@ -50,7 +81,8 @@
             <p:outputLabel value="#{msgs.companyLabel}"/>
             <p:inputText id="company" value="#{client.company}"/>
         <br/>
-            <p:outputLabel value="#{msgs.emailLabel}"/>
+            <p:outputLabel value="#{msgs.emailLabel}"
+                                     for="email"/>
             <p:inputText id="email" value="#{client.email}"
                                                     label="#{msgs.emailLabel}"
                                                     required="true"
@@ -58,7 +90,8 @@
             <p:message for="email" styleClass="error" />
 
         <br/>
-           <p:outputLabel value="#{msgs.cellPhoneLabel}"/>
+           <p:outputLabel value="#{msgs.cellPhoneLabel}"
+                                    for="cellPhone"/>
             <p:inputText id="cellPhone" value="#{client.cellPhone}" 
                                                            label="#{msgs.cellPhoneLabel}"
                                                            required="true"
@@ -68,15 +101,19 @@
             <p:outputLabel value="#{msgs.homePhoneLabel}"/>
             <p:inputText id="homePhone"  value="#{client.homePhone}"/>
         <br/>
-            <p:outputLabel value="#{msgs.postalCodeLabel}"/>
+            <p:outputLabel value="#{msgs.postalCodeLabel}"
+                                     for="postalCode"/>
             <p:inputText id="postalCode" value="#{client.postalCode}" 
                                                              label="#{msgs.postalCodeLabel}"
                                                              required="true"
                                                              requiredMessage="#{msgs.postalCodeRequired}"/>
             <p:message for="postalCode" styleClass="error"/>
         <br/>
-            <p:outputLabel value="#{msgs.countryLabel}"/>
-            <p:selectOneMenu value="#{client.country}"                             
+                
+            <p:outputLabel value="#{msgs.countryLabel}"
+                                      for="country"/>
+            <p:selectOneMenu value="#{client.country}" 
+                                          id="country"
                                           label="#{msgs.countryLabel}"
                                           class="inputDataSelect">
                 
@@ -85,8 +122,10 @@
                 
             </p:selectOneMenu>
         <br/>
-        <p:outputLabel value="#{msgs.provinceLabel}"/>
+        <p:outputLabel value="#{msgs.provinceLabel}"
+                                 for="province"/>
         <p:selectOneMenu value="#{client.province}"
+                                      id="province"
                                       class="inputDataSelect">
              <f:selectItem itemValue="Alberta" itemLabel="Alberta" />     
              <f:selectItem itemValue="British Columbia" itemLabel="British Columbia" />
@@ -103,9 +142,10 @@
              <f:selectItem itemValue="Yukon" itemLabel="Yukon" />
 
         </p:selectOneMenu>
-        
+                
         <br/>
-            <p:outputLabel value="#{msgs.cityLabel}"/>
+            <p:outputLabel value="#{msgs.cityLabel}"
+                                     for="city"/>
             <p:inputText id="city" value="#{client.city}" 
                                                    label="#{msgs.cityLabel}"
                                                   required="true"
@@ -113,27 +153,27 @@
             <p:message for="city" styleClass="error" />
 
         <br/>
-            <p:outputLabel value="#{msgs.addressLabel}"/>
+            <p:outputLabel value="#{msgs.addressLabel}"
+                                     for="address"/>
             <p:inputText id="address" value="#{client.address}" 
                                                         label="#{msgs.addressLabel}"
                                                         required="true"
                                                         requiredMessage="#{addressRequired}"/>
-            <h:message for="address" styleClass="error" />
+            <p:message for="address" styleClass="error" />
 
         <br/>
             <p:outputLabel value="#{msgs.address2Label}"/>
             <p:inputText id="address2" value="#{client.address2}"/>
         <br/>
-            <p:commandButton value="Submit" actionListener="signedUp" ajax="false"/>
+        <br/>
+            <p:commandButton value="Submit" action="signedUp?faces-redirect=true" update="messages" />
+                     
             
-            
-        </h:form>
+            </p:panel>
             
         </div>
-                 
+        
+     </h:form>
 
-      
-        
-        
     </h:body>
 </html>

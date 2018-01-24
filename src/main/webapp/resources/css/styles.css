@@ -2,6 +2,12 @@
     color:red;
 }
 
+.inputData{
+    text-align:center;
+    width:50%;
+    float:right;
+}
+
 .inputData input{
     margin-left:9em;
     margin-top:10px;
@@ -12,8 +18,8 @@
     margin-top:10px;
 }
 
-.inputDataSelect{
+.inputDataSelect {
     margin-left:9em;
-    margin-top:30px;
+    text-align: right;
 }
 
