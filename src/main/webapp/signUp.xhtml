@@ -4,8 +4,10 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html">
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
     <h:head>
+        <link type="text/css" rel="stylesheet" href="/project/faces/javax.faces.resource/theme.css?ln=primefaces-glass-x" />
         <h:outputStylesheet library="css" name="styles.css" />
         <title>#{msgs.signUpTitle}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -17,7 +19,10 @@
         <div>Welcome to the sign up page</div>
         <br/>
         
-        <h:form>
+        <h:panelGrid id= "signUpPanel" columns = "2" border = "1"
+                     cellpadding = "10" cellspacing = "1">
+        
+            <h:form>
             
             <!--
                     Validation errors will show up here
@@ -27,61 +32,62 @@
             -->
             
             #{msgs.firstNameLabel}
-            <h:inputText id="firstName" value="#{client.firstName}" 
+            <p:inputText id="firstName" value="#{client.firstName}" 
                                                             label="#{msgs.firstNameLabel}"
                                                             required="true"
                                                             requiredMessage="#{msgs.firstNameRequired}"/>
-            <h:message for="firstName" styleClass="error" />
+            <p:message for="firstName" styleClass="error" />
         <br/>
             #{msgs.lastNameLabel}
-            <h:inputText id="lastName" value="#{client.lastName}"
+            <p:inputText id="lastName" value="#{client.lastName}"
                                                           label="#{msgs.lastNameLabel}"
                                                           required="true"
                                                           requiredMessage="#{msgs.lastNameRequired}"/>
-            <h:message for="lastName" styleClass="error" />
+            <p:message for="lastName" styleClass="error" />
         <br/>
             #{msgs.titleLabel}
-            <h:inputText id="title" value="#{client.title}"/>
+            <p:inputText id="title" value="#{client.title}"/>
         <br/>
             #{msgs.companyLabel}
-            <h:inputText id="company" value="#{client.company}"/>
+            <p:inputText id="company" value="#{client.company}"/>
         <br/>
             #{msgs.emailLabel}
-            <h:inputText id="email" value="#{client.email}"
+            <p:inputText id="email" value="#{client.email}"
                                                     label="#{msgs.emailLabel}"
                                                     required="true"
                                                     requiredMessage="#{msgs.emailRequired}"/>
-            <h:message for="email" styleClass="error" />
+            <p:message for="email" styleClass="error" />
 
         <br/>
             #{msgs.cellPhoneLabel}
-            <h:inputText id="cellPhone" value="#{client.cellPhone}" 
+            <p:inputText id="cellPhone" value="#{client.cellPhone}" 
                                                            label="#{msgs.cellPhoneLabel}"
                                                            required="true"
                                                            requiredMessage="#{msgs.cellPhoneRequired}"/>
-            <h:message for="cellPhone" styleClass="error" />
+            <p:message for="cellPhone" styleClass="error" />
         <br/>
             #{msgs.homePhoneLabel}
-            <h:inputText id="homePhone"  value="#{client.homePhone}"/>
+            <p:inputText id="homePhone"  value="#{client.homePhone}"/>
         <br/>
             #{msgs.postalCodeLabel} 
-            <h:inputText id="postalCode" value="#{client.postalCode}" 
+            <p:inputText id="postalCode" value="#{client.postalCode}" 
                                                              label="#{msgs.postalCodeLabel}"
                                                              required="true"
                                                              requiredMessage="#{msgs.postalCodeRequired}"/>
-            <h:message for="postalCode" styleClass="error"/>
+            <p:message for="postalCode" styleClass="error"/>
         <br/>
             #{msgs.countryLabel}
-            <h:selectOneMenu value="#{client.country}"                             
+            <p:selectOneMenu value="#{client.country}"                             
                                           label="#{msgs.countryLabel}">
                 
                 <!--The list of countries generated in the managed bean-->
                 <f:selectItems value="#{client.countryOptions}"/>
                 
-            </h:selectOneMenu>
+            </p:selectOneMenu>
         <br/>
            <!-- #{msgs.provinceLabel} <h:inputText id="province" value="#{client.province}"/>-->
-        #{msgs.provinceLabel} <h:selectOneMenu value="#{client.province}">
+        #{msgs.provinceLabel} 
+        <p:selectOneMenu value="#{client.province}">
              <f:selectItem itemValue="Alberta" itemLabel="Alberta" />     
              <f:selectItem itemValue="British Columbia" itemLabel="British Columbia" />
              <f:selectItem itemValue="Manitoba" itemLabel="Manitoba" />
@@ -96,31 +102,34 @@
              <f:selectItem itemValue="Saskatchewan" itemLabel="Saskatchewan" />
              <f:selectItem itemValue="Yukon" itemLabel="Yukon" />
 
-        </h:selectOneMenu>
+        </p:selectOneMenu>
         
         <br/>
             #{msgs.cityLabel}
-            <h:inputText id="city" value="#{client.city}" 
+            <p:inputText id="city" value="#{client.city}" 
                                                    label="#{msgs.cityLabel}"
                                                   required="true"
                                                   requiredMessage="#{msgs.cityRequired}"/>
-            <h:message for="city" styleClass="error" />
+            <p:message for="city" styleClass="error" />
 
         <br/>
             #{msgs.addressLabel}
-            <h:inputText id="address" value="#{client.address}" 
+            <p:inputText id="address" value="#{client.address}" 
                                                         label="#{msgs.addressLabel}"
                                                         required="true"
                                                         requiredMessage="#{addressRequired}"/>
-            <h:message for="address" styleClass="error" />
+            <p:message for="address" styleClass="error" />
 
         <br/>
             #{msgs.address2Label}
-            <h:inputText id="address2" value="#{client.address2}"/>
+            <p:inputText id="address2" value="#{client.address2}"/>
         <br/>
-            <h:commandButton value="Submit" action="signedUp"/>
+            <p:commandButton value="Submit" action="signedUp"/>
+            
             
         </h:form>
+      
+        </h:panelGrid>
         
         
     </h:body>
