@@ -19,39 +19,38 @@
         <div>Welcome to the sign up page</div>
         <br/>
         
-        <h:panelGrid id= "signUpPanel" columns = "2" border = "1"
-                     cellpadding = "10" cellspacing = "1">
+      
+            
+        <div class="inputData">                         
         
             <h:form>
+
+                <!--This will show ALL validation required on TOP of the page-->
+                            <!--<p:messages styleClass="error" />-->
+
+
             
-            <!--
-                    Validation errors will show up here
-                    The label tag is required for the fields that are up for validation
-                    Since this will be the label that will be used to warn the user which 
-                    input is incorrect.
-            -->
-            
-            #{msgs.firstNameLabel}
+            <p:outputLabel value="#{msgs.firstNameLabel}"/>
             <p:inputText id="firstName" value="#{client.firstName}" 
                                                             label="#{msgs.firstNameLabel}"
                                                             required="true"
                                                             requiredMessage="#{msgs.firstNameRequired}"/>
             <p:message for="firstName" styleClass="error" />
         <br/>
-            #{msgs.lastNameLabel}
+            <p:outputLabel value="#{msgs.lastNameLabel}"/>
             <p:inputText id="lastName" value="#{client.lastName}"
                                                           label="#{msgs.lastNameLabel}"
                                                           required="true"
                                                           requiredMessage="#{msgs.lastNameRequired}"/>
             <p:message for="lastName" styleClass="error" />
         <br/>
-            #{msgs.titleLabel}
+            <p:outputLabel value="#{msgs.titleLabel}"/>
             <p:inputText id="title" value="#{client.title}"/>
         <br/>
-            #{msgs.companyLabel}
+            <p:outputLabel value="#{msgs.companyLabel}"/>
             <p:inputText id="company" value="#{client.company}"/>
         <br/>
-            #{msgs.emailLabel}
+            <p:outputLabel value="#{msgs.emailLabel}"/>
             <p:inputText id="email" value="#{client.email}"
                                                     label="#{msgs.emailLabel}"
                                                     required="true"
@@ -59,35 +58,36 @@
             <p:message for="email" styleClass="error" />
 
         <br/>
-            #{msgs.cellPhoneLabel}
+           <p:outputLabel value="#{msgs.cellPhoneLabel}"/>
             <p:inputText id="cellPhone" value="#{client.cellPhone}" 
                                                            label="#{msgs.cellPhoneLabel}"
                                                            required="true"
                                                            requiredMessage="#{msgs.cellPhoneRequired}"/>
             <p:message for="cellPhone" styleClass="error" />
         <br/>
-            #{msgs.homePhoneLabel}
+            <p:outputLabel value="#{msgs.homePhoneLabel}"/>
             <p:inputText id="homePhone"  value="#{client.homePhone}"/>
         <br/>
-            #{msgs.postalCodeLabel} 
+            <p:outputLabel value="#{msgs.postalCodeLabel}"/>
             <p:inputText id="postalCode" value="#{client.postalCode}" 
                                                              label="#{msgs.postalCodeLabel}"
                                                              required="true"
                                                              requiredMessage="#{msgs.postalCodeRequired}"/>
             <p:message for="postalCode" styleClass="error"/>
         <br/>
-            #{msgs.countryLabel}
+            <p:outputLabel value="#{msgs.countryLabel}"/>
             <p:selectOneMenu value="#{client.country}"                             
-                                          label="#{msgs.countryLabel}">
+                                          label="#{msgs.countryLabel}"
+                                          class="inputDataSelect">
                 
                 <!--The list of countries generated in the managed bean-->
                 <f:selectItems value="#{client.countryOptions}"/>
                 
             </p:selectOneMenu>
         <br/>
-           <!-- #{msgs.provinceLabel} <h:inputText id="province" value="#{client.province}"/>-->
-        #{msgs.provinceLabel} 
-        <p:selectOneMenu value="#{client.province}">
+        <p:outputLabel value="#{msgs.provinceLabel}"/>
+        <p:selectOneMenu value="#{client.province}"
+                                      class="inputDataSelect">
              <f:selectItem itemValue="Alberta" itemLabel="Alberta" />     
              <f:selectItem itemValue="British Columbia" itemLabel="British Columbia" />
              <f:selectItem itemValue="Manitoba" itemLabel="Manitoba" />
@@ -105,7 +105,7 @@
         </p:selectOneMenu>
         
         <br/>
-            #{msgs.cityLabel}
+            <p:outputLabel value="#{msgs.cityLabel}"/>
             <p:inputText id="city" value="#{client.city}" 
                                                    label="#{msgs.cityLabel}"
                                                   required="true"
@@ -113,23 +113,26 @@
             <p:message for="city" styleClass="error" />
 
         <br/>
-            #{msgs.addressLabel}
+            <p:outputLabel value="#{msgs.addressLabel}"/>
             <p:inputText id="address" value="#{client.address}" 
                                                         label="#{msgs.addressLabel}"
                                                         required="true"
                                                         requiredMessage="#{addressRequired}"/>
-            <p:message for="address" styleClass="error" />
+            <h:message for="address" styleClass="error" />
 
         <br/>
-            #{msgs.address2Label}
+            <p:outputLabel value="#{msgs.address2Label}"/>
             <p:inputText id="address2" value="#{client.address2}"/>
         <br/>
-            <p:commandButton value="Submit" action="signedUp"/>
+            <p:commandButton value="Submit" actionListener="signedUp" ajax="false"/>
             
             
         </h:form>
+            
+        </div>
+                 
+
       
-        </h:panelGrid>
         
         
     </h:body>

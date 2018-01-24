@@ -1,3 +1,19 @@
 .error {
     color:red;
 }
+
+.inputData input{
+    margin-left:9em;
+    margin-top:10px;
+}
+
+.inputData label{
+    position:absolute;
+    margin-top:10px;
+}
+
+.inputDataSelect{
+    margin-left:9em;
+    margin-top:30px;
+}
+
