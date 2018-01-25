@@ -4,7 +4,7 @@
 -- tables
 -- Table: Author
 CREATE TABLE Author (
-    id int  NOT NULL,
+    id int  AUTO_INCREMENT NOT NULL,
     first_name varchar(255)  NOT NULL,
     last_name varchar(255)  NOT NULL,
     CONSTRAINT Author_pk PRIMARY KEY  (id)
@@ -12,7 +12,7 @@ CREATE TABLE Author (
 
 -- Table: Author_Book
 CREATE TABLE Author_Book (
-    id int  NOT NULL,
+    id int AUTO_INCREMENT NOT NULL,
     author_id int  NOT NULL,
     book_isbn varchar(14)  NOT NULL,
     CONSTRAINT Author_Book_pk PRIMARY KEY  (id)
@@ -40,7 +40,7 @@ CREATE TABLE Book (
 
 -- Table: Client
 CREATE TABLE Client (
-    id int  NOT NULL,
+    id int AUTO_INCREMENT NOT NULL,
     email int  NOT NULL,
     password varchar(255)  NOT NULL,
     title varchar(10)  NULL,
@@ -71,7 +71,7 @@ CREATE TABLE Invoice (
 
 -- Table: Invoice_Details
 CREATE TABLE Invoice_Details (
-    id int  NOT NULL,
+    id int AUTO_INCREMENT NOT NULL,
     sale_number int  NOT NULL,
     isbn varchar(14)  NOT NULL,
     book_price decimal(5,2)  NOT NULL,
@@ -83,15 +83,15 @@ CREATE TABLE Invoice_Details (
 
 -- Table: Publisher
 CREATE TABLE Publisher (
-    id int  NOT NULL,
+    id int AUTO_INCREMENT NOT NULL,
     name varchar(255)  NOT NULL,
-    location varchar(255)  NOT NULL,
+    location varchar(255) ,
     CONSTRAINT Publisher_pk PRIMARY KEY  (id)
 );
 
 -- Table: Review
 CREATE TABLE Review (
-    id int  NOT NULL,
+    id int AUTO_INCREMENT NOT NULL,
     book_isbn varchar(14)  NOT NULL,
     client_id int  NOT NULL,
     rating int  NOT NULL,

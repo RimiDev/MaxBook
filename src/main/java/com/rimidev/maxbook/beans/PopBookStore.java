@@ -35,48 +35,18 @@ public class PopBookStore {
             StandardCharsets.UTF_8));
                                  
             inputFile = new Scanner(reader);
-            System.out.println("INSERT INTO BOOK VALUES ");
+//            System.out.println("INSERT INTO Author_Book (author_id, book_isbn) VALUES ");
+            System.out.println("INSERT INTO Publisher (name) VALUES ");
             inputFile.nextLine();
+            //int auth_id = 1;
             while(inputFile.hasNext()){
                 String input = inputFile.nextLine();
+                System.out.println(input);
                 String[] line = input.trim().split(",");
-                String data = "";
-                int pubid = 1;
-                int 
-                // NEED  columns 0,1,4,5,6,7,8,9,10,11,13
-                for(int i=0;i<line.length;i++){
-                    switch (i) {
-                        case 0:
-                            data += "(\""+line[i]+"\",";
-                            break;
-                        case 1:
-                            data += "\""+line[i]+"\",";
-                            break;
-                        case 4:
-                            break;
-                        case 5:
-                            break;
-                        case 6:
-                            break;
-                        case 7:
-                            break;
-                        case 8:
-                            break;
-                        case 9:
-                            break;
-                        case 10:
-                            break;
-                        case 11:
-                            break;
-                        case 13:
-                            break;
-                        default:
-                            break;
-                    }
-                }
-                if(line.length !=0)
-                    lines.add(line);
+                //System.out.println("("+"\""+line[3]+"\"),");
+                //auth_id += 1;
             }
+            System.out.print(";");
             
         } catch(IOException e){            
             System.out.println("Connection error: "+filename);
