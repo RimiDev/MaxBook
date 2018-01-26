@@ -4,7 +4,7 @@
 
 .inputData{
     text-align:center;
-    width:50%;
+    width:80%;
     float:right;
 }
 
@@ -20,6 +20,8 @@
 
 .inputDataSelect {
     margin-left:9em;
-    text-align: right;
+    margin-bottom:3em;
+    vertical-align:middle;
+    
 }
 

@@ -22,15 +22,7 @@
         <h:form id="menuBar">
         
         <p:menubar>
-        <p:submenu label="File" icon="ui-icon-document">
-            <p:submenu label="New" icon="ui-icon-contact">
-                <p:menuitem value="Project" url="#" />
-                <p:menuitem value="Other" url="#" />
-            </p:submenu>
-            <p:menuitem value="Open" url="#" />
-            <p:separator />
-            <p:menuitem value="Quit" url="#" />
-        </p:submenu>
+        <p:submenu label="#{msgs.homeTitle}" icon="ui-icon-document"/>
                     <p:submenu label="File" icon="ui-icon-document">
             <p:submenu label="New" icon="ui-icon-contact">
                 <p:menuitem value="Project" url="#" />
@@ -55,7 +47,7 @@
             <br/>
 
                 <!--This will show ALL validation required on TOP of the page-->
-                           <!-- <p:messages styleClass="error" />-->
+<!--                            <p:messages styleClass="error" />-->
 
 
             
@@ -86,7 +78,12 @@
             <p:inputText id="email" value="#{client.email}"
                                                     label="#{msgs.emailLabel}"
                                                     required="true"
-                                                    requiredMessage="#{msgs.emailRequired}"/>
+                                                    requiredMessage="#{msgs.emailRequired}"
+                                                    validatorMessage="Invalid e-mail">
+            <f:validateRegex
+		pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$"
+                             />
+            </p:inputText>
             <p:message for="email" styleClass="error" />
 
         <br/>
@@ -95,7 +92,11 @@
             <p:inputText id="cellPhone" value="#{client.cellPhone}" 
                                                            label="#{msgs.cellPhoneLabel}"
                                                            required="true"
-                                                           requiredMessage="#{msgs.cellPhoneRequired}"/>
+                                                           requiredMessage="#{msgs.cellPhoneRequired}"
+                                                           validatorMessage="Invalid format, try ###-###-####">
+                <f:validateRegex
+                pattern="^[2-9]\d{2}-\d{3}-\d{4}$"/>
+            </p:inputText>
             <p:message for="cellPhone" styleClass="error" />
         <br/>
             <p:outputLabel value="#{msgs.homePhoneLabel}"/>
@@ -106,16 +107,32 @@
             <p:inputText id="postalCode" value="#{client.postalCode}" 
                                                              label="#{msgs.postalCodeLabel}"
                                                              required="true"
-                                                             requiredMessage="#{msgs.postalCodeRequired}"/>
+                                                             requiredMessage="#{msgs.postalCodeRequired}"
+                                                             validatorMessage="Invalid postal code, ex: X1X1X1">
+                <f:validateRegex
+                    pattern="^(?!.*[DFIOQU])[A-VXY][0-9][A-Z]?[0-9][A-Z][0-9]$"/>
+            </p:inputText>
             <p:message for="postalCode" styleClass="error"/>
         <br/>
                 
-            <p:outputLabel value="#{msgs.countryLabel}"
+            
+            <p:outputLabel value="#{msgs.cityLabel}"
+                                     for="city"/>
+            <p:inputText id="city" value="#{client.city}" 
+                                                   label="#{msgs.cityLabel}"
+                                                  required="true"
+                                                  requiredMessage="#{msgs.cityRequired}"/>
+            <p:message for="city" styleClass="error" />
+
+        <br/>
+        
+        <p:outputLabel value="#{msgs.countryLabel}"
                                       for="country"/>
             <p:selectOneMenu value="#{client.country}" 
                                           id="country"
                                           label="#{msgs.countryLabel}"
-                                          class="inputDataSelect">
+                                          class="inputDataSelect"
+                                          style="width:18%;">
                 
                 <!--The list of countries generated in the managed bean-->
                 <f:selectItems value="#{client.countryOptions}"/>
@@ -126,12 +143,13 @@
                                  for="province"/>
         <p:selectOneMenu value="#{client.province}"
                                       id="province"
-                                      class="inputDataSelect">
+                                      class="inputDataSelect"
+                                      style="width:18%;">
              <f:selectItem itemValue="Alberta" itemLabel="Alberta" />     
              <f:selectItem itemValue="British Columbia" itemLabel="British Columbia" />
              <f:selectItem itemValue="Manitoba" itemLabel="Manitoba" />
              <f:selectItem itemValue="New Brunswick" itemLabel="New Brunswick" />
-             <f:selectItem itemValue="Newfoundland and Labrador" itemLabel="Newfoundland and Labrador" />
+             <f:selectItem itemValue="Newfoundland" itemLabel="Newfoundland" />
              <f:selectItem itemValue="Northwest Territories" itemLabel="Northwest Territories" />
              <f:selectItem itemValue="Nova Scotia" itemLabel="Nova Scotia" />
              <f:selectItem itemValue="Nunavut" itemLabel="Nunavut" />
@@ -143,15 +161,6 @@
 
         </p:selectOneMenu>
                 
-        <br/>
-            <p:outputLabel value="#{msgs.cityLabel}"
-                                     for="city"/>
-            <p:inputText id="city" value="#{client.city}" 
-                                                   label="#{msgs.cityLabel}"
-                                                  required="true"
-                                                  requiredMessage="#{msgs.cityRequired}"/>
-            <p:message for="city" styleClass="error" />
-
         <br/>
             <p:outputLabel value="#{msgs.addressLabel}"
                                      for="address"/>
@@ -166,7 +175,7 @@
             <p:inputText id="address2" value="#{client.address2}"/>
         <br/>
         <br/>
-            <p:commandButton value="Submit" action="signedUp?faces-redirect=true" update="messages" />
+            <p:commandButton value="Submit" action="signedUp" ajax="false" />
                      
             
             </p:panel>
