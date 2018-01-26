@@ -84,7 +84,7 @@ CREATE TABLE Invoice_Details (
 -- Table: Publisher
 CREATE TABLE Publisher (
     id int AUTO_INCREMENT NOT NULL,
-    name varchar(255)  NOT NULL,
+    name varchar(255) UNIQUE NOT NULL,
     location varchar(255) ,
     CONSTRAINT Publisher_pk PRIMARY KEY  (id)
 );
