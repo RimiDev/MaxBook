@@ -20,6 +20,15 @@ public class User {
     
     private String username;
     private String password;
+    private String searched;
+
+    public String getSearched() {
+        return searched;
+    }
+
+    public void setSearched(String searched) {
+        this.searched = searched;
+    }
 
     public String getUsername() {
         return username;

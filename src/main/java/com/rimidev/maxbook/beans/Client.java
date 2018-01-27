@@ -9,7 +9,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Locale;
-import javax.faces.bean.ManagedBean;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 
@@ -19,7 +18,6 @@ import javax.inject.Named;
  */
 @Named("client")
 @RequestScoped
-//@ManagedBean
 public class Client implements Serializable{
     
     //Client information

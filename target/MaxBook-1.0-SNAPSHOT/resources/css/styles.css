@@ -21,7 +21,35 @@
 .inputDataSelect {
     margin-left:9em;
     margin-bottom:3em;
-    vertical-align:middle;
-    
+    vertical-align:middle;    
+}
+
+.loginPanel {
+    text-align:center;
+    position:absolute;
+    margin-top:15em;
+    background-color:brown;
+    width:50%;
+    margin-right:10em;
+}
+
+.searchPanel {
+    margin-left:1em;
+    margin-top:3em;
+    text-align:center;
+   
+}
+
+.searchPanel label {
+ 
+}
+
+.searchPanel input {
+    margin-left:1em;
+}
+
+.searchPanel div {
+    font-size:24px;
+    margin-bottom:1em;
 }
 

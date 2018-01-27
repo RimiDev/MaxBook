@@ -17,24 +17,50 @@
     
     <h:body>
         
+                <!---//START OF MENUS//-->
+        
         <!--MENU BAR-->
         
-        <h:form id="menuBar">
+       <h:form id="menuBar">
         
         <p:menubar>
-        <p:submenu label="#{msgs.homeTitle}" icon="ui-icon-document"/>
-                    <p:submenu label="File" icon="ui-icon-document">
-            <p:submenu label="New" icon="ui-icon-contact">
-                <p:menuitem value="Project" url="#" />
-                <p:menuitem value="Other" url="#" />
-            </p:submenu>
-            <p:menuitem value="Open" url="#" />
-            <p:separator />
-            <p:menuitem value="Quit" url="#" />
-        </p:submenu>
-            </p:menubar>
+            <p:menuitem value="MaxBook" url="/home.xhtml"/>
+                <p:submenu label="Bookstore" icon="ui-icon-document">
+                    <p:menuitem value="All books" url="/all_books.xhtml" />
+                      <p:separator />
+                        <p:submenu label="Genre" icon="ui-icon-contact">
+                        <p:menuitem value="Adventure" url="#" />
+                        <p:menuitem value="Science Fiction" url="#" />
+                        <p:menuitem value="Romance" url="#" />
+                        <p:menuitem value="Other" url="#" />
+                    </p:submenu>
+                        <p:submenu label="Year" icon="ui-icon-contact">
+                        <p:menuitem value="2017" url="#" />
+                        <p:menuitem value="2016" url="#" />
+                        </p:submenu>
+                </p:submenu>
+            <p:menuitem value="Search" url="/search.xhtml"/>
+
+        <f:facet name="options">
+            <p:outputLabel value="Welcome #{user.username}!" style="margin-right:10px"/>
+            <p:inputText style="margin-right:10px" placeholder="Search" id="userSearch" value="#{user.searched}"/>
+            <p:commandButton type="Submit" value="Search" icon="/resources/images/search.png" action="search" ajax="false"/>
+            <p:commandButton type="Submit" value="Login" icon="ui-icon-extlink" action="login" ajax="false"/>
+            <p:commandButton type="button" value="Logout" icon="ui-icon-extlink" />
+        </f:facet>
+        </p:menubar>
             
-            </h:form>
+       </h:form>
+           
+        <!-- STACK MENU -->
+                
+        <p:stack icon="/resources/images/stack.png" expanded="true">
+    <p:menuitem value="Home"  icon="/resources/images/home.png" url="./home.xhtml"/>
+    <p:menuitem value="Cart" icon="/resources/images/shoppingCart.png" url="./cart.xhtml"/>
+    <p:menuitem value="Search" icon="/resources/images/search.png" url="./advancedSearch.xhtml"/>
+</p:stack>
+        
+       <!--//END OF MENUS//-->
 
         
        <h:form>    
