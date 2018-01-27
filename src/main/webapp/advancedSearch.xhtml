@@ -80,9 +80,9 @@
                                       style="width:18%;">
                  <f:selectItem itemLabel="#{msgs.byTitleLabel}" itemValue="title"/>             
              <f:selectItem itemLabel="#{msgs.byGenreLabel}" itemValue="genre"/>     
-             <f:selectItem itemLabel="#{msgs.byAuthorLabel}" itemValue="author " />
+             <f:selectItem itemLabel="#{msgs.byAuthorLabel}" itemValue="author" />
              <f:selectItem itemLabel="#{msgs.byPublisherLabel}" itemValue="publisher" />
-             <f:selectItem itemLabel="#{msgs.byYearLabel}" itemValue="year" />   
+             <f:selectItem itemLabel="#{msgs.byDateLabel}" itemValue="date" />   
              
              <f:ajax render="@form" />
                    
@@ -109,13 +109,51 @@
             <p:inputText value="#{search.searchQuery}" id="genre"/>
             <p:commandButton value="Search" action="search"  />
         </h:form>
-
     </h:panelGroup>
              
              <!--AUTHOR SEARCH FORM-->
     <h:panelGroup rendered="#{search.searchType == 'author'}">
-        <p>This will be shown if the selected item equals to "three".</p>
+        <br/>
+        <h:form>
+            <p:outputLabel value="#{msgs.authorLabel}"
+                                     for='author'/>
+            <p:inputText value="#{search.searchQuery}" id="author"/>
+            <p:commandButton value="Search" action="search"  />
+        </h:form>
     </h:panelGroup>
+             
+                          <!--PUBLISHER SEARCH FORM-->
+    <h:panelGroup rendered="#{search.searchType == 'publisher'}">
+        <br/>
+        <h:form>
+            <p:outputLabel value="#{msgs.publisherLabel}"
+                                     for='publisher'/>
+            <p:inputText value="#{search.searchQuery}" id="publisher"/>
+            <p:commandButton value="Search" action="search"  />
+        </h:form>
+    </h:panelGroup>
+                          
+                           <!--DATE SEARCH FORM-->
+    <h:panelGroup rendered="#{search.searchType == 'date'}" class="searchPanel">
+        <br/>
+        <h:form>           
+        
+        <br/>
+        
+        <p:outputLabel for="startDate" value="#{msgs.startDateLabel}" />
+        <p:calendar id="startDate" value="#{search.endDay}" effect="fold" />
+        
+        <br/>
+        
+        <p:outputLabel for="endDate" value="#{msgs.endDateLabel}" />
+        <p:calendar id="endDate" value="#{search.startDay}" effect="fold" />
+        
+        <br/>
+        
+        <p:commandButton value="Search" action="search"  />
+        </h:form>
+        
+    </h:panelGroup>                         
              
              </h:form>
              

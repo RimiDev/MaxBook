@@ -18,10 +18,25 @@ public class Search {
     
     private String searchType = "title";
     private String searchQuery;
-    private String title;
-    private String genre;
-    private String author;
-    private String publisher;
+    private String startDay;
+    private String endDay;
+
+    public String getStartDay() {
+        return startDay;
+    }
+
+    public void setStartDay(String startDay) {
+        this.startDay = startDay;
+    }
+
+    public String getEndDay() {
+        return endDay;
+    }
+
+    public void setEndDay(String endDay) {
+        this.endDay = endDay;
+    }
+
     
     
      
@@ -41,39 +56,8 @@ public class Search {
         this.searchType = searchType;
     }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getGenre() {
-        return genre;
-    }
-
-    public void setGenre(String genre) {
-        this.genre = genre;
-    }
-
-    public String getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-
-    public String getPublisher() {
-        return publisher;
-    }
-
-    public void setPublisher(String publisher) {
-        this.publisher = publisher;
-    }
-    
-
+   
+   
     /**
      * Creates a new instance of Search
      */
