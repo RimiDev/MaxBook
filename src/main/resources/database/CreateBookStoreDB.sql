@@ -455,7 +455,6 @@ INSERT INTO Client (email, password, title, first_name, last_name, phone_number,
 "testaddress1", "testaddress2", "montreal", "quebec", "canada", "1A2B3C");
 
 CREATE TABLE Review (
-    id int PRIMARY KEY auto_increment,
     isbn varchar(14) NOT NULL,
     client_id int NOT NULL,
     rating int NOT NULL,
@@ -465,26 +464,28 @@ CREATE TABLE Review (
     FOREIGN KEY (isbn) REFERENCES Book(isbn),
     FOREIGN KEY (client_id) REFERENCES Client(id)
 );
+INSERT INTO Review VALUES ('978-1449474256', 1, 4, 'It was aight.', 'Pending', '2018-01-01 22:22:22');
 
 CREATE TABLE Invoice (
-    id int PRIMARY KEY,
+    id int PRIMARY KEY auto_increment,
     client_id int NOT NULL,
     date_of_sale timestamp NOT NULL,
     net_value int NOT NULL,
     gross_value int NOT NULL,
     FOREIGN KEY (client_id) REFERENCES Client(id)
 );
+INSERT INTO Invoice VALUES (1, 1, '2017-12-12 12:12:12', 14.99, 7.80);
 
 CREATE TABLE Invoice_Details (
-    id int PRIMARY KEY,
     invoice_id int NOT NULL,
     isbn varchar(14) NOT NULL,
-    book_price decimal(5,2) NOT NULL,
+    book_price numeric(5,2) NOT NULL,
     PST_rate numeric(4,2) NOT NULL,
     GST_rate numeric(4,2) NOT NULL,
     HST_rate numeric(4,2) NOT NULL,
     FOREIGN KEY (invoice_id) REFERENCES Invoice(id),
     FOREIGN KEY (isbn) REFERENCES Book(isbn)
 );
+INSERT INTO Invoice_Details VALUES (1, '978-1449474256', 14.99, 0.10, 0.05, 0.15);
 
 
