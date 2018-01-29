@@ -5,17 +5,20 @@
  */
 package com.rimidev.maxbook.beans;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Locale;
-import javax.faces.bean.ManagedBean;
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Named;
 
 /**
  *
  * @author maximelacasse
  */
-@ManagedBean
-public class Client {
+@Named("client")
+@RequestScoped
+public class Client implements Serializable{
     
     //Client information
     private String firstName;
@@ -169,7 +172,7 @@ public class Client {
      * This grabs the country names
      * @return List of countries
      */
-    public void getCountryNames(){
+    private void getCountryNames(){
         //Get all the available locales
         Locale[] locale = Locale.getAvailableLocales();
         //Create an arrayList of strings to place the countries.
