@@ -18,35 +18,35 @@ import com.rimidev.maxbook.entities.Invoice;
 import com.rimidev.maxbook.entities.InvoiceDetails;
 import java.util.ArrayList;
 import java.util.List;
+import javax.annotation.Resource;
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceContext;
 import javax.transaction.UserTransaction;
 
 /**
  *
  * @author 1513733
  */
+@Named
+@RequestScoped
 public class InvoiceJpaController implements Serializable {
 
-    public InvoiceJpaController(UserTransaction utx, EntityManagerFactory emf) {
-        this.utx = utx;
-        this.emf = emf;
-    }
-    private UserTransaction utx = null;
-    private EntityManagerFactory emf = null;
+   @Resource
+    private UserTransaction utx;
 
-    public EntityManager getEntityManager() {
-        return emf.createEntityManager();
-    }
+    @PersistenceContext
+    private EntityManager em;
 
     public void create(Invoice invoice) throws RollbackFailureException, Exception {
         if (invoice.getInvoiceDetailsList() == null) {
             invoice.setInvoiceDetailsList(new ArrayList<InvoiceDetails>());
         }
-        EntityManager em = null;
+        
         try {
             utx.begin();
-            em = getEntityManager();
             Client clientId = invoice.getClientId();
             if (clientId != null) {
                 clientId = em.getReference(clientId.getClass(), clientId.getId());
@@ -80,18 +80,13 @@ public class InvoiceJpaController implements Serializable {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }
             throw ex;
-        } finally {
-            if (em != null) {
-                em.close();
-            }
-        }
+        } 
     }
 
     public void edit(Invoice invoice) throws IllegalOrphanException, NonexistentEntityException, RollbackFailureException, Exception {
-        EntityManager em = null;
+        
         try {
             utx.begin();
-            em = getEntityManager();
             Invoice persistentInvoice = em.find(Invoice.class, invoice.getId());
             Client clientIdOld = persistentInvoice.getClientId();
             Client clientIdNew = invoice.getClientId();
@@ -155,18 +150,13 @@ public class InvoiceJpaController implements Serializable {
                 }
             }
             throw ex;
-        } finally {
-            if (em != null) {
-                em.close();
-            }
         }
     }
 
     public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException, RollbackFailureException, Exception {
-        EntityManager em = null;
+        
         try {
             utx.begin();
-            em = getEntityManager();
             Invoice invoice;
             try {
                 invoice = em.getReference(Invoice.class, id);
@@ -199,10 +189,6 @@ public class InvoiceJpaController implements Serializable {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }
             throw ex;
-        } finally {
-            if (em != null) {
-                em.close();
-            }
         }
     }
 
@@ -215,8 +201,7 @@ public class InvoiceJpaController implements Serializable {
     }
 
     private List<Invoice> findInvoiceEntities(boolean all, int maxResults, int firstResult) {
-        EntityManager em = getEntityManager();
-        try {
+
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             cq.select(cq.from(Invoice.class));
             Query q = em.createQuery(cq);
@@ -225,31 +210,23 @@ public class InvoiceJpaController implements Serializable {
                 q.setFirstResult(firstResult);
             }
             return q.getResultList();
-        } finally {
-            em.close();
-        }
+       
     }
 
     public Invoice findInvoice(Integer id) {
-        EntityManager em = getEntityManager();
-        try {
+
             return em.find(Invoice.class, id);
-        } finally {
-            em.close();
-        }
+       
     }
 
     public int getInvoiceCount() {
-        EntityManager em = getEntityManager();
-        try {
+
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             Root<Invoice> rt = cq.from(Invoice.class);
             cq.select(em.getCriteriaBuilder().count(rt));
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();
-        } finally {
-            em.close();
-        }
+       
     }
     
 }

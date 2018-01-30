@@ -19,27 +19,28 @@ import com.rimidev.maxbook.entities.Review;
 import java.util.ArrayList;
 import java.util.List;
 import com.rimidev.maxbook.entities.Invoice;
+import javax.annotation.Resource;
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceContext;
 import javax.transaction.UserTransaction;
 
 /**
  *
  * @author 1513733
  */
+@Named
+@RequestScoped
 public class ClientJpaController implements Serializable {
 
-    public ClientJpaController(UserTransaction utx, EntityManagerFactory emf) {
-        this.utx = utx;
-        this.emf = emf;
-    }
-    private UserTransaction utx = null;
-    private EntityManagerFactory emf = null;
+     @Resource
+    private UserTransaction utx;
 
-    public EntityManager getEntityManager() {
-        return emf.createEntityManager();
-    }
-
+    @PersistenceContext
+    private EntityManager em;
+    
     public void create(Client client) throws RollbackFailureException, Exception {
         if (client.getReviewList() == null) {
             client.setReviewList(new ArrayList<Review>());
@@ -47,10 +48,9 @@ public class ClientJpaController implements Serializable {
         if (client.getInvoiceList() == null) {
             client.setInvoiceList(new ArrayList<Invoice>());
         }
-        EntityManager em = null;
+        
         try {
             utx.begin();
-            em = getEntityManager();
             Taxes province = client.getProvince();
             if (province != null) {
                 province = em.getReference(province.getClass(), province.getProvince());
@@ -99,18 +99,13 @@ public class ClientJpaController implements Serializable {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }
             throw ex;
-        } finally {
-            if (em != null) {
-                em.close();
-            }
-        }
+        } 
     }
 
     public void edit(Client client) throws IllegalOrphanException, NonexistentEntityException, RollbackFailureException, Exception {
-        EntityManager em = null;
+        
         try {
             utx.begin();
-            em = getEntityManager();
             Client persistentClient = em.find(Client.class, client.getId());
             Taxes provinceOld = persistentClient.getProvince();
             Taxes provinceNew = client.getProvince();
@@ -202,18 +197,13 @@ public class ClientJpaController implements Serializable {
                 }
             }
             throw ex;
-        } finally {
-            if (em != null) {
-                em.close();
-            }
-        }
+        } 
     }
 
     public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException, RollbackFailureException, Exception {
-        EntityManager em = null;
+        
         try {
             utx.begin();
-            em = getEntityManager();
             Client client;
             try {
                 client = em.getReference(Client.class, id);
@@ -253,11 +243,7 @@ public class ClientJpaController implements Serializable {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }
             throw ex;
-        } finally {
-            if (em != null) {
-                em.close();
-            }
-        }
+        } 
     }
 
     public List<Client> findClientEntities() {
@@ -269,8 +255,6 @@ public class ClientJpaController implements Serializable {
     }
 
     private List<Client> findClientEntities(boolean all, int maxResults, int firstResult) {
-        EntityManager em = getEntityManager();
-        try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             cq.select(cq.from(Client.class));
             Query q = em.createQuery(cq);
@@ -279,31 +263,21 @@ public class ClientJpaController implements Serializable {
                 q.setFirstResult(firstResult);
             }
             return q.getResultList();
-        } finally {
-            em.close();
-        }
+    
     }
 
     public Client findClient(Integer id) {
-        EntityManager em = getEntityManager();
-        try {
+
             return em.find(Client.class, id);
-        } finally {
-            em.close();
-        }
     }
 
     public int getClientCount() {
-        EntityManager em = getEntityManager();
-        try {
+
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             Root<Client> rt = cq.from(Client.class);
             cq.select(em.getCriteriaBuilder().count(rt));
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();
-        } finally {
-            em.close();
-        }
     }
     
 }

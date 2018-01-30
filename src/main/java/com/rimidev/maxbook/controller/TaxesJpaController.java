@@ -18,36 +18,35 @@ import com.rimidev.maxbook.entities.Client;
 import com.rimidev.maxbook.entities.Taxes;
 import java.util.ArrayList;
 import java.util.List;
+import javax.annotation.Resource;
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceContext;
 import javax.transaction.UserTransaction;
 
 /**
  *
  * @author 1513733
  */
+@Named
+@RequestScoped
 public class TaxesJpaController implements Serializable {
 
-    public TaxesJpaController(UserTransaction utx, EntityManagerFactory emf) {
-        this.utx = utx;
-        this.emf = emf;
-    }
-    private UserTransaction utx = null;
-    private EntityManagerFactory emf = null;
+    @Resource
+    private UserTransaction utx;
 
-    public EntityManager getEntityManager() {
-        return emf.createEntityManager();
-    }
+    @PersistenceContext
+    private EntityManager em;
 
     public void create(Taxes taxes) throws PreexistingEntityException, RollbackFailureException, Exception {
         if (taxes.getClientList() == null) {
             taxes.setClientList(new ArrayList<Client>());
         }
-        EntityManager em = null;
+        
         try {
-            utx.begin();
-            em = getEntityManager();
-            List<Client> attachedClientList = new ArrayList<Client>();
+            utx.begin();         List<Client> attachedClientList = new ArrayList<Client>();
             for (Client clientListClientToAttach : taxes.getClientList()) {
                 clientListClientToAttach = em.getReference(clientListClientToAttach.getClass(), clientListClientToAttach.getId());
                 attachedClientList.add(clientListClientToAttach);
@@ -74,19 +73,13 @@ public class TaxesJpaController implements Serializable {
                 throw new PreexistingEntityException("Taxes " + taxes + " already exists.", ex);
             }
             throw ex;
-        } finally {
-            if (em != null) {
-                em.close();
-            }
-        }
+        } 
     }
 
     public void edit(Taxes taxes) throws IllegalOrphanException, NonexistentEntityException, RollbackFailureException, Exception {
-        EntityManager em = null;
+        
         try {
-            utx.begin();
-            em = getEntityManager();
-            Taxes persistentTaxes = em.find(Taxes.class, taxes.getProvince());
+            utx.begin();         Taxes persistentTaxes = em.find(Taxes.class, taxes.getProvince());
             List<Client> clientListOld = persistentTaxes.getClientList();
             List<Client> clientListNew = taxes.getClientList();
             List<String> illegalOrphanMessages = null;
@@ -135,18 +128,13 @@ public class TaxesJpaController implements Serializable {
                 }
             }
             throw ex;
-        } finally {
-            if (em != null) {
-                em.close();
-            }
-        }
+        } 
     }
 
     public void destroy(String id) throws IllegalOrphanException, NonexistentEntityException, RollbackFailureException, Exception {
-        EntityManager em = null;
+        
         try {
             utx.begin();
-            em = getEntityManager();
             Taxes taxes;
             try {
                 taxes = em.getReference(Taxes.class, id);
@@ -174,11 +162,7 @@ public class TaxesJpaController implements Serializable {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }
             throw ex;
-        } finally {
-            if (em != null) {
-                em.close();
-            }
-        }
+        } 
     }
 
     public List<Taxes> findTaxesEntities() {
@@ -190,8 +174,7 @@ public class TaxesJpaController implements Serializable {
     }
 
     private List<Taxes> findTaxesEntities(boolean all, int maxResults, int firstResult) {
-        EntityManager em = getEntityManager();
-        try {
+
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             cq.select(cq.from(Taxes.class));
             Query q = em.createQuery(cq);
@@ -200,31 +183,21 @@ public class TaxesJpaController implements Serializable {
                 q.setFirstResult(firstResult);
             }
             return q.getResultList();
-        } finally {
-            em.close();
-        }
+      
     }
 
     public Taxes findTaxes(String id) {
-        EntityManager em = getEntityManager();
-        try {
+
             return em.find(Taxes.class, id);
-        } finally {
-            em.close();
-        }
+      
     }
 
     public int getTaxesCount() {
-        EntityManager em = getEntityManager();
-        try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             Root<Taxes> rt = cq.from(Taxes.class);
             cq.select(em.getCriteriaBuilder().count(rt));
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();
-        } finally {
-            em.close();
-        }
     }
     
 }

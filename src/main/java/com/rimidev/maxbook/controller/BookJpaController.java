@@ -22,8 +22,9 @@ import java.util.List;
 import com.rimidev.maxbook.entities.InvoiceDetails;
 import com.rimidev.maxbook.entities.Review;
 import javax.annotation.Resource;
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Named;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
 import javax.transaction.UserTransaction;
 
@@ -31,19 +32,15 @@ import javax.transaction.UserTransaction;
  *
  * @author 1513733
  */
+@Named
+@RequestScoped
 public class BookJpaController implements Serializable {
 
-    public BookJpaController() {
-        this.utx = utx;
-        this.em = em;
-    }
     @Resource
     private UserTransaction utx;
 
     @PersistenceContext
     private EntityManager em;
-
-
 
     public void create(Book book) throws PreexistingEntityException, RollbackFailureException, Exception {
         if (book.getAuthorList() == null) {
@@ -55,10 +52,9 @@ public class BookJpaController implements Serializable {
         if (book.getReviewList() == null) {
             book.setReviewList(new ArrayList<Review>());
         }
-        EntityManager em = null;
+        
         try {
             utx.begin();
-            em = getEntityManager();
             Publisher publisherId = book.getPublisherId();
             if (publisherId != null) {
                 publisherId = em.getReference(publisherId.getClass(), publisherId.getId());
@@ -120,18 +116,13 @@ public class BookJpaController implements Serializable {
                 throw new PreexistingEntityException("Book " + book + " already exists.", ex);
             }
             throw ex;
-        } finally {
-            if (em != null) {
-                em.close();
-            }
         }
     }
 
     public void edit(Book book) throws IllegalOrphanException, NonexistentEntityException, RollbackFailureException, Exception {
-        EntityManager em = null;
+        
         try {
             utx.begin();
-            em = getEntityManager();
             Book persistentBook = em.find(Book.class, book.getIsbn());
             Publisher publisherIdOld = persistentBook.getPublisherId();
             Publisher publisherIdNew = book.getPublisherId();
@@ -244,18 +235,13 @@ public class BookJpaController implements Serializable {
                 }
             }
             throw ex;
-        } finally {
-            if (em != null) {
-                em.close();
-            }
-        }
+        } 
     }
 
     public void destroy(String id) throws IllegalOrphanException, NonexistentEntityException, RollbackFailureException, Exception {
-        EntityManager em = null;
+        
         try {
             utx.begin();
-            em = getEntityManager();
             Book book;
             try {
                 book = em.getReference(Book.class, id);
@@ -300,11 +286,7 @@ public class BookJpaController implements Serializable {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }
             throw ex;
-        } finally {
-            if (em != null) {
-                em.close();
-            }
-        }
+        } 
     }
 
     public List<Book> findBookEntities() {
@@ -316,8 +298,6 @@ public class BookJpaController implements Serializable {
     }
 
     private List<Book> findBookEntities(boolean all, int maxResults, int firstResult) {
-        EntityManager em = getEntityManager();
-        try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             cq.select(cq.from(Book.class));
             Query q = em.createQuery(cq);
@@ -326,31 +306,17 @@ public class BookJpaController implements Serializable {
                 q.setFirstResult(firstResult);
             }
             return q.getResultList();
-        } finally {
-            em.close();
-        }
     }
 
     public Book findBook(String id) {
-        EntityManager em = getEntityManager();
-        try {
             return em.find(Book.class, id);
-        } finally {
-            em.close();
-        }
     }
 
     public int getBookCount() {
-        EntityManager em = getEntityManager();
-        try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             Root<Book> rt = cq.from(Book.class);
             cq.select(em.getCriteriaBuilder().count(rt));
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();
-        } finally {
-            em.close();
-        }
     }
-    
 }

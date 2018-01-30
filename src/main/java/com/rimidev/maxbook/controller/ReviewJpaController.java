@@ -16,32 +16,32 @@ import com.rimidev.maxbook.entities.Book;
 import com.rimidev.maxbook.entities.Client;
 import com.rimidev.maxbook.entities.Review;
 import java.util.List;
+import javax.annotation.Resource;
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceContext;
 import javax.transaction.UserTransaction;
 
 /**
  *
  * @author 1513733
  */
+@Named
+@RequestScoped
 public class ReviewJpaController implements Serializable {
 
-    public ReviewJpaController(UserTransaction utx, EntityManagerFactory emf) {
-        this.utx = utx;
-        this.emf = emf;
-    }
-    private UserTransaction utx = null;
-    private EntityManagerFactory emf = null;
+   @Resource
+    private UserTransaction utx;
 
-    public EntityManager getEntityManager() {
-        return emf.createEntityManager();
-    }
+    @PersistenceContext
+    private EntityManager em;
 
     public void create(Review review) throws RollbackFailureException, Exception {
-        EntityManager em = null;
+        
         try {
             utx.begin();
-            em = getEntityManager();
             Book isbn = review.getIsbn();
             if (isbn != null) {
                 isbn = em.getReference(isbn.getClass(), isbn.getIsbn());
@@ -69,18 +69,13 @@ public class ReviewJpaController implements Serializable {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }
             throw ex;
-        } finally {
-            if (em != null) {
-                em.close();
-            }
-        }
+        } 
     }
 
     public void edit(Review review) throws NonexistentEntityException, RollbackFailureException, Exception {
-        EntityManager em = null;
+        
         try {
             utx.begin();
-            em = getEntityManager();
             Review persistentReview = em.find(Review.class, review.getId());
             Book isbnOld = persistentReview.getIsbn();
             Book isbnNew = review.getIsbn();
@@ -126,18 +121,13 @@ public class ReviewJpaController implements Serializable {
                 }
             }
             throw ex;
-        } finally {
-            if (em != null) {
-                em.close();
-            }
-        }
+        } 
     }
 
     public void destroy(Integer id) throws NonexistentEntityException, RollbackFailureException, Exception {
-        EntityManager em = null;
+        
         try {
             utx.begin();
-            em = getEntityManager();
             Review review;
             try {
                 review = em.getReference(Review.class, id);
@@ -164,11 +154,7 @@ public class ReviewJpaController implements Serializable {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }
             throw ex;
-        } finally {
-            if (em != null) {
-                em.close();
-            }
-        }
+        } 
     }
 
     public List<Review> findReviewEntities() {
@@ -180,8 +166,7 @@ public class ReviewJpaController implements Serializable {
     }
 
     private List<Review> findReviewEntities(boolean all, int maxResults, int firstResult) {
-        EntityManager em = getEntityManager();
-        try {
+
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             cq.select(cq.from(Review.class));
             Query q = em.createQuery(cq);
@@ -190,31 +175,19 @@ public class ReviewJpaController implements Serializable {
                 q.setFirstResult(firstResult);
             }
             return q.getResultList();
-        } finally {
-            em.close();
-        }
+       
     }
 
     public Review findReview(Integer id) {
-        EntityManager em = getEntityManager();
-        try {
             return em.find(Review.class, id);
-        } finally {
-            em.close();
-        }
     }
 
     public int getReviewCount() {
-        EntityManager em = getEntityManager();
-        try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             Root<Review> rt = cq.from(Review.class);
             cq.select(em.getCriteriaBuilder().count(rt));
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();
-        } finally {
-            em.close();
-        }
     }
     
 }
