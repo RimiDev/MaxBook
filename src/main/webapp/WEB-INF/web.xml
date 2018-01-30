@@ -22,6 +22,11 @@
         <param-name>javax.faces.FACELETS_REFRESH_PERIOD</param-name>
         <param-value>0</param-value>
     </context-param>
+  <context-param>
+    <param-name>primefaces.THEME</param-name>
+    <param-value>cruze</param-value>
+  </context-param>
+
     <!-- Any file prefixed with faces/ will be processed by the faces servlet -->
     <servlet-mapping>
         <servlet-name>Faces Servlet</servlet-name>
@@ -35,6 +40,6 @@
     </session-config>
     <!-- if there is no page in the in the URL then this page will be called upon -->
     <welcome-file-list>
-        <welcome-file>signUp.xhtml</welcome-file>
+        <welcome-file>login.xhtml</welcome-file>
     </welcome-file-list>
 </web-app>

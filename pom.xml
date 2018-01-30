@@ -6,6 +6,15 @@
     <artifactId>MaxBook</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
+    
+    <repositories>
+        <repository>
+            <id>prime-repo</id>
+            <name>PrimeFaces Maven Repository</name>
+            <url>http://repository.primefaces.org</url>
+            <layout>default</layout>
+        </repository>
+    </repositories>
 
     <name>${project.artifactId}</name>
 
@@ -36,6 +45,7 @@
     <!-- lists the current version number for each -->
     <dependencyManagement>
         <dependencies>
+            
             <dependency>
                 <groupId>org.jboss.arquillian</groupId>
                 <artifactId>arquillian-bom</artifactId>
@@ -78,11 +88,11 @@
         </dependency>
 
         <!-- PrimeFaces dependency -->
-        <!--        <dependency>
+        <dependency>
             <groupId>org.primefaces</groupId>
             <artifactId>primefaces</artifactId>
             <version>6.1</version>
-        </dependency>-->
+        </dependency>
 
         <!-- EclipseLink dependency for the static metamodel generator -->
         <dependency>
@@ -187,6 +197,28 @@
             <artifactId>log4j-core</artifactId>
             <version>2.10.0</version>
             <scope>test</scope>
+        </dependency>
+        
+        <!--FOR ALL THE PRIMEFACES FREE THEMES, CHANGE THEME IN THE WEB.XML-->
+        
+        <dependency>
+            <groupId>org.primefaces.themes</groupId>
+            <artifactId>all-themes</artifactId>
+            <version>1.0.10</version>
+        </dependency>
+        
+        <!--FOR RRS FEED-->
+                
+        <dependency>
+            <groupId>net.java.dev.rome</groupId>
+            <artifactId>rome</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.jdom</groupId>
+            <artifactId>jdom2</artifactId>
+            <version>2.0.6</version>
         </dependency>
 
     </dependencies>
