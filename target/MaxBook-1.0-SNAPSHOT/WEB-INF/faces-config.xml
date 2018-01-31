@@ -8,7 +8,7 @@
     <application>
         <!-- Referencing bundles is on important item in this file -->
         <resource-bundle>
-            <base-name>com.rimidev.bundles.messages</base-name>
+            <base-name>bundles.messages</base-name>
             <var>msgs</var>
         </resource-bundle>
         
