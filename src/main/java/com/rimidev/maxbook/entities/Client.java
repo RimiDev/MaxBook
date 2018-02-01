@@ -59,12 +59,10 @@ public class Client implements Serializable {
     private Integer id;
     // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
     @Basic(optional = false)
-    @NotNull
     @Size(min = 1, max = 255)
     @Column(name = "email")
     private String email;
     @Basic(optional = false)
-    @NotNull
     @Size(min = 1, max = 255)
     @Column(name = "password")
     private String password;
@@ -72,29 +70,24 @@ public class Client implements Serializable {
     @Column(name = "title")
     private String title;
     @Basic(optional = false)
-    @NotNull
     @Size(min = 1, max = 255)
     @Column(name = "first_name")
     private String firstName;
     @Basic(optional = false)
-    @NotNull
     @Size(min = 1, max = 255)
     @Column(name = "last_name")
     private String lastName;
     @Basic(optional = false)
-    @NotNull
     @Size(min = 1, max = 10)
     @Column(name = "phone_number")
     private String phoneNumber;
     @Basic(optional = false)
-    @NotNull
     @Column(name = "manager")
     private int manager;
     @Size(max = 255)
     @Column(name = "company_name")
     private String companyName;
     @Basic(optional = false)
-    @NotNull
     @Size(min = 1, max = 255)
     @Column(name = "address_1")
     private String address1;
@@ -102,17 +95,14 @@ public class Client implements Serializable {
     @Column(name = "address_2")
     private String address2;
     @Basic(optional = false)
-    @NotNull
     @Size(min = 1, max = 255)
     @Column(name = "city")
     private String city;
     @Basic(optional = false)
-    @NotNull
     @Size(min = 1, max = 255)
     @Column(name = "country")
     private String country;
     @Basic(optional = false)
-    @NotNull
     @Size(min = 1, max = 6)
     @Column(name = "postal_code")
     private String postalCode;
