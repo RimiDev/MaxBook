@@ -69,13 +69,13 @@
         
         <h:form>
             
-            <p:outputLabel value="#{msgs.userNameLabel}"
-                                     for="username"/>
-            <p:inputText id="username" value="#{clientBackingBean.client.email}" 
+            <p:outputLabel value="#{msgs.emailLabel}"
+                                     for="email"/>
+            <p:inputText id="email" value="#{clientBackingBean.client.email}" 
                                                             label="#{msgs.emailLabel}"
                                                             required="true"
                                                             requiredMessage="#{msgs.emailRequired}"/>
-            <p:message for="username" styleClass="error" />
+            <p:message for="email" styleClass="error" />
         <br/>
             <p:outputLabel value="#{msgs.userPasswordLabel}"
                                      for="password"/>

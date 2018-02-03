@@ -63,6 +63,7 @@ public class Client implements Serializable {
     @Column(name = "email")
     private String email;
     @Basic(optional = false)
+    @NotNull
     @Size(min = 1, max = 255)
     @Column(name = "password")
     private String password;

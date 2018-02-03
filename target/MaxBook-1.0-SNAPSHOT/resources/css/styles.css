@@ -54,3 +54,14 @@
     margin-bottom:1em;
 }
 
+.feed {
+    width:20%;
+    float:left;
+    background:pink;
+}
+
+.ads {
+    width:20%;
+    float:right;
+    background:pink;
+}

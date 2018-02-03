@@ -5,10 +5,14 @@
  */
 package com.rimidev.backing;
 
+import com.rimidev.maxbook.beans.LoginBean;
 import com.rimidev.maxbook.controller.ClientJpaController;
 import com.rimidev.maxbook.entities.Client;
+import com.rimidev.maxbook.util.MessagesUtil;
 import java.io.Serializable;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -24,6 +28,8 @@ public class clientBackingBean implements Serializable {
     private ClientJpaController clientJpaController;
 
     private Client client;
+    
+    private LoginBean loginBean;
 
     /**
      * Client created if it does not exist.
@@ -44,7 +50,38 @@ public class clientBackingBean implements Serializable {
      * @throws Exception
      */
     public String createClient() throws Exception {
+        if (isValidEmail()){
         clientJpaController.create(client);
-        return null;
+        return "home";
+        } else {
+            return null;
+        }
     }
+    
+    
+    /**
+     * This method checks to see if the email address is already exists.
+     *
+     * @return A boolean value.
+     */
+    private boolean isValidEmail() {
+        boolean valid = false;
+        String email = client.getEmail();
+        if (email != null) {
+            if (clientJpaController.findClientByEmail(email) == null) {
+                valid = true;
+            } else {
+                FacesMessage message = MessagesUtil.getMessage(
+                        "bundles.messages", "email.in.use", null);
+                message.setSeverity(FacesMessage.SEVERITY_ERROR);
+                FacesContext.getCurrentInstance().addMessage("signupForm:email", message);
+            }
+        }
+        return valid;
+    }
+
+    
+ 
+
+
 }
