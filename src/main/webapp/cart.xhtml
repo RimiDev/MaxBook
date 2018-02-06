@@ -5,70 +5,123 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
       xmlns:p="http://primefaces.org/ui">
+
     <h:head>
         <link type="text/css" rel="stylesheet" href="/project/faces/javax.faces.resource/theme.css?ln=primefaces-glass-x" />
         <h:outputStylesheet library="css" name="styles.css" />
         <title>#{msgs.homeTitle}</title>
+        <h:outputStylesheet library="webjars" name="bootstrap/3.3.7-1/css/bootstrap.min-jsf.css" />
+        <h:outputStylesheet library="webjars" name="bootstrap/3.3.7-1/css/bootstrap-theme.min-jsf.css" />
+        <h:outputStylesheet library="webjars" name="font-awesome/4.7.0/css/font-awesome.min-jsf.css" />
+
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     </h:head>
-    
-    
-    
+
+
+
     <h:body>
-        
-        
-                <!---//START OF MENUS//-->
-        
+
+
+        <!---//START OF MENUS//-->
+
         <!--MENU BAR-->
-        
-       <h:form id="menuBar">
-        
-        <p:menubar>
-            <p:menuitem value="MaxBook" url="/home.xhtml"/>
+
+        <h:form id="menuBar">
+
+            <p:menubar>
+                <p:menuitem value="MaxBook" url="/home.xhtml"/>
                 <p:submenu label="Bookstore" icon="ui-icon-document">
                     <p:menuitem value="All books" url="/all_books.xhtml" />
-                      <p:separator />
-                        <p:submenu label="Genre" icon="ui-icon-contact">
+                    <p:separator />
+                    <p:submenu label="Genre" icon="ui-icon-contact">
                         <p:menuitem value="Adventure" url="#" />
                         <p:menuitem value="Science Fiction" url="#" />
                         <p:menuitem value="Romance" url="#" />
                         <p:menuitem value="Other" url="#" />
                     </p:submenu>
-                        <p:submenu label="Year" icon="ui-icon-contact">
+                    <p:submenu label="Year" icon="ui-icon-contact">
                         <p:menuitem value="2017" url="#" />
                         <p:menuitem value="2016" url="#" />
-                        </p:submenu>
+                    </p:submenu>
                 </p:submenu>
-            <p:menuitem value="Search" url="/search.xhtml"/>
+                <p:menuitem value="Search" url="/search.xhtml"/>
 
-        <f:facet name="options">
-            <p:outputLabel value="Welcome #{user.username}!" style="margin-right:10px"/>
-            <p:inputText style="margin-right:10px" placeholder="Search" id="userSearch" value="#{user.searched}"/>
-            <p:commandButton type="Submit" value="Search" icon="/resources/images/search.png" action="search" ajax="false"/>
-            <p:commandButton type="Submit" value="Login" icon="ui-icon-extlink" action="login" ajax="false"/>
-            <p:commandButton type="button" value="Logout" icon="ui-icon-extlink" />
-        </f:facet>
-        </p:menubar>
-            
-            </h:form>
-        
+                <f:facet name="options">
+                    <p:outputLabel value="Welcome #{user.username}!" style="margin-right:10px"/>
+                    <p:inputText style="margin-right:10px" placeholder="Search" id="userSearch" value="#{user.searched}"/>
+                    <p:commandButton type="Submit" value="Search" icon="/resources/images/search.png" action="search" ajax="false"/>
+                    <p:commandButton type="Submit" value="Login" icon="ui-icon-extlink" action="login" ajax="false"/>
+                    <p:commandButton type="button" value="Logout" icon="ui-icon-extlink" />
+                </f:facet>
+            </p:menubar>
+
+        </h:form>
+
         <!-- STACK MENU -->
-                
+
         <p:stack icon="/resources/images/stack.png" expanded="true">
-    <p:menuitem value="Home"  icon="/resources/images/home.png" url="./home.xhtml"/>
-    <p:menuitem value="Cart" icon="/resources/images/shoppingCart.png" url="./cart.xhtml"/>
-    <p:menuitem value="Search" icon="/resources/images/search.png" url="./advancedSearch.xhtml"/>
-</p:stack>
-        
-       <!--//END OF MENUS//-->        
-        <div>Welcome #{user.username}</div>
-        <div> SHOPPING CART </div>
-        <br/>    
- 
-        
-        
+            <p:menuitem value="Home"  icon="/resources/images/home.png" url="./home.xhtml"/>
+            <p:menuitem value="Cart" icon="/resources/images/shoppingCart.png" url="./cart.xhtml"/>
+            <p:menuitem value="Search" icon="/resources/images/search.png" url="./advancedSearch.xhtml"/>
+        </p:stack>
+
+        <div class="container">
+            <table id="cart" class="table table-hover table-condensed">
+                <thead>
+                    <tr>
+                        <th style="width:50%">Product</th>
+                        <th style="width:10%">Price</th>
+                        <th style="width:8%">Quantity</th>
+                        <th style="width:22%" class="text-center">Subtotal</th>
+                        <th style="width:10%"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td data-th="Product">
+                            <div class="row">
+                                <div class="col-sm-2 hidden-xs"><img src="http://placehold.it/100x100" alt="..." class="img-responsive"/></div>
+                                <div class="col-sm-10">
+                                    <h4 class="nomargin">Product 1</h4>
+                                    <p>Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Lorem ipsum dolor sit amet.</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td data-th="Price">$1.99</td>
+                        <td data-th="Quantity">
+                            <b:inputText type="number" class="form-control text-center" value="1"></b:inputText>
+                        </td>
+                        <td data-th="Subtotal" class="text-center">1.99</td>
+                        <td class="actions" data-th="">
+                            <button class="btn btn-info btn-sm"><i class="fa fa-refresh"></i></button>
+                            <button class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i></button>								
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr class="visible-xs">
+                        <td class="text-center"><strong>Total 1.99</strong></td>
+                    </tr>
+                    <tr>
+                        <td><a href="#" class="btn btn-warning"><i class="fa fa-angle-left"></i> Continue Shopping</a></td>
+                        <td colspan="2" class="hidden-xs"></td>
+                        <td class="hidden-xs text-center"><strong>Total $1.99</strong></td>
+                        <td><a href="#" class="btn btn-success btn-block">Checkout <i class="fa fa-angle-right"></i></a></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+
+
+
+
+        <!-- load js at bottom for faster loading-->
+        <h:outputScript library="webjars" name="jquery/3.1.1-1/jquery.min.js"/>
+        <h:outputScript library="webjars" name="bootstrap/3.3.7-1/js/bootstrap.min.js" />
     </h:body>
-    
-    
+
+
 </html>
