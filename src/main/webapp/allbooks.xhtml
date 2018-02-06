@@ -42,6 +42,29 @@
                     <p:commandButton type="button" value="Logout" icon="ui-icon-extlink" />
                 </f:facet>
             </p:menubar>   
+            <div id="header">
+                <h:outputText value="#{msgs.allBooksHeader}" />
+            </div>
+            <div id="details">
+            <h:panelGrid columns="2" cellspacing="10" styleClass="panel" >
+                <h:outputText value="#{msgs.isbn}" styleClass="detailTitle"/>
+                <h:outputText value="#{bookBackingBean.inventory.isbn}" styleClass="detailValue"/>
+                <h:outputText value="#{msgs.authors}" styleClass="detailTitle"/>
+                <h:outputText value="#{bookBackingBean.inventory.authors}" styleClass="detailValue"/>
+                <h:outputText value="#{msgs.dateofpublication}" styleClass="detailTitle" />
+                <h:outputText value="#{bookBackingBean.inventory.dateofpublication}" styleClass="detailValue" >
+                    <f:convertDateTime pattern="yyyy.MM.dd" />
+                </h:outputText>
+                <h:outputText value="#{msgs.pages}" styleClass="detailTitle"/>
+                <h:outputText value="#{bookBackingBean.inventory.pages}" styleClass="detailValue"/>
+                <h:outputText value="#{msgs.genre}" styleClass="detailTitle"/>
+                <h:outputText value="#{bookBackingBean.inventory.genre}" styleClass="detailValue"/>
+                <h:outputText value="#{msgs.list}" styleClass="detailTitle"/>
+                <h:outputText value="#{bookBackingBean.inventory.list}" styleClass="detailValue"/>
+            </h:panelGrid>
+        </div>
+            
+            
         </h:form>  
         <p:stack icon="/resources/images/stack.png" expanded="true">
             <p:menuitem value="Home"  icon="/resources/images/home.png" url="./home.xhtml"/>
