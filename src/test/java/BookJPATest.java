@@ -1,9 +1,10 @@
 /*
  * A sample test class using Arquillian
  */
-package com.rimiDev.tests;
+
 
 import com.rimidev.maxbook.controller.AuthorJpaController;
+import com.rimidev.maxbook.controller.exceptions.RollbackFailureException;
 import com.rimidev.maxbook.entities.Author;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
@@ -34,7 +35,7 @@ import static org.junit.Assert.assertTrue;
 @RunWith(Arquillian.class)
 public class BookJPATest {
 
-    
+    private Logger logger = Logger.getLogger(BookJPATest.class.getName());
 
     @Deployment
     public static WebArchive deploy() {
@@ -55,10 +56,12 @@ public class BookJPATest {
         final WebArchive webArchive = ShrinkWrap.create(WebArchive.class, "test.war")
                 .setWebXML(new File("src/main/webapp/WEB-INF/web.xml"))
                 .addPackage(AuthorJpaController.class.getPackage())
+                .addPackage(RollbackFailureException.class.getPackage())
                 .addPackage(Author.class.getPackage())
                 .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml")
                 .addAsWebInfResource(new File("src/main/webapp/WEB-INF/glassfish-resources.xml"), "glassfish-resources.xml")
                 .addAsResource(new File("src/main/resources/META-INF/persistence.xml"), "META-INF/persistence.xml")
+                .addAsResource("CreateBookStoreTables.sql")
                 .addAsLibraries(dependencies);
 
         return webArchive;
@@ -77,8 +80,9 @@ public class BookJPATest {
     @Test
     public void should_find_all_authors() throws SQLException {
         Author lfd = fab.findAuthor(1);
-        
-        assertThat(Boolean.TRUE);
+        logger.log(Level.WARNING, "SUHHH");
+        logger.log(Level.INFO,"My resulttytttttttttttttttttttt: "+ lfd.getId());
+        assertThat(lfd.getId()).isEqualTo(1);
     }
 
     public void try_me(){

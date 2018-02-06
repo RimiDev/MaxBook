@@ -161,8 +161,8 @@ public class AuthorJpaController implements Serializable {
     }
 
     public Author findAuthor(Integer id) {
-//            return em.find(Author.class, id);
-return null;
+            return em.find(Author.class, id);
+
     }
 
     public int getAuthorCount() {
