@@ -1,0 +1,7 @@
+-------------------------------------------------------------------------------
+Test set: com.rimiDev.tests.BookJPATest
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 4.891 s <<< FAILURE! - in com.rimiDev.tests.BookJPATest
+should_find_all_authors(com.rimiDev.tests.BookJPATest)  Time elapsed: 0.11 s  <<< ERROR!
+java.lang.ClassNotFoundException: com.rimiDev.tests.BookJPATest
+

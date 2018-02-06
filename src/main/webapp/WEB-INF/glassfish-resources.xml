@@ -1,36 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE resources PUBLIC "-//GlassFish.org//DTD GlassFish Application Server 3.1 Resource Definitions//EN" "http://glassfish.org/dtds/glassfish-resources_1_5.dtd">
 <resources>
-    <jdbc-connection-pool allow-non-component-callers="false" associate-with-thread="false" connection-creation-retry-attempts="0" connection-creation-retry-interval-in-seconds="10" connection-leak-reclaim="false" connection-leak-timeout-in-seconds="0" connection-validation-method="auto-commit" datasource-classname="com.mysql.jdbc.jdbc2.optional.MysqlDataSource" fail-all-connections="false" idle-timeout-in-seconds="300" is-connection-validation-required="false" is-isolation-level-guaranteed="true" lazy-connection-association="false" lazy-connection-enlistment="false" match-connections="false" max-connection-usage-count="0" max-pool-size="32" max-wait-time-in-millis="60000" name="mysql_bookstore_userPool" non-transactional-connections="false" pool-resize-quantity="2" res-type="javax.sql.DataSource" statement-timeout-in-seconds="-1" steady-pool-size="8" validate-atmost-once-period-in-seconds="0" wrap-jdbc-objects="false">
-        <property name="serverName" value="localhost"/>
-        <property name="portNumber" value="3306"/>
-        <property name="User" value="bookstore_user"/>
-        <property name="Password" value="bookstore_user"/>
-        <property name="URL" value="jdbc:mysql://localhost:3306?zeroDateTimeBehavior=convertToNull"/>
-        <property name="driverClass" value="com.mysql.jdbc.Driver"/>
-    </jdbc-connection-pool>
-    <jdbc-resource enabled="true" jndi-name="java:app/Citrus_Books" object-type="user" pool-name="mysql_bookstore_userPool"/>
-    <jdbc-resource enabled="true" jndi-name="java:app/b" object-type="user" pool-name="mysql_bookstore_userPool"/>
-    <jdbc-connection-pool allow-non-component-callers="false" associate-with-thread="false" connection-creation-retry-attempts="0" connection-creation-retry-interval-in-seconds="10" connection-leak-reclaim="false" connection-leak-timeout-in-seconds="0" connection-validation-method="auto-commit" datasource-classname="com.mysql.jdbc.jdbc2.optional.MysqlDataSource" fail-all-connections="false" idle-timeout-in-seconds="300" is-connection-validation-required="false" is-isolation-level-guaranteed="true" lazy-connection-association="false" lazy-connection-enlistment="false" match-connections="false" max-connection-usage-count="0" max-pool-size="32" max-wait-time-in-millis="60000" name="mysql_mysql_rootPool" non-transactional-connections="false" pool-resize-quantity="2" res-type="javax.sql.DataSource" statement-timeout-in-seconds="-1" steady-pool-size="8" validate-atmost-once-period-in-seconds="0" wrap-jdbc-objects="false">
-        <property name="serverName" value="localhost"/>
-        <property name="portNumber" value="3306"/>
-        <property name="databaseName" value="mysql"/>
-        <property name="User" value="root"/>
-        <property name="Password" value="dawson"/>
-        <property name="URL" value="jdbc:mysql://localhost:3306/mysql?zeroDateTimeBehavior=convertToNull"/>
-        <property name="driverClass" value="com.mysql.jdbc.Driver"/>
-    </jdbc-connection-pool>
-    <jdbc-resource enabled="true" jndi-name="java:app/b" object-type="user" pool-name="mysql_mysql_rootPool"/>
-    <jdbc-resource enabled="true" jndi-name="java:app/BookStore_DB" object-type="user" pool-name="mysql_bookstore_userPool"/>
-    <jdbc-resource enabled="true" jndi-name="java:app/SD" object-type="user" pool-name="mysql_bookstore_userPool"/>
-    <jdbc-connection-pool allow-non-component-callers="false" associate-with-thread="false" connection-creation-retry-attempts="0" connection-creation-retry-interval-in-seconds="10" connection-leak-reclaim="false" connection-leak-timeout-in-seconds="0" connection-validation-method="auto-commit" datasource-classname="com.mysql.jdbc.jdbc2.optional.MysqlDataSource" fail-all-connections="false" idle-timeout-in-seconds="300" is-connection-validation-required="false" is-isolation-level-guaranteed="true" lazy-connection-association="false" lazy-connection-enlistment="false" match-connections="false" max-connection-usage-count="0" max-pool-size="32" max-wait-time-in-millis="60000" name="mysql_BookStore_DB_bookstore_userPool" non-transactional-connections="false" pool-resize-quantity="2" res-type="javax.sql.DataSource" statement-timeout-in-seconds="-1" steady-pool-size="8" validate-atmost-once-period-in-seconds="0" wrap-jdbc-objects="false">
-        <property name="serverName" value="localhost"/>
-        <property name="portNumber" value="3306"/>
-        <property name="databaseName" value="BookStore_DB"/>
-        <property name="User" value="bookstore_user"/>
-        <property name="Password" value="bookstore_user"/>
-        <property name="URL" value="jdbc:mysql://localhost:3306/BookStore_DB?zeroDateTimeBehavior=convertToNull"/>
-        <property name="driverClass" value="com.mysql.jdbc.Driver"/>
-    </jdbc-connection-pool>
-    <jdbc-resource enabled="true" jndi-name="java:app/myBooks" object-type="user" pool-name="mysql_BookStore_DB_bookstore_userPool"/>
+    <jdbc-resource enabled="true" jndi-name="jdbc/myBooks" object-type="user" pool-name="maxbookPool">
+        <description/>
+    </jdbc-resource>
+
+  <jdbc-connection-pool allow-non-component-callers="false" associate-with-thread="false" connection-creation-retry-attempts="0" connection-creation-retry-interval-in-seconds="10" connection-leak-reclaim="false" connection-leak-timeout-in-seconds="0" connection-validation-method="auto-commit" datasource-classname="com.mysql.jdbc.jdbc2.optional.MysqlDataSource" fail-all-connections="false" idle-timeout-in-seconds="300" is-connection-validation-required="false" is-isolation-level-guaranteed="true" lazy-connection-association="false" lazy-connection-enlistment="false" match-connections="false" max-connection-usage-count="0" max-pool-size="32" max-wait-time-in-millis="60000" name="maxbookPool" non-transactional-connections="false" pool-resize-quantity="2" res-type="javax.sql.ConnectionPoolDataSource" statement-timeout-in-seconds="-1" steady-pool-size="8" validate-atmost-once-period-in-seconds="0" wrap-jdbc-objects="false">
+    <property name="URL" value="jdbc:mysql://localhost:3306/BookStore_DB?zeroDateTimeBehavior=convertToNull"/>
+    <property name="User" value="bookstore_user"/>
+    <property name="Password" value="bookstore_user"/>
+  </jdbc-connection-pool>
 </resources>
