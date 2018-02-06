@@ -290,7 +290,7 @@ public class BookJpaController implements Serializable {
     }
 
     public List<Book> findBookEntities() {
-        return findBookEntities(true, -1, -1);
+        return findBookEntities(false, 10, 1);
     }
 
     public List<Book> findBookEntities(int maxResults, int firstResult) {
@@ -318,5 +318,10 @@ public class BookJpaController implements Serializable {
             cq.select(em.getCriteriaBuilder().count(rt));
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();
+    }
+    
+    public List<Book> findAllBooks(){
+        Query findAll = em.createNamedQuery("Book.findAll");
+        return findAll.getResultList();
     }
 }
