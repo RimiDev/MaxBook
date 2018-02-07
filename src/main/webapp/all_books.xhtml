@@ -17,10 +17,10 @@ and open the template in the editor.
     <h:body>
          <h:form>
              <h:dataTable value="#{bookJpaController.findBookEntities()}" var="books"
-                         styleClass="bookies" headerClass="bookHeader" columnClasses="bookTitle">
+                          styleClass="bookies" headerClass="bookHeader" columnClasses="bookTitle" rowClasses="clickable">
                 <h:column>
                     <f:facet name="header">Title</f:facet>
-                        #{books.title}
+                    <h:link value=" #{books.title}" outcome="bookDetails.xhtml" />                
                 </h:column>
 <!--                <h:column>
                     <f:facet name="header">Author</f:facet>
