@@ -4,8 +4,10 @@
 
 
 import com.rimidev.maxbook.controller.AuthorJpaController;
+import com.rimidev.maxbook.controller.ClientJpaController;
 import com.rimidev.maxbook.controller.exceptions.RollbackFailureException;
 import com.rimidev.maxbook.entities.Author;
+import com.rimidev.maxbook.entities.Client;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
@@ -68,7 +70,7 @@ public class BookJPATest {
     }
 
     @Inject
-    private AuthorJpaController fab;
+    private ClientJpaController cjc;
 
     @Resource(name = "java:app/jdbc/myBooks")
     private DataSource ds;
@@ -78,11 +80,11 @@ public class BookJPATest {
      * @throws SQLException
      */
     @Test
-    public void should_find_all_authors() throws SQLException {
-        Author lfd = fab.findAuthor(1);
-        logger.log(Level.WARNING, "SUHHH");
-        logger.log(Level.INFO,"My resulttytttttttttttttttttttt: "+ lfd.getId());
-        assertThat(lfd.getId()).isEqualTo(1);
+    public void should_find_client_by_id() throws SQLException {
+        Client c = cjc.findClient(1);
+        logger.log(Level.WARNING, "should_find_client_by_id -- retrieve client from db");
+        logger.log(Level.INFO,"should_find_client_by_id -- found id"+ c.getId());
+        assertThat(c.getId()).isEqualTo(1);
     }
 
     public void try_me(){

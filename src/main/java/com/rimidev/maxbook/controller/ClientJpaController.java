@@ -25,6 +25,7 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import javax.transaction.UserTransaction;
 
 /**
@@ -248,6 +249,13 @@ public class ClientJpaController implements Serializable {
 
     public List<Client> findClientEntities() {
         return findClientEntities(true, -1, -1);
+    }
+    
+    public Client findClientByID(){
+        TypedQuery<Client> query = em.createNamedQuery("Client.findById", Client.class);
+        query.setParameter("clientId", 1);
+        Client c = query.getSingleResult();
+        return c;
     }
 
     public List<Client> findClientEntities(int maxResults, int firstResult) {
