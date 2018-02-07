@@ -25,6 +25,7 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import javax.transaction.UserTransaction;
 
 /**
@@ -279,5 +280,27 @@ public class ClientJpaController implements Serializable {
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();
     }
+    
+//Custom queries-----------------------------------------------------------------
+    
+    /**
+     * Find a record with the specified email
+     *
+     * @param email
+     * @return
+     */
+    public Client findClientByEmail(String email) {
+        TypedQuery<Client> query = em.createNamedQuery("Client.findByEmail", Client.class);
+        query.setParameter("email", email);
+        List<Client> clients = query.getResultList();
+        if (!clients.isEmpty()) {
+            return clients.get(0);
+        }
+        return null;
+    }
+
+
+  
+
     
 }

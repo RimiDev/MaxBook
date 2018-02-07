@@ -1,5 +1,7 @@
 USE BookStore_DB;
 
+DROP TABLE IF EXISTS Survey_Results;
+DROP TABLE IF EXISTS Question_Option;
 DROP TABLE IF EXISTS Invoice_Details;
 DROP TABLE IF EXISTS Invoice;
 DROP TABLE IF EXISTS Review;
@@ -9,6 +11,7 @@ DROP TABLE IF EXISTS Book;
 DROP TABLE IF EXISTS Taxes;
 DROP TABLE IF EXISTS Publisher;
 DROP TABLE IF EXISTS Author;
+DROP TABLE IF EXISTS Question;
 
 CREATE TABLE Author (
     id int PRIMARY KEY auto_increment,
@@ -189,19 +192,19 @@ CREATE TABLE Taxes (
     GST_rate numeric(4,2) NOT NULL,
     HST_rate numeric(4,2) NOT NULL
 );
-INSERT INTO TAXES VALUES ('Alberta', 0.00, 0.05, 0.05);
-INSERT INTO TAXES VALUES ('British Columbia', 0.07, 0.05, 0.12);
-INSERT INTO TAXES VALUES ('Manitoba', 0.08, 0.05, 0.13);
-INSERT INTO TAXES VALUES ('New-Brunswick', 0.10, 0.05, 0.15);
-INSERT INTO TAXES VALUES ('Newfoundland and Labrador', 0.10, 0.05, 0.15);
-INSERT INTO TAXES VALUES ('Northwest Territories', 0.00, 0.05, 0.05);
-INSERT INTO TAXES VALUES ('Nova Scotia', 0.10, 0.05, 0.15);
-INSERT INTO TAXES VALUES ('Nunavut', 0.00, 0.05, 0.05);
-INSERT INTO TAXES VALUES ('Ontario', 0.08, 0.05, 0.13);
-INSERT INTO TAXES VALUES ('Prince Edward Island', 0.10, 0.05, 0.15);
-INSERT INTO TAXES VALUES ('Quebec', 0.10, 0.05, 0.15);
-INSERT INTO TAXES VALUES ('Saskatchewan', 0.06, 0.05, 0.11);
-INSERT INTO TAXES VALUES ('Yukon', 0.00, 0.05, 0.05);
+INSERT INTO TAXES (province, PST_rate, GST_rate, HST_rate) VALUES 
+('Alberta', 0.00, 0.05, 0.05),
+('British Columbia', 0.07, 0.05, 0.12),
+('Manitoba', 0.08, 0.05, 0.13),
+('New-Brunswick', 0.10, 0.05, 0.15),
+('Newfoundland and Labrador', 0.10, 0.05, 0.15),
+('Northwest Territories', 0.00, 0.05, 0.05),
+('Nova Scotia', 0.10, 0.05, 0.15),
+('Nunavut', 0.00, 0.05, 0.05),
+('Ontario', 0.08, 0.05, 0.13),
+('Quebec', 0.10, 0.05, 0.15),
+('Saskatchewan', 0.06, 0.05, 0.11),
+('Yukon', 0.00, 0.05, 0.05);
 
 CREATE TABLE Book (
     isbn varchar(14) PRIMARY KEY,
@@ -214,7 +217,7 @@ CREATE TABLE Book (
     sale_price numeric(5,2) NOT NULL,
     wholesale_price numeric(5,2) NOT NULL,
     format varchar(255) NOT NULL,
-    entered_date timestamp NOT NULL,
+    entered_date timestamp DEFAULT CURRENT_TIMESTAMP,
     removal_status char(1) NOT NULL,
     description varchar(2184) NOT NULL,
     FOREIGN KEY (publisher_id) REFERENCES Publisher(id)
@@ -435,18 +438,18 @@ CREATE TABLE Client (
     id int PRIMARY KEY auto_increment,
     email varchar(255) NOT NULL,
     password varchar(255) NOT NULL,
-    title varchar(10),
-    first_name varchar(255) NOT NULL,
-    last_name varchar(255) NOT NULL,
-    phone_number varchar(10) NOT NULL,
-    manager int NOT NULL,
-    company_name varchar(255),
-    address_1 varchar(255) NOT NULL,
-    address_2 varchar(255),
-    city varchar(255) NOT NULL,
-    province varchar(255) NOT NULL,
-    country varchar(255) NOT NULL,
-    postal_code varchar(6) NOT NULL,
+    title varchar(10) DEFAULT NULL,
+    first_name varchar(255) DEFAULT NULL,
+    last_name varchar(255) DEFAULT NULL,
+    phone_number varchar(10) DEFAULT NULL,
+    manager int DEFAULT NULL,
+    company_name varchar(255) DEFAULT NULL,
+    address_1 varchar(255) DEFAULT NULL,
+    address_2 varchar(255) DEFAULT NULL,
+    city varchar(255) DEFAULT NULL,
+    province varchar(255) DEFAULT NULL,
+    country varchar(255) DEFAULT NULL,
+    postal_code varchar(6) DEFAULT NULL,
     FOREIGN KEY (province) REFERENCES Taxes(province)
 );
 INSERT INTO Client (email, password, title, first_name, last_name, phone_number,
@@ -465,7 +468,8 @@ CREATE TABLE Review (
     FOREIGN KEY (isbn) REFERENCES Book(isbn),
     FOREIGN KEY (client_id) REFERENCES Client(id)
 );
-INSERT INTO Review VALUES (1, '978-1449474256', 1, 4, 'It was aight.', 'Pending', '2018-01-01 22:22:22');
+INSERT INTO Review (isbn, client_id, rating, review_message, approval_status, review_date) VALUES 
+('978-1449474256', 1, 4, 'It was aight.', 'Pending', '2018-01-01 22:22:22');
 
 CREATE TABLE Invoice (
     id int PRIMARY KEY auto_increment,
@@ -475,7 +479,8 @@ CREATE TABLE Invoice (
     gross_value int NOT NULL,
     FOREIGN KEY (client_id) REFERENCES Client(id)
 );
-INSERT INTO Invoice VALUES (1, 1, '2017-12-12 12:12:12', 14.99, 7.80);
+INSERT INTO Invoice (client_id, date_of_sale, net_value, gross_value )VALUES 
+(1, '2017-12-12 12:12:12', 14.99, 7.80);
 
 CREATE TABLE Invoice_Details (
     id int PRIMARY KEY auto_increment,
@@ -488,4 +493,35 @@ CREATE TABLE Invoice_Details (
     FOREIGN KEY (invoice_id) REFERENCES Invoice(id),
     FOREIGN KEY (isbn) REFERENCES Book(isbn)
 );
-INSERT INTO Invoice_Details VALUES (1, 1, '978-1449474256', 14.99, 0.10, 0.05, 0.15);
+INSERT INTO Invoice_Details (invoice_id, isbn, book_price, PST_rate, GST_rate, HST_rate) VALUES 
+(1, '978-1449474256', 14.99, 0.10, 0.05, 0.15);
+
+CREATE TABLE Question (
+    id int PRIMARY KEY auto_increment,
+    message varchar(1000) NOT NULL default ''
+);
+INSERT INTO Question (message) VALUES 
+("This is a test question.");
+
+CREATE TABLE Question_Option (
+    id int PRIMARY KEY auto_increment,
+    question_id int NOT NULL default 1,
+    option_message varchar(255) NOT NULL default '',
+    vote_count int NOT NULL default 0,
+    FOREIGN KEY (question_id) REFERENCES Question(id)
+);
+INSERT INTO Question_Option (question_id, option_message, vote_count) VALUES
+(1, "test option 1", 1),
+(1, "test option 2", 0),
+(1, "test option 3", 0),
+(1, "test option 4", 0);
+
+CREATE TABLE Survey_Results (
+    id int PRIMARY KEY auto_increment,
+    question_id int NOT NULL default 1,
+    client_id int NOT NULL default 1,
+    FOREIGN KEY (question_id) REFERENCES Question(id),
+    FOREIGN KEY (client_id) REFERENCES Client(id)
+);
+INSERT INTO Survey_Results (question_id, client_id) VALUES
+(1, 1);
