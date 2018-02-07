@@ -54,12 +54,30 @@
         </p:feedReader>-->
         <!-- Display all the Books -->
         <h:form>
-            <h:dataTable value="#{bookJpaController.findAllBooks()}" var="books">
+            <h:dataTable value="#{bookJpaController.findBookEntities()}" var="books">
                 <h:column>
                     <f:facet name="header">#{msgs.isbnHeader}</f:facet>
                     #{books.isbn}
                 </h:column>
+                <h:column>
+                    <f:facet name="header">#{msgs.titleHeader}</f:facet>
+                    #{books.title}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">#{msgs.publisherHeader}</f:facet>
+                    #{books.publisherId.name}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">#{msgs.pagesHeader}</f:facet>
+                    #{books.pages}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">#{msgs.priceHeader}</f:facet>
+                    #{books.listPrice}
+                </h:column>
             </h:dataTable>
         </h:form>
+        <h:button value="prev" outcome="home"></h:button>
+        <h:button value="next" outcome="home"></h:button>
     </h:body> 
 </html>
