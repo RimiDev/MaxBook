@@ -46,56 +46,29 @@
             <p:menuitem value="Cart" icon="/resources/images/shoppingCart.png" url="./cart.xhtml"/>
             <p:menuitem value="Search" icon="/resources/images/search.png" url="./advancedSearch.xhtml"/>
         </p:stack>       
-<!--        FEED READER
-        <p:feedReader value="https://www.yahoo.com/news/rss/sports" var="feeder" class="rssfeed">
-            <h:outputText value="#{feeder.title}" style="font-weight: bold;display:block"/>
-            <h:outputText value="#{feeder.description.value}" escape="false"/>
-            <p:separator />
-        </p:feedReader>-->
         <!-- Display all the Books -->
-<!--        <h:form>
-            <h:dataTable value="#{bookJpaController.findBookEntities(true)}" var="books">
-                <h:column>
-                    <f:facet name="header">#{msgs.isbnHeader}</f:facet>
-                    #{books.isbn}
-                </h:column>
-                <h:column>
-                    <f:facet name="header">#{msgs.titleHeader}</f:facet>
-                    #{books.title}
-                </h:column>
-                <h:column>
-                    <f:facet name="header">#{msgs.publisherHeader}</f:facet>
-                    #{books.publisherId.name}
-                </h:column>
-                <h:column>
-                    <f:facet name="header">#{msgs.pagesHeader}</f:facet>
-                    #{books.pages}
-                </h:column>
-                <h:column>
-                    <f:facet name="header">#{msgs.priceHeader}</f:facet>
-                    #{books.listPrice}
-                </h:column>
-            </h:dataTable>
-            <h:commandLink action="#{bookJpaController.findBookEntities(false)}">
-                <h:button value="prev" outcome="home"></h:button>
-            </h:commandLink>
-            <h:commandLink action="#{bookJpaController.findBookEntities(true)}">
-                <h:button value="next" outcome="home"></h:button>
-            </h:commandLink>
-        </h:form>-->
         <h:form>
-            <p:dataTable var="book" value="#{bookJpaController.allBooks}" rows="10"
+            <p:dataTable var="book" value="#{bookJpaController.allBooks}" rows="5"
                     paginator="true"
                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                    rowsPerPageTemplate="5,10,15">
+                    rowsPerPageTemplate="5,10,15,20">
                 <p:column headerText="#{msgs.isbnHeader}">
                     <h:outputText value="#{book.isbn}" />
                 </p:column>
                 <p:column headerText="#{msgs.titleHeader}">
                     <h:outputText value="#{book.title}" />
                 </p:column>
+                <p:column headerText="#{msgs.publisherHeader}">
+                    <h:outputText value="#{book.publisherId.name}" />
+                </p:column>
                 <p:column headerText="#{msgs.pagesHeader}">
                     <h:outputText value="#{book.pages}" />
+                </p:column>
+                <p:column headerText="#{msgs.detailsHeader}">
+                    <h:outputText value="#{book.description}" />
+                </p:column>
+                <p:column>
+                    <h:button value="Add to Cart"></h:button>
                 </p:column>
                 <f:facet name="paginatorTopLeft">
                     <p:commandButton type="button" icon="fa fa-sync" />
@@ -105,5 +78,11 @@
                 </f:facet>
             </p:dataTable>
         </h:form>
+        <!-- FEED READER -->
+        <p:feedReader value="https://www.yahoo.com/news/rss/sports" var="feeder" class="rssfeed">
+            <h:outputText value="#{feeder.title}" style="font-weight: bold;display:block"/>
+            <h:outputText value="#{feeder.description.value}" escape="false"/>
+            <p:separator />
+        </p:feedReader>
     </h:body> 
 </html>
