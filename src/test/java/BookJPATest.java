@@ -5,9 +5,11 @@
 
 import com.rimidev.maxbook.controller.AuthorJpaController;
 import com.rimidev.maxbook.controller.ClientJpaController;
+import com.rimidev.maxbook.controller.InvoiceDetailsJpaController;
 import com.rimidev.maxbook.controller.exceptions.RollbackFailureException;
 import com.rimidev.maxbook.entities.Author;
 import com.rimidev.maxbook.entities.Client;
+import com.rimidev.maxbook.entities.InvoiceDetails;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
@@ -27,6 +29,7 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.function.Supplier;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -70,7 +73,7 @@ public class BookJPATest {
     }
 
     @Inject
-    private ClientJpaController cjc;
+    private InvoiceDetailsJpaController cjc;
 
     @Resource(name = "java:app/jdbc/myBooks")
     private DataSource ds;
@@ -80,11 +83,9 @@ public class BookJPATest {
      * @throws SQLException
      */
     @Test
-    public void should_find_client_by_id() throws SQLException {
-        Client c = cjc.findClient(1);
-        logger.log(Level.WARNING, "should_find_client_by_id -- retrieve client from db");
-        logger.log(Level.INFO,"should_find_client_by_id -- found id"+ c.getId());
-        assertThat(c.getId()).isEqualTo(1);
+    public void should_find_all_invoices() throws SQLException {
+        List<Object[]> list = cjc.getTopSellingBooks();
+        logger.warning("should_find_all_invoices "+ list.size());
     }
 
     public void try_me(){
