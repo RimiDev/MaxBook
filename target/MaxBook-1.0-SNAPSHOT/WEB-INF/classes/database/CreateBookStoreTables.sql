@@ -476,6 +476,10 @@ CREATE TABLE Invoice (
     FOREIGN KEY (client_id) REFERENCES Client(id)
 );
 INSERT INTO Invoice VALUES (1, 1, '2017-12-12 12:12:12', 14.99, 7.80);
+INSERT INTO Invoice VALUES (2, 1, '2017-12-12 12:12:12', 14.99, 7.80);
+INSERT INTO Invoice VALUES (3, 1, '2017-12-12 12:12:12', 14.99, 7.80);
+INSERT INTO Invoice VALUES (4, 2, '2017-12-12 12:12:12', 14.99, 7.80);
+
 
 CREATE TABLE Invoice_Details (
     id int PRIMARY KEY auto_increment,
@@ -489,3 +493,7 @@ CREATE TABLE Invoice_Details (
     FOREIGN KEY (isbn) REFERENCES Book(isbn)
 );
 INSERT INTO Invoice_Details VALUES (1, 1, '978-1449474256', 14.99, 0.10, 0.05, 0.15);
+INSERT INTO Invoice_Details VALUES (2, 1, '978-1449474256', 14.99, 0.10, 0.05, 0.15);
+INSERT INTO Invoice_Details VALUES (3, 1, '978-1449474256', 14.99, 0.10, 0.05, 0.15);
+INSERT INTO Invoice_Details VALUES (4, 2, '978-0545795661', 14.99, 0.10, 0.05, 0.15);
+

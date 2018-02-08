@@ -74,10 +74,51 @@
         <div class="ads">
             <p> AD BABY </p>
         </div>
+                
+        <br/>            
         
-        <div>Welcome #{user.username} to the home page!</div>
-        <div> Your password is, #{user.password} </div>
-        <br/>    
+        <!--MAIN HOME PAGE-->
+        
+        <div>
+<!--            <p> #{InvoiceDetailsJpaController} </p>-->
+            <p> Hey </p>
+                            
+            <!--Top selling books-->
+
+            <h:form>
+
+                <h:dataTable value="#{invoiceDetailsJpaController.topSellingBooks}" var="books">
+
+                    <h:column>
+                        <f:facet name="header">Top selling Books</f:facet>
+                    #{books.isbn}
+                    </h:column>
+
+
+                </h:dataTable>
+
+            </h:form>
+
+            <!--Top recent sold books-->
+
+<!--            <h:form>
+
+                <h:dataTable value="" var="books">
+
+                    <h:column>
+                        <f:facet name="header">Top selling Books</f:facet>
+                    #{books.isbn}
+                    </h:column>
+
+
+                </h:dataTable>
+
+            </h:form>-->
+
+            
+            
+        </div>
+
  
         
         

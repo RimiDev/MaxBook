@@ -36,6 +36,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "InvoiceDetails.findByPSTrate", query = "SELECT i FROM InvoiceDetails i WHERE i.pSTrate = :pSTrate")
     , @NamedQuery(name = "InvoiceDetails.findByGSTrate", query = "SELECT i FROM InvoiceDetails i WHERE i.gSTrate = :gSTrate")
     , @NamedQuery(name = "InvoiceDetails.findByHSTrate", query = "SELECT i FROM InvoiceDetails i WHERE i.hSTrate = :hSTrate")})
+
 public class InvoiceDetails implements Serializable {
 
     private static final long serialVersionUID = 1L;

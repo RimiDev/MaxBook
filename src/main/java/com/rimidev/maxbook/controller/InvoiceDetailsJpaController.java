@@ -5,6 +5,7 @@
  */
 package com.rimidev.maxbook.controller;
 
+import com.rimidev.maxbook.beans.BestSellingBooksBean;
 import com.rimidev.maxbook.controller.exceptions.NonexistentEntityException;
 import com.rimidev.maxbook.controller.exceptions.RollbackFailureException;
 import java.io.Serializable;
@@ -15,13 +16,20 @@ import javax.persistence.criteria.Root;
 import com.rimidev.maxbook.entities.Invoice;
 import com.rimidev.maxbook.entities.Book;
 import com.rimidev.maxbook.entities.InvoiceDetails;
+import static java.lang.System.out;
+import java.util.Collection;
 import java.util.List;
 import javax.annotation.Resource;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Tuple;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.Order;
+import javax.persistence.criteria.Selection;
 import javax.transaction.UserTransaction;
 
 /**
@@ -35,9 +43,27 @@ public class InvoiceDetailsJpaController implements Serializable {
     @Resource
     private UserTransaction utx;
 
-    @PersistenceContext
+    @PersistenceContext(unitName="MaxBookPU")
     private EntityManager em;
+    
+        
+        public List<InvoiceDetails> getAll() {
 
+        // Object oriented criteria builder
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<InvoiceDetails> cq = cb.createQuery(InvoiceDetails.class);
+        Root<InvoiceDetails> fish = cq.from(InvoiceDetails.class);
+        cq.select(fish);
+        TypedQuery<InvoiceDetails> query = em.createQuery(cq);
+
+        // Using a named query from the entity class
+        // TypedQuery<Fish> query =  entityManager.createNamedQuery("Fish.findAll", Fish.class);
+        // Execute the query
+        List<InvoiceDetails> fishies = query.getResultList();
+
+        return fishies;
+    }
+        
     public void create(InvoiceDetails invoiceDetails) throws RollbackFailureException, Exception {
         
         try {
@@ -189,5 +215,85 @@ public class InvoiceDetailsJpaController implements Serializable {
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();
     }
+    
+    //Custom queries---------------------------------------------
+    
+    //Finding top 10 best selling books
+//    select isbn, COUNT(isbn) AS MOST_FREQUENT
+//from Invoice_Details
+//GROUP BY isbn X
+//ORDER BY COUNT(isbn) DESC X
+//LIMIT 2;
+    
+    public List<InvoiceDetails> getAll2() {
+    
+   TypedQuery<InvoiceDetails> query = em.createQuery(
+   "SELECT i FROM InvoiceDetails i GROUP BY i.isbn ORDER BY COUNT(i.isbn) DESC", InvoiceDetails.class);
+   query.setMaxResults(1);
+    List<InvoiceDetails> topSellingBooks = query.getResultList();
+    
+    return topSellingBooks;
+    
+    }
+    
+    
+//    public List<InvoiceDetails> getAlly() {
+//        
+//        CriteriaBuilder cb = em.getCriteriaBuilder();
+//        CriteriaQuery<Tuple> cq = cb.createTupleQuery();              
+//        Root<InvoiceDetails> country = cq.from(InvoiceDetails.class);
+//        
+//        cq.multiselect(country.get("isbn"),cb.count(country.get("isbn")));
+//        cq.groupBy(country.get("isbn"));
+//        Order order = cb.desc(cb.count(country));
+//        cq.orderBy(order);
+//
+//        TypedQuery<Tuple> query = em.createQuery(cq);
+//
+//       List<InvoiceDetails> topSellingBooks = null;       
+//                
+//       query.getResultList().forEach((t) -> {
+//           topSellingBooks.add((InvoiceDetails) t.get("isbn"));
+//        });
+//        return topSellingBooks;
+//
+//    }
+//    
+        public List<InvoiceDetails> getTopSellingBooks() {
+        
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<InvoiceDetails> cq = cb.createQuery(InvoiceDetails.class);
+        Root<InvoiceDetails> books = cq.from(InvoiceDetails.class);
+        
+        cq.select(books.get("isbn"));
+        
+        cq.groupBy(books.get("isbn"));
+        
+        //Order order = cb.desc(cb.count(books.get("isbn")));
+        cq.orderBy(cb.desc(books.get("isbn")));
+
+        TypedQuery<InvoiceDetails> query = em.createQuery(cq);
+
+       List<InvoiceDetails> topSellingBooks = query.getResultList();
+                
+
+        return topSellingBooks;
+
+    }
+        
+        public List<BestSellingBooksBean> getTopBestBooks() {
+            
+            CriteriaBuilder cb  = em.getCriteriaBuilder();
+            CriteriaQuery<BestSellingBooksBean> cq = cb.createQuery(BestSellingBooksBean.class);
+            Root<InvoiceDetails> books = cq.from(InvoiceDetails.class);
+            Join Invoice = books.join("Invoice");
+            Join Review = Invoice.join("Review");
+            Join Book = Review.join("Book");
+           // cq.where(cb.)
+            
+            
+            return null;
+        }
+
     
 }
