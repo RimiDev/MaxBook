@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.rimidev.maxbook.controller;
 
 import com.rimidev.maxbook.controller.exceptions.IllegalOrphanException;
@@ -21,17 +16,19 @@ import java.util.ArrayList;
 import java.util.List;
 import com.rimidev.maxbook.entities.InvoiceDetails;
 import com.rimidev.maxbook.entities.Review;
+import helper.CookieHelper;
 import javax.annotation.Resource;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import javax.servlet.http.Cookie;
 import javax.transaction.UserTransaction;
 
 /**
  *
- * @author 1513733
+ * @author Philippe Langlois-Pedroso
  */
 @Named
 @RequestScoped
@@ -42,6 +39,8 @@ public class BookJpaController implements Serializable {
 
     @PersistenceContext
     private EntityManager em;
+    
+    private CookieHelper cookieHelper = new CookieHelper();
 
     public void create(Book book) throws PreexistingEntityException, RollbackFailureException, Exception {
         if (book.getAuthorList() == null) {
@@ -290,21 +289,34 @@ public class BookJpaController implements Serializable {
         } 
     }
 
-    public List<Book> findBookEntities() {
-        return findBookEntities(false, 10, 1);
+    public List<Book> findBookEntities(boolean isNext) {
+        int currentBook;
+        if(cookieHelper.getCookie("CurrentBook") == null){
+            cookieHelper.setCookie("CurrentBook", Integer.toString(1), 10);
+            return findBookEntities(false, 10, 1);
+        }else{
+            if(isNext){
+                currentBook = Integer.parseInt(cookieHelper.getCookie("CurrentBook").getValue()) + 10;
+            }else{
+                currentBook = Integer.parseInt(cookieHelper.getCookie("CurrentBook").getValue()) - 10;
+            }
+            cookieHelper.setCookie("CurrentBook", Integer.toString(currentBook), 10);
+            return findBookEntities(false, 10, Integer.parseInt(cookieHelper.getCookie("CurrentBook").getValue()));
+        }
+        //return findBookEntities(false, 10, 1);
     }
 
-    public List<Book> findBookEntities(int maxResults, int firstResult) {
-        return findBookEntities(false, maxResults, firstResult);
-    }
+//    public List<Book> findBookEntities(int maxResults, int pageNumber) {
+//        return findBookEntities(false, maxResults, pageNumber);
+//    }
 
-    private List<Book> findBookEntities(boolean all, int maxResults, int firstResult) {
+    private List<Book> findBookEntities(boolean all, int maxResults, int startResult) {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             cq.select(cq.from(Book.class));
             Query q = em.createQuery(cq);
             if (!all) {
                 q.setMaxResults(maxResults);
-                q.setFirstResult(firstResult);
+                q.setFirstResult(startResult);
             }
             return q.getResultList();
     }
@@ -321,8 +333,10 @@ public class BookJpaController implements Serializable {
             return ((Long) q.getSingleResult()).intValue();
     }
     
-    public List<Book> findAllBooks(){
-        Query findAll = em.createNamedQuery("Book.findAll");
-        return findAll.getResultList();
+    public List<Book> getAllBooks(){
+        CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
+            cq.select(cq.from(Book.class));
+            Query q = em.createQuery(cq);
+            return q.getResultList();
     }
 }

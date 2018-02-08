@@ -53,8 +53,8 @@
             <p:separator />
         </p:feedReader>-->
         <!-- Display all the Books -->
-        <h:form>
-            <h:dataTable value="#{bookJpaController.findBookEntities()}" var="books">
+<!--        <h:form>
+            <h:dataTable value="#{bookJpaController.findBookEntities(true)}" var="books">
                 <h:column>
                     <f:facet name="header">#{msgs.isbnHeader}</f:facet>
                     #{books.isbn}
@@ -76,8 +76,34 @@
                     #{books.listPrice}
                 </h:column>
             </h:dataTable>
+            <h:commandLink action="#{bookJpaController.findBookEntities(false)}">
+                <h:button value="prev" outcome="home"></h:button>
+            </h:commandLink>
+            <h:commandLink action="#{bookJpaController.findBookEntities(true)}">
+                <h:button value="next" outcome="home"></h:button>
+            </h:commandLink>
+        </h:form>-->
+        <h:form>
+            <p:dataTable var="book" value="#{bookJpaController.allBooks}" rows="10"
+                    paginator="true"
+                    paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                    rowsPerPageTemplate="5,10,15">
+                <p:column headerText="#{msgs.isbnHeader}">
+                    <h:outputText value="#{book.isbn}" />
+                </p:column>
+                <p:column headerText="#{msgs.titleHeader}">
+                    <h:outputText value="#{book.title}" />
+                </p:column>
+                <p:column headerText="#{msgs.pagesHeader}">
+                    <h:outputText value="#{book.pages}" />
+                </p:column>
+                <f:facet name="paginatorTopLeft">
+                    <p:commandButton type="button" icon="fa fa-sync" />
+                </f:facet>
+                <f:facet name="paginatorBottomRight">
+                    <p:commandButton type="button" icon="fa fa-cloud-upload" />
+                </f:facet>
+            </p:dataTable>
         </h:form>
-        <h:button value="prev" outcome="home"></h:button>
-        <h:button value="next" outcome="home"></h:button>
     </h:body> 
 </html>
