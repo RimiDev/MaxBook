@@ -84,8 +84,8 @@ public class BookJPATest {
      */
     @Test
     public void should_find_all_invoices() throws SQLException {
-        List<Object[]> list = cjc.getTopSellingBooks();
-        logger.warning("should_find_all_invoices "+ list.size());
+        //List<Object[]> list = cjc.getTopSellingBooks();
+//        logger.warning("should_find_all_invoices "+ list.size());
     }
 
     public void try_me(){
