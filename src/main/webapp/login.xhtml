@@ -69,23 +69,23 @@
         
         <h:form>
             
-            <p:outputLabel value="#{msgs.userNameLabel}"
-                                     for="username"/>
-            <p:inputText id="username" value="#{user.username}" 
-                                                            label="#{msgs.userNameLabel}"
+            <p:outputLabel value="#{msgs.emailLabel}"
+                                     for="email"/>
+            <p:inputText id="email" value="#{clientBackingBean.client.email}" 
+                                                            label="#{msgs.emailLabel}"
                                                             required="true"
-                                                            requiredMessage="#{msgs.usernameRequired}"/>
-            <p:message for="username" styleClass="error" />
+                                                            requiredMessage="#{msgs.emailRequired}"/>
+            <p:message for="email" styleClass="error" />
         <br/>
             <p:outputLabel value="#{msgs.userPasswordLabel}"
                                      for="password"/>
-            <p:password id="password" value="#{user.password}"
+            <p:password id="password" value="#{clientBackingBean.client.password}"
                                                           label="#{msgs.userPasswordLabel}"
                                                           required="true"
                                                           requiredMessage="#{msgs.passwordRequired}"/>
             <p:message for="password" styleClass="error" />
             
-            <p:commandButton action="home" value="Submit" ajax="false"/>
+            <p:commandButton action="#{clientBackingBean.createClient()}" value="Submit" ajax="false"/>
             
             </h:form>
             

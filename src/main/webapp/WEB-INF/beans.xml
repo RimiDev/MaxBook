@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Context Dependency Injection requires the presence of a
 beans.xml file. It can be completely empty of contain just these line -->
@@ -6,3 +7,13 @@ beans.xml file. It can be completely empty of contain just these line -->
        xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/beans_1_2.xsd"
        version="1.2" bean-discovery-mode="all">
 </beans>
+=======
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Context Dependency Injection requires the presence of a
+beans.xml file. It can be completely empty of contain just these line -->
+<beans xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/beans_1_2.xsd"
+       version="1.2" bean-discovery-mode="all">
+</beans>
+>>>>>>> d4855c68de9d2fcb74b0bfe76a91e982c8665560
