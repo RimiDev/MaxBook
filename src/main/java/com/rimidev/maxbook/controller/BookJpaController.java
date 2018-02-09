@@ -335,8 +335,8 @@ public class BookJpaController implements Serializable {
     
     public List<Book> getAllBooks(){
         CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(Book.class));
-            Query q = em.createQuery(cq);
-            return q.getResultList();
+        cq.select(cq.from(Book.class));
+        Query q = em.createQuery(cq);
+        return q.getResultList();
     }
 }

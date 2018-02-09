@@ -47,11 +47,12 @@
             <p:menuitem value="Search" icon="/resources/images/search.png" url="./advancedSearch.xhtml"/>
         </p:stack>       
         <!-- Display all the Books -->
-        <h:form>
+        <h:form id="form">
             <p:dataTable var="book" value="#{bookJpaController.allBooks}" rows="5"
                     paginator="true"
                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                    rowsPerPageTemplate="5,10,15,20">
+                    rowsPerPageTemplate="5,10,15,20"
+                    stickyHeader="true">
                 <p:column headerText="#{msgs.isbnHeader}">
                     <h:outputText value="#{book.isbn}" />
                 </p:column>
@@ -70,6 +71,11 @@
                 <p:column>
                     <h:button value="Add to Cart"></h:button>
                 </p:column>
+                <p:column style="width:32px;text-align: center">
+                    <p:commandButton update=":form:bookDetail" oncomplete="PF('bookDialog').show()" icon="ui-icon-search" title="View">
+                        <f:setPropertyActionListener value="#{book}" target="#{bookJpaController.findBook(book.isbn)}" />
+                    </p:commandButton>
+                </p:column>
                 <f:facet name="paginatorTopLeft">
                     <p:commandButton type="button" icon="fa fa-sync" />
                 </f:facet>
@@ -77,6 +83,23 @@
                     <p:commandButton type="button" icon="fa fa-cloud-upload" />
                 </f:facet>
             </p:dataTable>
+            
+            <p:dialog header="#{msgs.bookDetails}" widgetVar="bookDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                <p:outputPanel id="bookDetail" style="text-align:center;">
+                    <p:panelGrid  columns="2" rendered="#{bookJpaController.findBook(book.isbn)}" columnClasses="label,value">
+                        
+                        <f:facet name="header">
+                            <h:outputText value="#{msgs.isbnHeader}" />
+                        </f:facet>
+                        
+                        <h:outputText value="#{msgs.isbnHeader}" />
+                        <h:outputText value="#{book.isbn}" />
+                        
+                        <h:outputText value="#{msgs.isbnHeader}" />
+                        <h:outputText value="#{book.isbn}" />
+                    </p:panelGrid>
+                </p:outputPanel>
+            </p:dialog>
         </h:form>
         <!-- FEED READER -->
         <p:feedReader value="https://www.yahoo.com/news/rss/sports" var="feeder" class="rssfeed">
