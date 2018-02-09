@@ -22,8 +22,6 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
 import javax.transaction.UserTransaction;
 
 /**
@@ -40,24 +38,8 @@ public class InvoiceDetailsJpaController implements Serializable {
     @PersistenceContext
     private EntityManager em;
 
-    public List<Object[]> getTopSellingBooks() {
-
-        CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery<Object[]> cq = cb.createQuery(Object[].class);
-        Root<InvoiceDetails> books = cq.from(InvoiceDetails.class);
-
-        cq.select(books.get("isbn"));
-        cq.groupBy(books.get("isbn"));
-        //Order order = cb.desc(cb.count(books.get("isbn")));
-        cq.orderBy(cb.desc(cb.count(books.get("isbn"))));
-        TypedQuery<Object[]> query = em.createQuery(cq);
-        List<Object[]> topSellingBooks = query.getResultList();
-        
-        return topSellingBooks;
-    }
-
     public void create(InvoiceDetails invoiceDetails) throws RollbackFailureException, Exception {
-
+        
         try {
             utx.begin();
             Invoice invoiceId = invoiceDetails.getInvoiceId();
@@ -91,7 +73,7 @@ public class InvoiceDetailsJpaController implements Serializable {
     }
 
     public void edit(InvoiceDetails invoiceDetails) throws NonexistentEntityException, RollbackFailureException, Exception {
-
+        
         try {
             utx.begin();
             InvoiceDetails persistentInvoiceDetails = em.find(InvoiceDetails.class, invoiceDetails.getId());
@@ -139,11 +121,11 @@ public class InvoiceDetailsJpaController implements Serializable {
                 }
             }
             throw ex;
-        }
+        } 
     }
 
     public void destroy(Integer id) throws NonexistentEntityException, RollbackFailureException, Exception {
-
+        
         try {
             utx.begin();
             InvoiceDetails invoiceDetails;
@@ -172,7 +154,7 @@ public class InvoiceDetailsJpaController implements Serializable {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }
             throw ex;
-        }
+        } 
     }
 
     public List<InvoiceDetails> findInvoiceDetailsEntities() {
@@ -184,28 +166,28 @@ public class InvoiceDetailsJpaController implements Serializable {
     }
 
     private List<InvoiceDetails> findInvoiceDetailsEntities(boolean all, int maxResults, int firstResult) {
-        CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-        cq.select(cq.from(InvoiceDetails.class));
-        Query q = em.createQuery(cq);
-        if (!all) {
-            q.setMaxResults(maxResults);
-            q.setFirstResult(firstResult);
-        }
-        return q.getResultList();
+            CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
+            cq.select(cq.from(InvoiceDetails.class));
+            Query q = em.createQuery(cq);
+            if (!all) {
+                q.setMaxResults(maxResults);
+                q.setFirstResult(firstResult);
+            }
+            return q.getResultList();   
     }
 
     public InvoiceDetails findInvoiceDetails(Integer id) {
 
-        return em.find(InvoiceDetails.class, id);
-
+            return em.find(InvoiceDetails.class, id);
+   
     }
 
     public int getInvoiceDetailsCount() {
-        CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-        Root<InvoiceDetails> rt = cq.from(InvoiceDetails.class);
-        cq.select(em.getCriteriaBuilder().count(rt));
-        Query q = em.createQuery(cq);
-        return ((Long) q.getSingleResult()).intValue();
+            CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
+            Root<InvoiceDetails> rt = cq.from(InvoiceDetails.class);
+            cq.select(em.getCriteriaBuilder().count(rt));
+            Query q = em.createQuery(cq);
+            return ((Long) q.getSingleResult()).intValue();
     }
-
+    
 }
