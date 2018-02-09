@@ -318,12 +318,4 @@ public class ClientJpaController implements Serializable {
         }
         return null;
     }
-
-
-  
-<<<<<<< HEAD
-=======
-
-    
->>>>>>> d4855c68de9d2fcb74b0bfe76a91e982c8665560
 }
