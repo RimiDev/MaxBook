@@ -29,11 +29,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-<<<<<<< HEAD
-import javax.servlet.http.HttpSession;
-
-=======
->>>>>>> d4855c68de9d2fcb74b0bfe76a91e982c8665560
 import javax.transaction.UserTransaction;
 
 /**
