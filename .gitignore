@@ -1,4 +1,11 @@
+<<<<<<< HEAD
 /target/
 /nbproject/
 *.class
 *.war
+=======
+target/
+/nbproject/
+*.class
+*.war
+>>>>>>> origin/eric2

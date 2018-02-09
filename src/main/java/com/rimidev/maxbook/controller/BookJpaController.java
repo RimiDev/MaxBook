@@ -16,14 +16,15 @@ import java.util.ArrayList;
 import java.util.List;
 import com.rimidev.maxbook.entities.InvoiceDetails;
 import com.rimidev.maxbook.entities.Review;
-import helper.CookieHelper;
+import java.util.HashMap;
+import java.util.logging.Logger;
 import javax.annotation.Resource;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
-import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpSession;
 import javax.transaction.UserTransaction;
 
 /**
@@ -37,10 +38,10 @@ public class BookJpaController implements Serializable {
     @Resource
     private UserTransaction utx;
 
+    private Logger logger = Logger.getLogger(ClientJpaController.class.getName());
+
     @PersistenceContext
     private EntityManager em;
-    
-    private CookieHelper cookieHelper = new CookieHelper();
 
     public void create(Book book) throws PreexistingEntityException, RollbackFailureException, Exception {
         if (book.getAuthorList() == null) {
@@ -52,7 +53,7 @@ public class BookJpaController implements Serializable {
         if (book.getReviewList() == null) {
             book.setReviewList(new ArrayList<Review>());
         }
-        
+
         try {
             utx.begin();
             Publisher publisherId = book.getPublisherId();
@@ -120,7 +121,7 @@ public class BookJpaController implements Serializable {
     }
 
     public void edit(Book book) throws IllegalOrphanException, NonexistentEntityException, RollbackFailureException, Exception {
-        
+
         try {
             utx.begin();
             Book persistentBook = em.find(Book.class, book.getIsbn());
@@ -235,11 +236,11 @@ public class BookJpaController implements Serializable {
                 }
             }
             throw ex;
-        } 
+        }
     }
 
     public void destroy(String id) throws IllegalOrphanException, NonexistentEntityException, RollbackFailureException, Exception {
-        
+
         try {
             utx.begin();
             Book book;
@@ -286,24 +287,31 @@ public class BookJpaController implements Serializable {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }
             throw ex;
-        } 
+        }
     }
 
-    public List<Book> findBookEntities(boolean isNext) {
-        int currentBook;
-        if(cookieHelper.getCookie("CurrentBook") == null){
-            cookieHelper.setCookie("CurrentBook", Integer.toString(1), 10);
-            return findBookEntities(false, 10, 1);
-        }else{
-            if(isNext){
-                currentBook = Integer.parseInt(cookieHelper.getCookie("CurrentBook").getValue()) + 10;
-            }else{
-                currentBook = Integer.parseInt(cookieHelper.getCookie("CurrentBook").getValue()) - 10;
-            }
-            cookieHelper.setCookie("CurrentBook", Integer.toString(currentBook), 10);
-            return findBookEntities(false, 10, Integer.parseInt(cookieHelper.getCookie("CurrentBook").getValue()));
-        }
-        //return findBookEntities(false, 10, 1);
+    public List<Book> findBookEntities() {
+        return findBookEntities(true, -1, -1);
+    }
+
+    public void setSessionVariables() {
+        logger.warning("inside setSessionVariables bookjpacontroller");
+        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+
+        Book book1 = findBook("978-0060256654");
+        Integer book1Quantity = 2;
+
+        Book book2 = findBook("978-0060555665");
+        Integer book2Quantity = 5;
+
+        HashMap<Book, Integer> cart = new HashMap<Book, Integer>();
+
+        cart.put(book1, book1Quantity);
+        cart.put(book2, book2Quantity);
+
+        session.setAttribute("cartItems", cart);
+        cart = (HashMap<Book, Integer>) session.getAttribute("cartItems");
+        
     }
 
 //    public List<Book> findBookEntities(int maxResults, int pageNumber) {
@@ -319,18 +327,19 @@ public class BookJpaController implements Serializable {
                 q.setFirstResult(startResult);
             }
             return q.getResultList();
+
     }
 
     public Book findBook(String id) {
-            return em.find(Book.class, id);
+        return em.find(Book.class, id);
     }
 
     public int getBookCount() {
-            CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            Root<Book> rt = cq.from(Book.class);
-            cq.select(em.getCriteriaBuilder().count(rt));
-            Query q = em.createQuery(cq);
-            return ((Long) q.getSingleResult()).intValue();
+        CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
+        Root<Book> rt = cq.from(Book.class);
+        cq.select(em.getCriteriaBuilder().count(rt));
+        Query q = em.createQuery(cq);
+        return ((Long) q.getSingleResult()).intValue();
     }
     
     public List<Book> getAllBooks(){

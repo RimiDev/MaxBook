@@ -19,12 +19,18 @@ import com.rimidev.maxbook.entities.Review;
 import java.util.ArrayList;
 import java.util.List;
 import com.rimidev.maxbook.entities.Invoice;
+import java.awt.event.ActionEvent;
+import java.util.logging.Logger;
 import javax.annotation.Resource;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import javax.servlet.http.HttpSession;
+
 import javax.transaction.UserTransaction;
 
 /**
@@ -35,12 +41,16 @@ import javax.transaction.UserTransaction;
 @RequestScoped
 public class ClientJpaController implements Serializable {
 
-     @Resource
+    private Logger logger = Logger.getLogger(ClientJpaController.class.getName());
+    
+    @Resource
     private UserTransaction utx;
 
     @PersistenceContext
     private EntityManager em;
+
     
+
     public void create(Client client) throws RollbackFailureException, Exception {
         if (client.getReviewList() == null) {
             client.setReviewList(new ArrayList<Review>());
@@ -48,7 +58,7 @@ public class ClientJpaController implements Serializable {
         if (client.getInvoiceList() == null) {
             client.setInvoiceList(new ArrayList<Invoice>());
         }
-        
+
         try {
             utx.begin();
             Taxes province = client.getProvince();
@@ -99,11 +109,11 @@ public class ClientJpaController implements Serializable {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }
             throw ex;
-        } 
+        }
     }
 
     public void edit(Client client) throws IllegalOrphanException, NonexistentEntityException, RollbackFailureException, Exception {
-        
+
         try {
             utx.begin();
             Client persistentClient = em.find(Client.class, client.getId());
@@ -197,11 +207,11 @@ public class ClientJpaController implements Serializable {
                 }
             }
             throw ex;
-        } 
+        }
     }
 
     public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException, RollbackFailureException, Exception {
-        
+
         try {
             utx.begin();
             Client client;
@@ -243,11 +253,18 @@ public class ClientJpaController implements Serializable {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }
             throw ex;
-        } 
+        }
     }
 
     public List<Client> findClientEntities() {
         return findClientEntities(true, -1, -1);
+    }
+
+    public Client findClientByID() {
+        TypedQuery<Client> query = em.createNamedQuery("Client.findById", Client.class);
+        query.setParameter("clientId", 1);
+        Client c = query.getSingleResult();
+        return c;
     }
 
     public List<Client> findClientEntities(int maxResults, int firstResult) {
@@ -255,29 +272,50 @@ public class ClientJpaController implements Serializable {
     }
 
     private List<Client> findClientEntities(boolean all, int maxResults, int firstResult) {
-            CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(Client.class));
-            Query q = em.createQuery(cq);
-            if (!all) {
-                q.setMaxResults(maxResults);
-                q.setFirstResult(firstResult);
-            }
-            return q.getResultList();
-    
+        CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
+        cq.select(cq.from(Client.class));
+        Query q = em.createQuery(cq);
+        if (!all) {
+            q.setMaxResults(maxResults);
+            q.setFirstResult(firstResult);
+        }
+        return q.getResultList();
+
     }
 
     public Client findClient(Integer id) {
 
-            return em.find(Client.class, id);
+        return em.find(Client.class, id);
     }
 
     public int getClientCount() {
 
-            CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            Root<Client> rt = cq.from(Client.class);
-            cq.select(em.getCriteriaBuilder().count(rt));
-            Query q = em.createQuery(cq);
-            return ((Long) q.getSingleResult()).intValue();
+        CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
+        Root<Client> rt = cq.from(Client.class);
+        cq.select(em.getCriteriaBuilder().count(rt));
+        Query q = em.createQuery(cq);
+        return ((Long) q.getSingleResult()).intValue();
     }
+
     
+//Custom queries-----------------------------------------------------------------
+    
+    /**
+     * Find a record with the specified email
+     *
+     * @param email
+     * @return
+     */
+    public Client findClientByEmail(String email) {
+        TypedQuery<Client> query = em.createNamedQuery("Client.findByEmail", Client.class);
+        query.setParameter("email", email);
+        List<Client> clients = query.getResultList();
+        if (!clients.isEmpty()) {
+            return clients.get(0);
+        }
+        return null;
+    }
+
+
+  
 }
