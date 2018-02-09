@@ -6,7 +6,8 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:b="http://bootsfaces.net/ui"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
     <h:head>
         <link type="text/css" rel="stylesheet" href="/project/faces/javax.faces.resource/theme.css?ln=primefaces-glass-x" />
@@ -71,38 +72,52 @@
             <table id="cart" class="table table-hover table-condensed">
                 <thead>
                     <tr>
-                        <th style="width:50%">Product</th>
+                        <th style="width:50%">Cart</th>
                         <th style="width:10%">Price</th>
-                        <th style="width:8%">Quantity</th>
+                        <th style="width:8%"> Quantity</th>
                         <th style="width:22%" class="text-center">Subtotal</th>
                         <th style="width:10%"></th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td data-th="Product">
-                            <div class="row">
-                                <div class="col-sm-2 hidden-xs"><img src="http://placehold.it/100x100" alt="..." class="img-responsive"/></div>
-                                <div class="col-sm-10">
-                                    <h4 class="nomargin">Product 1</h4>
-                                    <p>Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Lorem ipsum dolor sit amet.</p> <h:outputText value="#{sessionScope['chosenProduct']}" /> 
+                <p:commandButton class="btn btn-danger btn-sm" action="#{bookJpaController.setSessionVariables}"
+                                                 value="Get Cart Items"></p:commandButton>
+                
+                <ui:repeat var="b" value="#{sessionScope['cartItems'].keySet().toArray()}" varStatus="index">
+                    <tbody>
+                        
+                        <tr>
+                            <td data-th="Product">
+                                <div class="row">
+                                    <div class="col-sm-2 hidden-xs"><img src="http://placehold.it/100x100" alt="..." class="img-responsive"/></div>
+                                    <div class="col-sm-10">
+                                        <h4 class="nomargin"></h4>
+                                        <h:outputText value="#{sessionScope['cartItems'].keySet().toArray()[index.index].isbn}" /> 
+                                        
+                                    </div>
                                 </div>
-                            </div>
-                        </td>
-                        <td data-th="Price">$1.99</td>
-                        <td data-th="Quantity">
-                            <b:inputText type="number" class="form-control text-center" value="1"></b:inputText>
-                        </td>
-                        <td data-th="Subtotal" class="text-center">1.99</td>
-                        <td class="actions" data-th="">
-                            <button class="btn btn-info btn-sm"><i class="fa fa-refresh"></i></button>
-                            <p:commandButton class="btn btn-danger btn-sm" action="#{clientJpaController.setSessionVariables}"
-                                             value="Save"></p:commandButton>
-                            								
-                        </td>
-                       
-                    </tr>
-                </tbody>
+                            </td>
+                            <td data-th="Price" value="">
+                                <div class="col-sm-10">
+                                        <h4 class="nomargin"></h4>
+                                        <h:outputText value="#{sessionScope['cartItems'].keySet().toArray()[index.index].listPrice}" /> 
+                                        
+                                    </div>
+                            </td>
+                            <td data-th="Quantity">
+                                
+                                <b:inputText type="number" class="form-control text-center" 
+                                             value="#{sessionScope['cartItems'].get(b)}"></b:inputText>
+                            </td>
+                            <td data-th="Subtotal" class="text-center">1.99</td>
+                            <td class="actions" data-th="">
+                                <button class="btn btn-info btn-sm"><i class="fa fa-refresh"></i></button>
+                                
+
+                            </td>
+
+                        </tr>
+                    </tbody>
+                </ui:repeat>
                 <tfoot>
                     <tr class="visible-xs">
                         <td class="text-center"><strong>Total 1.99</strong></td>

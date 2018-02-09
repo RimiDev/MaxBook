@@ -48,19 +48,7 @@ public class ClientJpaController implements Serializable {
     @PersistenceContext
     private EntityManager em;
 
-    public void setSessionVariables() {
-        logger.warning("setSessionVariables");
-        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
-        List<String> list = new ArrayList<>();
-        list.add("suh");
-        list.add("dude");
-        
-        session.setAttribute("chosenProduct", list);
-        list = (List<String>) session.getAttribute("chosenProduct");
-        logger.warning(list.get(0));
-        
-        
-    }
+    
 
     public void create(Client client) throws RollbackFailureException, Exception {
         if (client.getReviewList() == null) {
