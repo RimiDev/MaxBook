@@ -5,32 +5,36 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <h:head>
         <link type="text/css" rel="stylesheet" href="/project/faces/javax.faces.resource/theme.css?ln=primefaces-glass-x" />
         <h:outputStylesheet library="css" name="styles.css" />
         <title>#{msgs.allBooksTitle}</title>
+        <h:outputStylesheet library="webjars" name="bootstrap/3.3.7-1/css/bootstrap.min-jsf.css" />
+        <h:outputStylesheet library="webjars" name="bootstrap/3.3.7-1/css/bootstrap-theme.min-jsf.css" />
+        <h:outputStylesheet library="webjars" name="font-awesome/4.7.0/css/font-awesome.min-jsf.css" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     </h:head>
     <h:body>
         <!--MENU BAR-->  
-        <h:form id="menuBar">
+        <h:form class="menuBar">
             <p:menubar>
                 <p:menuitem value="MaxBook" url="/home.xhtml"/>
-                    <p:submenu label="Bookstore" icon="ui-icon-document">
-                        <p:menuitem value="All books" url="/all_books.xhtml" />
-                          <p:separator />
-                            <p:submenu label="Genre" icon="ui-icon-contact">
-                            <p:menuitem value="Adventure" url="#" />
-                            <p:menuitem value="Science Fiction" url="#" />
-                            <p:menuitem value="Romance" url="#" />
-                            <p:menuitem value="Other" url="#" />
-                        </p:submenu>
-                            <p:submenu label="Year" icon="ui-icon-contact">
-                            <p:menuitem value="2017" url="#" />
-                            <p:menuitem value="2016" url="#" />
-                            </p:submenu>
+                <p:submenu label="Bookstore" icon="ui-icon-document">
+                    <p:menuitem value="All books" url="/all_books.xhtml" />
+                    <p:separator />
+                    <p:submenu label="Genre" icon="ui-icon-contact">
+                        <p:menuitem value="Adventure" url="#" />
+                        <p:menuitem value="Science Fiction" url="#" />
+                        <p:menuitem value="Romance" url="#" />
+                        <p:menuitem value="Other" url="#" />
                     </p:submenu>
+                    <p:submenu label="Year" icon="ui-icon-contact">
+                        <p:menuitem value="2017" url="#" />
+                        <p:menuitem value="2016" url="#" />
+                    </p:submenu>
+                </p:submenu>
                 <p:menuitem value="Search" url="/search.xhtml"/>
                 <f:facet name="options">
                     <p:outputLabel value="Welcome #{user.username}!" style="margin-right:10px"/>
@@ -45,67 +49,126 @@
             <p:menuitem value="Home"  icon="/resources/images/home.png" url="./home.xhtml"/>
             <p:menuitem value="Cart" icon="/resources/images/shoppingCart.png" url="./cart.xhtml"/>
             <p:menuitem value="Search" icon="/resources/images/search.png" url="./advancedSearch.xhtml"/>
-        </p:stack>       
-        <!-- Display all the Books -->
-        <h:form id="form">
-            <p:dataTable var="book" value="#{bookJpaController.allBooks}" rows="5"
-                    paginator="true"
-                    paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                    rowsPerPageTemplate="5,10,15,20"
-                    stickyHeader="true">
-                <p:column headerText="#{msgs.isbnHeader}">
-                    <h:outputText value="#{book.isbn}" />
-                </p:column>
-                <p:column headerText="#{msgs.titleHeader}">
-                    <h:outputText value="#{book.title}" />
-                </p:column>
-                <p:column headerText="#{msgs.publisherHeader}">
-                    <h:outputText value="#{book.publisherId.name}" />
-                </p:column>
-                <p:column headerText="#{msgs.pagesHeader}">
-                    <h:outputText value="#{book.pages}" />
-                </p:column>
-                <p:column headerText="#{msgs.detailsHeader}">
-                    <h:outputText value="#{book.description}" />
-                </p:column>
-                <p:column>
-                    <h:button value="Add to Cart"></h:button>
-                </p:column>
-                <p:column style="width:32px;text-align: center">
-                    <p:commandButton update=":form:bookDetail" oncomplete="PF('bookDialog').show()" icon="ui-icon-search" title="View">
-                        <f:setPropertyActionListener value="#{book}" target="#{bookJpaController.findBook(book.isbn)}" />
-                    </p:commandButton>
-                </p:column>
-                <f:facet name="paginatorTopLeft">
-                    <p:commandButton type="button" icon="fa fa-sync" />
-                </f:facet>
-                <f:facet name="paginatorBottomRight">
-                    <p:commandButton type="button" icon="fa fa-cloud-upload" />
-                </f:facet>
-            </p:dataTable>
-            
-            <p:dialog header="#{msgs.bookDetails}" widgetVar="bookDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
-                <p:outputPanel id="bookDetail" style="text-align:center;">
-                    <p:panelGrid  columns="2" rendered="#{bookJpaController.findBook(book.isbn)}" columnClasses="label,value">
+        </p:stack> 
+        
+        
+        
+        
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-4"></div>
+                    <button type="button" class="btn btn-success">Success</button>
+                <div class="col-sm-4">
+                    <!-- Display all the Books -->
+                    <h:form id="form">
+                        <p:dataTable var="book" value="#{bookJpaController.allBooks}" rows="5"
+                                     paginator="true"
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="5,10,15,20"
+                                     stickyHeader="true" styleClass="allbooks">
+                            <p:column headerText="#{msgs.isbnHeader}">
+                                <h:outputText value="#{book.isbn}" />
+                            </p:column>
+                            <p:column headerText="#{msgs.titleHeader}">
+                                <h:outputText value="#{book.title}" />
+                            </p:column>
+                            <p:column headerText="#{msgs.publisherHeader}">
+                                <h:outputText value="#{book.publisherId.name}" />
+                            </p:column>
+                            <p:column headerText="#{msgs.pagesHeader}">
+                                <h:outputText value="#{book.pages}" />
+                            </p:column>
+                            <p:column>
+                                <h:button value="Add to Cart"></h:button>
+                            </p:column>
+                            <p:column style="width:32px;text-align: center">
+                                <p:commandButton update=":form:bookDetail" oncomplete="PF('bookDialog').show()" icon="ui-icon-search" title="View">
+                                    <f:setPropertyActionListener value="#{book}" target="#{bookJpaController.findBook(book.isbn)}" />
+                                </p:commandButton>
+                            </p:column>
+                            <f:facet name="paginatorTopLeft">
+                                <p:commandButton type="button" icon="fa fa-sync" />
+                            </f:facet>
+                            <f:facet name="paginatorBottomRight">
+                                <p:commandButton type="button" icon="fa fa-cloud-upload" />
+                            </f:facet>
+                        </p:dataTable>
+
+                        <p:dialog header="#{msgs.bookDetails}" widgetVar="bookDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                            <p:outputPanel id="bookDetail" style="text-align:center;">
+                                <p:panelGrid  columns="2" rendered="#{not empty bookJpaController.findBook(book.isbn)}">
+
+                                    <h:outputText value="#{msgs.isbnHeader}" />
+                                    <h:outputText value="hi" />
+
+                                    <h:outputText value="#{msgs.isbnHeader}" />
+                                    <h:outputText value="#hello" />
+                                </p:panelGrid>
+                            </p:outputPanel>
+                        </p:dialog>
+                    </h:form>
+                </div>
+                <div class="col-sm-4">
+                    <div>hello</div>
+                </div>
+            </div>
+            <!--         Display all the Books 
+                    <h:form id="form">
+                        <p:dataTable var="book" value="#{bookJpaController.allBooks}" rows="5"
+                                paginator="true"
+                                paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                rowsPerPageTemplate="5,10,15,20"
+                                stickyHeader="true" styleClass="allbooks">
+                            <p:column headerText="#{msgs.isbnHeader}">
+                                <h:outputText value="#{book.isbn}" />
+                            </p:column>
+                            <p:column headerText="#{msgs.titleHeader}">
+                                <h:outputText value="#{book.title}" />
+                            </p:column>
+                            <p:column headerText="#{msgs.publisherHeader}">
+                                <h:outputText value="#{book.publisherId.name}" />
+                            </p:column>
+                            <p:column headerText="#{msgs.pagesHeader}">
+                                <h:outputText value="#{book.pages}" />
+                            </p:column>
+                            <p:column>
+                                <h:button value="Add to Cart"></h:button>
+                            </p:column>
+                            <p:column style="width:32px;text-align: center">
+                                <p:commandButton update=":form:bookDetail" oncomplete="PF('bookDialog').show()" icon="ui-icon-search" title="View">
+                                    <f:setPropertyActionListener value="#{book}" target="#{bookJpaController.findBook(book.isbn)}" />
+                                </p:commandButton>
+                            </p:column>
+                            <f:facet name="paginatorTopLeft">
+                                <p:commandButton type="button" icon="fa fa-sync" />
+                            </f:facet>
+                            <f:facet name="paginatorBottomRight">
+                                <p:commandButton type="button" icon="fa fa-cloud-upload" />
+                            </f:facet>
+                        </p:dataTable>
                         
-                        <f:facet name="header">
-                            <h:outputText value="#{msgs.isbnHeader}" />
-                        </f:facet>
-                        
-                        <h:outputText value="#{msgs.isbnHeader}" />
-                        <h:outputText value="#{book.isbn}" />
-                        
-                        <h:outputText value="#{msgs.isbnHeader}" />
-                        <h:outputText value="#{book.isbn}" />
-                    </p:panelGrid>
-                </p:outputPanel>
-            </p:dialog>
-        </h:form>
+                        <p:dialog header="#{msgs.bookDetails}" widgetVar="bookDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                            <p:outputPanel id="bookDetail" style="text-align:center;">
+                                <p:panelGrid  columns="2" rendered="#{not empty bookJpaController.findBook(book.isbn)}">
+                                    
+                                    <h:outputText value="#{msgs.isbnHeader}" />
+                                    <h:outputText value="hi" />
+                                    
+                                    <h:outputText value="#{msgs.isbnHeader}" />
+                                    <h:outputText value="#hello" />
+                                </p:panelGrid>
+                            </p:outputPanel>
+                        </p:dialog>
+                    </h:form>-->
+        </div>
         <!-- FEED READER -->
-        <p:feedReader value="https://www.yahoo.com/news/rss/sports" var="feeder" class="rssfeed">
+        <p:feedReader value="https://www.yahoo.com/news/rss/sports" var="feeder" class="rssfeed" size="4">
             <h:outputText value="#{feeder.title}" style="font-weight: bold;display:block"/>
             <h:outputText value="#{feeder.description.value}" escape="false"/>
             <p:separator />
         </p:feedReader>
+        <!-- load js at bottom for faster loading-->
+        <h:outputScript library="webjars" name="jquery/3.1.1-1/jquery.min.js"/>
+        <h:outputScript library="webjars" name="bootstrap/3.3.7-1/js/bootstrap.min.js" />
     </h:body> 
 </html>
