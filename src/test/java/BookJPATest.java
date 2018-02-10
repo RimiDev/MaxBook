@@ -75,10 +75,7 @@ public class BookJPATest {
      */
     @Test
     public void should_find_authors_from_isbn() throws SQLException {
-        List<Author> list = authorController.getAuthors("978-0694003617");
-        for (Author author : list) {
-            logger.log(Level.WARNING, "should find all authors from ISBN "+ author.toString() );
-        }
+        
         
         
     }
