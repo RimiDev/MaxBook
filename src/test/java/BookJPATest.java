@@ -3,20 +3,18 @@
  */
 
 
+import com.rimidev.backing.AllAuthorsForBook;
 import com.rimidev.maxbook.controller.AuthorJpaController;
-import com.rimidev.maxbook.controller.ClientJpaController;
-import com.rimidev.maxbook.controller.InvoiceDetailsJpaController;
+
 import com.rimidev.maxbook.controller.exceptions.RollbackFailureException;
 import com.rimidev.maxbook.entities.Author;
-import com.rimidev.maxbook.entities.Client;
-import com.rimidev.maxbook.entities.InvoiceDetails;
+import com.rimidev.backing.AllAuthorsForBook;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.shrinkwrap.resolver.api.maven.Maven;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -24,18 +22,11 @@ import javax.annotation.Resource;
 import javax.inject.Inject;
 import javax.sql.DataSource;
 import java.io.*;
-import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Scanner;
-import java.util.function.Supplier;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertTrue;
 
 @RunWith(Arquillian.class)
 public class BookJPATest {
@@ -73,7 +64,7 @@ public class BookJPATest {
     }
 
     @Inject
-    private InvoiceDetailsJpaController cjc;
+    private AuthorJpaController authorController;
 
     @Resource(name = "java:app/jdbc/myBooks")
     private DataSource ds;
@@ -83,9 +74,10 @@ public class BookJPATest {
      * @throws SQLException
      */
     @Test
-    public void should_find_all_invoices() throws SQLException {
-        //List<Object[]> list = cjc.getTopSellingBooks();
-//        logger.warning("should_find_all_invoices "+ list.size());
+    public void should_find_authors_from_isbn() throws SQLException {
+        
+        
+        
     }
 
     public void try_me(){
