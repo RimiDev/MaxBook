@@ -29,6 +29,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import javax.servlet.http.HttpSession;
+
 import javax.transaction.UserTransaction;
 
 /**
@@ -313,4 +315,6 @@ public class ClientJpaController implements Serializable {
         }
         return null;
     }
+
+
 }

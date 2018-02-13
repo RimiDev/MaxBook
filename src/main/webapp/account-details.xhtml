@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <link type="text/css" rel="stylesheet" href="/project/faces/javax.faces.resource/theme.css?ln=primefaces-glass-x" />
+        <h:outputStylesheet library="css" name="styles.css" />
+        <title>account details</title>
+        <h:outputStylesheet library="webjars" name="bootstrap/3.3.7-1/css/bootstrap.min-jsf.css" />
+        <h:outputStylesheet library="webjars" name="bootstrap/3.3.7-1/css/bootstrap-theme.min-jsf.css" />
+        <h:outputStylesheet library="webjars" name="font-awesome/4.7.0/css/font-awesome.min-jsf.css" />
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </h:head>
+
+
+
+    <h:body>
+
+
+        <!---//START OF MENUS//-->
+
+        <!--MENU BAR-->
+
+        <h:form id="menuBar">
+
+            <p:menubar>
+                <p:menuitem value="MaxBook" url="/home.xhtml"/>
+                <p:submenu label="Bookstore" icon="ui-icon-document">
+                    <p:menuitem value="All books" url="/all_books.xhtml" />
+                    <p:separator />
+                    <p:submenu label="Genre" icon="ui-icon-contact">
+                        <p:menuitem value="Adventure" url="#" />
+                        <p:menuitem value="Science Fiction" url="#" />
+                        <p:menuitem value="Romance" url="#" />
+                        <p:menuitem value="Other" url="#" />
+                    </p:submenu>
+                    <p:submenu label="Year" icon="ui-icon-contact">
+                        <p:menuitem value="2017" url="#" />
+                        <p:menuitem value="2016" url="#" />
+                    </p:submenu>
+                </p:submenu>
+                <p:menuitem value="Search" url="/search.xhtml"/>
+
+                <f:facet name="options">
+                    <p:outputLabel value="Welcome #{client.email}!" style="margin-right:10px"/>
+                    <p:inputText style="margin-right:10px" placeholder="Search" id="userSearch" value="#{user.searched}"/>
+                    <p:commandButton type="Submit" value="Search" icon="/resources/images/search.png" action="search" ajax="false"/>
+                    <p:commandButton type="Submit" value="Login" icon="ui-icon-extlink" action="login" ajax="false"/>
+                    <p:commandButton type="button" value="Logout" icon="ui-icon-extlink" />
+                </f:facet>
+            </p:menubar>
+
+        </h:form>
+
+        <!-- STACK MENU -->
+
+        <p:stack icon="/resources/images/stack.png" expanded="true">
+            <p:menuitem value="Home"  icon="/resources/images/home.png" url="./home.xhtml"/>
+            <p:menuitem value="Cart" icon="/resources/images/shoppingCart.png" url="./cart.xhtml"/>
+            <p:menuitem value="Search" icon="/resources/images/search.png" url="./advancedSearch.xhtml"/>
+        </p:stack>
+
+        <div class="col-md-12 profile-dashboard">
+            <div class="row">
+                <div class="container">
+                    <p:outputLabel value="Welcome #{clientJpaController.findClient(1).email}" style="margin-right:10px"/>
+                    <b:form class="form-horizontal">
+                        <b:tabView contentStyle="border-right: 1px solid #ddd;border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding:10px">
+                            <b:tab title="Account Details" class="">
+
+                                <div class="add_listing_info">
+                                    <h2 class="form-title"></h2>
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label" for="name">Email<span class="required">*</span></label>
+                                        <div class="col-md-8">
+                                            <b:inputText  placeholder="Email" value="#{clientJpaController.findClient(1).email}"
+                                                          class="form-control input-md" required=""></b:inputText>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label" for="name">First Name<span class="">*</span></label>
+                                        <div class="col-md-8">
+                                            <b:inputText  placeholder="FirstName" value="#{clientJpaController.findClient(1).firstName}"
+                                                          class="form-control input-md" required=""></b:inputText>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label" for="name">Last Name </label>
+                                    <div class="col-md-8">
+                                        <b:inputText  placeholder="Vendor Website" value="#{clientJpaController.findClient(1).lastName}"
+                                                      class="form-control input-md" required=""></b:inputText>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label" for="name">Phone<span class="required">*</span></label>
+                                    <div class="col-md-8">
+                                        <b:inputText  placeholder="Phone" value="#{clientJpaController.findClient(1).phoneNumber}" 
+                                                      class="form-control input-md" required=""></b:inputText>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label" for="submit"></label>
+                                    <div class="col-md-4">
+                                        
+                                        <p:commandButton class="btn btn-success" value="Save" actionListener="#{messagesBean.fatal}" update="@form"/>
+                                    </div>
+                                </div>
+
+                            </b:tab>
+                            <b:tab title="Shipping Details">
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label" for="facebook">Address 1</label>
+                                    <div class="col-md-8">
+                                        <b:inputText placeholder="Address 1" value="#{clientJpaController.findClient(1).address1}"
+                                                     class="form-control input-md" required=""></b:inputText>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label" for="twitter">Address 2</label>
+                                    <div class="col-md-8">
+                                        <b:inputText placeholder="Address 2" value="#{clientJpaController.findClient(1).address2}"
+                                                     class="form-control input-md" required=""></b:inputText>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label" for="linkedin">City</label>
+                                    <div class="col-md-8">
+                                        <b:inputText placeholder="Linkedin Url" value="#{clientJpaController.findClient(1).city}"
+                                                     class="form-control input-md" required=""></b:inputText>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label" for="pinterest">Province</label>
+                                    <div class="col-md-8">
+                                        <b:inputText placeholder="Pinterest Url" value="#{clientJpaController.findClient(1).province.province}"
+                                                     class="form-control input-md" required=""></b:inputText>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label" for="instagram">Country</label>
+                                    <div class="col-md-8">
+                                        <b:inputText value="#{clientJpaController.findClient(1).country}"
+                                                     class="form-control input-md" required=""></b:inputText>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label" for="submit"></label>
+                                    <div class="col-md-4">
+                                        <button class="btn btn-success">Save</button>
+                                    </div>
+                                </div>
+                            </b:tab>
+
+                            <b:tab title="Payment Details">
+                                <div class="bg-white pinside30">
+                                    <!-- Form Name -->
+
+                                    <!-- Text input-->
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label" for="oldpassword">Card Holder's name</label>
+                                        <div class="col-md-8">
+                                            <b:inputText placeholder="Old Password" class="form-control input-md" required=""></b:inputText>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label" for="newpassword">Card Number</label>
+                                        <div class="col-md-8">
+                                            <b:inputText placeholder="New Password" class="form-control input-md" required=""></b:inputText>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label" for="ConfirmPassword">Card Expiry</label>
+                                        <div class="col-md-2">
+                                            <b:inputText placeholder="" class="form-control input-md" required=""></b:inputText>
+                                        </div>
+                                        <label class="col-md-2 control-label" for="ConfirmPassword">CV Code</label>
+                                        <div class="col-md-2">
+                                            <b:inputText placeholder="New Password" class="form-control input-md" required=""></b:inputText>
+                                        </div>
+
+                                    </div>
+
+                                    <!-- Button -->
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label" for="submit"></label>
+                                        <div class="col-md-4">
+                                            <button class="btn btn-success">Save</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </b:tab>
+                        </b:tabView>
+
+
+
+                    </b:form>
+                </div>
+
+            </div>
+        </div>
+
+
+
+
+
+
+        <!-- load js at bottom for faster loading-->
+        <h:outputScript library="webjars" name="jquery/3.1.1-1/jquery.min.js"/>
+        <h:outputScript library="webjars" name="bootstrap/3.3.7-1/js/bootstrap.min.js" />
+    </h:body>
+
+
+</html>
