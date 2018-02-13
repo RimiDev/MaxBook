@@ -56,25 +56,24 @@
                 PLACE ADS HERE
             </div>
             <div class="col-sm-8">
-                <h:form id="all-book-form">
-                    <b:dataTable value="#{bookJpaController.allBooks}" var="book" >
-                            <b:dataTableColumn value="#{book.title}" />
-                            <b:dataTableColumn value="#{book.publisherId.name}" />
-                            <b:dataTableColumn value="#{book.pages}" />
-                            <b:dataTableColumn label="#{msgs.detailsHeader}">
-                                <b:modal id="bookModal" title="Details Modal">
-                                    <p>Hello1</p>
-                                    <p>Hello2</p>
-                                    <p>Hello3</p>
-                                    <f:facet name="footer">
-                                        <b:button value="Close" dismiss="modal" />
-                                        <b:button value="Ok" look="primary" dismiss="modal" />
-                                    </f:facet>
-                                </b:modal>
-                                <b:button look="info" p:data-target="#bookModal" 
-                                          p:data-toggle="modal" icon-awesome="fa-search" />
-                            </b:dataTableColumn>
-                        </b:dataTable>
+                <h:form>
+                    <b:dataTable value="#{bookJpaController.allBooks}" var="book" id="allBooks-table"
+                                 page-length="25" row-highlight="true">
+                        <b:dataTableColumn value="#{book.title}" label="#{msgs.titleHeader}"/>
+                        <b:dataTableColumn value="#{book.publisherId.name}" label="#{msgs.publisherHeader}"/>
+                        <b:dataTableColumn value="#{book.pages}" label="#{msgs.pagesHeader}"/>
+                        <b:dataTableColumn label="#{msgs.detailsHeader}">
+                            <b:button look="info" p:data-target="#bmodal" 
+                                    p:data-toggle=".modal" iconAwesome="fa-search" />
+                        </b:dataTableColumn>
+                    </b:dataTable>
+                    <b:modal id="bmodal" title="Details Modal" style-class="modalPseudoClass">
+                        <h:outputText value="User name:"/>
+                        <f:facet name="footer">
+                            <b:button value="Close" dismiss="modal" />
+                            <b:button value="Ok" look="primary" dismiss="modal" />
+                        </f:facet>
+                    </b:modal>
                 </h:form>
             </div>
             <div class="col-sm-2">
