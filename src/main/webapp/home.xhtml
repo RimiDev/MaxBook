@@ -22,7 +22,7 @@
             <p:menubar>
                 <p:menuitem value="MaxBook" url="/home.xhtml"/>
                 <p:submenu label="Bookstore" icon="ui-icon-document">
-                    <p:menuitem value="All books" url="/all_books.xhtml" />
+                    <p:menuitem value="All books" url="/allbooks.xhtml" />
                     <p:separator />
                     <p:submenu label="Genre" icon="ui-icon-contact">
                         <p:menuitem value="Adventure" url="#" />
@@ -55,38 +55,7 @@
                 PLACE ADS HERE
             </div>
             <div class="col-sm-8">
-                <h:form id="form">
-                    <p:dataTable var="book" value="#{bookJpaController.allBooks}" rows="10"
-                                 paginator="true"
-                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                 rowsPerPageTemplate="10, 20, 30"
-                                 styleClass="allbooks">
-                        <p:column headerText="#{msgs.isbnHeader}">
-                            <h:outputText value="#{book.isbn}" />
-                        </p:column>
-                        <p:column headerText="#{msgs.titleHeader}">
-                            <h:outputText value="#{book.title}" />
-                        </p:column>
-                        <p:column headerText="#{msgs.publisherHeader}">
-                            <h:outputText value="#{book.publisherId.name}" />
-                        </p:column>
-                        <p:column headerText="#{msgs.pagesHeader}">
-                            <h:outputText value="#{book.pages}" />
-                        </p:column>
-                    </p:dataTable>
-                    <p:dialog header="#{msgs.bookDetails}" widgetVar="bookDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
-                        <p:outputPanel id="bookDetail" style="text-align:center;">
-                            <p:panelGrid  columns="2" rendered="#{not empty bookJpaController.findBook(book.isbn)}">
- 
-                                <h:outputText value="#{msgs.isbnHeader}" />
-                                <h:outputText value="hi" />
- 
-                                <h:outputText value="#{msgs.isbnHeader}" />
-                                <h:outputText value="#hello" />
-                            </p:panelGrid>
-                        </p:outputPanel>
-                    </p:dialog>
-                </h:form>
+                HOME PAGE HERE
             </div>
             <div class="col-sm-2">
                 <!-- FEED READER -->
