@@ -61,8 +61,18 @@
                             <b:dataTableColumn value="#{book.title}" />
                             <b:dataTableColumn value="#{book.publisherId.name}" />
                             <b:dataTableColumn value="#{book.pages}" />
-                            <b:dataTableColumn>
-                                <b:commandButton look="info" icon-awesome="fa-search" />
+                            <b:dataTableColumn label="#{msgs.detailsHeader}">
+                                <b:modal id="bookModal" title="Details Modal">
+                                    <p>Hello1</p>
+                                    <p>Hello2</p>
+                                    <p>Hello3</p>
+                                    <f:facet name="footer">
+                                        <b:button value="Close" dismiss="modal" />
+                                        <b:button value="Ok" look="primary" dismiss="modal" />
+                                    </f:facet>
+                                </b:modal>
+                                <b:button look="info" p:data-target="#bookModal" 
+                                          p:data-toggle="modal" icon-awesome="fa-search" />
                             </b:dataTableColumn>
                         </b:dataTable>
                 </h:form>
