@@ -69,8 +69,14 @@
         </p:stack>
 
         <div class="container">
+            <div class="col-sm-4" >
+
+                <p:commandButton class="btn btn-danger btn-sm" action="#{bookJpaController.setSessionVariables}"
+                                 value="Get Cart Items"></p:commandButton>
+                <p></p>
+            </div>
             <div class="row">
-                <div class="col-sm-8" >
+                <div class="col-sm-8 panel panel-default" >
                     <!--start review your order<-->
                     <div class="container">
                         <div class="row">
@@ -91,25 +97,7 @@
 
 
                             </div>
-                            <div class="col-sm-4">
-                                <button type="button" class="btn btn-warning" style="width: 100%">Submit Order</button>
 
-                                <p style="text-align: center">
-                                    By placing your order, you agree to Amazon's privacy notice and conditions of use.</p>
-                                <p></p>
-                                <label>Order Summary</label>
-                                <p>Items <span>(2)</span></p>
-                                <p>Shiping and handling<span>12.34</span></p>
-                                <p>Total before taxes<span>12.34</span></p>
-                                <p></p>
-                                <p>Taxes   <span>1.10</span></p>
-                                 
-                                <div style="color: red; font-size: 30px">
-                                    <p>Order Total <span>13.44</span></p>
-                                </div>
-                                
-                                
-                            </div>
                         </div>
                     </div>
                     <!--end of review order payment and shipping details<-->
@@ -177,11 +165,24 @@
                     </table>
 
                 </div>
-                <div class="col-sm-4" >
-
-                    <p:commandButton class="btn btn-danger btn-sm" action="#{bookJpaController.setSessionVariables}"
-                                     value="Get Cart Items"></p:commandButton>
+                <div class="col-sm-4 panel panel-default">
+                    <button type="button" class="btn btn-warning" style="width: 100%;margin-top: 10px">Submit Order</button>
                     <p></p>
+                    
+
+
+                    <label>Order Summary</label>
+                    <p>Items <span>(2)</span></p>
+                    <p>Shiping and handling<span>12.34</span></p>
+                    <p>Total before taxes<span>12.34</span></p>
+                    <p></p>
+                    <p>Taxes   <span>1.10</span></p>
+
+                    <div style="color: #d9534f ; font-size: 30px">
+                        <p>Order Total <span>13.44</span></p>
+                    </div>
+
+
                 </div>
 
 
