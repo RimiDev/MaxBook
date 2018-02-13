@@ -57,23 +57,25 @@
             </div>
             <div class="col-sm-8">
                 <h:form>
+                     <b:modal id="amodal2" title="Modal Example" styleClass="modalPseudoClass2"
+           closable="false"  close-on-escape="false" backdrop="false">
+                         <p>Hello there</p>
+                        <f:facet name="footer">
+                            <b:button value="Close" dismiss="modal" />
+                            <b:button value="Ok" look="primary" dismiss="modal" />
+                        </f:facet>
+                    </b:modal>
                     <b:dataTable value="#{bookJpaController.allBooks}" var="book" id="allBooks-table"
                                  page-length="25" row-highlight="true">
                         <b:dataTableColumn value="#{book.title}" label="#{msgs.titleHeader}"/>
                         <b:dataTableColumn value="#{book.publisherId.name}" label="#{msgs.publisherHeader}"/>
                         <b:dataTableColumn value="#{book.pages}" label="#{msgs.pagesHeader}"/>
                         <b:dataTableColumn label="#{msgs.detailsHeader}">
-                            <b:button look="info" p:data-target="#bmodal" 
-                                    p:data-toggle=".modal" iconAwesome="fa-search" />
+<!--                            <b:button look="info" p:data-target="#bmodal" 
+                                    p:data-toggle=".modal" icon-awesome="fa-search" />-->
+<b:button value="Trigger (JavaScript)" look="success" onclick="$('.modalPseudoClass2').modal()" size="lg"/>
                         </b:dataTableColumn>
                     </b:dataTable>
-                    <b:modal id="bmodal" title="Details Modal" style-class="modalPseudoClass">
-                        <h:outputText value="User name:"/>
-                        <f:facet name="footer">
-                            <b:button value="Close" dismiss="modal" />
-                            <b:button value="Ok" look="primary" dismiss="modal" />
-                        </f:facet>
-                    </b:modal>
                 </h:form>
             </div>
             <div class="col-sm-2">
