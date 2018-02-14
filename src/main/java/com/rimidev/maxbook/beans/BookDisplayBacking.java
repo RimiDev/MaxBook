@@ -11,4 +11,11 @@ import javax.inject.Named;
 @SessionScoped
 public class BookDisplayBacking {
 
+    public String showDetails(String isbn){
+        
+        if(isbn.isEmpty() || isbn == null){
+            
+        }
+        return "/BookDetails.xhtml?faces-redirect=truse&isbn="+isbn; 
+    }
 }
