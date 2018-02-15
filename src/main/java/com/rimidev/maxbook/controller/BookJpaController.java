@@ -26,6 +26,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import javax.transaction.UserTransaction;
 
 /**
@@ -310,6 +311,15 @@ public class BookJpaController implements Serializable {
 
     public Book findBook(String id) {
             return em.find(Book.class, id);
+    }
+    
+    public Book findBookByIsbn(String isbn){
+        TypedQuery<Book> query =
+            em.createNamedQuery("Country.findByIsbn", Book.class).setParameter("isbn", isbn);
+        
+        List<Book> results = query.getResultList();
+        
+        return results.get(0);
     }
 
     public int getBookCount() {
