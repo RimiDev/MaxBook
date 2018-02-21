@@ -14,7 +14,18 @@ and open the template in the editor.
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     </h:head>
     <h:body>
-        <h:outputText>#{FacesContext.getC}</h:outputText>
-        <h:outputLabel>hello this is details 1</h:outputLabel>
+        <h:outputLabel>#{bookDisplayBacking.data}</h:outputLabel>
+        <h:dataTable value="#{bookJpaController.findBook(bookDisplayBacking.data)}" var="bookie" 
+                     styleClass="bookies" headerClass="bookHeader" columnClasses="bookTitle">
+            <h:column>
+                <f:facet name="header">#{bookie.title}</f:facet>
+            </h:column>
+            <h:column>
+                Pages: #{bookie.pages}
+            </h:column>
+            <h:column>
+                Genre: #{bookie.genre}
+            </h:column>
+        </h:dataTable>
     </h:body>
 </html>
