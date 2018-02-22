@@ -11,8 +11,8 @@
 
 
         <h:form>
-            <h:outputLabel>#{bookDisplayBacking.data}</h:outputLabel>
-            <h:dataTable value="#{bookJpaController.findBook(bookDisplayBacking.data)}" var="bookie" 
+            <h:outputLabel>#{bookDisplayBacking.isbn}</h:outputLabel>
+            <h:dataTable value="#{bookJpaController.findBook(bookDisplayBacking.isbn)}" var="bookie" 
                          styleClass="bookies" headerClass="bookHeader" columnClasses="bookTitle">
                 <h:column>
                     <f:facet name="header">#{bookie.title}</f:facet>
@@ -24,7 +24,7 @@
                     Genre: #{bookie.genre}
                 </h:column>
                 <h:column>
-                    <b:commandButton  action="#{cartBackingBean.add_to_cart(bookDisplayBacking.data)}" value="Add to cart" />
+                    <b:commandButton  action="#{cartBackingBean.addToCart(bookDisplayBacking.isbn)}" value="Add to cart" />
                 </h:column>
 
             </h:dataTable>

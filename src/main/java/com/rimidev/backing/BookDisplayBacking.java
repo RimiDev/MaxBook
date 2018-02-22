@@ -1,4 +1,4 @@
-package com.rimidev.maxbook.beans;
+package com.rimidev.backing;
 
 import com.rimidev.maxbook.controller.BookJpaController;
 import com.rimidev.maxbook.entities.Book;
@@ -13,27 +13,27 @@ import javax.inject.Named;
  *
  * @author Rhai Hinds
  */
-@Named()
+@Named
 @SessionScoped
 public class BookDisplayBacking implements Serializable{
 
     @Inject
     private BookJpaController bookjpaControl;
-    String data = "1";
+    private String isbn = "1";
     
-    public String getData(){
-        return data;
+    public String getIsbn(){
+        return isbn;
     }
     
-    public void setData(String data){
-        this.data = data;
+    public void setIsbn(String isbn){
+        this.isbn = isbn;
     }
     public String showDetails(){
         
 
         FacesContext fc = FacesContext.getCurrentInstance();
         Map<String,String> params = fc.getExternalContext().getRequestParameterMap();
-        data = params.get("isbn");
+        isbn = params.get("isbn");
         return "bookDetails?faces-redirect=true"; 
     }
 }

@@ -20,7 +20,7 @@ and open the template in the editor.
                           styleClass="bookies" headerClass="bookHeader" columnClasses="bookTitle" rowClasses="clickable">
                 <h:column>
                     <f:facet name="header">Title</f:facet>
-                    <h:commandLink value="#{books.title}" action="#{bookDisplayBacking.showDetails()}" >
+                    <h:commandLink value="#{books.title}" action="#{bookDisplayBacking.showDetails}" >
                         <f:param name="isbn" value="#{books.isbn}"/>
                     </h:commandLink>                
                 </h:column>
