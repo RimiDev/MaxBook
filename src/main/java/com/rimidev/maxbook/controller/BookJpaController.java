@@ -311,7 +311,11 @@ public class BookJpaController implements Serializable {
 
         session.setAttribute("cartItems", cart);
         cart = (HashMap<Book, Integer>) session.getAttribute("cartItems");
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> a7b72790fd80ff990f3ddc390b7a1e30c682ec6c
 
     }
 
@@ -335,6 +339,7 @@ public class BookJpaController implements Serializable {
 //        return findBookEntities(false, maxResults, pageNumber);
 // }
 
+<<<<<<< HEAD
     private List<Book> findBookEntities2(boolean all, int maxResults, int startResult) {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             cq.select(cq.from(Book.class));
@@ -346,6 +351,9 @@ public class BookJpaController implements Serializable {
             return q.getResultList();
 
     }
+=======
+   
+>>>>>>> a7b72790fd80ff990f3ddc390b7a1e30c682ec6c
 
     public Book findBook(String id) {
         return em.find(Book.class, id);
@@ -357,6 +365,10 @@ public class BookJpaController implements Serializable {
         cq.select(em.getCriteriaBuilder().count(rt));
         Query q = em.createQuery(cq);
         return ((Long) q.getSingleResult()).intValue();
+<<<<<<< HEAD
+=======
+
+>>>>>>> a7b72790fd80ff990f3ddc390b7a1e30c682ec6c
     }
     
     public List<Book> getAllBooks(){
