@@ -295,26 +295,7 @@ public class BookJpaController implements Serializable {
         return findBookEntities(true, -1, -1);
     }
 
-    public void setSessionVariables() {
-        logger.warning("inside setSessionVariables bookjpacontroller");
-        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
-
-        Book book1 = findBook("978-0060256654");
-        Integer book1Quantity = 2;
-
-        Book book2 = findBook("978-0060555665");
-        Integer book2Quantity = 5;
-
-        HashMap<Book, Integer> cart = new HashMap<Book, Integer>();
-
-        cart.put(book1, book1Quantity);
-        cart.put(book2, book2Quantity);
-
-        session.setAttribute("cartItems", cart);
-        cart = (HashMap<Book, Integer>) session.getAttribute("cartItems");
-        
-
-    }
+ 
 
     public List<Book> findBookEntities(int maxResults, int firstResult) {
         return findBookEntities(false, maxResults, firstResult);

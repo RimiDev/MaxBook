@@ -30,13 +30,6 @@ public class BookDisplayBacking implements Serializable{
     }
     public String showDetails(){
         
-//        if(isbn.isEmpty() || isbn == null){
-//            return "/404.xhtml"; 
-//        }
-//        
-//        Book bookIsExist = bookjpaControl.findBook(isbn);
-//        if(bookIsExist == null)
-//            return "/404.xhtml";
 
         FacesContext fc = FacesContext.getCurrentInstance();
         Map<String,String> params = fc.getExternalContext().getRequestParameterMap();
