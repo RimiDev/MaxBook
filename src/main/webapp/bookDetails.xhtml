@@ -6,18 +6,52 @@
                 xmlns:b="http://bootsfaces.net/ui"
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    
+    <ui:define name="title">
+        <title>Details</title>
+    </ui:define>
 
     <ui:define name="content">
+        
+        <h:form >
+                <div class="container">
+        	<div class="row">
+               <div class="col-xs-4 item-photo">
+                    <img style="max-width:100%;" src="https://ak1.ostkcdn.com/images/products/8818677/Samsung-Galaxy-S4-I337-16GB-AT-T-Unlocked-GSM-Android-Cell-Phone-85e3430e-6981-4252-a984-245862302c78_600.jpg" />
+                </div>
+                <div class="col-xs-5" style="border:0px solid gray">
+                    <!-- Datos del vendedor y titulo del producto -->
+                    <h3>#{}</h3>    
+                    <h5 style="color:#337ab7">vendido por <a href="#">Samsung</a> · <small style="color:#337ab7">(5054 ventas)</small></h5>
+        
+                    <!-- Precios -->
+                    <h6 class="title-price"><small>PRECIO OFERTA</small></h6>
+                    <h3 style="margin-top:0px;">U$S 399</h3>
+        
+                    <!-- Detalles especificos del producto -->
+                   
+                        
+        
+                    <!-- Botones de compra -->
+                    <div class="section" style="padding-bottom:20px;">
+                        <b:commandButton  action="#{cartBackingBean.addToCart(bookDisplayBacking.isbn)}" value="Add to cart" />
+                        <!--<button class="btn btn-success"><span style="margin-right:20px" class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> Agregar al carro</button>-->
+                        <h6><a href="#"><span class="glyphicon glyphicon-heart-empty" style="cursor:pointer;"></span> Agregar a lista de deseos</a></h6>
+                    </div>                                        
+                </div>                              
+        
+                
+            </div>
+        </div>        
 
-
-        <h:form>
-            <h:outputLabel>#{bookDisplayBacking.isbn}</h:outputLabel>
+       
             <h:dataTable value="#{bookJpaController.findBook(bookDisplayBacking.isbn)}" var="bookie" 
                          styleClass="bookies" headerClass="bookHeader" columnClasses="bookTitle">
                 <h:column>
                     <f:facet name="header">#{bookie.title}</f:facet>
                 </h:column>
                 <h:column>
+                    Title: #{bookie.title}
                     Pages: #{bookie.pages}
                 </h:column>
                 <h:column>

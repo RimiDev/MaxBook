@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
- 
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+<ui:composition template="/pageTemplates/master_template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:b="http://bootsfaces.net/ui"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
     <h:head>
         <link type="text/css" rel="stylesheet" href="/project/faces/javax.faces.resource/theme.css?ln=primefaces-glass-x" />
         <h:outputStylesheet library="css" name="styles.css" />
@@ -16,8 +20,17 @@
         <h:outputStylesheet library="webjars" name="font-awesome/4.7.0/css/font-awesome.min-jsf.css" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     </h:head>
-    <h:body>
-        <!--MENU BAR-->  
+    <ui:define name="content">
+         <p:scrollPanel style="height:200px">
+                    <p:feedReader value="https://www.yahoo.com/news/rss/sports" var="feeder" class="rssfeed" size="4">
+                        <h:outputText value="#{feeder.title}" style="font-weight: bold;display:block"/>
+                        <h:outputText value="#{feeder.description.value}" escape="false"/>
+                        <p:separator />
+                    </p:feedReader>
+                </p:scrollPanel>
+    </ui:define>
+<!--    <h:body>
+        MENU BAR  
         <h:form class="menuBar">
             <p:menubar>
                 <p:menuitem value="MaxBook" url="/home.xhtml"/>
@@ -58,7 +71,7 @@
                 HOME PAGE HERE
             </div>
             <div class="col-sm-2">
-                <!-- FEED READER -->
+                 FEED READER 
                 <p:scrollPanel style="height:200px">
                     <p:feedReader value="https://www.yahoo.com/news/rss/sports" var="feeder" class="rssfeed" size="4">
                         <h:outputText value="#{feeder.title}" style="font-weight: bold;display:block"/>
@@ -68,8 +81,8 @@
                 </p:scrollPanel>
             </div>
         </div>
-        <!-- load js at bottom for faster loading-->
+         load js at bottom for faster loading
         <h:outputScript library="webjars" name="jquery/3.1.1-1/jquery.min.js"/>
         <h:outputScript library="webjars" name="bootstrap/3.3.7-1/js/bootstrap.min.js" />
-    </h:body>
-</html>
+    </h:body>-->
+</ui:composition>
