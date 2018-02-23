@@ -11,15 +11,15 @@
 //import javax.inject.Inject;
 //import javax.inject.Named;
 //import javax.servlet.http.Cookie;
-
-/**
- * This class contains methods to read and write cookies Cookies can be read at
- * any time but can only be written to before any HTML is delivered to the
- * browser. For that reason creating cookies is always a preRenderView type
- * event
- *
- * @author Ken
- */
+//
+///**
+// * This class contains methods to read and write cookies Cookies can be read at
+// * any time but can only be written to before any HTML is delivered to the
+// * browser. For that reason creating cookies is always a preRenderView type
+// * event
+// *
+// * @author Ken
+// */
 //@Named
 //@RequestScoped
 //public class PreRenderViewBean {
@@ -70,5 +70,5 @@
 //        FacesContext context = FacesContext.getCurrentInstance();
 //        context.getExternalContext().addResponseCookie("clientCookie", loginBean.getEmail(), null);
 //    }
-
+//
 //}

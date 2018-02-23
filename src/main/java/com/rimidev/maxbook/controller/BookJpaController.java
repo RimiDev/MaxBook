@@ -295,7 +295,26 @@ public class BookJpaController implements Serializable {
         return findBookEntities(true, -1, -1);
     }
 
- 
+    public void setSessionVariables() {
+        logger.warning("inside setSessionVariables bookjpacontroller");
+        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+
+        Book book1 = findBook("978-0060256654");
+        Integer book1Quantity = 2;
+
+        Book book2 = findBook("978-0060555665");
+        Integer book2Quantity = 5;
+
+        HashMap<Book, Integer> cart = new HashMap<Book, Integer>();
+
+        cart.put(book1, book1Quantity);
+        cart.put(book2, book2Quantity);
+
+        session.setAttribute("cartItems", cart);
+        cart = (HashMap<Book, Integer>) session.getAttribute("cartItems");
+
+
+    }
 
     public List<Book> findBookEntities(int maxResults, int firstResult) {
         return findBookEntities(false, maxResults, firstResult);
@@ -315,9 +334,19 @@ public class BookJpaController implements Serializable {
 
 //    public List<Book> findBookEntities(int maxResults, int pageNumber) {
 //        return findBookEntities(false, maxResults, pageNumber);
-//    }
+// }
 
-   
+    private List<Book> findBookEntities2(boolean all, int maxResults, int startResult) {
+            CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
+            cq.select(cq.from(Book.class));
+            Query q = em.createQuery(cq);
+            if (!all) {
+                q.setMaxResults(maxResults);
+                q.setFirstResult(startResult);
+            }
+            return q.getResultList();
+
+    }
 
     public Book findBook(String id) {
         return em.find(Book.class, id);
@@ -338,7 +367,6 @@ public class BookJpaController implements Serializable {
         cq.select(em.getCriteriaBuilder().count(rt));
         Query q = em.createQuery(cq);
         return ((Long) q.getSingleResult()).intValue();
-
     }
     
     public List<Book> getAllBooks(){
