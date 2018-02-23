@@ -30,6 +30,8 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Selection;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.transaction.UserTransaction;
 
 /**
@@ -61,11 +63,14 @@ public class InvoiceDetailsJpaController implements Serializable {
         // Execute the query
         List<InvoiceDetails> fishies = query.getResultList();
 
+
         return fishies;
     }
         
+
+
     public void create(InvoiceDetails invoiceDetails) throws RollbackFailureException, Exception {
-        
+
         try {
             utx.begin();
             Invoice invoiceId = invoiceDetails.getInvoiceId();
@@ -99,7 +104,7 @@ public class InvoiceDetailsJpaController implements Serializable {
     }
 
     public void edit(InvoiceDetails invoiceDetails) throws NonexistentEntityException, RollbackFailureException, Exception {
-        
+
         try {
             utx.begin();
             InvoiceDetails persistentInvoiceDetails = em.find(InvoiceDetails.class, invoiceDetails.getId());
@@ -147,11 +152,11 @@ public class InvoiceDetailsJpaController implements Serializable {
                 }
             }
             throw ex;
-        } 
+        }
     }
 
     public void destroy(Integer id) throws NonexistentEntityException, RollbackFailureException, Exception {
-        
+
         try {
             utx.begin();
             InvoiceDetails invoiceDetails;
@@ -180,7 +185,7 @@ public class InvoiceDetailsJpaController implements Serializable {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }
             throw ex;
-        } 
+        }
     }
 
     public List<InvoiceDetails> findInvoiceDetailsEntities() {
@@ -192,28 +197,28 @@ public class InvoiceDetailsJpaController implements Serializable {
     }
 
     private List<InvoiceDetails> findInvoiceDetailsEntities(boolean all, int maxResults, int firstResult) {
-            CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(InvoiceDetails.class));
-            Query q = em.createQuery(cq);
-            if (!all) {
-                q.setMaxResults(maxResults);
-                q.setFirstResult(firstResult);
-            }
-            return q.getResultList();   
+        CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
+        cq.select(cq.from(InvoiceDetails.class));
+        Query q = em.createQuery(cq);
+        if (!all) {
+            q.setMaxResults(maxResults);
+            q.setFirstResult(firstResult);
+        }
+        return q.getResultList();
     }
 
     public InvoiceDetails findInvoiceDetails(Integer id) {
 
-            return em.find(InvoiceDetails.class, id);
-   
+        return em.find(InvoiceDetails.class, id);
+
     }
 
     public int getInvoiceDetailsCount() {
-            CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            Root<InvoiceDetails> rt = cq.from(InvoiceDetails.class);
-            cq.select(em.getCriteriaBuilder().count(rt));
-            Query q = em.createQuery(cq);
-            return ((Long) q.getSingleResult()).intValue();
+        CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
+        Root<InvoiceDetails> rt = cq.from(InvoiceDetails.class);
+        cq.select(em.getCriteriaBuilder().count(rt));
+        Query q = em.createQuery(cq);
+        return ((Long) q.getSingleResult()).intValue();
     }
     
     //Custom queries---------------------------------------------
@@ -259,7 +264,7 @@ public class InvoiceDetailsJpaController implements Serializable {
 //
 //    }
 //    
-        public List<InvoiceDetails> getTopSellingBooks() {
+        public List<InvoiceDetails> getTopSellingBooksEX2() {
         
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<InvoiceDetails> cq = cb.createQuery(InvoiceDetails.class);
@@ -294,6 +299,15 @@ public class InvoiceDetailsJpaController implements Serializable {
             
             return null;
         }
+        
+               public List<Object[]> getTopSellingBooks() {
 
-    
+            TypedQuery<Object[]> query = em.createQuery("SELECT ivd.isbn FROM InvoiceDetails ivd GROUP BY ivd.isbn order by count(ivd) DESC", Object[].class);
+                                                                                                        
+            
+            Collection<Object[]> Invoices = query.getResultList();
+            return (List<Object[]>) Invoices;
+    }
+
+
 }

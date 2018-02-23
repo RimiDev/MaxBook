@@ -1,74 +1,13 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
-    <h:head>
-        <link type="text/css" rel="stylesheet" href="/project/faces/javax.faces.resource/theme.css?ln=primefaces-glass-x" />
-        <h:outputStylesheet library="css" name="styles.css" />
-        <title>#{msgs.homeTitle}</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    </h:head>
-    
-    
-    
-    <h:body>
-        
-        <f:metadata>
-            <f:event type="preRenderView"
-                     listener="#{preRenderViewBean.checkCookies}" />
-        </f:metadata>
-        
-        <!--MENU BAR-->
-        
-        <h:form id="menuBar">
-        
-        <p:menubar>
-            <p:menuitem value="MaxBook" url="/home.xhtml"/>
-                <p:submenu label="Bookstore" icon="ui-icon-document">
-                    <p:menuitem value="All books" url="/all_books.xhtml" />
-                      <p:separator />
-                        <p:submenu label="Genre" icon="ui-icon-contact">
-                        <p:menuitem value="Adventure" url="#" />
-                        <p:menuitem value="Science Fiction" url="#" />
-                        <p:menuitem value="Romance" url="#" />
-                        <p:menuitem value="Other" url="#" />
-                    </p:submenu>
-                        <p:submenu label="Year" icon="ui-icon-contact">
-                        <p:menuitem value="2017" url="#" />
-                        <p:menuitem value="2016" url="#" />
-                        </p:submenu>
-                </p:submenu>
-            <p:menuitem value="Search" url="/search.xhtml"/>
+<ui:composition template="/pageTemplates/master_template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:b="http://bootsfaces.net/ui"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
-        <f:facet name="options">
-            <p:outputLabel value="Welcome #{clientBackingBean.client.email}!" style="margin-right:10px"/>
-            <p:inputText style="margin-right:10px" placeholder="Search" id="userSearch" value="#{search.searchQuery}"/>
-            <p:commandButton type="Submit" value="Search" icon="/resources/images/search.png" action="search" ajax="false"/>
-            <p:commandButton type="Submit" value="Login" icon="ui-icon-extlink" action="login" ajax="false"/>
-            <p:commandButton type="button" value="Logout" icon="ui-icon-extlink" />
-        </f:facet>
-        </p:menubar>
-            
-            </h:form>
-        
-        <p:stack icon="/resources/images/stack.png" expanded="true">
-    <p:menuitem value="Home"  icon="/resources/images/home.png" url="./home.xhtml"/>
-    <p:menuitem value="Cart" icon="/resources/images/shoppingCart.png" url="./cart.xhtml"/>
-    <p:menuitem value="Search" icon="/resources/images/search.png" url="./advancedSearch.xhtml"/>
-</p:stack>
-        
-        <!--FEED READER-->
-        <div class="feed">
-        <p:feedReader value="https://www.yahoo.com/news/rss/sports" var="feeder">
-    <h:outputText value="#{feeder.title}" style="font-weight: bold;display:block"/>
-    <h:outputText value="#{feeder.description.value}" escape="false"/>
-    <p:separator />
-</p:feedReader>
-        </div>
+    <ui:define name="content">
         
         <!--ADVERTISEMENTS-->
         <div class="ads">
@@ -80,18 +19,18 @@
         <!--MAIN HOME PAGE-->
         
         <div>
-<!--            <p> #{InvoiceDetailsJpaController} </p>-->
+
             <p> Hey </p>
                             
             <!--Top selling books-->
 
             <h:form>
 
-                <h:dataTable value="#{invoiceDetailsJpaController.topSellingBooks}" var="books">
+                <h:dataTable value="#{invoiceDetailsJpaController.topSellingBooks}" var="bookz">
 
                     <h:column>
                         <f:facet name="header">Top selling Books</f:facet>
-                    #{books.isbn}
+                    #{bookz}
                     </h:column>
 
 
@@ -119,10 +58,57 @@
             
         </div>
 
+        <div class="container-fluid">
+            <div class="col-sm-2">
+                PLACE ADS HERE
+            </div>
+            <div class="col-sm-8">
+                <h:form id="form">
+                    <p:dataTable var="book" value="#{bookJpaController.allBooks}" rows="10"
+                                 paginator="true"
+                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="10, 20, 30"
+                                 styleClass="allbooks">
+                        <p:column headerText="#{msgs.isbnHeader}">
+                            <h:outputText value="#{book.isbn}" />
+                        </p:column>
+                        <p:column headerText="#{msgs.titleHeader}">
+                            <h:outputText value="#{book.title}" />
+                        </p:column>
+                        <p:column headerText="#{msgs.publisherHeader}">
+                            <h:outputText value="#{book.publisherId.name}" />
+                        </p:column>
+                        <p:column headerText="#{msgs.pagesHeader}">
+                            <h:outputText value="#{book.pages}" />
+                        </p:column>
+                    </p:dataTable>
+                    <p:dialog header="#{msgs.bookDetails}" widgetVar="bookDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                        <p:outputPanel id="bookDetail" style="text-align:center;">
+                            <p:panelGrid  columns="2" rendered="#{not empty bookJpaController.findBook(book.isbn)}">
  
-        
-        
-    </h:body>
+                                <h:outputText value="#{msgs.isbnHeader}" />
+                                <h:outputText value="hi" />
+ 
+                                <h:outputText value="#{msgs.isbnHeader}" />
+                                <h:outputText value="#hello" />
+                            </p:panelGrid>
+                        </p:outputPanel>
+                    </p:dialog>
+                </h:form>
+            </div>
+            <div class="col-sm-2">
+                <!-- FEED READER -->
+                <p:scrollPanel style="height:200px">
+                    <p:feedReader value="https://www.yahoo.com/news/rss/sports" var="feeder" class="rssfeed" size="4">
+                        <h:outputText value="#{feeder.title}" style="font-weight: bold;display:block"/>
+                        <h:outputText value="#{feeder.description.value}" escape="false"/>
+                        <p:separator />
+                    </p:feedReader>
+                </p:scrollPanel>
+            </div>
+        </div>
+ 
+   </ui:define>
     
+    </ui:composition>
     
-</html>

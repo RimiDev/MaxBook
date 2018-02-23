@@ -22,6 +22,7 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import javax.transaction.UserTransaction;
 
 /**
@@ -66,6 +67,15 @@ public class AuthorJpaController implements Serializable {
             }
             throw ex;
         } 
+    }
+    
+    public List<Author> getAuthors(String isbn) {
+        TypedQuery<Author> query = 
+                em.createQuery("SELECT a FROM Book b JOIN b.authorList a where b.isbn = :isbn", Author.class);
+        query.setParameter("isbn", isbn);
+        List<Author> list = query.getResultList();
+        return list;
+
     }
 
     public void edit(Author author) throws NonexistentEntityException, RollbackFailureException, Exception {
@@ -162,6 +172,7 @@ public class AuthorJpaController implements Serializable {
 
     public Author findAuthor(Integer id) {
             return em.find(Author.class, id);
+
     }
 
     public int getAuthorCount() {
