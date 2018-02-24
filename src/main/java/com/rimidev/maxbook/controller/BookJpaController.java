@@ -375,4 +375,6 @@ public class BookJpaController implements Serializable {
         Query q = em.createQuery(cq);
         return q.getResultList();
     }
+    
+    
 }
