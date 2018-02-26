@@ -376,5 +376,14 @@ public class BookJpaController implements Serializable {
         return q.getResultList();
     }
     
+    public List<Book> getBooksByAuthor(List<Author> auths){
+        return null;
+//        use bookstore_db;
+//
+//        select ab.title,ab.fullname from (select book.isbn,title, concat(first_name,' ',last_name) 
+//        as fullname from book join author_book on book.isbn = author_book.isbn join author on author.id = author_book.author_id)
+//        as ab where ab.fullname in ("Adam Gasiewski","Emily Beck");
+    }
+    
     
 }
