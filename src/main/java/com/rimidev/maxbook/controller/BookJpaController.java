@@ -24,6 +24,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import javax.servlet.http.HttpSession;
 import javax.transaction.UserTransaction;
 
@@ -350,6 +351,15 @@ public class BookJpaController implements Serializable {
     public Book findBook(String id) {
         return em.find(Book.class, id);
     }
+    
+    public Book findBookByIsbn(String isbn){
+        TypedQuery<Book> query =
+            em.createNamedQuery("Country.findByIsbn", Book.class).setParameter("isbn", isbn);
+        
+        List<Book> results = query.getResultList();
+        
+        return results.get(0);
+    }
 
     public int getBookCount() {
         CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
@@ -365,4 +375,15 @@ public class BookJpaController implements Serializable {
         Query q = em.createQuery(cq);
         return q.getResultList();
     }
+    
+    public List<Book> getBooksByAuthor(List<Author> auths){
+        return null;
+//        use bookstore_db;
+//
+//        select ab.title,ab.fullname from (select book.isbn,title, concat(first_name,' ',last_name) 
+//        as fullname from book join author_book on book.isbn = author_book.isbn join author on author.id = author_book.author_id)
+//        as ab where ab.fullname in ("Adam Gasiewski","Emily Beck");
+    }
+    
+    
 }

@@ -1,0 +1,26 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Feb 7, 2018, 3:13:35 PM
+    Author     : 1513733
+*/
+
+.bookies {
+	border: thin solid black;
+}
+
+.bookHeader {
+	text-align: center;
+	font-style: italic;
+	color: Snow;
+	background: Teal;
+}
+
+.bookTitle {
+	height: 25px;
+	text-align: center;
+	background: MediumTurquoise;
+}

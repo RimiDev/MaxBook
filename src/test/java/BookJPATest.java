@@ -26,8 +26,13 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertTrue;
+import org.junit.Ignore;
 
 
+@Ignore
 @RunWith(Arquillian.class)
 public class BookJPATest {
 

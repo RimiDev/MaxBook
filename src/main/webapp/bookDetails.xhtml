@@ -1,16 +1,55 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-    <head>
-        <title>TODO supply a title</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    </head>
-    <body>
-        <div>TODO write content</div>
-    </body>
-</html>
+
+<ui:composition template="/pageTemplates/master_template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:b="http://bootsfaces.net/ui"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <ui:define name="title">
+        <title>Details</title>
+    </ui:define>
+
+    <ui:define name="content">
+
+        <ui:param name="bookie" value="#{bookJpaController.findBook(bookDisplayBacking.isbn)}"/>
+        <h:form>
+            <h:outputLabel>#{bookie.title}</h:outputLabel>
+            <h:outputLabel>#{bookie.isbn}</h:outputLabel>
+            <h1>Reviews</h1>
+            <ui:repeat var="revs" value="#{bookie.reviewList}">
+                <h:dataTable value="#{revs}" var="rev">
+                    <h:column>
+                        <h:outputText value="#{rev.reviewMessage}"/>
+                    </h:column>
+                    <h:column>
+                        <p:rating value="#{rev.rating}" readonly="true"/>
+                    </h:column>
+                    <h:column>
+                        <h:outputText value="#{rev.clientId.firstName} "/>
+                        <h:outputText value="#{rev.clientId.lastName}"/>
+                    </h:column>
+                </h:dataTable>
+            </ui:repeat>
+            <h1>Recommendations</h1>
+            <ui:repeat var="authors" value="#{bookie.authorList}">
+                <h:dataTable value="#{authors}" var="auth">
+                    <h:column>
+                        <h:outputText value="#{auth.firstName} "/>
+                        <h:outputText value="#{auth.lastName}"/>
+                    </h:column>
+                </h:dataTable>
+<!--                <h:dataTable var="auth_book" value="#{auth.bookList}">
+                    <h:column>
+                        <h:outputText value="#{auth_book.title}"/>
+                    </h:column>
+                </h:dataTable>-->
+            </ui:repeat>
+            
+        </h:form>
+    </ui:define>
+
+
+
+</ui:composition>
