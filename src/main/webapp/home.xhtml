@@ -1,4 +1,3 @@
-
 <ui:composition template="/pageTemplates/master_template.xhtml"
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:f="http://java.sun.com/jsf/core"
@@ -17,26 +16,6 @@
         <br/>            
         
         <!--MAIN HOME PAGE-->
-        
-        <div>
-
-            <p> Hey </p>
-                            
-            <!--Top selling books-->
-
-            <h:form>
-
-                <h:dataTable value="#{invoiceDetailsJpaController.topSellingBooks}" var="bookz">
-
-                    <h:column>
-                        <f:facet name="header">Top selling Books</f:facet>
-                    #{bookz.title}
-                    </h:column>
-
-
-                </h:dataTable>
-
-            </h:form>
 
             <!--Top recent sold books-->
 
@@ -54,48 +33,140 @@
 
             </h:form>-->
 
-            
-            
-        </div>
 
         <div class="container-fluid">
             <div class="col-sm-2">
                 PLACE ADS HERE
             </div>
             <div class="col-sm-8">
-                <h:form id="form">
-                    <p:dataTable var="book" value="#{bookJpaController.allBooks}" rows="10"
-                                 paginator="true"
-                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                 rowsPerPageTemplate="10, 20, 30"
-                                 styleClass="allbooks">
-                        <p:column headerText="#{msgs.isbnHeader}">
-                            <h:outputText value="#{book.isbn}" />
-                        </p:column>
-                        <p:column headerText="#{msgs.titleHeader}">
-                            <h:outputText value="#{book.title}" />
-                        </p:column>
-                        <p:column headerText="#{msgs.publisherHeader}">
-                            <h:outputText value="#{book.publisherId.name}" />
-                        </p:column>
-                        <p:column headerText="#{msgs.pagesHeader}">
-                            <h:outputText value="#{book.pages}" />
-                        </p:column>
-                    </p:dataTable>
-                    <p:dialog header="#{msgs.bookDetails}" widgetVar="bookDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
-                        <p:outputPanel id="bookDetail" style="text-align:center;">
-                            <p:panelGrid  columns="2" rendered="#{not empty bookJpaController.findBook(book.isbn)}">
- 
-                                <h:outputText value="#{msgs.isbnHeader}" />
-                                <h:outputText value="hi" />
- 
-                                <h:outputText value="#{msgs.isbnHeader}" />
-                                <h:outputText value="#hello" />
-                            </p:panelGrid>
-                        </p:outputPanel>
-                    </p:dialog>
-                </h:form>
+                                            
+            <!--Top selling books-->
+
+            <h:form>
+
+                <b:panel>
+                    
+                      <h2 style="text-align:center"> Best selling books </h2>
+                      <br/>
+
+                      <ui:repeat value="#{homeBackingBean.topSellingBooks}" var="book">
+                        
+                        <b:column col-md="3">                           
+                            
+                        <b:thumbnail>
+                            
+                            <b:image library="images" name="/books/#{book.isbn}.jpg"/>
+                            
+                            <f:facet name="caption">
+                                <b:commandLink outcome="bookDetails">
+                                    
+                                    <h:outputText value="#{book.title}"/>
+                                                             
+                                </b:commandLink>
+                                
+                                <br/>
+                                
+                                <h:outputText  value="$#{book.listPrice}"/>
+                            </f:facet>
+                            
+                        </b:thumbnail>
+                            
+                        </b:column>
+                          
+                       </ui:repeat>
+
+                </b:panel>
+                
+            </h:form>
+               
+            
+            <br/>
+            <br/>
+            
+                                            
+            <!--Top selling books-->
+
+            <h:form>
+
+                <b:panel>
+                    
+                      <h2 style="text-align:center"> Recent sold books </h2>
+                      <br/>
+
+                      <ui:repeat value="#{homeBackingBean.recentSoldBooks}" var="book">
+                        
+                        <b:column col-md="3">                           
+                            
+                        <b:thumbnail>
+                            
+                            <b:image library="images" name="/books/#{book.isbn}.jpg"/>
+                            
+                            <f:facet name="caption">
+                                <b:commandLink outcome="bookDetails">
+                                    
+                                    <h:outputText value="#{book.title}"/>
+                                                             
+                                </b:commandLink>
+                                
+                                <br/>
+                                
+                                <h:outputText  value="$#{book.listPrice}"/>
+                            </f:facet>
+                            
+                        </b:thumbnail>
+                            
+                        </b:column>
+                          
+                       </ui:repeat>
+
+                </b:panel>
+                
+            </h:form>
+               
+
+<!--            <h:form>
+
+                <b:panel>
+                    
+                      <h2 style="text-align:center"> Most Recently Sold Books </h2>
+                      <br/>
+
+                      <ui:repeat value="#{homeBackingBean.recentSoldBooks}" var="book">
+                        
+                        <b:column col-md="3">                           
+                            
+                        <b:thumbnail>
+                            
+                            <b:image library="images" name="/books/#{book.isbn}.jpg"/>
+                            
+                            <f:facet name="caption">
+                                <b:commandLink outcome="bookDetails">
+                                    
+                                    <h:outputText value="#{book.title}"/>
+                                                             
+                                </b:commandLink>
+                                
+                                <br/>
+                                
+                                <h:outputText  value="$#{book.listPrice}"/>
+                            </f:facet>
+                            
+                        </b:thumbnail>
+                            
+                        </b:column>
+
+                    </ui:repeat>
+                      
+
+
+                </b:panel>
+
+            </h:form>-->
+
             </div>
+
+            
+         
             <div class="col-sm-2">
                 <!-- FEED READER -->
                 <p:scrollPanel style="height:200px">

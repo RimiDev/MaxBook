@@ -223,91 +223,25 @@ public class InvoiceDetailsJpaController implements Serializable {
     
     //Custom queries---------------------------------------------
     
-    //Finding top 10 best selling books
-//    select isbn, COUNT(isbn) AS MOST_FREQUENT
-//from Invoice_Details
-//GROUP BY isbn X
-//ORDER BY COUNT(isbn) DESC X
-//LIMIT 2;
-    
-    public List<InvoiceDetails> getAll2() {
-    
-   TypedQuery<InvoiceDetails> query = em.createQuery(
-   "SELECT i FROM InvoiceDetails i GROUP BY i.isbn ORDER BY COUNT(i.isbn) DESC", InvoiceDetails.class);
-   query.setMaxResults(1);
-    List<InvoiceDetails> topSellingBooks = query.getResultList();
-    
-    return topSellingBooks;
-    
+    public List<Book> getTopSellingBooks() {
+
+        TypedQuery<Book> query = em.createQuery("SELECT ivd.isbn FROM InvoiceDetails ivd GROUP BY ivd.isbn ORDER BY COUNT(ivd) DESC", Book.class);
+
+        Collection<Book> Invoices = query.getResultList();
+        return (List<Book>) Invoices;
     }
     
+    public List<Book> getRecentSoldBook() {
+        
+        TypedQuery<Book> query = em.createQuery("SELECT DISTINCT ivd.isbn FROM InvoiceDetails ivd ORDER BY ivd.id DESC", Book.class);
+        //SELECT isbn FROM Invoice_Details ORDER BY id DESC LIMIT 5;
+        
+        Collection<Book> Invoices = query.setMaxResults(5).getResultList();
+        
+        return (List<Book>) Invoices;
+        
+    }
     
-//    public List<InvoiceDetails> getAlly() {
-//        
-//        CriteriaBuilder cb = em.getCriteriaBuilder();
-//        CriteriaQuery<Tuple> cq = cb.createTupleQuery();              
-//        Root<InvoiceDetails> country = cq.from(InvoiceDetails.class);
-//        
-//        cq.multiselect(country.get("isbn"),cb.count(country.get("isbn")));
-//        cq.groupBy(country.get("isbn"));
-//        Order order = cb.desc(cb.count(country));
-//        cq.orderBy(order);
-//
-//        TypedQuery<Tuple> query = em.createQuery(cq);
-//
-//       List<InvoiceDetails> topSellingBooks = null;       
-//                
-//       query.getResultList().forEach((t) -> {
-//           topSellingBooks.add((InvoiceDetails) t.get("isbn"));
-//        });
-//        return topSellingBooks;
-//
-//    }
-//    
-        public List<InvoiceDetails> getTopSellingBooksEX2() {
-        
-        CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery<InvoiceDetails> cq = cb.createQuery(InvoiceDetails.class);
-        Root<InvoiceDetails> books = cq.from(InvoiceDetails.class);
-        
-        cq.select(books.get("isbn"));
-        
-        cq.groupBy(books.get("isbn"));
-        
-        //Order order = cb.desc(cb.count(books.get("isbn")));
-        cq.orderBy(cb.desc(books.get("isbn")));
-
-        TypedQuery<InvoiceDetails> query = em.createQuery(cq);
-
-       List<InvoiceDetails> topSellingBooks = query.getResultList();
-                
-
-        return topSellingBooks;
-
-    }
-        
-        public List<BestSellingBooksBean> getTopBestBooks() {
-            
-            CriteriaBuilder cb  = em.getCriteriaBuilder();
-            CriteriaQuery<BestSellingBooksBean> cq = cb.createQuery(BestSellingBooksBean.class);
-            Root<InvoiceDetails> books = cq.from(InvoiceDetails.class);
-            Join Invoice = books.join("Invoice");
-            Join Review = Invoice.join("Review");
-            Join Book = Review.join("Book");
-           // cq.where(cb.)
-            
-            
-            return null;
-        }
-        
-               public List<Object[]> getTopSellingBooks() {
-
-            TypedQuery<Object[]> query = em.createQuery("SELECT ivd.isbn FROM InvoiceDetails ivd GROUP BY ivd.isbn order by count(ivd) DESC", Object[].class);
-                                                                                                        
-            
-            Collection<Object[]> Invoices = query.getResultList();
-            return (List<Object[]>) Invoices;
-    }
 
 
 }
