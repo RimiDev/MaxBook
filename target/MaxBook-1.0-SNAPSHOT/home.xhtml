@@ -1,0 +1,185 @@
+<ui:composition template="/pageTemplates/master_template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:b="http://bootsfaces.net/ui"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <ui:define name="content">
+        
+        <!--ADVERTISEMENTS-->
+        <div class="ads">
+            <p> AD BABY </p>
+        </div>
+                
+        <br/>            
+        
+        <!--MAIN HOME PAGE-->
+
+            <!--Top recent sold books-->
+
+<!--            <h:form>
+
+                <h:dataTable value="" var="books">
+
+                    <h:column>
+                        <f:facet name="header">Top selling Books</f:facet>
+                    #{books.isbn}
+                    </h:column>
+
+
+                </h:dataTable>
+
+            </h:form>-->
+
+
+        <div class="container-fluid">
+            <div class="col-sm-2">
+                PLACE ADS HERE
+            </div>
+            <div class="col-sm-8">
+                                            
+            <!--Top selling books-->
+
+            <h:form>
+
+                <b:panel>
+                    
+                      <h2 style="text-align:center"> Best selling books </h2>
+                      <br/>
+
+                      <ui:repeat value="#{homeBackingBean.topSellingBooks}" var="book">
+                        
+                        <b:column col-md="3">                           
+                            
+                        <b:thumbnail>
+                            
+                            <b:image library="images" name="/books/#{book.isbn}.jpg"/>
+                            
+                            <f:facet name="caption">
+                                <b:commandLink outcome="bookDetails">
+                                    
+                                    <h:outputText value="#{book.title}"/>
+                                                             
+                                </b:commandLink>
+                                
+                                <br/>
+                                
+                                <h:outputText  value="$#{book.listPrice}"/>
+                            </f:facet>
+                            
+                        </b:thumbnail>
+                            
+                        </b:column>
+                          
+                       </ui:repeat>
+
+                </b:panel>
+                
+            </h:form>
+               
+            
+            <br/>
+            <br/>
+            
+                                            
+            <!--Top selling books-->
+
+            <h:form>
+
+                <b:panel>
+                    
+                      <h2 style="text-align:center"> Recent sold books </h2>
+                      <br/>
+
+                      <ui:repeat value="#{homeBackingBean.recentSoldBooks}" var="book">
+                        
+                        <b:column col-md="3">                           
+                            
+                        <b:thumbnail>
+                            
+                            <b:image library="images" name="/books/#{book.isbn}.jpg"/>
+                            
+                            <f:facet name="caption">
+                                <b:commandLink outcome="bookDetails">
+                                    
+                                    <h:outputText value="#{book.title}"/>
+                                                             
+                                </b:commandLink>
+                                
+                                <br/>
+                                
+                                <h:outputText  value="$#{book.listPrice}"/>
+                            </f:facet>
+                            
+                        </b:thumbnail>
+                            
+                        </b:column>
+                          
+                       </ui:repeat>
+
+                </b:panel>
+                
+            </h:form>
+               
+
+<!--            <h:form>
+
+                <b:panel>
+                    
+                      <h2 style="text-align:center"> Most Recently Sold Books </h2>
+                      <br/>
+
+                      <ui:repeat value="#{homeBackingBean.recentSoldBooks}" var="book">
+                        
+                        <b:column col-md="3">                           
+                            
+                        <b:thumbnail>
+                            
+                            <b:image library="images" name="/books/#{book.isbn}.jpg"/>
+                            
+                            <f:facet name="caption">
+                                <b:commandLink outcome="bookDetails">
+                                    
+                                    <h:outputText value="#{book.title}"/>
+                                                             
+                                </b:commandLink>
+                                
+                                <br/>
+                                
+                                <h:outputText  value="$#{book.listPrice}"/>
+                            </f:facet>
+                            
+                        </b:thumbnail>
+                            
+                        </b:column>
+
+                    </ui:repeat>
+                      
+
+
+                </b:panel>
+
+            </h:form>-->
+
+            </div>
+
+            
+         
+            <div class="col-sm-2">
+                <!-- FEED READER -->
+                <p:scrollPanel style="height:200px">
+                    <p:feedReader value="https://www.yahoo.com/news/rss/sports" var="feeder" class="rssfeed" size="4">
+                        <h:outputText value="#{feeder.title}" style="font-weight: bold;display:block"/>
+                        <h:outputText value="#{feeder.description.value}" escape="false"/>
+                        <p:separator />
+                    </p:feedReader>
+                </p:scrollPanel>
+            </div>
+        </div>
+ 
+   </ui:define>
+    
+    </ui:composition>
+    

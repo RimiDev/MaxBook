@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html" xmlns:b="http://bootsfaces.net/ui" xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <link type="text/css" rel="stylesheet" href="/project/faces/javax.faces.resource/theme.css?ln=primefaces-glass-x" />
+        <h:outputStylesheet library="css" name="styles.css" />
+        <title>#{msgs.signUpTitle}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <h:outputStylesheet library="webjars" name="bootstrap/3.3.7-1/css/bootstrap.min-jsf.css" />
+        <h:outputStylesheet library="webjars" name="bootstrap/3.3.7-1/css/bootstrap-theme.min-jsf.css" />
+        <h:outputStylesheet library="webjars" name="font-awesome/4.7.0/css/font-awesome.min-jsf.css" />
+    </h:head>
+
+
+    <h:body>
+
+        <!---//START OF MENUS//-->
+
+        <!--MENU BAR-->
+
+        <h:form id="menuBar">
+
+            <p:menubar>
+                <p:menuitem value="MaxBook" url="/home.xhtml" />
+                <p:submenu label="Bookstore" icon="ui-icon-document">
+                    <p:menuitem value="All books" url="/all_books.xhtml" />
+                    <p:separator />
+                    <p:submenu label="Genre" icon="ui-icon-contact">
+                        <p:menuitem value="Adventure" url="#" />
+                        <p:menuitem value="Science Fiction" url="#" />
+                        <p:menuitem value="Romance" url="#" />
+                        <p:menuitem value="Other" url="#" />
+                    </p:submenu>
+                    <p:submenu label="Year" icon="ui-icon-contact">
+                        <p:menuitem value="2017" url="#" />
+                        <p:menuitem value="2016" url="#" />
+                    </p:submenu>
+                </p:submenu>
+                <p:menuitem value="Search" url="/search.xhtml" />
+
+                <f:facet name="options">
+                    <p:outputLabel value="Welcome #{user.username}!" style="margin-right:10px" />
+                    <p:inputText style="margin-right:10px" placeholder="Search" id="userSearch" value="#{user.searched}" />
+                    <p:commandButton type="Submit" value="Search" icon="/resources/images/search.png" action="search" ajax="false" />
+                    <p:commandButton type="Submit" value="Login" icon="ui-icon-extlink" action="login" ajax="false" />
+                    <p:commandButton type="button" value="Logout" icon="ui-icon-extlink" />
+                </f:facet>
+            </p:menubar>
+
+        </h:form>
+
+        <!-- STACK MENU -->
+
+        <p:stack icon="/resources/images/stack.png" expanded="true">
+            <p:menuitem value="Home" icon="/resources/images/home.png" url="./home.xhtml" />
+            <p:menuitem value="Cart" icon="/resources/images/shoppingCart.png" url="./cart.xhtml" />
+            <p:menuitem value="Search" icon="/resources/images/search.png" url="./advancedSearch.xhtml" />
+        </p:stack>
+
+        <!--//END OF MENUS//-->
+
+
+        <!--LOGIN FORM-->
+
+        <h:form>
+            <div class="container">
+                <div class="row">
+
+                    <div class="container panel-default">
+                        <div id="loginbox" style="margin-top:50px;" class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+                            <div class="panel panel-warning">
+                                <div class="panel-heading">
+                                    <div class="" style="">Sign In</div>
+                                    <div style="float:right; font-size: 80%; position: relative; top:-10px"><a href="#">Forgot password?</a></div>
+                                </div>
+
+                                <div style="padding-top:30px" class="panel-body">
+
+                                    <div style="display:none" id="login-alert" class="alert alert-danger col-sm-12"></div>
+
+                                    <form id="loginform" class="form-horizontal" role="form">
+
+                                        <div style="margin-bottom: 25px" class="input-group">
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                            <p:inputText id="login-username" value="#{clientBackingBean.client.email}" type="text" class="form-control" requiredMessage="#{msgs.emailRequired}" placeholder="username or email" />
+
+
+                                        </div>
+
+                                        <div style="margin-bottom: 25px" class="input-group">
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                                            <input id="login-password" type="password" class="form-control" name="password" placeholder="password"></input>
+                                        </div>
+
+
+                                        <div class="input-group">
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input id="login-remember" type="checkbox" name="remember" value="1"> Remember me</input>  
+                                                </label>
+                                            </div>
+                                        </div>
+
+
+                                        <div style="margin-top:10px" class="form-group">
+                                            <!-- Button -->
+
+                                            <div class="col-sm-12 controls">
+                                                <a id="btn-login" href="#" class="btn btn-success">Login  </a>
+                                                <a id="btn-fblogin" href="#" class="btn btn-warning">Sign Up</a>
+                                                <p:commandButton action="#{clientBackingBean.createClient()}" value="Submit" ajax="false" />
+
+                                            </div>
+                                        </div>
+
+
+                                    </form>
+
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                </div>
+            </div>
+<!--        </h:form>
+        
+         <h:form>
+            
+            <p:outputLabel value="#{msgs.emailLabel}"
+                                     for="email"/>
+            <p:inputText id="email" value="#{clientBackingBean.client.email}" 
+                                                            label="#{msgs.emailLabel}"
+                                                            required="true"
+                                                            requiredMessage="#{msgs.emailRequired}"/>
+            <p:message for="email" styleClass="error" />
+        <br/>
+            <p:outputLabel value="#{msgs.userPasswordLabel}"
+                                     for="password"/>
+            <p:password id="password" value="#{clientBackingBean.client.password}"
+                                                          label="#{msgs.userPasswordLabel}"
+                                                          required="true"
+                                                          requiredMessage="#{msgs.passwordRequired}"/>
+            <p:message for="password" styleClass="error" />
+            
+            <p:commandButton action="#{clientBackingBean.createClient()}" value="Submit" ajax="false"/>
+            
+            </h:form>-->
+
+
+        <!-- load js at bottom for faster loading-->
+        <h:outputScript library="webjars" name="jquery/3.1.1-1/jquery.min.js" />
+        <h:outputScript library="webjars" name="bootstrap/3.3.7-1/js/bootstrap.min.js" />
+
+    </h:body>
+
+</html>
