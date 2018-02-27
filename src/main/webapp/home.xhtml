@@ -1,75 +1,172 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 <ui:composition template="/pageTemplates/master_template.xhtml"
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:b="http://bootsfaces.net/ui"
                 xmlns:p="http://primefaces.org/ui"
-                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
-    <h:head>
-        <link type="text/css" rel="stylesheet" href="/project/faces/javax.faces.resource/theme.css?ln=primefaces-glass-x" />
-        <h:outputStylesheet library="css" name="styles.css" />
-        <title>#{msgs.allBooksTitle}</title>
-        <h:outputStylesheet library="webjars" name="bootstrap/3.3.7-1/css/bootstrap.min-jsf.css" />
-        <h:outputStylesheet library="webjars" name="bootstrap/3.3.7-1/css/bootstrap-theme.min-jsf.css" />
-        <h:outputStylesheet library="webjars" name="font-awesome/4.7.0/css/font-awesome.min-jsf.css" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    </h:head>
     <ui:define name="content">
-         <p:scrollPanel style="height:200px">
-                    <p:feedReader value="https://www.yahoo.com/news/rss/sports" var="feeder" class="rssfeed" size="4">
-                        <h:outputText value="#{feeder.title}" style="font-weight: bold;display:block"/>
-                        <h:outputText value="#{feeder.description.value}" escape="false"/>
-                        <p:separator />
-                    </p:feedReader>
-                </p:scrollPanel>
-    </ui:define>
-<!--    <h:body>
-        MENU BAR  
-        <h:form class="menuBar">
-            <p:menubar>
-                <p:menuitem value="MaxBook" url="/home.xhtml"/>
-                <p:submenu label="Bookstore" icon="ui-icon-document">
-                    <p:menuitem value="All books" url="/allbooks.xhtml" />
-                    <p:separator />
-                    <p:submenu label="Genre" icon="ui-icon-contact">
-                        <p:menuitem value="Adventure" url="#" />
-                        <p:menuitem value="Science Fiction" url="#" />
-                        <p:menuitem value="Romance" url="#" />
-                        <p:menuitem value="Other" url="#" />
-                    </p:submenu>
-                    <p:submenu label="Year" icon="ui-icon-contact">
-                        <p:menuitem value="2017" url="#" />
-                        <p:menuitem value="2016" url="#" />
-                    </p:submenu>
-                </p:submenu>
-                <p:menuitem value="Search" url="/search.xhtml"/>
-                <f:facet name="options">
-                    <p:outputLabel value="Welcome #{user.username}!" style="margin-right:10px"/>
-                    <p:inputText style="margin-right:10px" placeholder="Search" id="userSearch" value="#{search.searchQuery}"/>
-                    <p:commandButton type="Submit" value="Search" icon="/resources/images/search.png" action="search" ajax="false"/>
-                    <p:commandButton type="Submit" value="Login" icon="ui-icon-extlink" action="login" ajax="false"/>
-                    <p:commandButton type="button" value="Logout" icon="ui-icon-extlink" />
-                </f:facet>
-            </p:menubar>
-        </h:form>
-        <p:stack icon="/resources/images/stack.png" expanded="true">
-            <p:menuitem value="Home"  icon="/resources/images/home.png" url="./home.xhtml"/>
-            <p:menuitem value="Cart" icon="/resources/images/shoppingCart.png" url="./cart.xhtml"/>
-            <p:menuitem value="Search" icon="/resources/images/search.png" url="./advancedSearch.xhtml"/>
-        </p:stack>
+        
+        <!--ADVERTISEMENTS-->
+        <div class="ads">
+            <p> AD BABY </p>
+        </div>
+                
+        <br/>            
+        
+        <!--MAIN HOME PAGE-->
+
+            <!--Top recent sold books-->
+
+<!--            <h:form>
+
+                <h:dataTable value="" var="books">
+
+                    <h:column>
+                        <f:facet name="header">Top selling Books</f:facet>
+                    #{books.isbn}
+                    </h:column>
+
+
+                </h:dataTable>
+
+            </h:form>-->
+
+
         <div class="container-fluid">
             <div class="col-sm-2">
                 PLACE ADS HERE
             </div>
             <div class="col-sm-8">
-                HOME PAGE HERE
+                                            
+            <!--Top selling books-->
+
+            <h:form>
+
+                <b:panel>
+                    
+                      <h2 style="text-align:center"> Best selling books </h2>
+                      <br/>
+
+                      <ui:repeat value="#{homeBackingBean.topSellingBooks}" var="book">
+                        
+                        <b:column col-md="3">                           
+                            
+                        <b:thumbnail>
+                            
+                            <b:image library="images" name="/books/#{book.isbn}.jpg"/>
+                            
+                            <f:facet name="caption">
+                                <b:commandLink outcome="bookDetails">
+                                    
+                                    <h:outputText value="#{book.title}"/>
+                                                             
+                                </b:commandLink>
+                                
+                                <br/>
+                                
+                                <h:outputText  value="$#{book.listPrice}"/>
+                            </f:facet>
+                            
+                        </b:thumbnail>
+                            
+                        </b:column>
+                          
+                       </ui:repeat>
+
+                </b:panel>
+                
+            </h:form>
+               
+            
+            <br/>
+            <br/>
+            
+                                            
+            <!--Top selling books-->
+
+            <h:form>
+
+                <b:panel>
+                    
+                      <h2 style="text-align:center"> Recent sold books </h2>
+                      <br/>
+
+                      <ui:repeat value="#{homeBackingBean.recentSoldBooks}" var="book">
+                        
+                        <b:column col-md="3">                           
+                            
+                        <b:thumbnail>
+                            
+                            <b:image library="images" name="/books/#{book.isbn}.jpg"/>
+                            
+                            <f:facet name="caption">
+                                <b:commandLink outcome="bookDetails">
+                                    
+                                    <h:outputText value="#{book.title}"/>
+                                                             
+                                </b:commandLink>
+                                
+                                <br/>
+                                
+                                <h:outputText  value="$#{book.listPrice}"/>
+                            </f:facet>
+                            
+                        </b:thumbnail>
+                            
+                        </b:column>
+                          
+                       </ui:repeat>
+
+                </b:panel>
+                
+            </h:form>
+               
+
+<!--            <h:form>
+
+                <b:panel>
+                    
+                      <h2 style="text-align:center"> Most Recently Sold Books </h2>
+                      <br/>
+
+                      <ui:repeat value="#{homeBackingBean.recentSoldBooks}" var="book">
+                        
+                        <b:column col-md="3">                           
+                            
+                        <b:thumbnail>
+                            
+                            <b:image library="images" name="/books/#{book.isbn}.jpg"/>
+                            
+                            <f:facet name="caption">
+                                <b:commandLink outcome="bookDetails">
+                                    
+                                    <h:outputText value="#{book.title}"/>
+                                                             
+                                </b:commandLink>
+                                
+                                <br/>
+                                
+                                <h:outputText  value="$#{book.listPrice}"/>
+                            </f:facet>
+                            
+                        </b:thumbnail>
+                            
+                        </b:column>
+
+                    </ui:repeat>
+                      
+
+
+                </b:panel>
+
+            </h:form>-->
+
             </div>
+
+            
+         
             <div class="col-sm-2">
                  FEED READER 
                 <p:scrollPanel style="height:200px">
@@ -81,8 +178,8 @@
                 </p:scrollPanel>
             </div>
         </div>
-         load js at bottom for faster loading
-        <h:outputScript library="webjars" name="jquery/3.1.1-1/jquery.min.js"/>
-        <h:outputScript library="webjars" name="bootstrap/3.3.7-1/js/bootstrap.min.js" />
-    </h:body>-->
-</ui:composition>
+ 
+   </ui:define>
+    
+    </ui:composition>
+    
