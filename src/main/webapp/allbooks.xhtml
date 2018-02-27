@@ -2,13 +2,39 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
  
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:b="http://bootsfaces.net/ui"
-      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
-    <h:head>
+<ui:composition template="/pageTemplates/master_template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:b="http://bootsfaces.net/ui"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:define name="title">
+        <title>#{msgs.allBooksTitle}</title>
+    </ui:define>
+    <ui:define name="content">
+        <h:form>
+            <b:dataTable value="#{bookJpaController.allBooks}" var="book" id="allBooks-table"
+                         page-length="25" row-highlight="true">
+                <b:dataTableColumn label="#{msgs.titleHeader}">
+                    <h:commandLink value="#{book.title}" action="#{bookDisplayBacking.showDetails}">
+                        <f:param name="isbn" value="#{book.isbn}"/>
+                    </h:commandLink>
+                </b:dataTableColumn>
+                <b:dataTableColumn value="#{book.publisherId.name}" label="#{msgs.publisherHeader}"/>
+                <b:dataTableColumn value="#{book.pages}" label="#{msgs.pagesHeader}"/>
+                <b:dataTableColumn label="#{msgs.detailsHeader}">
+                    <b:commandButton value="See More" look="success" action="#{bookDisplayBacking.showDetails}" size="lg">
+                        <f:param name="isbn" value="#{book.isbn}"/>
+                    </b:commandButton>
+                </b:dataTableColumn>
+            </b:dataTable>
+        </h:form>
+    </ui:define>
+                    
+</ui:composition>
+<!--    <h:head>
         <link type="text/css" rel="stylesheet" href="/project/faces/javax.faces.resource/theme.css?ln=primefaces-glass-x" />
         <h:outputStylesheet library="css" name="styles.css" />
         <title>#{msgs.allBooksTitle}</title>
@@ -18,7 +44,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     </h:head>
     <h:body>
-        <!--MENU BAR-->  
+
+        MENU BAR  
         <h:form class="menuBar">
             <p:menubar>
                 <p:menuitem value="MaxBook" url="/home.xhtml"/>
@@ -71,15 +98,15 @@
                         <b:dataTableColumn value="#{book.publisherId.name}" label="#{msgs.publisherHeader}"/>
                         <b:dataTableColumn value="#{book.pages}" label="#{msgs.pagesHeader}"/>
                         <b:dataTableColumn label="#{msgs.detailsHeader}">
-<!--                            <b:button look="info" p:data-target="#bmodal" 
-                                    p:data-toggle=".modal" icon-awesome="fa-search" />-->
+                            <b:button look="info" p:data-target="#bmodal" 
+                                    p:data-toggle=".modal" icon-awesome="fa-search" />
 <b:button value="Trigger (JavaScript)" look="success" onclick="$('.modalPseudoClass2').modal()" size="lg"/>
                         </b:dataTableColumn>
                     </b:dataTable>
                 </h:form>
             </div>
             <div class="col-sm-2">
-                <!-- FEED READER -->
+                 FEED READER 
                 <p:scrollPanel style="height:300px">
                     <p:feedReader value="https://www.yahoo.com/news/rss/sports" var="feeder" class="rssfeed" size="4">
                         <h:outputText value="#{feeder.title}" style="font-weight: bold;display:block"/>
@@ -89,8 +116,7 @@
                 </p:scrollPanel>
             </div>
         </div>
-        <!-- load js at bottom for faster loading-->
+         load js at bottom for faster loading
         <h:outputScript library="webjars" name="jquery/3.1.1-1/jquery.min.js"/>
         <h:outputScript library="webjars" name="bootstrap/3.3.7-1/js/bootstrap.min.js" />
-    </h:body>
-</html>
+    </h:body>-->

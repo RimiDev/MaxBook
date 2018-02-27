@@ -5,16 +5,21 @@
  */
 package com.rimidev.backing;
 
-import com.rimidev.maxbook.beans.LoginBean;
 import com.rimidev.maxbook.controller.ClientJpaController;
+import com.rimidev.maxbook.entities.Book;
 import com.rimidev.maxbook.entities.Client;
 import com.rimidev.maxbook.util.MessagesUtil;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -22,14 +27,16 @@ import javax.inject.Named;
  */
 @Named
 @RequestScoped
-public class clientBackingBean implements Serializable {
+public class ClientBackingBean implements Serializable {
 
+    private static final Logger logger = Logger.getLogger(ClientBackingBean.class.getName());
+    
     @Inject
     private ClientJpaController clientJpaController;
 
     private Client client;
     
-    private LoginBean loginBean;
+    //private LoginBackingBean loginBean;
 
     /**
      * Client created if it does not exist.
@@ -56,6 +63,17 @@ public class clientBackingBean implements Serializable {
         } else {
             return null;
         }
+    }
+    
+    public String onLogin(String username){
+        logger.log(Level.WARNING,"inside ClientBackingBean onLogin" + username);
+        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+        Client client = clientJpaController.findClientByEmail(username);
+                
+        session.setAttribute("current_user", client );
+        session.setAttribute("cartItems", new ArrayList<Book>());
+        return "home";
+
     }
     
     

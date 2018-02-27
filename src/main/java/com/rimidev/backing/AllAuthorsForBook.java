@@ -27,8 +27,6 @@ public class AllAuthorsForBook implements Serializable {
     @PersistenceContext
     private EntityManager em;
 
-    
-    
     public List<Author> getAuthors(String isbn) {
         TypedQuery<Author> query = 
                 em.createQuery("SELECT a FROM Book b JOIN b.authorList a where b.isbn = :isbn", Author.class);
