@@ -24,6 +24,7 @@
                         <h:outputText value="#{rev.reviewMessage}"/>
                     </h:column>
                     <h:column>
+
                         <p:rating value="#{rev.rating}" readonly="true"/>
                     </h:column>
                     <h:column>
@@ -46,8 +47,98 @@
                     </h:column>
                 </h:dataTable>-->
             </ui:repeat>
-            
+
         </h:form>
+
+        <br/><br/><br/><br/>
+
+        <!--start of book details<-->
+
+        <h:form>
+            <div class="container">
+                <div class="card">
+                    <div class="container-fliud">
+                        <div class="wrapper row">
+                            <div class="preview col-md-6">
+
+                                <div class="preview-pic tab-content">
+                                    <div class="tab-pane active" id="pic-1"><b:image library="images" name="/books/#{bookie.isbn}.jpg"/></div>
+                                    <div class="tab-pane" id="pic-2"><b:image library="images" name="/books/#{bookie.isbn}.jpg"/></div>
+                                    <div class="tab-pane" id="pic-3"><b:image library="images" name="/books/#{bookie.isbn}.jpg"/></div>
+                                    <div class="tab-pane" id="pic-4"><b:image library="images" name="/books/#{bookie.isbn}.jpg"/></div>
+                                    <div class="tab-pane" id="pic-5"><b:image library="images" name="/books/#{bookie.isbn}.jpg"/></div>
+                                </div>
+
+
+                            </div>
+                            <div class="details col-md-6">
+                                <h3 class="product-title">#{bookie.title}</h3>
+                                <div class="rating">
+                                    <!-- need to convert to p:rating and use average rating for book-->
+                                    <div class="stars">
+                                        <span class="fa fa-star checked"></span>
+                                        <span class="fa fa-star checked"></span>
+                                        <span class="fa fa-star checked"></span>
+                                        <span class="fa fa-star"></span>
+                                        <span class="fa fa-star"></span>
+                                    </div>
+                                    <span class="review-no">41 reviews</span>
+                                </div>
+                                <p class="product-description">#{bookie.description}</p>
+                                <!--create method in bookdisplayback bean to check saleprice -->
+                                <h4 class="price">current price: <span>$#{bookie.salePrice}</span></h4>
+                                
+                                <div class="action">
+                                    <b:commandButton  action="#{cartBackingBean.addToCart(bookDisplayBacking.isbn)}" value="Add to cart" />
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </h:form>
+        
+        
+        <!--end of book details<-->
+        
+          <h:form>
+
+                <b:panel>
+                    
+                      <h2 style="text-align:center"> Recommendations</h2>
+                      <br/>
+
+                      <ui:repeat value="#{homeBackingBean.recentSoldBooks}" var="book">
+                        
+                        <b:column col-md="3">                           
+                            
+                        <b:thumbnail>
+                            
+                            <b:image library="images" name="/books/#{book.isbn}.jpg"/>
+                            
+                            <f:facet name="caption">
+                                <b:commandLink outcome="bookDetails">
+                                    
+                                    <h:outputText value="#{book.title}"/>
+                                                             
+                                </b:commandLink>
+                                
+                                <br/>
+                                
+                                <h:outputText  value="$#{book.listPrice}"/>
+                            </f:facet>
+                            
+                        </b:thumbnail>
+                            
+                        </b:column>
+                          
+                       </ui:repeat>
+
+                </b:panel>
+                
+            </h:form>
     </ui:define>
 
 
