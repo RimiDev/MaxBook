@@ -10,7 +10,7 @@
             <p:menubar>
                 <p:menuitem value="MaxBook" url="/home.xhtml"/>
                 <p:submenu label="Bookstore" icon="ui-icon-document">
-                    <p:menuitem value="All books" url="/all_books.xhtml" />
+                    <p:menuitem value="All books" url="/allbooks.xhtml" />
                     <p:separator />
                     <p:submenu label="Genre" icon="ui-icon-contact">
                         <p:menuitem value="Adventure" url="#" />
@@ -30,18 +30,9 @@
                     <p:inputText style="margin-right:10px" placeholder="Search" id="userSearch" value="#{user.searched}"/>
                     <p:commandButton type="Submit" value="Search" icon="/resources/images/search.png" action="search" ajax="false"/>
                     <p:commandButton type="Submit" value="Login" icon="ui-icon-extlink" action="login" ajax="false"/>
-                    <p:commandButton type="button" value="Logout" icon="ui-icon-extlink" />
+                    <b:button look="info" value="Cart" icon-awesome="fa-shopping-cart" />
                 </f:facet>
             </p:menubar>
 
         </h:form>
-
-        <!-- STACK MENU -->
-
-        <p:stack icon="/resources/images/stack.png" expanded="true">
-            <p:menuitem value="Home"  icon="/resources/images/home.png" url="./home.xhtml"/>
-            <p:menuitem value="Cart" icon="/resources/images/shoppingCart.png" url="./cart.xhtml"/>
-            <p:menuitem value="Search" icon="/resources/images/search.png" url="./advancedSearch.xhtml"/>
-        </p:stack>
-
 </ui:composition>

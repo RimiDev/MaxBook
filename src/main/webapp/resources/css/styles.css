@@ -65,3 +65,9 @@
     float:right;
     background:pink;
 }
+
+.bookDisplay {
+    text-align:center;
+    text-overflow: ellipsis;
+    
+}

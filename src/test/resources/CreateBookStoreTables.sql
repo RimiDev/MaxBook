@@ -479,8 +479,16 @@ CREATE TABLE Invoice (
     gross_value int NOT NULL,
     FOREIGN KEY (client_id) REFERENCES Client(id)
 );
+<<<<<<< HEAD:target/classes/database/CreateBookStoreTables.sql
+INSERT INTO Invoice VALUES (1, 1, '2017-12-12 12:12:12', 14.99, 7.80);
+INSERT INTO Invoice VALUES (2, 1, '2017-12-12 12:12:12', 14.99, 7.80);
+INSERT INTO Invoice VALUES (3, 1, '2017-12-12 12:12:12', 14.99, 7.80);
+INSERT INTO Invoice VALUES (4, 2, '2017-12-12 12:12:12', 14.99, 7.80);
+
+=======
 INSERT INTO Invoice (client_id, date_of_sale, net_value, gross_value )VALUES 
 (1, '2017-12-12 12:12:12', 14.99, 7.80);
+>>>>>>> a7b72790fd80ff990f3ddc390b7a1e30c682ec6c:src/test/resources/CreateBookStoreTables.sql
 
 CREATE TABLE Invoice_Details (
     id int PRIMARY KEY auto_increment,
@@ -493,6 +501,13 @@ CREATE TABLE Invoice_Details (
     FOREIGN KEY (invoice_id) REFERENCES Invoice(id),
     FOREIGN KEY (isbn) REFERENCES Book(isbn)
 );
+<<<<<<< HEAD:target/classes/database/CreateBookStoreTables.sql
+INSERT INTO Invoice_Details VALUES (1, 1, '978-1449474256', 14.99, 0.10, 0.05, 0.15);
+INSERT INTO Invoice_Details VALUES (2, 1, '978-1449474256', 14.99, 0.10, 0.05, 0.15);
+INSERT INTO Invoice_Details VALUES (3, 1, '978-1449474256', 14.99, 0.10, 0.05, 0.15);
+INSERT INTO Invoice_Details VALUES (4, 2, '978-0545795661', 14.99, 0.10, 0.05, 0.15);
+
+=======
 INSERT INTO Invoice_Details (invoice_id, isbn, book_price, PST_rate, GST_rate, HST_rate) VALUES 
 (1, '978-1449474256', 14.99, 0.10, 0.05, 0.15);
 
@@ -525,3 +540,4 @@ CREATE TABLE Survey_Results (
 );
 INSERT INTO Survey_Results (question_id, client_id) VALUES
 (1, 1);
+>>>>>>> a7b72790fd80ff990f3ddc390b7a1e30c682ec6c:src/test/resources/CreateBookStoreTables.sql

@@ -6,6 +6,12 @@
               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
               xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
     <application>
+        
+        <locale-config>
+            <default-locale>en_CA</default-locale>
+            <supported-locale>en_CA</supported-locale>
+            <supported-locale>fr_CA</supported-locale>
+        </locale-config>
         <!-- Referencing bundles is on important item in this file -->
         <resource-bundle>
             <base-name>bundles.messages</base-name>
@@ -17,6 +23,10 @@
         <from-view-id>/signUp.xhtml</from-view-id>
         <navigation-case>
             <from-outcome>signUp</from-outcome>
+            <to-view-id>/home.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>onLogin</from-outcome>
             <to-view-id>/home.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
