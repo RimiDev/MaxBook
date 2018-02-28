@@ -17,6 +17,7 @@ import java.util.List;
 import com.rimidev.maxbook.entities.InvoiceDetails;
 import com.rimidev.maxbook.entities.Review;
 import java.util.HashMap;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Resource;
 import javax.enterprise.context.RequestScoped;
@@ -25,6 +26,7 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.servlet.http.HttpSession;
 import javax.transaction.UserTransaction;
 
@@ -377,7 +379,17 @@ public class BookJpaController implements Serializable {
     }
     
     public List<Book> getBooksByAuthor(List<Author> auths){
-        return null;
+        String query = "select bk.isbn,bk.title, concat(au.first_name,' ',au.last_name) \n" +
+                "as fullname from book as bk join author_book as ab on bk.isbn = ab.isbn join author as au on " +
+                "au.id = ab.author_id having fullname in (:auths);";
+        
+        TypedQuery<Book> authBooks = em.createQuery(query, Book.class);
+        authBooks.setParameter("auths",auths);
+        
+         logger.log(Level.INFO, "Book Isbn>>> "+authBooks.getResultList());
+        
+        return authBooks.getResultList();
+        
 //        use bookstore_db;
 //
 //        select ab.title,ab.fullname from (select book.isbn,title, concat(first_name,' ',last_name) 

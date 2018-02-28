@@ -82,12 +82,12 @@
                                         <span class="fa fa-star"></span>
                                         <span class="fa fa-star"></span>
                                     </div>
-                                    <span class="review-no">41 reviews</span>
+                                    <span class="review-no">#{bookie.reviewList.size()} reviews</span>
                                 </div>
                                 <p class="product-description">#{bookie.description}</p>
                                 <!--create method in bookdisplayback bean to check saleprice -->
                                 <h4 class="price">current price: <span>$#{bookie.salePrice}</span></h4>
-                                
+
                                 <div class="action">
                                     <b:commandButton  action="#{cartBackingBean.addToCart(bookDisplayBacking.isbn)}" value="Add to cart" />
 
@@ -99,46 +99,60 @@
                 </div>
             </div>
         </h:form>
-        
-        
+
+
         <!--end of book details<-->
-        
-          <h:form>
 
-                <b:panel>
-                    
-                      <h2 style="text-align:center"> Recommendations</h2>
-                      <br/>
+        <h:form>
 
-                      <ui:repeat value="#{homeBackingBean.recentSoldBooks}" var="book">
-                        
-                        <b:column col-md="3">                           
-                            
+            <b:panel>
+
+                <h2 style="text-align:center"> Recommendations</h2>
+                <br/>
+
+                <ui:repeat value="#{bookJpaController.getBooksByAuthor(bookie.authorList)}" var="book">
+
+                    <b:column col-md="3">
+
                         <b:thumbnail>
-                            
+
                             <b:image library="images" name="/books/#{book.isbn}.jpg"/>
-                            
+
                             <f:facet name="caption">
                                 <b:commandLink outcome="bookDetails">
-                                    
+
                                     <h:outputText value="#{book.title}"/>
-                                                             
+
                                 </b:commandLink>
-                                
+
                                 <br/>
-                                
+
                                 <h:outputText  value="$#{book.listPrice}"/>
                             </f:facet>
-                            
-                        </b:thumbnail>
-                            
-                        </b:column>
-                          
-                       </ui:repeat>
 
-                </b:panel>
-                
-            </h:form>
+                        </b:thumbnail>
+
+                    </b:column>
+
+                </ui:repeat>
+
+            </b:panel>
+
+        </h:form>
+
+        <h:form>
+            <b:panel>
+                <h2> Reviews</h2>
+                <br/>
+                <ui:repeat var="rev" value="#{bookie.reviewList}">
+                    <b:row style="margin-bottom: 3%">
+                      <p:rating value="#{rev.rating}" readonly="true"/>
+                      #{rev.reviewMessage}
+                    </b:row>                          
+                </ui:repeat>
+            </b:panel>
+        </h:form>
+
     </ui:define>
 
 

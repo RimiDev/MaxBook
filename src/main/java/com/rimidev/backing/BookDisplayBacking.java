@@ -40,4 +40,8 @@ public class BookDisplayBacking implements Serializable{
         logger.log(Level.INFO, "Book Isbn>>> "+this.isbn);
         return "bookDetails?faces-redirect=true"; 
     }
+    
+    public Double checkSales(int salePrice){
+        return 0.0;
+    }
 }
