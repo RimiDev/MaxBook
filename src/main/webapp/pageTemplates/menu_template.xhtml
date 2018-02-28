@@ -5,14 +5,14 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
-         <h:form id="menuBar">
+         <h:form >
 
             <p:menubar>
                 <p:menuitem value="MaxBook" url="/home.xhtml"/>
-                <p:submenu label="Bookstore" icon="ui-icon-document">
+                <p:submenu label="Bookstore" icon="fa-search">
                     <p:menuitem value="All books" url="/allbooks.xhtml" />
                     <p:separator />
-                    <p:submenu label="Genre" icon="ui-icon-contact">
+                    <p:submenu label="Genre" style="margin-right: 80%;">
                         <p:menuitem value="Adventure" url="#" />
                         <p:menuitem value="Science Fiction" url="#" />
                         <p:menuitem value="Romance" url="#" />
@@ -23,14 +23,16 @@
                         <p:menuitem value="2016" url="#" />
                     </p:submenu>
                 </p:submenu>
-                <p:menuitem value="Search" url="/search.xhtml"/>
+                
 
                 <f:facet name="options">
                     <p:outputLabel value="Welcome #{user.username}!" style="margin-right:10px"/>
-                    <p:inputText style="margin-right:10px" placeholder="Search" id="userSearch" value="#{user.searched}"/>
-                    <p:commandButton type="Submit" value="Search" icon="/resources/images/search.png" action="search" ajax="false"/>
-                    <p:commandButton type="Submit" value="Login" icon="ui-icon-extlink" action="login" ajax="false"/>
-                    <b:button look="info" value="Cart" icon-awesome="fa-shopping-cart" />
+                    
+                    <p:inputText style="margin-right:10px; box-shadow: none" placeholder="Search" id="userSearch" value="#{user.searched}"/>
+                    
+                    <b:commandButton type="Submit" value="Search" class="btn btn-success" iconAwesome="fa-search" action="search" ajax="false"/>
+                    <b:commandButton type="Submit" value="Login" class="btn btn-warning" action="login" ajax="false"/>
+                    <b:commandButton look="info" value="Cart" action="cart" icon-awesome="fa-shopping-cart" />
                 </f:facet>
             </p:menubar>
 
