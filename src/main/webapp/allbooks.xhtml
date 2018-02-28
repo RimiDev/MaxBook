@@ -31,9 +31,9 @@
                     </b:column>
                 </ui:repeat>
             </b:panel>
-            <b:commandButton value="prev" action="#{allBooks.prev()}"></b:commandButton>
-            <b:label value="Page: #{allBooks.currentPageIndex}"></b:label>
-            <b:commandButton value="next" actionListener="#{allBooks.next()}"></b:commandButton>
+            <b:commandButton value="prev" action="#{allBooks.prev()}" col-sm="1"></b:commandButton>
+            <b:label value="Page: #{allBooks.currentPageIndex}" severity="primary" col-sm="2"></b:label>
+            <b:commandButton value="next" actionListener="#{allBooks.next()}" col-sm="1"></b:commandButton>
         </h:form>
     </ui:define>
 </ui:composition>
