@@ -1,75 +1,176 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/pageTemplates/master_template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:b="http://bootsfaces.net/ui"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    
+    <ui:define name="content">
 
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
-    <h:head>
-        <link type="text/css" rel="stylesheet" href="/project/faces/javax.faces.resource/theme.css?ln=primefaces-glass-x" />
-        <h:outputStylesheet library="css" name="styles.css" />
-        <title>#{msgs.homeTitle}</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    </h:head>
-    
-    
-    
-    <h:body>
-        
-        <!---//START OF MENUS//-->
-        
-        <!--MENU BAR-->
-        
-       <h:form id="menuBar">
-        
-        <p:menubar>
-            <p:menuitem value="MaxBook" url="/home.xhtml"/>
-                <p:submenu label="Bookstore" icon="ui-icon-document">
-                    <p:menuitem value="All books" url="/all_books.xhtml" />
-                      <p:separator />
-                        <p:submenu label="Genre" icon="ui-icon-contact">
-                        <p:menuitem value="Adventure" url="#" />
-                        <p:menuitem value="Science Fiction" url="#" />
-                        <p:menuitem value="Romance" url="#" />
-                        <p:menuitem value="Other" url="#" />
-                    </p:submenu>
-                        <p:submenu label="Year" icon="ui-icon-contact">
-                        <p:menuitem value="2017" url="#" />
-                        <p:menuitem value="2016" url="#" />
-                        </p:submenu>
-                </p:submenu>
-            <p:menuitem value="Search" url="/search.xhtml"/>
-
-        <f:facet name="options">
-            <p:outputLabel value="Welcome #{user.username}!" style="margin-right:10px"/>
-            <p:inputText style="margin-right:10px" placeholder="Search" id="userSearch" value="#{user.searched}"/>
-            <p:commandButton type="Submit" value="Search" icon="/resources/images/search.png" action="search" ajax="false"/>
-            <p:commandButton type="Submit" value="Login" icon="ui-icon-extlink" action="login" ajax="false"/>
-            <p:commandButton type="button" value="Logout" icon="ui-icon-extlink" />
-        </f:facet>
-        </p:menubar>
-            
-            </h:form>
-        
-        <!-- STACK MENU -->
-                
-        <p:stack icon="/resources/images/stack.png" expanded="true">
-    <p:menuitem value="Home"  icon="/resources/images/home.png" url="./home.xhtml"/>
-    <p:menuitem value="Cart" icon="/resources/images/shoppingCart.png" url="./cart.xhtml"/>
-    <p:menuitem value="Search" icon="/resources/images/search.png" url="./advancedSearch.xhtml"/>
-</p:stack>
-        
-       <!--//END OF MENUS//-->
-       
        <!--SEARCH PANEL-->
        
        <div class="searchPanel">
            
            
-           <div>Advanced Search</div>
+           <h2>Advanced Search</h2>
+   
+           <div class="col-md-12 profile-dashboard">
+            <div class="row">
+                <div class="container">
+                    <b:form class="form-horizontal">
+                        <b:tabView contentStyle="border-right: 1px solid #ddd;border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding:10px">
+                            
+                            <!--Search by Title-->
+                            <b:tab title="By Title" style="">
+
+                                <div class="add_listing_info">
+                                    <h2 class="form-title">Search Title</h2>
+                                    <br/>
+                                    <div class="form-group">
+                                        <label class="col-md-4 col-xs-5 control-label" for="Title">Title</label>
+                                        <div class="col-md-5 col-xs-5">
+                                            <b:inputText  placeholder="Title"  value="#{searchBackingBean.title}"
+                                                          class="form-control input-md"></b:inputText>
+                                        </div>
+                                    </div>
+                                    
+                                    <b:commandButton class="btn btn-success" value="Search" action="#{searchBackingBean.getBookByTitle}"/>
+                        
+                                </div>
+                                
+                            </b:tab>
+                            
+                            
+                            <!--Search by genre-->
+                            
+                            <b:tab title="By Genre">
+
+                                <div class="add_listing_info">
+                                    <h2 class="form-title">Search Genre</h2>
+                                    <br/>
+                                    <div class="form-group">
+                                        <label class="col-md-4 col-xs-5 control-label" for="Genre">Genre</label>
+                                        <div class="col-md-5 col-xs-5">
+                                            <b:inputText  placeholder="Genre" value="#{searchBackingBean.genre}"
+                                                          class="form-control input-md"></b:inputText>
+                                        </div>
+                                    </div>
+ 
+                                    <b:commandButton class="btn btn-success" value="Search" action="#{searchBackingBean.getBookByGenre}"/>                                    
+                                    
+                                </div>
+                                
+                            </b:tab>
+                            
+                            <!--Search by Author-->
+                            
+                            <b:tab title="By Author" style="">
+
+                                <div class="add_listing_info">
+                                    <h2 class="form-title">Search Authors</h2>
+                                    <br/>
+                                        <div class="form-group">
+                                        <label class="col-md-4 col-xs-5 control-label">First name</label>
+                                        <div class="col-md-5 col-xs-6">
+                                            <b:inputText  placeholder="First name"  value="#{searchBackingBean.firstName}"
+                                                          class="form-control input-md"></b:inputText>                         
+                                        </div>
+                                        <div class="col-md-2 col-xs-1">
+                                            <b:commandButton class="btn btn-success" value="Search" action="#{searchBackingBean.getBookByFirstName}"/>                                    
+                                        </div>
+                                    
+                                        <div class="form-group">
+                                        <label class="col-md-4 col-xs-5 control-label" for="LastName">Last name</label>
+                                        <div class="col-md-5 col-xs-6">
+                                            <b:inputText  placeholder="Last name" value="#{searchBackingBean.lastName}"
+                                                          class="form-control"></b:inputText>                                                        
+                                        </div>
+                                        <div class="col-md-2 col-xs-1">
+                                             <b:commandButton class="btn btn-success" value="Search" action="#{searchBackingBean.getBookByLastName}"/>                                    
+                                        </div>                                       
+                                        
+                                        
+                                        
+                                        </div>
+                                 </div>
+                                     
+                                </div>
+                                
+                            </b:tab>
+                                
+                                </b:tabView>
+                        
+                        
+                    </b:form>
+
+                 </div>
+                
+            </div>
+               
+           </div>
            
-           <h:form>
+           <div class="col-md-12">
+                                            
+            <!--Results-->
+
+            <h:form>
+
+                <b:panel>
+                    
+                      <h2 style="text-align:center"> Search results </h2>
+                      <br/>
+
+                      <ui:repeat value="#{searchBackingBean.searchedBooks}" var="book">
+                          
+                        
+                        <b:column col-md="3">                           
+                            
+                        <b:thumbnail>
+                             
+
+                            
+                            <f:facet name="caption">
+                                <b:commandLink outcome="bookDetails">
+
+                                    <b:image library="images" name="/books/#{book.isbn}.jpg" tooltip="#{book.genre}"/>
+                                    <h:outputText value="#{book.title}"/>
+                                                             
+                                </b:commandLink>
+                                
+                                <br/>
+                                
+                                <h:outputText  value="$#{book.listPrice}"/>
+                                <br/>
+                                <ui:repeat value="#{searchBackingBean.getFullName(book)}" var="authors">
+                                <h:outputText value="#{authors}"/>
+                                <br/>
+                                </ui:repeat>
+                            </f:facet>
+                            
+                        </b:thumbnail>
+                            
+                        </b:column>
+
+                       </ui:repeat> 
+
+
+                      
+                      
+                </b:panel>
+                
+            </h:form>
+            
+           </div>
+ 
+           
+           
+           
+           
+           
+           
+           
+<!--           <h:form>
                        
             <p:outputLabel value="#{msgs.typeLabel}"
                                      for="type"/>
@@ -89,7 +190,7 @@
             </p:selectOneMenu>
 
          
-             <!--TITLE SEARCH FORM-->            
+             TITLE SEARCH FORM            
     <h:panelGroup rendered="#{search.searchType == 'title'}">
         <br/>
         <h:form>
@@ -100,7 +201,7 @@
         </h:form>
     </h:panelGroup>
              
-             <!--GENRE SEARCH FORM-->
+             GENRE SEARCH FORM
     <h:panelGroup rendered="#{search.searchType == 'genre'}">
         <br/>
         <h:form>
@@ -111,7 +212,7 @@
         </h:form>
     </h:panelGroup>
              
-             <!--AUTHOR SEARCH FORM-->
+             AUTHOR SEARCH FORM
     <h:panelGroup rendered="#{search.searchType == 'author'}">
         <br/>
         <h:form>
@@ -122,7 +223,7 @@
         </h:form>
     </h:panelGroup>
              
-                          <!--PUBLISHER SEARCH FORM-->
+                          PUBLISHER SEARCH FORM
     <h:panelGroup rendered="#{search.searchType == 'publisher'}">
         <br/>
         <h:form>
@@ -133,7 +234,7 @@
         </h:form>
     </h:panelGroup>
                           
-                           <!--DATE SEARCH FORM-->
+                           DATE SEARCH FORM
     <h:panelGroup rendered="#{search.searchType == 'date'}" class="searchPanel">
         <br/>
         <h:form>           
@@ -155,7 +256,7 @@
         
     </h:panelGroup>                         
              
-             </h:form>
+             </h:form>-->
              
             
 <!--            <script type="text/javascript">
@@ -176,12 +277,9 @@
         
        </div>
        
-       
 
- 
-        
-        
-    </h:body>
     
+    </ui:define>
     
-</html>
+                    
+</ui:composition>
