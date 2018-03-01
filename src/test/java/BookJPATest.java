@@ -25,9 +25,11 @@ import javax.inject.Inject;
 import javax.sql.DataSource;
 import java.io.*;
 import java.sql.SQLException;
+import java.util.Collection;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.persistence.TypedQuery;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertTrue;
@@ -88,7 +90,6 @@ public class BookJPATest {
     @Test
     public void should_find_authors_from_isbn() throws SQLException {
         
-        //List<InvoiceDetails> list = invoiceDetailsController.getTopSellingBooks();
         logger.log(Level.SEVERE, ">>>>>>>> list size");
         assertThat(true);
         
