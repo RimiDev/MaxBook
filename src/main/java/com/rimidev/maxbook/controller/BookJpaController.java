@@ -378,15 +378,15 @@ public class BookJpaController implements Serializable {
         return q.getResultList();
     }
     
-    public List<Book> getBooksByAuthor(List<Author> auths){
-        String query = "select bk.isbn,bk.title, concat(au.first_name,' ',au.last_name) \n" +
-                "as fullname from book as bk join author_book as ab on bk.isbn = ab.isbn join author as au on " +
-                "au.id = ab.author_id having fullname in (:auths);";
+    public List<Book> getBooksByAuthor(List<Integer> authIds,String isbn){  
+        logger.log(Level.INFO, authIds.toString());
         
+        String query = "select distinct bk from Book bk INNER JOIN bk.authorList bkl where bkl.id IN :auths AND bk.isbn <> :bookIsbn";
         TypedQuery<Book> authBooks = em.createQuery(query, Book.class);
-        authBooks.setParameter("auths",auths);
+        authBooks.setParameter("auths",authIds);
+        authBooks.setParameter("bookIsbn",isbn);
         
-         logger.log(Level.INFO, "Book Isbn>>> "+authBooks.getResultList());
+         logger.log(Level.INFO, "Author Books>> "+authBooks.setMaxResults(3).getResultList());
         
         return authBooks.getResultList();
         

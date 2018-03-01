@@ -14,48 +14,11 @@
     <ui:define name="content">
 
         <ui:param  name="bookie" value="#{bookJpaController.findBook(bookDisplayBacking.isbn)}"/>
-        <h:form>
-            <h:outputLabel>#{bookie.title}</h:outputLabel>
-            <h:outputLabel>#{bookie.isbn}</h:outputLabel>
-            <h1>Reviews</h1>
-            <ui:repeat var="revs" value="#{bookie.reviewList}">
-                <h:dataTable value="#{revs}" var="rev">
-                    <h:column>
-                        <h:outputText value="#{rev.reviewMessage}"/>
-                    </h:column>
-                    <h:column>
-
-                        <p:rating value="#{rev.rating}" readonly="true"/>
-                    </h:column>
-                    <h:column>
-                        <h:outputText value="#{rev.clientId.firstName} "/>
-                        <h:outputText value="#{rev.clientId.lastName}"/>
-                    </h:column>
-                </h:dataTable>
-            </ui:repeat>
-            <h1>Recommendations</h1>
-            <ui:repeat var="authors" value="#{bookie.authorList}">
-                <h:dataTable value="#{authors}" var="auth">
-                    <h:column>
-                        <h:outputText value="#{auth.firstName} "/>
-                        <h:outputText value="#{auth.lastName}"/>
-                    </h:column>
-                </h:dataTable>
-<!--                <h:dataTable var="auth_book" value="#{auth.bookList}">
-                    <h:column>
-                        <h:outputText value="#{auth_book.title}"/>
-                    </h:column>
-                </h:dataTable>-->
-            </ui:repeat>
-
-        </h:form>
-
-        <br/><br/><br/><br/>
-
+       
         <!--start of book details<-->
-
+        <br/><br/>
         <h:form>
-            <div class="container">
+            <div class="container" >
                 <div class="card">
                     <div class="container-fliud">
                         <div class="wrapper row">
@@ -63,10 +26,6 @@
 
                                 <div class="preview-pic tab-content">
                                     <div class="tab-pane active" id="pic-1"><b:image library="images" name="/books/#{bookie.isbn}.jpg"/></div>
-                                    <div class="tab-pane" id="pic-2"><b:image library="images" name="/books/#{bookie.isbn}.jpg"/></div>
-                                    <div class="tab-pane" id="pic-3"><b:image library="images" name="/books/#{bookie.isbn}.jpg"/></div>
-                                    <div class="tab-pane" id="pic-4"><b:image library="images" name="/books/#{bookie.isbn}.jpg"/></div>
-                                    <div class="tab-pane" id="pic-5"><b:image library="images" name="/books/#{bookie.isbn}.jpg"/></div>
                                 </div>
 
 
@@ -104,7 +63,7 @@
                 <h2 style="text-align:center"> Recommendations</h2>
                 <br/>
 
-                <ui:repeat value="#{homeBackingBean.topSellingBooks}" var="book">
+                <ui:repeat value="#{bookDisplayBacking.getRecsByAuthor(bookie.authorList)}" var="book">
 
                     <b:column col-md="3">
 
@@ -132,7 +91,7 @@
 
             </b:panel>
         </h:form>
-        
+
         <!--END OF RECOMMENDATIONS-->
 
         <h:form style="margin-top: 3%">
@@ -144,15 +103,16 @@
                         <p:rating value="#{rev.rating}" readonly="true"/>
                         <h:outputText value="#{rev.reviewMessage}"/>
                         <br/>
-                        <b:row>
-                        <h:outputText value="BY: #{rev.clientId.firstName} "/>
-                        <h:outputText value="#{rev.clientId.lastName}"/>
-                        </b:row>
+                        <div class="container-fluid">
+                             <div class="row">
+                                <h:outputText value="BY: #{rev.clientId.firstName} "/>
+                                <h:outputText value="#{rev.clientId.lastName}"/>
+                            </div>
+                        </div>
                     </b:row>                          
                 </ui:repeat>
 
                 <b:row style="resize: none;display: block">
-                    <h:outputText value="#{bookie.title}"/>
                     <b:inputTextarea value="#{reviewBacking.revMsg}" style="resize: none" span="6" rows="5" fieldSize="lg"/>
                 </b:row>
                 <b:row>
