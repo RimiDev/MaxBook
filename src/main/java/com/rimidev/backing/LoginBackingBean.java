@@ -41,6 +41,31 @@ public class LoginBackingBean implements Serializable {
   public void setPassword(final String password) {
     this.password = password;
   }
+  
+  public void validateEmail(FacesContext fc, UIComponent c, Object value) {
+    
+     String email = (String)value;
+      String pattern = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+
+      // Create a Pattern object
+      Pattern r = Pattern.compile(pattern);
+      
+      // Now create matcher object.
+      Matcher m = r.matcher(email);
+    if (!m.find()) {
+      throw new ValidatorException(new FacesMessage(
+              "Email improperly typed"));
+    }
+    
+  }
+
+  public void validatePassword(FacesContext fc, UIComponent c, Object value) {
+    
+     String password = (String)value;
+      
+
+    
+  }
 
 
 
