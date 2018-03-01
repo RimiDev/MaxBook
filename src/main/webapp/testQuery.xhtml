@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ui:composition template="/pageTemplates/master_template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:b="http://bootsfaces.net/ui"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <ui:define name="title">
+        <title>Query Test</title>
+    </ui:define>
+
+    <ui:define name="content">
+        <h:dataTable var="auth" value="#{authorJpaController.getListOf()}">
+            <h:column>
+                <h:outputText value="#{auth.firstName}"/>
+                <h:outputText value="#{auth.lastName}"/>
+            </h:column>
+        </h:dataTable>
+    </ui:define>
+    
+</ui:composition>

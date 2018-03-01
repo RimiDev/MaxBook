@@ -12,8 +12,8 @@
     </ui:define>
 
     <ui:define name="content">
- 
-       <ui:param  name="bookie" value="#{bookJpaController.findBook(bookDisplayBacking.isbn)}"/>
+
+        <ui:param  name="bookie" value="#{bookJpaController.findBook(bookDisplayBacking.isbn)}"/>
         <h:form>
             <h:outputLabel>#{bookie.title}</h:outputLabel>
             <h:outputLabel>#{bookie.isbn}</h:outputLabel>
@@ -97,42 +97,43 @@
 
         <!--end of book details<-->
 
-        <!--        <h:form style="margin-top: 3%">
+        <h:form style="margin-top: 3%">
+
+            <b:panel>
+
+                <h2 style="text-align:center"> Recommendations</h2>
+                <br/>
+
+                <ui:repeat value="#{homeBackingBean.topSellingBooks}" var="book">
+
+                    <b:column col-md="3">
+
+                        <b:thumbnail>
+
+                            <b:image library="images" name="/books/#{book.isbn}.jpg"/>
+
+                            <f:facet name="caption">
+                                <b:commandLink outcome="bookDetails">
+
+                                    <h:outputText value="#{book.title}"/>
+
+                                </b:commandLink>
+
+                                <br/>
+
+                                <h:outputText  value="$#{book.listPrice}"/>
+                            </f:facet>
+
+                        </b:thumbnail>
+
+                    </b:column>
+
+                </ui:repeat>
+
+            </b:panel>
+        </h:form>
         
-                    <b:panel>
-        
-                        <h2 style="text-align:center"> Recommendations</h2>
-                        <br/>
-        
-                        <ui:repeat value="#{homeBackingBean.topSellingBooks}" var="book">
-        
-                            <b:column col-md="3">
-        
-                                <b:thumbnail>
-        
-                                    <b:image library="images" name="/books/#{book.isbn}.jpg"/>
-        
-                                    <f:facet name="caption">
-                                        <b:commandLink outcome="bookDetails">
-        
-                                            <h:outputText value="#{book.title}"/>
-        
-                                        </b:commandLink>
-        
-                                        <br/>
-        
-                                        <h:outputText  value="$#{book.listPrice}"/>
-                                    </f:facet>
-        
-                                </b:thumbnail>
-        
-                            </b:column>
-        
-                        </ui:repeat>
-        
-                    </b:panel>
-        
-                </h:form>-->
+        <!--END OF RECOMMENDATIONS-->
 
         <h:form style="margin-top: 3%">
             <b:panel>
@@ -141,13 +142,20 @@
                 <ui:repeat var="rev" value="#{bookie.reviewList}">
                     <b:row style="margin-bottom: 3%">
                         <p:rating value="#{rev.rating}" readonly="true"/>
-                        #{rev.reviewMessage}
+                        <h:outputText value="#{rev.reviewMessage}"/>
+                        <br/>
+                        <b:row>
+                        <h:outputText value="BY: #{rev.clientId.firstName} "/>
+                        <h:outputText value="#{rev.clientId.lastName}"/>
+                        </b:row>
                     </b:row>                          
                 </ui:repeat>
 
                 <b:row style="resize: none;display: block">
                     <h:outputText value="#{bookie.title}"/>
                     <b:inputTextarea value="#{reviewBacking.revMsg}" style="resize: none" span="6" rows="5" fieldSize="lg"/>
+                </b:row>
+                <b:row>
                     <p:rating value="#{reviewBacking.rating}"/>
                 </b:row>
                 <b:commandButton action="#{reviewBacking.addReview()}" look="info" value="submit"/>
