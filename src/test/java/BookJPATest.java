@@ -9,6 +9,8 @@ import com.rimidev.maxbook.controller.AuthorJpaController;
 import com.rimidev.maxbook.controller.exceptions.RollbackFailureException;
 import com.rimidev.maxbook.entities.Author;
 import com.rimidev.backing.AllAuthorsForBook;
+import com.rimidev.maxbook.controller.InvoiceDetailsJpaController;
+import com.rimidev.maxbook.entities.InvoiceDetails;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
@@ -23,13 +25,20 @@ import javax.inject.Inject;
 import javax.sql.DataSource;
 import java.io.*;
 import java.sql.SQLException;
+import java.util.Collection;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.persistence.TypedQuery;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertTrue;
 import org.junit.Ignore;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertTrue;
+
 
 
 @Ignore
@@ -69,7 +78,7 @@ public class BookJPATest {
     }
 
     @Inject
-    private AuthorJpaController authorController;
+    private InvoiceDetailsJpaController invoiceDetailsController;
 
     @Resource(name = "java:app/jdbc/myBooks")
     private DataSource ds;
@@ -80,6 +89,9 @@ public class BookJPATest {
      */
     @Test
     public void should_find_authors_from_isbn() throws SQLException {
+        
+        logger.log(Level.SEVERE, ">>>>>>>> list size");
+        assertThat(true);
         
         
         

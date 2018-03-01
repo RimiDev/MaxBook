@@ -24,7 +24,7 @@
     </context-param>
   <context-param>
     <param-name>primefaces.THEME</param-name>
-    <param-value>cruze</param-value>
+    <param-value>blitzer</param-value>
   </context-param>
 
     <!-- Any file prefixed with faces/ will be processed by the faces servlet -->
