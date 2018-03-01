@@ -12,8 +12,8 @@
     </ui:define>
 
     <ui:define name="content">
-
-        <ui:param name="bookie" value="#{bookJpaController.findBook(bookDisplayBacking.isbn)}"/>
+ 
+       <ui:param  name="bookie" value="#{bookJpaController.findBook(bookDisplayBacking.isbn)}"/>
         <h:form>
             <h:outputLabel>#{bookie.title}</h:outputLabel>
             <h:outputLabel>#{bookie.isbn}</h:outputLabel>
@@ -75,13 +75,7 @@
                                 <h3 class="product-title">#{bookie.title}</h3>
                                 <div class="rating">
                                     <!-- need to convert to p:rating and use average rating for book-->
-                                    <div class="stars">
-                                        <span class="fa fa-star checked"></span>
-                                        <span class="fa fa-star checked"></span>
-                                        <span class="fa fa-star checked"></span>
-                                        <span class="fa fa-star"></span>
-                                        <span class="fa fa-star"></span>
-                                    </div>
+                                    <p:rating readonly="true"/>
                                     <span class="review-no">#{bookie.reviewList.size()} reviews</span>
                                 </div>
                                 <p class="product-description">#{bookie.description}</p>
@@ -152,9 +146,11 @@
                 </ui:repeat>
 
                 <b:row style="resize: none;display: block">
-                    <b:inputTextarea id="revMsg" style="resize: none" span="6" rows="5" fieldSize="lg"/>
+                    <h:outputText value="#{bookie.title}"/>
+                    <b:inputTextarea value="#{reviewBacking.revMsg}" style="resize: none" span="6" rows="5" fieldSize="lg"/>
+                    <p:rating value="#{reviewBacking.rating}"/>
                 </b:row>
-                <b:button look="info" value="submit"/>
+                <b:commandButton action="#{reviewBacking.addReview()}" look="info" value="submit"/>
             </b:panel>
         </h:form>
 
