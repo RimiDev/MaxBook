@@ -7,36 +7,39 @@
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
     <ui:define name="content">
-        
-        <!--ADVERTISEMENTS-->
-        <div class="ads">
-            <p> AD BABY </p>
-        </div>
-                
+           
         <br/>            
+
+        <!--ADS-->
         
-        <!--MAIN HOME PAGE-->
-
-            <!--Top recent sold books-->
-
-<!--            <h:form>
-
-                <h:dataTable value="" var="books">
-
-                    <h:column>
-                        <f:facet name="header">Top selling Books</f:facet>
-                    #{books.isbn}
-                    </h:column>
-
-
-                </h:dataTable>
-
-            </h:form>-->
-
-
         <div class="container-fluid">
             <div class="col-sm-2">
-                PLACE ADS HERE
+                
+                <h:form>
+                    
+
+                        
+                        <ui:repeat value="#{adsJpaController.allAds}" var="adv">
+                            
+                           <b:column col-md="12">
+                               
+                               <b:thumbnail>
+                                                  
+                                <b:image library="images" name="ads/#{adv.imageName}" style="margin-left:0;"/>
+                                
+                               </b:thumbnail>
+                                
+                           </b:column>
+                                
+                                                        
+                        </ui:repeat>
+                        
+
+     
+                </h:form>  
+                
+                
+                
             </div>
             <div class="col-sm-8">
                                             

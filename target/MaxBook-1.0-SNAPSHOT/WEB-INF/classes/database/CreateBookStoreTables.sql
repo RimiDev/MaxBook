@@ -540,3 +540,21 @@ CREATE TABLE Survey_Results (
 );
 INSERT INTO Survey_Results (question_id, client_id) VALUES
 (1, 1);
+
+DROP TABLE IF EXISTS Ads;
+
+CREATE TABLE Ads (
+id int PRIMARY KEY auto_increment,
+imageName varchar(255) NOT NULL);
+
+INSERT INTO Ads (imageName) VALUES
+("gillette.jpg");
+INSERT INTO Ads (imageName) VALUES
+("gusta.png");
+INSERT INTO Ads (imageName) VALUES
+("mountainDew.jpg");
+INSERT INTO Ads (imageName) VALUES
+("museumFineArts.jpg");
+INSERT INTO Ads (imageName) VALUES
+("macbook.jpg");
+
