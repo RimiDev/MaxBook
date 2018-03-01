@@ -4,6 +4,7 @@ import com.rimidev.maxbook.controller.exceptions.IllegalOrphanException;
 import com.rimidev.maxbook.controller.exceptions.NonexistentEntityException;
 import com.rimidev.maxbook.controller.exceptions.PreexistingEntityException;
 import com.rimidev.maxbook.controller.exceptions.RollbackFailureException;
+import com.rimidev.maxbook.entities.Ads;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
@@ -18,6 +19,7 @@ import com.rimidev.maxbook.entities.InvoiceDetails;
 import com.rimidev.maxbook.entities.Review;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Resource;
 import javax.enterprise.context.RequestScoped;
@@ -384,6 +386,41 @@ public class BookJpaController implements Serializable {
 //        select ab.title,ab.fullname from (select book.isbn,title, concat(first_name,' ',last_name) 
 //        as fullname from book join author_book on book.isbn = author_book.isbn join author on author.id = author_book.author_id)
 //        as ab where ab.fullname in ("Adam Gasiewski","Emily Beck");
-  }
+    }
+    
+    /**
+     * Find all books by title
+     * @return List of books with given title
+     * @param Title given by the user
+     * @author Maxime Lacasse
+     * 
+     */
+    
+       public List<Book> getBookByTitle(String title) {
+        
+        TypedQuery<Book> query = em.createNamedQuery("Book.findByLikeTitle", Book.class);
+        
+        query.setParameter("title", "%" + title + "%");
+        
+        List<Book> books = query.getResultList();
+                
+        return (List<Book>) books;
+    
+}
+       
+       public List<Book> getBookByGenre(String genre) {
+        
+        TypedQuery<Book> query = em.createNamedQuery("Book.findByLikeGenre", Book.class);
+        
+        query.setParameter("genre", "%" + genre + "%");
+//        query.setParameter("genre", genre);
 
+        
+        List<Book> books = query.getResultList();
+                
+        return (List<Book>) books;
+    
+}
+    
+    
 }

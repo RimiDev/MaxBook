@@ -49,7 +49,9 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Book.findByFormat", query = "SELECT b FROM Book b WHERE b.format = :format")
     , @NamedQuery(name = "Book.findByEnteredDate", query = "SELECT b FROM Book b WHERE b.enteredDate = :enteredDate")
     , @NamedQuery(name = "Book.findByRemovalStatus", query = "SELECT b FROM Book b WHERE b.removalStatus = :removalStatus")
-    , @NamedQuery(name = "Book.findByDescription", query = "SELECT b FROM Book b WHERE b.description = :description")})
+    , @NamedQuery(name = "Book.findByDescription", query = "SELECT b FROM Book b WHERE b.description = :description")
+    , @NamedQuery(name = "Book.findByLikeTitle", query = "SELECT b FROM Book b WHERE b.title LIKE :title")
+    , @NamedQuery(name = "Book.findByLikeGenre", query = "SELECT b FROM Book b WHERE b.genre LIKE :genre")})
 public class Book implements Serializable {
 
     private static final long serialVersionUID = 1L;

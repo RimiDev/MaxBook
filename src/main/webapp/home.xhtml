@@ -7,6 +7,8 @@
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
     <ui:define name="content">
+           
+        <br/>            
 
         <!--ADVERTISEMENTS-->
         <div class="ads">
@@ -33,10 +35,36 @@
 
 </h:form>-->
 
-
+        <!--ADS-->
+        
         <div class="container-fluid">
             <div class="col-sm-2">
-                PLACE ADS HERE
+                
+                <h:form>
+                    
+
+                        
+                        <ui:repeat value="#{adsJpaController.allAds}" var="adv">
+                            
+                           <b:column col-md="12">
+                               
+                               <b:thumbnail>
+                                                  
+                                <b:image library="images" name="ads/#{adv.imageName}" style="margin-left:0;"/>
+                                
+                               </b:thumbnail>
+                                
+                           </b:column>
+                                
+                                                        
+                        </ui:repeat>
+                        
+
+     
+                </h:form>  
+                
+                
+                
             </div>
             <div class="col-sm-8">
 
