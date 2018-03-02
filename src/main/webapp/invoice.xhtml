@@ -1,0 +1,112 @@
+<ui:composition template="/pageTemplates/master_template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:b="http://bootsfaces.net/ui"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <ui:define name="content">
+        <b:container>
+            <b:row>
+                <b:column span="3">
+                    <h:graphicImage value="resources/images/citrus.png" height="75"/>
+                </b:column>
+            </b:row>
+            <b:row>
+                <b:column span="3">
+                    <h:outputText value=" "/>
+                </b:column>
+            </b:row>
+            <b:row>
+                <b:column span="3">
+                    <h:outputText value="Invoice #000000"/>
+                </b:column>
+            </b:row>
+            <b:row>
+                <b:column span="3">
+                    <h:outputText value="_______________"/>
+                </b:column>
+                <b:column span="3">
+                    <h:outputText value="_______________"/>
+                </b:column>
+                <b:column span="3" offset="3">
+                    <h:outputText value="_______________" />
+                </b:column> 
+            </b:row>
+            <b:row>
+                <b:column span="3">
+                    <h:outputText value="Billing Details"/>
+                </b:column>
+                <b:column span="3">
+                    <h:outputText value="Payment Information"/>
+                </b:column>
+                <b:column span="3" offset="3">
+                    <h:outputText value="Invoice Details" />
+                </b:column> 
+            </b:row>
+            <b:row>
+                <b:column span="3">
+                    <h:outputText value="_______________"/>
+                </b:column>
+                <b:column span="3">
+                    <h:outputText value="_______________"/>
+                </b:column>
+                <b:column span="3" offset="3">
+                    <h:outputText value="_______________" />
+                </b:column> 
+            </b:row>
+            <b:row>
+                <b:column span="3">
+                    <h:outputText value="Philippe Langlois-Pedroso"/>
+                </b:column>
+                <b:column span="3">
+                    <h:outputText value="Card Name: VISA"/>
+                </b:column>
+                <b:column span="3" offset="3">
+                    <h:outputText value="Date Of Purchase: 12-12-1212" />
+                </b:column> 
+            </b:row>
+            <b:row>
+                <b:column span="3">
+                    <h:outputText value="1111 Test Avenue"/>
+                </b:column>
+                <b:column span="3">
+                    <h:outputText value="Card Number: ***12"/>
+                </b:column>
+            </b:row>
+            <b:row>
+                <b:column span="3">
+                    <h:outputText value="City, Province, Country"/>
+                </b:column>
+                <b:column span="3">
+                    <h:outputText value="Exp Date: 00/0000"/>
+                </b:column>
+            </b:row>
+        </b:container>
+        <br></br>
+        <br></br>
+        <h:form>
+            <b:panel>
+                <ui:repeat value="#{allBooks.model}" var="book">
+                    <b:row>
+                        <b:column col-sm="2">                           
+                            <b:thumbnail>
+                                <b:image library="images" name="/books/#{book.isbn}.jpg"/>
+                                <f:facet name="caption">
+                                    <b:commandLink outcome="bookDetails">
+                                        <h:outputText value="#{book.title}"/>
+                                    </b:commandLink>
+                                    <h:outputText  value="$#{book.listPrice}"/>
+                                </f:facet>
+                            </b:thumbnail>
+                        </b:column>
+                    </b:row>
+                </ui:repeat>
+            </b:panel>
+            <b:commandButton value="#{msgs.prev}" action="#{allBooks.prev()}" col-sm="1"></b:commandButton>
+            <b:label value="Page: #{allBooks.currentPageIndex}" severity="primary" col-sm="2"></b:label>
+            <b:commandButton value="#{msgs.next}" actionListener="#{allBooks.next()}" col-sm="1"></b:commandButton>
+        </h:form>
+    </ui:define>
+</ui:composition>
+
