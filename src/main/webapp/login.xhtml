@@ -6,76 +6,84 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
-    <!--LOGIN FORM-->
-    <ui:define name="content">
-        <div class="container">
-            <div class="row">
 
-                <div class="container panel-default">
-                    <div id="loginbox" style="margin-top:50px;" class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
-                        <div class="panel panel-warning">
-                            <div class="panel-heading">
-                                <div class="" style="">Sign In</div>
-                                <div style="float:right; font-size: 80%; position: relative; top:-10px"><a href="#">Forgot password?</a></div>
-                            </div>
-
-                            <div style="padding-top:30px" class="panel-body">
-
-                                <div style="display:none" id="login-alert" class="alert alert-danger col-sm-12"></div>
-
-                                <h:form id="loginform" class="form-horizontal" role="form">
-
-                                    <div style="margin-bottom: 25px" class="input-group">
-                                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                        <p:inputText id="login-username" value="#{clientBackingBean.client.email}" type="text" class="form-control" requiredMessage="#{msgs.emailRequired}" placeholder="username or email" />
+  
 
 
-                                    </div>
+  <!--LOGIN FORM-->
+  <ui:define name="content">
+    <div class="container">
+      <div class="row">
 
-                                    <div style="margin-bottom: 25px" class="input-group">
-                                        <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                                        <input id="login-password" type="password" class="form-control" name="password" placeholder="password" value="password"></input>
-                                    </div>
+        <div class="container panel-default">
+          <div id="loginbox" style="margin-top:50px;" class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+            <div class="panel panel-warning">
+              <div class="panel-heading">
+                <div class="" style="">Sign In</div>
+                <div style="float:right; font-size: 80%; position: relative; top:-10px"><a href="#">Forgot password?</a></div>
+              </div>
+
+              <div style="padding-top:30px" class="panel-body">
+
+                <div style="display:none" id="login-alert" class="alert alert-danger col-sm-12"></div>
+                
+                <h:form id="loginform" class="form-horizontal" role="form">
+                   <h:message id="nameError1" for="login-username" style="color: red"/>
+                  <div style="margin-bottom: 25px" class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                    <h:inputText id="login-username" value="#{clientBackingBean.client.email}" 
+                                 class="form-control" 
+                                 validator="#{loginBackingBean.validateEmail}">
+                       <f:ajax event="blur" render="nameError1"/>
+                    </h:inputText>
+                  </div>
+                   
+                   <h:message id="nameError2" for="login-password" style="color: red"/>
+                  <div style="margin-bottom: 25px" class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                    <h:inputText id="login-password" value="#{clientBackingBean.client.password}" 
+                                 class="form-control" 
+                                 validator="#{loginBackingBean.validatePassword}">
+                       <f:ajax event="blur" render="nameError2"/>
+                    </h:inputText>
+                  </div>
 
 
-                                    <div class="input-group">
-                                        <div class="checkbox">
-                                            <label>
-                                                <input id="login-remember" type="checkbox" name="remember" value="1"> Remember me</input>  
-                                            </label>
-                                        </div>
-                                    </div>
-
-
-                                    <div style="margin-top:10px" class="form-group">
-                                        <!-- Button -->
-
-                                        <div class="col-sm-12 controls">
-
-                                            <a id="btn-fblogin" href="#" class="btn btn-warning">Sign Up</a>
-
-                                            <b:commandButton  
-                                                action="#{clientBackingBean.onLogin(clientBackingBean.client.email)}" 
-                                                              
-                                                              value="Login" />
-
-                                        </div>
-                                    </div>
-
-
-                                </h:form>
-
-
-                            </div>
-
-                        </div>
+                  <div class="input-group">
+                    <div class="checkbox">
+                      <label>
+                        <input id="login-remember" type="checkbox" name="remember" value="1"> Remember me</input>  
+                      </label>
                     </div>
+                  </div>
 
-                </div>
 
+                  <div style="margin-top:10px" class="form-group">
+                    
+                    <div class="col-sm-12 controls">
+
+                      <a id="btn-fblogin" href="#" class="btn btn-warning">Sign Up</a>
+
+                      <b:commandButton  
+                        action="#{clientBackingBean.onLogin(clientBackingBean.client.email)}" value="Login" />
+
+                    </div>
+                  </div>
+
+
+                </h:form>
+
+
+              </div>
 
             </div>
+          </div>
+
         </div>
 
-    </ui:define>
+
+      </div>
+    </div>
+
+  </ui:define>
 </ui:composition>

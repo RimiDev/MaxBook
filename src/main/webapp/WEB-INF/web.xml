@@ -24,7 +24,7 @@
     </context-param>
   <context-param>
     <param-name>primefaces.THEME</param-name>
-    <param-value>cruze</param-value>
+    <param-value>blitzer</param-value>
   </context-param>
 
     <!-- Any file prefixed with faces/ will be processed by the faces servlet -->
@@ -40,6 +40,6 @@
     </session-config>
     <!-- if there is no page in the in the URL then this page will be called upon -->
     <welcome-file-list>
-        <welcome-file>login.xhtml</welcome-file>
+        <welcome-file>advancedSearch.xhtml</welcome-file>
     </welcome-file-list>
 </web-app>

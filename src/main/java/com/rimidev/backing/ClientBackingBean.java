@@ -11,7 +11,6 @@ import com.rimidev.maxbook.entities.Client;
 import com.rimidev.maxbook.util.MessagesUtil;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.enterprise.context.RequestScoped;

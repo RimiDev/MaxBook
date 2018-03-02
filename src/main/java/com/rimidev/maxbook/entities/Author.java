@@ -36,7 +36,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Author.findAll", query = "SELECT a FROM Author a")
     , @NamedQuery(name = "Author.findById", query = "SELECT a FROM Author a WHERE a.id = :id")
     , @NamedQuery(name = "Author.findByFirstName", query = "SELECT a FROM Author a WHERE a.firstName = :firstName")
-    , @NamedQuery(name = "Author.findByLastName", query = "SELECT a FROM Author a WHERE a.lastName = :lastName")})
+    , @NamedQuery(name = "Author.findByLastName", query = "SELECT a FROM Author a WHERE a.lastName = :lastName")
+    , @NamedQuery(name = "Author.findBookByFirstName", query = "SELECT a FROM Author a WHERE a.firstName LIKE :firstName")
+    , @NamedQuery(name = "Author.findBookByLastName", query = "SELECT a FROM Author a WHERE a.lastName LIKE :lastName")})
 public class Author implements Serializable {
 
     private static final long serialVersionUID = 1L;

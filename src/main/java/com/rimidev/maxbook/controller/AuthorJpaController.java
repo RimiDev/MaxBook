@@ -194,4 +194,32 @@ public class AuthorJpaController implements Serializable {
         List<Author> as = auths.getResultList();
         return as;
     }
+    //Custom Queries
+    
+        public List<Author> getBookByFirstName(String firstName) {
+
+        TypedQuery<Author> query = em.createNamedQuery("Author.findBookByFirstName", Author.class);
+
+        query.setParameter("firstName", "%" + firstName + "%");
+
+        List<Author> books = query.getResultList();
+
+        return (List<Author>) books;
+    
+}
+        
+        public List<Author> getBookByLastName(String lastName) {
+
+        TypedQuery<Author> query = em.createNamedQuery("Author.findBookByLastName", Author.class);
+
+        query.setParameter("lastName", "%" + lastName + "%");
+
+        List<Author> authors = query.getResultList();
+        
+        return (List<Author>) authors;
+    
+}
+
+
+        
 }
