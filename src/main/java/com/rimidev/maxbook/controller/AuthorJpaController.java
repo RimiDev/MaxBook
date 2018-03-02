@@ -183,6 +183,17 @@ public class AuthorJpaController implements Serializable {
             return ((Long) q.getSingleResult()).intValue();
     }
     
+    public List<Author> getListOf(){
+        String qry = "select au from Author au where au.lastName IN :lst";
+        List<String> names = new ArrayList<String>();
+        names.add("Gasiewski");
+        names.add("Beck");
+        
+        TypedQuery<Author> auths = em.createQuery(qry, Author.class);
+        auths.setParameter("lst",names);
+        List<Author> as = auths.getResultList();
+        return as;
+    }
     //Custom Queries
     
         public List<Author> getBookByFirstName(String firstName) {
