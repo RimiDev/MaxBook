@@ -19,17 +19,12 @@
         <ui:repeat value="#{allBooks.model}" var="book">
           <b:column col-sm="2">                           
             <b:thumbnail>
-              <b:image library="images" name="/books/#{book.isbn}.jpg"/>
               <f:facet name="caption">
-
-<!--                <b:commandLink outcome="bookDetails" action="#{bookDisplayBacking.showDetails}">
-                  <h:outputText value="#{book.title}"/>
-                  <h:outputText value="#{book.isbn}"/>
-                  <f:param name="isbn" value="#{book.isbn}"/>
-                </b:commandLink>-->
                 <h:commandLink value="#{books.title}" action="#{bookDisplayBacking.showDetails}" >
+                  <b:image library="images" name="/books/#{book.isbn}.jpg"/>
+
                   <h:outputText value="#{book.title}"/>
-                  <h:outputText value="#{book.isbn}"/>
+
                   <f:param name="isbn" value="#{book.isbn}"/>
                 </h:commandLink>  
                 <h:outputText  value="$#{book.listPrice}"/>
