@@ -46,7 +46,7 @@ public class BookDisplayBacking implements Serializable {
     }
 
     public List<Book> getRecsByAuthor(List<Author> auths) {
-
+        
         List<Integer> authIds = new ArrayList<Integer>();
         for (Author au : auths) {
             authIds.add(au.getId());

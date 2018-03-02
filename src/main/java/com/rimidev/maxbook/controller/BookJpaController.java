@@ -48,8 +48,6 @@ public class BookJpaController implements Serializable {
   @PersistenceContext
   private EntityManager em;
 
-  
-
   public void create(Book book) throws PreexistingEntityException, RollbackFailureException, Exception {
     if (book.getAuthorList() == null) {
       book.setAuthorList(new ArrayList<Author>());
@@ -359,37 +357,8 @@ public class BookJpaController implements Serializable {
   public Book findBookByIsbn(String isbn) {
     TypedQuery<Book> query
             = em.createNamedQuery("Country.findByIsbn", Book.class).setParameter("isbn", isbn);
+    return query.getSingleResult();
 
-    public int getBookCount() {
-        CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-        Root<Book> rt = cq.from(Book.class);
-        cq.select(em.getCriteriaBuilder().count(rt));
-        Query q = em.createQuery(cq);
-        return ((Long) q.getSingleResult()).intValue();
-    }
-    
-    public List<Book> getAllBooks(){
-        CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-        cq.select(cq.from(Book.class));
-        Query q = em.createQuery(cq);
-        return q.getResultList();
-    }
-    
-    public List<Book> getBooksByAuthor(List<Integer> authIds,String isbn){  
-        logger.log(Level.INFO, authIds.toString());
-        
-        String query = "select distinct bk from Book bk INNER JOIN bk.authorList bkl where bkl.id IN :auths AND bk.isbn <> :bookIsbn";
-        TypedQuery<Book> authBooks = em.createQuery(query, Book.class);
-        authBooks.setParameter("auths",authIds);
-        authBooks.setParameter("bookIsbn",isbn);
-        
-         logger.log(Level.INFO, "Author Books>> "+authBooks.setMaxResults(3).getResultList());
-        
-        return authBooks.getResultList();
-        
-    List<Book> results = query.getResultList();
-
-    return results.get(0);
   }
 
   public int getBookCount() {
@@ -399,6 +368,14 @@ public class BookJpaController implements Serializable {
     Query q = em.createQuery(cq);
     return ((Long) q.getSingleResult()).intValue();
   }
+  
+//    public int getBookCount2() {
+//    CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
+//    Root<Book> rt = cq.from(Book.class);
+//    cq.select(em.getCriteriaBuilder().count(rt));
+//    Query q = em.createQuery(cq);
+//    return ((Long) q.getSingleResult()).intValue();
+//  }
 
   public List<Book> getAllBooks() {
     CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
@@ -407,6 +384,27 @@ public class BookJpaController implements Serializable {
     return q.getResultList();
   }
 
+
+
+  public List<Book> getBooksByAuthor(List<Integer> authIds, String isbn) {
+    logger.log(Level.INFO, authIds.toString());
+
+    String query = "select distinct bk from Book bk INNER JOIN bk.authorList bkl where bkl.id IN :auths AND bk.isbn <> :bookIsbn";
+    TypedQuery<Book> authBooks = em.createQuery(query, Book.class);
+    authBooks.setParameter("auths", authIds);
+    authBooks.setParameter("bookIsbn", isbn);
+
+    logger.log(Level.INFO, "Author Books>> " + authBooks.setMaxResults(3).getResultList());
+
+    return authBooks.getResultList();
+//
+//    List<Book> results = query.getResultList();
+//
+//    return results.get(0);
+  }
+
+
+
   public List<Book> getBooksByAuthor(List<Author> auths) {
     return null;
 //        use bookstore_db;
@@ -414,41 +412,39 @@ public class BookJpaController implements Serializable {
 //        select ab.title,ab.fullname from (select book.isbn,title, concat(first_name,' ',last_name) 
 //        as fullname from book join author_book on book.isbn = author_book.isbn join author on author.id = author_book.author_id)
 //        as ab where ab.fullname in ("Adam Gasiewski","Emily Beck");
-    }
-    
-    /**
-     * Find all books by title
-     * @return List of books with given title
-     * @param Title given by the user
-     * @author Maxime Lacasse
-     * 
-     */
-    
-       public List<Book> getBookByTitle(String title) {
-        
-        TypedQuery<Book> query = em.createNamedQuery("Book.findByLikeTitle", Book.class);
-        
-        query.setParameter("title", "%" + title + "%");
-        
-        List<Book> books = query.getResultList();
-                
-        return (List<Book>) books;
-    
-}
-       
-       public List<Book> getBookByGenre(String genre) {
-        
-        TypedQuery<Book> query = em.createNamedQuery("Book.findByLikeGenre", Book.class);
-        
-        query.setParameter("genre", "%" + genre + "%");
+  }
+
+  /**
+   * Find all books by title
+   *
+   * @return List of books with given title
+   * @param Title given by the user
+   * @author Maxime Lacasse
+   *
+   */
+  public List<Book> getBookByTitle(String title) {
+
+    TypedQuery<Book> query = em.createNamedQuery("Book.findByLikeTitle", Book.class);
+
+    query.setParameter("title", "%" + title + "%");
+
+    List<Book> books = query.getResultList();
+
+    return (List<Book>) books;
+
+  }
+
+  public List<Book> getBookByGenre(String genre) {
+
+    TypedQuery<Book> query = em.createNamedQuery("Book.findByLikeGenre", Book.class);
+
+    query.setParameter("genre", "%" + genre + "%");
 //        query.setParameter("genre", genre);
 
-        
-        List<Book> books = query.getResultList();
-                
-        return (List<Book>) books;
-    
-}
-    
-    
+    List<Book> books = query.getResultList();
+
+    return (List<Book>) books;
+
+  }
+
 }

@@ -7,122 +7,124 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
-    <ui:define name="title">
-        <title>Details</title>
-    </ui:define>
+  <ui:define name="title">
+    <title>Details</title>
+  </ui:define>
 
-    <ui:define name="content">
+  <ui:define name="content">
 
-        <ui:param  name="bookie" value="#{bookJpaController.findBook(bookDisplayBacking.isbn)}"/>
-       
-        <!--start of book details<-->
-        <br/><br/>
-        <h:form>
-            <div class="container" >
-                <div class="card">
-                    <div class="container-fliud">
-                        <div class="wrapper row">
-                            <div class="preview col-md-6">
+    <ui:param  name="bookie" value="#{bookJpaController.findBook(bookDisplayBacking.isbn)}"/>
 
-                                <div class="preview-pic tab-content">
-                                    <div class="tab-pane active" id="pic-1"><b:image library="images" name="/books/#{bookie.isbn}.jpg"/></div>
-                                </div>
+    <!--start of book details<-->
+    <br/><br/>
+    <h:form>
+      <div class="container" >
+        <div class="card">
+          <div class="container-fliud">
+            <div class="wrapper row">
+              
+              <div class="preview col-md-6">
 
-
-                            </div>
-                            <div class="details col-md-6">
-                                <h3 class="product-title">#{bookie.title}</h3>
-                                <div class="rating">
-                                    <!-- need to convert to p:rating and use average rating for book-->
-                                    <p:rating readonly="true"/>
-                                    <span class="review-no">#{bookie.reviewList.size()} reviews</span>
-                                </div>
-                                <p class="product-description">#{bookie.description}</p>
-                                <!--create method in bookdisplayback bean to check saleprice -->
-                                <h4 class="price">current price: <span>$#{bookie.salePrice}</span></h4>
-
-                                <div class="action">
-                                    <b:commandButton icon="shopping-cart" action="#{cartBackingBean.addToCart(bookDisplayBacking.isbn)}" value="Add to cart" />
-
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div class="preview-pic tab-content">
+                  <div class="tab-pane active" id="pic-1"><b:image library="images" name="/books/#{bookie.isbn}.jpg"/></div>
                 </div>
+
+
+              </div>
+              <div class="details col-md-6">
+                <h3 class="product-title">#{bookie.title}</h3>
+                 <h:outputText value="#{bookie.isbn}"/>
+                <div class="rating">
+                  <!-- need to convert to p:rating and use average rating for book-->
+                  <p:rating readonly="true"/>
+                  <span class="review-no">#{bookie.reviewList.size()} reviews</span>
+                </div>
+                <p class="product-description">#{bookie.description}</p>
+                <!--create method in bookdisplayback bean to check saleprice -->
+                <h4 class="price">current price: <span>$#{bookie.salePrice}</span></h4>
+
+                <div class="action">
+                  <b:commandButton icon="shopping-cart" action="#{cartBackingBean.addToCart(bookDisplayBacking.isbn)}" value="Add to cart" />
+
+
+                </div>
+              </div>
             </div>
-        </h:form>
+          </div>
+        </div>
+      </div>
+    </h:form>
 
 
-        <!--end of book details<-->
+    <!--end of book details<-->
 
-        <h:form style="margin-top: 3%">
+    <h:form style="margin-top: 3%">
 
-            <b:panel>
+      <b:panel>
 
-                <h2 style="text-align:center"> Recommendations</h2>
+        <h2 style="text-align:center"> Recommendations</h2>
+        <br/>
+
+<!--        <ui:repeat value="#{bookDisplayBacking.getRecsByAuthor(bookie.authorList)}" var="book">
+
+          <b:column col-md="3">
+
+            <b:thumbnail>
+
+              <b:image library="images" name="/books/#{book.isbn}.jpg"/>
+
+              <f:facet name="caption">
+                <b:commandLink outcome="bookDetails">
+
+                  <h:outputText value="#{book.title}"/>
+
+                </b:commandLink>
+
                 <br/>
 
-                <ui:repeat value="#{bookDisplayBacking.getRecsByAuthor(bookie.authorList)}" var="book">
+                <h:outputText  value="$#{book.listPrice}"/>
+              </f:facet>
 
-                    <b:column col-md="3">
+            </b:thumbnail>
 
-                        <b:thumbnail>
+          </b:column>
 
-                            <b:image library="images" name="/books/#{book.isbn}.jpg"/>
+        </ui:repeat>-->
 
-                            <f:facet name="caption">
-                                <b:commandLink outcome="bookDetails">
+      </b:panel>
+    </h:form>
 
-                                    <h:outputText value="#{book.title}"/>
+    <!--END OF RECOMMENDATIONS-->
 
-                                </b:commandLink>
+    <h:form style="margin-top: 3%">
+      <b:panel>
+        <h2> Reviews</h2>
+        <br/>
+        <ui:repeat var="rev" value="#{bookie.reviewList}">
+          <b:row style="margin-bottom: 3%">
+            <p:rating value="#{rev.rating}" readonly="true"/>
+            <h:outputText value="#{rev.reviewMessage}"/>
+            <br/>
+            <div class="container-fluid">
+              <div class="row">
+                <h:outputText value="BY: #{rev.clientId.firstName} "/>
+                <h:outputText value="#{rev.clientId.lastName}"/>
+              </div>
+            </div>
+          </b:row>                          
+        </ui:repeat>
 
-                                <br/>
+        <b:row style="resize: none;display: block">
+          <b:inputTextarea value="#{reviewBacking.revMsg}" style="resize: none" span="6" rows="5" fieldSize="lg"/>
+        </b:row>
+        <b:row>
+          <p:rating value="#{reviewBacking.rating}"/>
+        </b:row>
+        <b:commandButton action="#{reviewBacking.addReview()}" look="info" value="submit"/>
+      </b:panel>
+    </h:form>
 
-                                <h:outputText  value="$#{book.listPrice}"/>
-                            </f:facet>
-
-                        </b:thumbnail>
-
-                    </b:column>
-
-                </ui:repeat>
-
-            </b:panel>
-        </h:form>
-
-        <!--END OF RECOMMENDATIONS-->
-
-        <h:form style="margin-top: 3%">
-            <b:panel>
-                <h2> Reviews</h2>
-                <br/>
-                <ui:repeat var="rev" value="#{bookie.reviewList}">
-                    <b:row style="margin-bottom: 3%">
-                        <p:rating value="#{rev.rating}" readonly="true"/>
-                        <h:outputText value="#{rev.reviewMessage}"/>
-                        <br/>
-                        <div class="container-fluid">
-                             <div class="row">
-                                <h:outputText value="BY: #{rev.clientId.firstName} "/>
-                                <h:outputText value="#{rev.clientId.lastName}"/>
-                            </div>
-                        </div>
-                    </b:row>                          
-                </ui:repeat>
-
-                <b:row style="resize: none;display: block">
-                    <b:inputTextarea value="#{reviewBacking.revMsg}" style="resize: none" span="6" rows="5" fieldSize="lg"/>
-                </b:row>
-                <b:row>
-                    <p:rating value="#{reviewBacking.rating}"/>
-                </b:row>
-                <b:commandButton action="#{reviewBacking.addReview()}" look="info" value="submit"/>
-            </b:panel>
-        </h:form>
-
-    </ui:define>
+  </ui:define>
 
 
 
