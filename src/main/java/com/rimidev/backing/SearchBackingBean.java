@@ -134,6 +134,9 @@ public class SearchBackingBean {
     }
 
     public List<Book> getSearchedBooks() {
+      if (searchedBooks == null)  
+        searchedBooks = bookJPA.getBookByTitle("");   
+      
         return searchedBooks;
     }
 

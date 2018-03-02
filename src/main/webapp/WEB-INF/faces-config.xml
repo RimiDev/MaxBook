@@ -29,6 +29,10 @@
             <from-outcome>onLogin</from-outcome>
             <to-view-id>/home.xhtml</to-view-id>
         </navigation-case>
+<!--        <navigation-case>
+            <from-outcome>advancedSearch</from-outcome>
+            <to-view-id>bookDetails</to-view-id>
+        </navigation-case>-->
     </navigation-rule>
         
     </application>
