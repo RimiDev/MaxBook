@@ -73,6 +73,9 @@
                 <b:column span="3">
                     <h:outputText value="Card Number: ***12"/>
                 </b:column>
+                <b:column span="3" offset="3">
+                    <h:outputText value="PST Rate: 00.00%" />
+                </b:column> 
             </b:row>
             <b:row>
                 <b:column span="3">
@@ -81,31 +84,99 @@
                 <b:column span="3">
                     <h:outputText value="Exp Date: 00/0000"/>
                 </b:column>
+                <b:column span="3" offset="3">
+                    <h:outputText value="GST Rate: 00.00%" />
+                </b:column> 
+            </b:row>
+            <b:row>
+                <b:column span="3" offset="9">
+                    <h:outputText value="HST Rate: 00.00%" />
+                </b:column> 
             </b:row>
         </b:container>
         <br></br>
         <br></br>
         <h:form>
             <b:panel>
+                <b:row>
+                    <b:column span="1">                           
+                        <h:outputText value="Item #"/>
+                    </b:column>
+                    <b:column span="2">                           
+                        <h:outputText value="Isbn"/>
+                    </b:column>
+                    <b:column span="7">                           
+                        <h:outputText value="Title"/>
+                    </b:column>
+                    <b:column span="2">                           
+                        <h:outputText value="Book Price"/>
+                    </b:column>
+                </b:row>
                 <ui:repeat value="#{allBooks.model}" var="book">
                     <b:row>
-                        <b:column col-sm="2">                           
-                            <b:thumbnail>
-                                <b:image library="images" name="/books/#{book.isbn}.jpg"/>
-                                <f:facet name="caption">
-                                    <b:commandLink outcome="bookDetails">
-                                        <h:outputText value="#{book.title}"/>
-                                    </b:commandLink>
-                                    <h:outputText  value="$#{book.listPrice}"/>
-                                </f:facet>
-                            </b:thumbnail>
+                        <b:column span="1">                           
+                            <h:outputText value="#"/>
+                        </b:column>
+                        <b:column span="2">                           
+                            <h:outputText value="#{book.isbn}"/>
+                        </b:column>
+                        <b:column span="7">                           
+                            <h:outputText value="#{book.title}"/>
+                        </b:column>
+                        <b:column span="2">                           
+                            <h:outputText value="$#{book.listPrice}"/>
                         </b:column>
                     </b:row>
                 </ui:repeat>
+                <b:row>
+                    <b:column span="5" offset="1">                           
+                        <h:outputText value="________________________________"/>
+                    </b:column>
+                    <b:column span="5">                           
+                        <h:outputText value="________________________________"/>
+                    </b:column>
+                </b:row>
+                <b:row>
+                    <b:column span="2" offset="8">                           
+                        <h:outputText value="Subtotal: "/>
+                    </b:column>
+                    <b:column span="2">                           
+                        <h:outputText value="$1000.00"/>
+                    </b:column>
+                </b:row>
+                <b:row>
+                    <b:column span="2" offset="8">                            
+                        <h:outputText value="PST: "/>
+                    </b:column>
+                    <b:column span="2">                           
+                        <h:outputText value="$1000.00"/>
+                    </b:column>
+                </b:row>
+                <b:row>
+                    <b:column span="2" offset="8">                            
+                        <h:outputText value="GST: "/>
+                    </b:column>
+                    <b:column span="2">                           
+                        <h:outputText value="$1000.00"/>
+                    </b:column>
+                </b:row>
+                <b:row>
+                    <b:column span="2" offset="8">                           
+                        <h:outputText value="HST: "/>
+                    </b:column>
+                    <b:column span="2">                           
+                        <h:outputText value="$1000.00"/>
+                    </b:column>
+                </b:row>
+                <b:row>
+                    <b:column span="2" offset="8">                            
+                        <h:outputText value="Total: "/>
+                    </b:column>
+                    <b:column span="2">                           
+                        <h:outputText value="$1000.00"/>
+                    </b:column>
+                </b:row>
             </b:panel>
-            <b:commandButton value="#{msgs.prev}" action="#{allBooks.prev()}" col-sm="1"></b:commandButton>
-            <b:label value="Page: #{allBooks.currentPageIndex}" severity="primary" col-sm="2"></b:label>
-            <b:commandButton value="#{msgs.next}" actionListener="#{allBooks.next()}" col-sm="1"></b:commandButton>
         </h:form>
     </ui:define>
 </ui:composition>
