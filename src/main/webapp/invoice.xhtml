@@ -19,7 +19,7 @@
             </b:row>
             <b:row>
                 <b:column span="3">
-                    <h:outputText value="Invoice #000000"/>
+                    <h:outputText value="#{msgs.invoice} #{invoiceBacking.invoice.id}"/>
                 </b:column>
             </b:row>
             <b:row>
@@ -35,13 +35,13 @@
             </b:row>
             <b:row>
                 <b:column span="3">
-                    <h:outputText value="Billing Details"/>
+                    <h:outputText value="#{msgs.billingDetails}"/>
                 </b:column>
                 <b:column span="3">
-                    <h:outputText value="Payment Information"/>
+                    <h:outputText value="#{msgs.paymentInfo}"/>
                 </b:column>
                 <b:column span="3" offset="3">
-                    <h:outputText value="Invoice Details" />
+                    <h:outputText value="#{msgs.invoiceDetails}" />
                 </b:column> 
             </b:row>
             <b:row>
@@ -57,40 +57,41 @@
             </b:row>
             <b:row>
                 <b:column span="3">
-                    <h:outputText value="Philippe Langlois-Pedroso"/>
+                    <h:outputText value="#{invoiceBacking.invoice.clientId.firstName}, 
+                                  #{invoiceBacking.invoice.clientId.lastName}"/>
                 </b:column>
                 <b:column span="3">
-                    <h:outputText value="Card Name: VISA"/>
+                    <h:outputText value="#{msgs.cardName}"/>
                 </b:column>
                 <b:column span="3" offset="3">
-                    <h:outputText value="Date Of Purchase: 12-12-1212" />
+                    <h:outputText value="#{msgs.datePurchase} #{invoiceBacking.dateOfSale.toString()}" />
                 </b:column> 
             </b:row>
             <b:row>
                 <b:column span="3">
-                    <h:outputText value="1111 Test Avenue"/>
+                    <h:outputText value="#{invoiceBacking.invoice.dateOfSale.toString()}"/>
                 </b:column>
                 <b:column span="3">
-                    <h:outputText value="Card Number: ***12"/>
+                    <h:outputText value="#{msgs.cardNumber}"/>
                 </b:column>
                 <b:column span="3" offset="3">
-                    <h:outputText value="PST Rate: 00.00%" />
+                    <h:outputText value="#{msgs.pstRate} #{invoiceBacking.details.PSTrate}" />
                 </b:column> 
             </b:row>
             <b:row>
                 <b:column span="3">
-                    <h:outputText value="City, Province, Country"/>
+                    <h:outputText value="#{invoiceBacking.location}"/>
                 </b:column>
                 <b:column span="3">
-                    <h:outputText value="Exp Date: 00/0000"/>
+                    <h:outputText value="#{msgs.expDate}"/>
                 </b:column>
                 <b:column span="3" offset="3">
-                    <h:outputText value="GST Rate: 00.00%" />
+                    <h:outputText value="#{msgs.gstRate} #{invoiceBacking.details.GSTrate}" />
                 </b:column> 
             </b:row>
             <b:row>
                 <b:column span="3" offset="9">
-                    <h:outputText value="HST Rate: 00.00%" />
+                    <h:outputText value="#{msgs.hstRate} #{invoiceBacking.details.HSTrate}" />
                 </b:column> 
             </b:row>
         </b:container>
@@ -100,16 +101,16 @@
             <b:panel>
                 <b:row>
                     <b:column span="1">                           
-                        <h:outputText value="Item #"/>
+                        <h:outputText value="#{msgs.itemNum}"/>
                     </b:column>
                     <b:column span="2">                           
-                        <h:outputText value="Isbn"/>
+                        <h:outputText value="#{msgs.isbnHeader}"/>
                     </b:column>
                     <b:column span="7">                           
-                        <h:outputText value="Title"/>
+                        <h:outputText value="#{msgs.titleHeader}"/>
                     </b:column>
                     <b:column span="2">                           
-                        <h:outputText value="Book Price"/>
+                        <h:outputText value="#{msgs.priceHeader}"/>
                     </b:column>
                 </b:row>
                 <ui:repeat value="#{allBooks.model}" var="book">
