@@ -479,16 +479,11 @@ CREATE TABLE Invoice (
     gross_value int NOT NULL,
     FOREIGN KEY (client_id) REFERENCES Client(id)
 );
-INSERT INTO Invoice VALUES (1, 1, '2017-12-12 12:12:12', 14.99, 7.80);
-INSERT INTO Invoice VALUES (2, 1, '2017-12-12 12:12:12', 14.99, 7.80);
-INSERT INTO Invoice VALUES (3, 1, '2017-12-12 12:12:12', 14.99, 7.80);
-INSERT INTO Invoice VALUES (4, 2, '2017-12-12 12:12:12', 14.99, 7.80);
-INSERT INTO Invoice VALUES (5, 2, '2017-12-12 12:12:12', 14.99, 7.80);
-INSERT INTO Invoice VALUES (6, 2, '2017-12-12 12:12:12', 14.99, 7.80);
 
-
-INSERT INTO Invoice (client_id, date_of_sale, net_value, gross_value )VALUES 
-(1, '2017-12-12 12:12:12', 14.99, 7.80);
+INSERT INTO Invoice (client_id, date_of_sale, net_value, gross_value) VALUES
+(1, '2017-1-12 12:12:12', 14.99, 7.80),
+(1, '2017-2-12 12:12:12', 25.99, 8.80),
+(1, '2017-3-12 12:12:12', 21.99, 11.80);
 
 CREATE TABLE Invoice_Details (
     id int PRIMARY KEY auto_increment,

@@ -71,10 +71,15 @@ public class ClientBackingBean implements Serializable {
 
   public String onLogin() {
     getClient();
-    logger.log(Level.INFO, "inside ClientBackingBean onLogin" + client.toString());
+    
     HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-    logger.log(Level.INFO, "onLogin incoming email is >>> " + client.getEmail());
-    Client user = clientJpaController.findClientByEmail(client.getEmail());
+    
+    Client user = clientJpaController.findClientByEmail("test@test.com");
+    client = user;
+    logger.log(Level.INFO, "onLogin incoming email is >>> " + user.getEmail());
+    logger.log(Level.INFO, "inside ClientBackingBean onLogin" + user.getEmail());
+    session.setAttribute("current_user", user);
+    session.setAttribute("cartItems", new ArrayList<Book>());
      return "home";
 //    if (user != null) {
 //      if (user.getPassword().equals(client.getPassword())) {
