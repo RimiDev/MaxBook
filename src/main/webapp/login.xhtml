@@ -6,10 +6,6 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
-
-
-
-
   <!--LOGIN FORM-->
   <ui:define name="content">
     <div class="container">
@@ -48,7 +44,7 @@
                     <h:inputText id="login-password" value="#{clientBackingBean.client.password}" 
                                  class="form-control" 
                                  validator="#{loginBackingBean.validatePassword}">
-                                            <f:ajax event="blur" render="nameError2"/>
+                      <f:ajax event="blur" render="nameError2"/>
                     </h:inputText>
                   </div>
 
@@ -68,13 +64,13 @@
 
                       <a id="btn-fblogin" href="#" class="btn btn-warning">Sign Up</a>
 
-<!--                      <h:commandButton value = "Show Message">
-                        <f:ajax execute = "login-password" render = "outputMessage2" />
-                      </h:commandButton>
+                      <!--                      <h:commandButton value = "Show Message">
+                                              <f:ajax execute = "login-password" render = "outputMessage2" />
+                                            </h:commandButton>
                       -->
-                       <b:commandButton  value="Login" >
-                          <f:ajax execute = "login-password" render = "outputMessage2" />
-                       </b:commandButton>
+                      <b:commandButton  value="Login" action="#{clientBackingBean.onLogin}" >
+                        <f:ajax execute = "login-password" render = "outputMessage2" />
+                      </b:commandButton>
 
 
 

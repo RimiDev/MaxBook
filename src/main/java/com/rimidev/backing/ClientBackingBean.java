@@ -69,23 +69,25 @@ public class ClientBackingBean implements Serializable {
     }
   }
 
-  public String onLogin(String email, String password) {
-    logger.log(Level.WARNING, "inside ClientBackingBean onLogin" + email);
+  public String onLogin() {
+    getClient();
+    logger.log(Level.INFO, "inside ClientBackingBean onLogin" + client.toString());
     HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-    logger.log(Level.INFO, "onLogin incoming email is >>> " + email);
-    Client user = clientJpaController.findClientByEmail(email);
-    if (user != null) {
-      if (user.getPassword().equals(password)) {
-        logger.log(Level.INFO, "(Login)User >>> " + client);
-        session.setAttribute("current_user", client);
-        session.setAttribute("cartItems", new ArrayList<Book>());
-
-        return "home";
-      }
-    }
-      isSamePassword = false;
-
-        return null;
+    logger.log(Level.INFO, "onLogin incoming email is >>> " + client.getEmail());
+    Client user = clientJpaController.findClientByEmail(client.getEmail());
+     return "home";
+//    if (user != null) {
+//      if (user.getPassword().equals(client.getPassword())) {
+//        logger.log(Level.INFO, "(Login)User >>> " + client.getEmail());
+//        session.setAttribute("current_user", client);
+//        session.setAttribute("cartItems", new ArrayList<Book>());
+//        
+//        return "home";
+//      }
+//    }
+//      isSamePassword = false;
+//
+//        return null;
     
   }
     /**
