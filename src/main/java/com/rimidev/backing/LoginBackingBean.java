@@ -29,6 +29,7 @@ public class LoginBackingBean implements Serializable {
 
   private String email;
   private String password;
+  private String colorClass;
 
   @Inject
   private ClientJpaController clientJpaController;
@@ -68,6 +69,10 @@ public class LoginBackingBean implements Serializable {
               "Email improperly typed"));
     }
 
+  }
+  
+  public String getColorClass(){
+    return "green";
   }
 
   public void validatePassword(FacesContext fc, UIComponent c, Object value) {

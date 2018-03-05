@@ -8,6 +8,14 @@
 
   <!--LOGIN FORM-->
   <ui:define name="content">
+    
+    <style>
+      
+      .green{
+        background: green;
+      }
+      
+    </style>
     <div class="container">
       <div class="row">
 
@@ -68,7 +76,7 @@
                                               <f:ajax execute = "login-password" render = "outputMessage2" />
                                             </h:commandButton>
                       -->
-                      <b:commandButton  value="Login" action="#{clientBackingBean.onLogin}" >
+                      <b:commandButton  value="Login" styleClass="#{loginBackingBean.colorClass}" action="#{clientBackingBean.onLogin}" >
                         <f:ajax execute = "login-password" render = "outputMessage2" />
                       </b:commandButton>
 
