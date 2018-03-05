@@ -79,6 +79,10 @@ public class ClientBackingBean implements Serializable {
     logger.log(Level.INFO, "onLogin incoming email is >>> " + user.getEmail());
     logger.log(Level.INFO, "inside ClientBackingBean onLogin" + user.getEmail());
     session.setAttribute("current_user", user);
+<<<<<<< HEAD
+=======
+    session.setAttribute("cartItems", new ArrayList<Book>());
+>>>>>>> 4348d42f319d37e933449d8e5fe20b6c5b00e622
      return "home";
 //    if (user != null) {
 //      if (user.getPassword().equals(client.getPassword())) {
