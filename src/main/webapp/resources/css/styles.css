@@ -78,3 +78,7 @@
     height: 50%;
    
 }
+
+.hideRevStyle{
+    visibility: hidden;
+}
