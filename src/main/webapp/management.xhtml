@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<ui:composition template="/pageTemplates/master_template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:b="http://bootsfaces.net/ui"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <ui:define name="head">
+        <title>Manage</title>
+    </ui:define>
+
+    <ui:define name="content">
+        <h1>Test collaspe panel</h1>
+
+        <h:form> 
+            <p:growl id="growl" showDetail="true" sticky="true" />  
+
+            <p:panel header="Growl">  
+                <h:panelGrid columns="2" cellpadding="5">  
+                    <p:outputLabel for="msg" value="Message:" />   
+                    <p:inputText id="msg" value="#{managementBacking.message}" required="true" />  
+                </h:panelGrid>  
+
+                <p:commandButton value="Save" actionListener="#{managementBacking.saveMessage}" update="growl" />  
+            </p:panel> 
+        </h:form>  
+
+        <p:panel id="bkInv" header="Book Inventory" toggleable="true" toggleOrientation="vertical" collapsed="false">
+            <b:panelGrid columns="1">
+                <div class="col-md-12 profile-dashboard">
+                    <div class="row">
+                        <div class="container">
+                            <b:form class="form-horizontal">
+                                <b:tabView contentStyle="border-right: 1px solid #ddd;border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding:10px">
+                                    <b:tab title="Add">
+                                        <h:message id="errLenght" for="msg" style="color: red"/>
+                                        <p:dataTable id="bkTable" var="books" value="#{bookJpaController.findBookEntities()}" editable="row" scrollRows="30" scrollable="true" liveScroll="true" scrollHeight="300">
+                                            <f:facet name="header">
+                                                Test row editing
+                                                <p:commandButton id="toggler" type="button" value="Columns" icon="ui-icon-calculator" />
+                                                <p:columnToggler datasource="bkTable" trigger="toggler" />
+                                            </f:facet>
+                                            <p:ajax event="rowEdit" listener="#{managementBacking.onRowEdit}"  />
+                                            <!--<p:ajax event="rowEdit" listener="#{managementBacking.onRowEdit}"  />-->
+                                            <!--<p:ajax event="rowEditCancel" listener="#{managementBacking.onRowRemove}"/>-->
+                                            <p:ajax event="rowEditCancel" listener="#{managementBacking.onRowCancel}" />
+
+                                            <p:column headerText="Isbn">
+                                                <p:cellEditor>
+                                                    <f:facet name="output"><h:outputText value="#{books.isbn}"/></f:facet>
+                                                    <f:facet name="input"><p:inputText id="modelInputIsbn" value="#{books.isbn}" /></f:facet>
+                                                </p:cellEditor>
+                                            </p:column>
+                                            <p:column headerText="Title">
+                                                <p:cellEditor>
+                                                    <f:facet name="output"><h:outputText value="#{books.title}"/></f:facet>
+                                                    <f:facet name="input"><p:inputText id="modelInputTitle" value="#{books.title}" /></f:facet>
+                                                </p:cellEditor>
+                                            </p:column>
+                                            <p:column headerText="Publish Date">
+                                                <p:cellEditor>
+                                                    <f:facet name="output"><h:outputText value="#{books.publishDate}"/></f:facet>
+                                                    <f:facet name="input"><p:inputText id="modelInputPubDate" value="#{books.publishDate}" /></f:facet>
+                                                </p:cellEditor>
+                                            </p:column>
+                                            <p:column headerText="Pages">
+                                                <p:cellEditor>
+                                                    <f:facet name="output"><h:outputText value="#{books.pages}"/></f:facet>
+                                                    <f:facet name="input"><p:inputText id="modelInputPages" value="#{books.pages}" /></f:facet>
+                                                </p:cellEditor>
+                                            </p:column>
+                                            <p:column headerText="Genre">
+                                                <p:cellEditor>
+                                                    <f:facet name="output"><h:outputText value="#{books.genre}"/></f:facet>
+                                                    <f:facet name="input"><p:inputText id="modelInputGenre" value="#{books.genre}" /></f:facet>
+                                                </p:cellEditor>
+                                            </p:column>
+                                            <p:column headerText="List Price">
+                                                <p:cellEditor>
+                                                    <f:facet name="output"><h:outputText value="#{books.listPrice}"/></f:facet>
+                                                    <f:facet name="input"><p:inputText id="modelInputLstPrice" value="#{books.listPrice}" /></f:facet>
+                                                </p:cellEditor>
+                                            </p:column>
+                                            <p:column headerText="Sale Price">
+                                                <p:cellEditor>
+                                                    <f:facet name="output"><h:outputText value="#{books.salePrice}"/></f:facet>
+                                                    <f:facet name="input"><p:inputText id="modelInputSlPrice" value="#{books.salePrice}" /></f:facet>
+                                                </p:cellEditor>
+                                            </p:column>
+                                            <p:column headerText="Wholesale Price">
+                                                <p:cellEditor>
+                                                    <f:facet name="output"><h:outputText value="#{books.wholesalePrice}"/></f:facet>
+                                                    <f:facet name="input"><p:inputText id="modelInputWhlsaleprice" value="#{books.wholesalePrice}" /></f:facet>
+                                                </p:cellEditor>
+                                            </p:column>
+                                            <p:column headerText="Date Entered">
+                                                <p:cellEditor>
+                                                    <f:facet name="output"><h:outputText value="#{books.enteredDate}"/></f:facet>
+                                                    <f:facet name="input"><p:inputText id="modelInputEnterDate" value="#{books.enteredDate}" /></f:facet>
+                                                </p:cellEditor>
+                                            </p:column>
+                                            <p:column headerText="Removal Status">
+                                                <p:cellEditor>
+                                                    <f:facet name="output"><h:outputText value="#{books.removalStatus}"/></f:facet>
+                                                    <f:facet name="input"><p:inputText id="modelInputStatus" value="#{books.removalStatus}" /></f:facet>
+                                                </p:cellEditor>
+                                            </p:column>
+                                            <p:column style="width:32px">
+                                                <p:rowEditor />
+                                            </p:column>
+                                            <!--                                            <p:column headerText="Description">
+                                                                                            <p:cellEditor>
+                                                                                                <f:facet name="output"><h:outputText value="#{books.description}"/></f:facet>
+                                                                                                <f:facet name="input"><p:inputText id="modelInputDescrp" value="#{books.description}" /></f:facet>
+                                                                                            </p:cellEditor>
+                                                                                        </p:column>-->
+                                        </p:dataTable> 
+                                    </b:tab>
+                                    <b:tab title="Edit/Remove">
+
+                                    </b:tab>
+                                </b:tabView>
+
+                            </b:form>
+                        </div>
+
+                    </div>
+                </div>
+            </b:panelGrid>
+        </p:panel>
+        <p:panel id="revApprove" header="Review Approval" toggleable="true" toggleOrientation="vertical" collapsed="true">
+            <h:outputText value="Review APPROVING"/>
+        </p:panel>
+        <p:panel id="clntManage" header="Client Management" toggleable="true" toggleOrientation="vertical" collapsed="true">
+            <h:outputText value="Mange clients"/>
+        </p:panel>
+        <p:panel id="bkSales" header="Sales" toggleable="true" toggleOrientation="vertical" collapsed="true">
+            <h:outputText value="Sales"/>
+        </p:panel>
+    </ui:define>
+</ui:composition>
