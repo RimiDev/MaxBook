@@ -6,6 +6,8 @@
                  xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
 
+  
+  
     <h:form>
         <p:menubar>
             <p:menuitem>
@@ -37,8 +39,11 @@
                 <p:inputText style="margin-right:10px; box-shadow: none" placeholder="Search" id="userSearch" value="#{user.searched}"/>
 
                 <b:commandButton type="Submit" value="Search" class="btn btn-success" iconAwesome="fa-search" action="search" ajax="false"/>
-                <b:commandButton type="Submit" value="Login" class="btn btn-warning" action="login" ajax="false"/>
+                
                 <b:commandButton look="info" value="Cart" action="cart" icon-awesome="fa-shopping-cart" />
+                
+                <b:commandButton type="Submit" value="Logout" styleClass="#{loginBackingBean.styling}"
+                                 action="login" ajax="false"/>
             </f:facet>
         </p:menubar>
 

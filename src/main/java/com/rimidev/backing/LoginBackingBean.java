@@ -18,6 +18,7 @@ import javax.faces.validator.ValidatorException;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -29,7 +30,7 @@ public class LoginBackingBean implements Serializable {
 
   private String email;
   private String password;
-  private String colorClass;
+  private String styling;
 
   @Inject
   private ClientJpaController clientJpaController;
@@ -37,10 +38,10 @@ public class LoginBackingBean implements Serializable {
   public String getEmail() {
     return email;
   }
-  
+
   public String getInvalidPasswordMessage() {
-      return "  invalid password";
-   }
+    return "  invalid password";
+  }
 
   public void setEmail(final String email) {
     this.email = email;
@@ -58,21 +59,28 @@ public class LoginBackingBean implements Serializable {
 
     String email = (String) value;
     String pattern = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
-//
-//    // Create a Pattern object
-//    Pattern r = Pattern.compile(pattern);
-//
-//    // Now create matcher object.
-//    Matcher m = r.matcher(email);
-//    if (!m.find()) {
-//      throw new ValidatorException(new FacesMessage(
-//              "Email improperly typed"));
-//    }
+
+    // Create a Pattern object
+    Pattern r = Pattern.compile(pattern);
+
+    // Now create matcher object.
+    Matcher m = r.matcher(email);
+    if (!m.find()) {
+      throw new ValidatorException(new FacesMessage(
+              "Email improperly typed"));
+    }
 
   }
-  
-  public String getColorClass(){
-    return "green";
+
+  public String getStyling() {
+    HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+
+    Client curr_user = (Client) session.getAttribute("current_user");
+
+    if (curr_user == null) {
+      return "hideLoginBtn btn btn-warning";
+    }
+    return "";
   }
 
   public void validatePassword(FacesContext fc, UIComponent c, Object value) {
