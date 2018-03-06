@@ -70,37 +70,35 @@ public class ClientBackingBean implements Serializable {
   }
 
   public String onLogin() {
-    getClient();
-    
+    logger.log(Level.INFO, "onLogin incoming email is >>> {0}", client.getEmail());
+    logger.log(Level.INFO, "onLogin incoming password is >>> {0}", client.getPassword());
     HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-    
-    Client user = clientJpaController.findClientByEmail("test@test.com");
-    client = user;
-    logger.log(Level.INFO, "onLogin incoming email is >>> " + user.getEmail());
-    logger.log(Level.INFO, "inside ClientBackingBean onLogin" + user.getEmail());
-    session.setAttribute("current_user", user);
-    session.setAttribute("cartItems", new ArrayList<Book>());
 
-     return "home";
-//    if (user != null) {
-//      if (user.getPassword().equals(client.getPassword())) {
-//        logger.log(Level.INFO, "(Login)User >>> " + client.getEmail());
-//        session.setAttribute("current_user", client);
-//        session.setAttribute("cartItems", new ArrayList<Book>());
-//        
-//        return "home";
-//      }
-//    }
-//      isSamePassword = false;
-//
-//        return null;
-    
+    Client registered_user = clientJpaController.findClientByEmail(client.getEmail());
+
+    if (registered_user != null) {
+      logger.log(Level.INFO, "onLogin registered user email is >>> " + registered_user.getEmail());
+      logger.log(Level.INFO, "inside ClientBackingBean onLogin" + registered_user.getEmail());
+      if (registered_user.getPassword().equals(client.getPassword())) {
+
+        session.setAttribute("current_user", registered_user);
+        session.setAttribute("cartItems", new ArrayList<Book>());
+
+        
+        return "home";
+      }
+    }
+    isSamePassword = false;
+
+    return null;
+
   }
-    /**
-     * This method checks to see if the email address is already exists.
-     *
-     * @return A boolean value.
-     */
+
+  /**
+   * This method checks to see if the email address is already exists.
+   *
+   * @return A boolean value.
+   */
   private boolean isValidEmail() {
     boolean valid = false;
     String email = client.getEmail();
