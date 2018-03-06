@@ -70,8 +70,7 @@ public class ClientBackingBean implements Serializable {
   }
 
   public String onLogin() {
-    logger.log(Level.INFO, "onLogin incoming email is >>> {0}", client.getEmail());
-    logger.log(Level.INFO, "onLogin incoming password is >>> {0}", client.getPassword());
+
     HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
 
     Client registered_user = clientJpaController.findClientByEmail(client.getEmail());
@@ -84,11 +83,27 @@ public class ClientBackingBean implements Serializable {
         session.setAttribute("current_user", registered_user);
         session.setAttribute("cartItems", new ArrayList<Book>());
 
-        
         return "home";
       }
     }
     isSamePassword = false;
+
+    return null;
+
+  }
+
+  public String onLogout() {
+
+    HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+    Client curr_user = (Client) session.getAttribute("current_user");
+
+    // log out user if they exist
+    if (curr_user != null) {
+      session.setAttribute("current_user", null);
+      curr_user = null;
+
+      return "login";
+    }
 
     return null;
 

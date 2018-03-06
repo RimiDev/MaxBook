@@ -43,7 +43,7 @@
                 <b:commandButton look="info" value="Cart" action="cart" icon-awesome="fa-shopping-cart" />
                 
                 <b:commandButton type="Submit" value="Logout" styleClass="#{loginBackingBean.styling}"
-                                 action="login" ajax="false"/>
+                                 action="#{clientBackingBean.onLogout}" ajax="false"/>
             </f:facet>
         </p:menubar>
 
