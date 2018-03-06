@@ -18,6 +18,7 @@ import javax.faces.validator.ValidatorException;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -29,6 +30,7 @@ public class LoginBackingBean implements Serializable {
 
   private String email;
   private String password;
+  private String styling;
 
   @Inject
   private ClientJpaController clientJpaController;
@@ -36,10 +38,10 @@ public class LoginBackingBean implements Serializable {
   public String getEmail() {
     return email;
   }
-  
+
   public String getInvalidPasswordMessage() {
-      return "  invalid password";
-   }
+    return "  invalid password";
+  }
 
   public void setEmail(final String email) {
     this.email = email;
@@ -68,6 +70,17 @@ public class LoginBackingBean implements Serializable {
               "Email improperly typed"));
     }
 
+  }
+
+  public String getStyling() {
+    HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+
+    Client curr_user = (Client) session.getAttribute("current_user");
+
+    if (curr_user == null) {
+      return "hideLoginBtn btn btn-warning";
+    }
+    return "";
   }
 
   public void validatePassword(FacesContext fc, UIComponent c, Object value) {

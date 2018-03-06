@@ -69,7 +69,7 @@ public class ReviewBacking implements Serializable {
         FaceletContext faceletContext = (FaceletContext) FacesContext.getCurrentInstance().getAttributes().get(FaceletContext.FACELET_CONTEXT_KEY);
         Book bk = (Book) faceletContext.getAttribute("bookie");
 
-         List<Review> list = bk.getReviewList().stream().filter(r -> r.getApprovalStatus().equals("APPROVED"))
+         List<Review> list = bk.getReviewList().stream().filter(r -> r.getApprovalStatus().equals("Approved"))
                  .collect(Collectors.toList());
       
         logger.log(Level.INFO, "Book >>> " + bk);
