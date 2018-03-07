@@ -18,7 +18,7 @@ and open the template in the editor.
     </ui:define>
 
     <ui:define name="content">
-        <h1>Test collaspe panel</h1>
+        <h1>Test  panel</h1>
         <!--
                 <h:form> 
                     <p:growl id="growl" showDetail="true" sticky="true" />  
@@ -38,7 +38,7 @@ and open the template in the editor.
                 <h:form id="form">
                     <p:growl id="msgs" showDetail="true"/>
 
-                    <p:dataTable id="books" var="book" value="#{managementBacking.bk}" editable="true" style="margin-bottom:20px" scrollRows="30" scrollable="true" liveScroll="true" scrollHeight="350">
+                    <p:dataTable id="books" var="book" value="#{managementBacking.bk}" editable="true" style="margin-bottom:20px" >
                         <f:facet name="header">
                             Row Editing
                         </f:facet>
@@ -61,9 +61,13 @@ and open the template in the editor.
                         </p:column>
                         <p:column headerText="Publish Date">
                             <p:cellEditor>
-                                <f:facet name="output"><h:outputText value="#{book.publishDate}"/></f:facet>
+                                <f:facet name="output">
+                                    <h:outputText value="#{book.publishDate}">
+                                        <f:convertDateTime pattern="d-M-yyyy" />          
+                                    </h:outputText>
+                                </f:facet>
                                 <f:facet name="input"><p:inputText id="modelInputPubDate" value="#{book.publishDate}" style="width:100%">
-                                        <f:convertDateTime type="date"/>
+                                        <f:convertDateTime pattern="dd-mm-yyyy"/>
                                     </p:inputText>
                                 </f:facet>
                             </p:cellEditor>
@@ -100,9 +104,13 @@ and open the template in the editor.
                         </p:column>
                         <p:column headerText="Date Entered">
                             <p:cellEditor>
-                                <f:facet name="output"><h:outputText value="#{book.enteredDate}"/></f:facet>
+                                <f:facet name="output">
+                                    <h:outputText value="#{book.enteredDate}">
+                                        <f:convertDateTime pattern="d-M-yyyy" />          
+                                    </h:outputText>
+                                </f:facet>
                                 <f:facet name="input"><p:inputText id="modelInputEnterDate" value="#{book.enteredDate}" style="width:100%">
-                                        <f:convertDateTime type="date"/>
+                                        <f:convertDateTime  pattern="dd-mm-yyyy"/>
                                     </p:inputText>
                                 </f:facet>
                             </p:cellEditor>
@@ -111,10 +119,10 @@ and open the template in the editor.
                             <p:cellEditor>
                                 <f:facet name="output"><h:outputText value="#{book.removalStatus}"/></f:facet>
                                 <f:facet name="input">
-                                    <h:selectOneMenu value="#{book.removalStatus}" style="width:100%">
+<!--                                    <h:selectOneMenu value="#{book.removalStatus}" style="width:100%">
                                         <f:selectItems value="#{managementBacking.status}" var="man" itemLabel="#{managementBacking.checkStat(man)}" itemValue="#{man}" />
-                                    </h:selectOneMenu>
-
+                                    </h:selectOneMenu>-->
+                                    <p:inputText id="modelInputStatus" value ="#{book.removalStatus}"  style="width:100%"/>
                                 </f:facet>
                             </p:cellEditor>
                         </p:column>
