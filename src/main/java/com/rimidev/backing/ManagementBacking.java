@@ -8,7 +8,10 @@ package com.rimidev.backing;
 import com.rimidev.maxbook.controller.BookJpaController;
 import com.rimidev.maxbook.entities.Book;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
@@ -27,9 +30,12 @@ import org.primefaces.event.RowEditEvent;
 @SessionScoped
 public class ManagementBacking implements Serializable {
 
+     private Logger logger = Logger.getLogger(BookDisplayBacking.class.getName());
+    
     @Inject
     BookJpaController bkcon;
     List<Book> bk;
+    List<Integer> status;
 //    private String message;
 //
 //    public String getMessage() {
@@ -58,6 +64,9 @@ public class ManagementBacking implements Serializable {
     @PostConstruct
     public void init() {
         bk = bkcon.findBookEntities();
+        status = new ArrayList<Integer>();
+        status.add(0);
+        status.add(1);
     }
 
     public void onRowAdd(RowEditEvent event) {
@@ -89,5 +98,18 @@ public class ManagementBacking implements Serializable {
     
     public void newLine(ActionEvent actionEvent){
         this.bk.add(new Book());
+        logger.log(Level.WARNING, "<<Book Inventory List: >>"+bk.get(bk.size()-1));
+    }
+    
+    public List<Integer> getStatus(){
+        return status;
+    }
+    
+    public String checkStat(Integer stat){
+        if(stat.equals(1)){
+            return "Unavailable";
+        }
+        
+        return "Available";
     }
 }

@@ -19,20 +19,20 @@ and open the template in the editor.
 
     <ui:define name="content">
         <h1>Test collaspe panel</h1>
-<!--
-        <h:form> 
-            <p:growl id="growl" showDetail="true" sticky="true" />  
-
-            <p:panel header="Growl">  
-                <h:panelGrid columns="2" cellpadding="5">  
-                    <p:outputLabel for="msg" value="Message:" />   
-                    <p:inputText id="msg" value="#{managementBacking.message}" required="true" />  
-                </h:panelGrid>  
-
-                <p:commandButton value="Save" actionListener="#{managementBacking.saveMessage}" update="growl" />  
-            </p:panel> 
-        </h:form>-->
+        <!--
+                <h:form> 
+                    <p:growl id="growl" showDetail="true" sticky="true" />  
         
+                    <p:panel header="Growl">  
+                        <h:panelGrid columns="2" cellpadding="5">  
+                            <p:outputLabel for="msg" value="Message:" />   
+                            <p:inputText id="msg" value="#{managementBacking.message}" required="true" />  
+                        </h:panelGrid>  
+        
+                        <p:commandButton value="Save" actionListener="#{managementBacking.saveMessage}" update="growl" />  
+                    </p:panel> 
+                </h:form>-->
+
         <p:panel id="bkInv" header="Book Inventory" toggleable="true" toggleOrientation="vertical" collapsed="false">
             <b:panelGrid columns="1">
                 <h:form id="form">
@@ -62,7 +62,10 @@ and open the template in the editor.
                         <p:column headerText="Publish Date">
                             <p:cellEditor>
                                 <f:facet name="output"><h:outputText value="#{book.publishDate}"/></f:facet>
-                                <f:facet name="input"><p:inputText id="modelInputPubDate" value="#{book.publishDate}" style="width:100%"/></f:facet>
+                                <f:facet name="input"><p:inputText id="modelInputPubDate" value="#{book.publishDate}" style="width:100%">
+                                        <f:convertDateTime type="date"/>
+                                    </p:inputText>
+                                </f:facet>
                             </p:cellEditor>
                         </p:column>
                         <p:column headerText="Pages">
@@ -98,13 +101,21 @@ and open the template in the editor.
                         <p:column headerText="Date Entered">
                             <p:cellEditor>
                                 <f:facet name="output"><h:outputText value="#{book.enteredDate}"/></f:facet>
-                                <f:facet name="input"><p:inputText id="modelInputEnterDate" value="#{book.enteredDate}" style="width:100%"/></f:facet>
+                                <f:facet name="input"><p:inputText id="modelInputEnterDate" value="#{book.enteredDate}" style="width:100%">
+                                        <f:convertDateTime type="date"/>
+                                    </p:inputText>
+                                </f:facet>
                             </p:cellEditor>
                         </p:column>
                         <p:column headerText="Removal Status">
                             <p:cellEditor>
                                 <f:facet name="output"><h:outputText value="#{book.removalStatus}"/></f:facet>
-                                <f:facet name="input"><p:inputText id="modelInputStatus" value="#{book.removalStatus}" style="width:100%"/></f:facet>
+                                <f:facet name="input">
+                                    <h:selectOneMenu value="#{book.removalStatus}" style="width:100%">
+                                        <f:selectItems value="#{managementBacking.status}" var="man" itemLabel="#{managementBacking.checkStat(man)}" itemValue="#{man}" />
+                                    </h:selectOneMenu>
+
+                                </f:facet>
                             </p:cellEditor>
                         </p:column>
                         <p:column style="width:32px">
@@ -112,8 +123,8 @@ and open the template in the editor.
                         </p:column>
                     </p:dataTable>
                     <p:commandButton actionListener="#{managementBacking.newLine}"
-                    value="New" update="books" oncomplete="addRowOnComplete()"
-                     ajax="true" />
+                                     value="New" update="books" oncomplete="addRowOnComplete()"
+                                     ajax="true" />
                 </h:form>
             </b:panelGrid>
         </p:panel>
