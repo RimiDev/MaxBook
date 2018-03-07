@@ -13,32 +13,13 @@ and open the template in the editor.
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
-    <ui:define name="head">
-        <title>Manage</title>
-    </ui:define>
-
     <ui:define name="content">
-        <h1>Test collaspe panel</h1>
-<!--
-        <h:form> 
-            <p:growl id="growl" showDetail="true" sticky="true" />  
-
-            <p:panel header="Growl">  
-                <h:panelGrid columns="2" cellpadding="5">  
-                    <p:outputLabel for="msg" value="Message:" />   
-                    <p:inputText id="msg" value="#{managementBacking.message}" required="true" />  
-                </h:panelGrid>  
-
-                <p:commandButton value="Save" actionListener="#{managementBacking.saveMessage}" update="growl" />  
-            </p:panel> 
-        </h:form>-->
-        
         <p:panel id="bkInv" header="Book Inventory" toggleable="true" toggleOrientation="vertical" collapsed="false">
             <b:panelGrid columns="1">
                 <h:form id="form">
                     <p:growl id="msgs" showDetail="true"/>
 
-                    <p:dataTable id="books" var="book" value="#{managementBacking.bk}" editable="true" style="margin-bottom:20px" scrollRows="30" scrollable="true" liveScroll="true" scrollHeight="350">
+                    <p:dataTable id="books" var="book" value="#{bookJpaController.findBookEntities()}" editable="true" style="margin-bottom:20px">
                         <f:facet name="header">
                             Row Editing
                         </f:facet>
@@ -111,20 +92,8 @@ and open the template in the editor.
                             <p:rowEditor />
                         </p:column>
                     </p:dataTable>
-                    <p:commandButton actionListener="#{managementBacking.newLine}"
-                    value="New" update="books" oncomplete="addRowOnComplete()"
-                     ajax="true" />
                 </h:form>
             </b:panelGrid>
-        </p:panel>
-        <p:panel id="revApprove" header="Review Approval" toggleable="true" toggleOrientation="vertical" collapsed="true">
-            <h:outputText value="Review APPROVING"/>
-        </p:panel>
-        <p:panel id="clntManage" header="Client Management" toggleable="true" toggleOrientation="vertical" collapsed="true">
-            <h:outputText value="Mange clients"/>
-        </p:panel>
-        <p:panel id="bkSales" header="Sales" toggleable="true" toggleOrientation="vertical" collapsed="true">
-            <h:outputText value="Sales"/>
         </p:panel>
     </ui:define>
 </ui:composition>
