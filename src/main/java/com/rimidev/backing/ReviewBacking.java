@@ -19,7 +19,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+import javax.faces.validator.ValidatorException;
 import javax.faces.view.facelets.FaceletContext;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -59,6 +62,15 @@ public class ReviewBacking implements Serializable {
         this.revMsg = revMsg;
     }
 
+    public void validateReview(FacesContext fc, UIComponent uc, Object value) {
+        String rvMsg = (String) value;
+        
+        logger.log(Level.INFO,"Review msg to validate: "+rvMsg);
+        if (rvMsg==null || rvMsg.isEmpty()||rvMsg.length()>2000) {
+            throw new ValidatorException(new FacesMessage("Mseesage must be between 1 and 2000 characters."));
+        }
+    }
+
     public String addReview() throws Exception {
 
         //logger.log(Level.INFO, "Book >>> "+bk);
@@ -79,7 +91,11 @@ public class ReviewBacking implements Serializable {
       }
         logger.log(Level.INFO, "Review Rating >>> " + rating);
         logger.log(Level.INFO, "Review Message >>> " + revMsg);
-        
+
+        if (rating == null) {
+            rating = 0;
+        }
+
         rev.setClientId(curr_user);
         rev.setIsbn(bk);
         rev.setApprovalStatus("Pending");
@@ -87,7 +103,6 @@ public class ReviewBacking implements Serializable {
         rev.setReviewMessage(revMsg);
 
         Date current_date = new Date();
-        
 
         logger.log(Level.INFO, "Review Date >>> " + current_date.toString());
 
@@ -95,9 +110,9 @@ public class ReviewBacking implements Serializable {
         revControl.create(rev);
 
         logger.log(Level.INFO, "<<< Review Created >>> ");
-        
+
         rating = 0;
-        revMsg="";
+        revMsg = "";
         return "bookDetails.xhtml?faces-redirect=true";
 
     }

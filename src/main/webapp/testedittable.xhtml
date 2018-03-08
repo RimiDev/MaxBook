@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<ui:composition template="/pageTemplates/master_template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:b="http://bootsfaces.net/ui"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <ui:define name="content">
+        <p:panel id="bkInv" header="Book Inventory" toggleable="true" toggleOrientation="vertical" collapsed="false">
+            <b:panelGrid columns="1">
+                <h:form id="form">
+                    <p:growl id="msgs" showDetail="true"/>
+
+                    <p:dataTable id="books" var="book" value="#{bookJpaController.findBookEntities()}" editable="true" style="margin-bottom:20px">
+                        <f:facet name="header">
+                            Row Editing
+                        </f:facet>
+
+                        <p:ajax event="rowEdit" listener="#{managementBacking.onRowEdit}" update=":form:msgs" />
+                        <p:ajax event="rowEditCancel" listener="#{managementBacking.onRowCancel}" update=":form:msgs" />
+
+                        <p:column headerText="Isbn">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{book.isbn}" /></f:facet>
+                                <f:facet name="input"><p:inputText id="modelInput" value="#{book.isbn}" style="width:100%"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+
+                        <p:column headerText="Title">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{book.title}" /></f:facet>
+                                <f:facet name="input"><p:inputText value="#{book.title}" style="width:100%" label="Title"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column headerText="Publish Date">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{book.publishDate}"/></f:facet>
+                                <f:facet name="input"><p:inputText id="modelInputPubDate" value="#{book.publishDate}" style="width:100%"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column headerText="Pages">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{book.pages}"/></f:facet>
+                                <f:facet name="input"><p:inputText id="modelInputPages" value="#{book.pages}" style="width:100%"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column headerText="Genre">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{book.genre}"/></f:facet>
+                                <f:facet name="input"><p:inputText id="modelInputGenre" value="#{book.genre}" style="width:100%"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column headerText="List Price">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{book.listPrice}"/></f:facet>
+                                <f:facet name="input"><p:inputText id="modelInputLstPrice" value="#{book.listPrice}" style="width:100%"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column headerText="Sale Price">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{book.salePrice}"/></f:facet>
+                                <f:facet name="input"><p:inputText id="modelInputSlPrice" value="#{book.salePrice}" style="width:100%"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column headerText="Wholesale Price">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{book.wholesalePrice}"/></f:facet>
+                                <f:facet name="input"><p:inputText id="modelInputWhlsaleprice" value="#{book.wholesalePrice}" style="width:100%"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column headerText="Date Entered">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{book.enteredDate}"/></f:facet>
+                                <f:facet name="input"><p:inputText id="modelInputEnterDate" value="#{book.enteredDate}" style="width:100%"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column headerText="Removal Status">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{book.removalStatus}"/></f:facet>
+                                <f:facet name="input"><p:inputText id="modelInputStatus" value="#{book.removalStatus}" style="width:100%"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column style="width:32px">
+                            <p:rowEditor />
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+            </b:panelGrid>
+        </p:panel>
+    </ui:define>
+</ui:composition>

@@ -83,13 +83,12 @@
 
                 <b:thumbnail>
 
-                  
-                  <f:facet name="caption">
-                    <h:commandLink value="#{books.title}" action="#{bookDisplayBacking.showDetails}" >
                   <b:image library="images" name="/books/#{book.isbn}.jpg"/>
 
+                  <f:facet name="caption">
+                    <h:commandLink value="#{books.title}" action="#{bookDisplayBacking.showDetails}" >
                       <h:outputText value="#{book.title}"/>
-                      
+                      <h:outputText value="#{book.isbn}"/>
                       <f:param name="isbn" value="#{book.isbn}"/>
                     </h:commandLink>  
 

@@ -3,6 +3,7 @@ package com.rimidev.backing;
 import com.rimidev.maxbook.controller.BookJpaController;
 import com.rimidev.maxbook.entities.Author;
 import com.rimidev.maxbook.entities.Book;
+import com.rimidev.maxbook.entities.Client;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +14,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -27,6 +29,15 @@ public class BookDisplayBacking implements Serializable {
     @Inject
     private BookJpaController bookjpaControl;
     private String isbn = "1";
+    private String visibilityStyle="";
+
+    public String getVisibilityStyle() {
+        return visibilityStyle;
+    }
+
+    public void setVisibilityStyle(String visibiltyStyle) {
+        this.visibilityStyle = visibiltyStyle;
+    }
 
     public String getIsbn() {
         return isbn;
@@ -37,13 +48,21 @@ public class BookDisplayBacking implements Serializable {
     }
 
     public String showDetails() {
+        
+        hideReview();
 
         FacesContext fc = FacesContext.getCurrentInstance();
         Map<String, String> params = fc.getExternalContext().getRequestParameterMap();
         isbn = params.get("isbn");
         
         logger.log(Level.INFO, "Book Isbn>>> " + this.isbn);
-        return "bookDetails";
+        
+        if(isbn == null || isbn.isEmpty()){
+            return "404";
+        }
+       
+        
+        return "bookDetails?faces-redirect=true";
     }
 
     public List<Book> getRecsByAuthor(List<Author> auths) {
@@ -60,5 +79,19 @@ public class BookDisplayBacking implements Serializable {
 
     public Double checkSales(int salePrice) {
         return 0.0;
+    }
+    
+    public void hideReview(){
+          HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+        Client curr_user = (Client) session.getAttribute("current_user");
+        
+        logger.log(Level.INFO,"Currently logged in: "+curr_user);
+        
+        if(curr_user == null){
+           visibilityStyle = "hideRevStyle";
+        } else {
+            visibilityStyle = "";
+        }
+        
     }
 }
