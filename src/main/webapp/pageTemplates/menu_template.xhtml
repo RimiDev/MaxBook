@@ -42,8 +42,8 @@
                 
                 <b:commandButton look="info" value="Cart" action="cart" icon-awesome="fa-shopping-cart" />
                 
-                <b:commandButton type="Submit" value="Logout" styleClass="#{loginBackingBean.styling}"
-                                 action="#{clientBackingBean.onLogout}" ajax="false"/>
+                <b:commandButton type="Submit" class="btn btn-warning" value="#{loginBackingBean.styling}"
+                                 action="#{loginBackingBean.onLogout}" ajax="false"/>
             </f:facet>
         </p:menubar>
 
