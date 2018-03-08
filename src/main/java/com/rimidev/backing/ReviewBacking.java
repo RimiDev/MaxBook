@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
@@ -80,8 +81,14 @@ public class ReviewBacking implements Serializable {
         FaceletContext faceletContext = (FaceletContext) FacesContext.getCurrentInstance().getAttributes().get(FaceletContext.FACELET_CONTEXT_KEY);
         Book bk = (Book) faceletContext.getAttribute("bookie");
 
+         List<Review> list = bk.getReviewList().stream().filter(r -> r.getApprovalStatus().equals("Approved"))
+                 .collect(Collectors.toList());
+      
         logger.log(Level.INFO, "Book >>> " + bk);
-        logger.log(Level.INFO, "User >>> " + curr_user);
+        logger.log(Level.INFO, "User >>> " + list.size());
+        for (Review review : list) {
+        logger.log(Level.INFO, "filtered review >>> " + review.toString());
+      }
         logger.log(Level.INFO, "Review Rating >>> " + rating);
         logger.log(Level.INFO, "Review Message >>> " + revMsg);
 

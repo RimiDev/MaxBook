@@ -54,6 +54,7 @@ public class BookDisplayBacking implements Serializable {
         FacesContext fc = FacesContext.getCurrentInstance();
         Map<String, String> params = fc.getExternalContext().getRequestParameterMap();
         isbn = params.get("isbn");
+        
         logger.log(Level.INFO, "Book Isbn>>> " + this.isbn);
         
         if(isbn == null || isbn.isEmpty()){

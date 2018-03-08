@@ -16,6 +16,7 @@ import java.util.logging.Logger;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpSession;
@@ -28,77 +29,105 @@ import javax.servlet.http.HttpSession;
 @RequestScoped
 public class ClientBackingBean implements Serializable {
 
-    private static final Logger logger = Logger.getLogger(ClientBackingBean.class.getName());
-    
-    @Inject
-    private ClientJpaController clientJpaController;
+  private static final Logger logger = Logger.getLogger(ClientBackingBean.class.getName());
 
-    private Client client;
-    
-    //private LoginBackingBean loginBean;
+  @Inject
+  private ClientJpaController clientJpaController;
 
-    /**
-     * Client created if it does not exist.
-     *
-     * @return
-     */
-    public Client getClient() {
-        if (client == null) {
-            client = new Client();
-        }
-        return client;
+  private Client client;
+  private boolean isSamePassword;
+
+  public boolean isIsSamePassword() {
+    return isSamePassword;
+  }
+
+  //private LoginBackingBean loginBean;
+  /**
+   * Client created if it does not exist.
+   *
+   * @return
+   */
+  public Client getClient() {
+    if (client == null) {
+      client = new Client();
     }
+    return client;
+  }
 
-    /**
-     * Save the current person to the db
-     *
-     * @return
-     * @throws Exception
-     */
-    public String createClient() throws Exception {
-        if (isValidEmail()){
-        clientJpaController.create(client);
-        return "home";
-        } else {
-            return null;
-        }
+  /**
+   * Save the current person to the db
+   *
+   * @return
+   * @throws Exception
+   */
+  public String createClient() throws Exception {
+    if (isValidEmail()) {
+      clientJpaController.create(client);
+      return "home";
+    } else {
+      return null;
     }
-    
-    public String onLogin(String username){
-        logger.log(Level.WARNING,"inside ClientBackingBean onLogin" + username);
-        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-        Client client = clientJpaController.findClientByEmail(username);
-        logger.log(Level.INFO, "(Login)User >>> "+client);
-        session.setAttribute("current_user", client );
+  }
+
+  public String onLogin() {
+
+    HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+
+    Client registered_user = clientJpaController.findClientByEmail(client.getEmail());
+
+    if (registered_user != null) {
+      logger.log(Level.INFO, "onLogin registered user email is >>> " + registered_user.getEmail());
+      logger.log(Level.INFO, "inside ClientBackingBean onLogin" + registered_user.getEmail());
+      if (registered_user.getPassword().equals(client.getPassword())) {
+
+        session.setAttribute("current_user", registered_user);
         session.setAttribute("cartItems", new ArrayList<Book>());
+
         return "home";
-
+      }
     }
-    
-    
-    /**
-     * This method checks to see if the email address is already exists.
-     *
-     * @return A boolean value.
-     */
-    private boolean isValidEmail() {
-        boolean valid = false;
-        String email = client.getEmail();
-        if (email != null) {
-            if (clientJpaController.findClientByEmail(email) == null) {
-                valid = true;
-            } else {
-                FacesMessage message = MessagesUtil.getMessage(
-                        "bundles.messages", "email.in.use", null);
-                message.setSeverity(FacesMessage.SEVERITY_ERROR);
-                FacesContext.getCurrentInstance().addMessage("signupForm:email", message);
-            }
-        }
-        return valid;
+    isSamePassword = false;
+
+    return null;
+
+  }
+
+  public String onLogout() {
+
+    HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+    Client curr_user = (Client) session.getAttribute("current_user");
+
+    // log out user if they exist
+    if (curr_user != null) {
+      session.setAttribute("current_user", null);
+      curr_user = null;
+
+      return "login";
     }
 
-    
- 
+    return null;
 
+  }
+
+  /**
+   * This method checks to see if the email address is already exists.
+   *
+   * @return A boolean value.
+   */
+  private boolean isValidEmail() {
+    boolean valid = false;
+    String email = client.getEmail();
+    if (email != null) {
+      if (clientJpaController.findClientByEmail(email) == null) {
+        valid = true;
+      } else {
+        FacesMessage message = MessagesUtil.getMessage(
+                "bundles.messages", "email.in.use", null);
+        message.setSeverity(FacesMessage.SEVERITY_ERROR);
+        FacesContext.getCurrentInstance().addMessage("signupForm:email", message);
+      }
+    }
+    return valid;
+  }
 
 }

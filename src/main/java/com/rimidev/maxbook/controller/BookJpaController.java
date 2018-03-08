@@ -433,6 +433,7 @@ public class BookJpaController implements Serializable {
     return (List<Book>) books;
 
   }
+  
 
   public List<Book> getBookByGenre(String genre) {
 
@@ -441,6 +442,15 @@ public class BookJpaController implements Serializable {
     query.setParameter("genre", "%" + genre + "%");
 //        query.setParameter("genre", genre);
 
+    List<Book> books = query.getResultList();
+
+    return (List<Book>) books;
+
+  }
+  
+  public List<Book> getEmptyList() {
+
+    TypedQuery<Book> query = em.createNamedQuery("Book.findNoBooks", Book.class);
     List<Book> books = query.getResultList();
 
     return (List<Book>) books;

@@ -5,6 +5,9 @@
  */
 package com.rimidev.backing;
 
+import com.rimidev.maxbook.controller.BookJpaController;
+import com.rimidev.maxbook.controller.ClientJpaController;
+import com.rimidev.maxbook.entities.Client;
 import java.io.Serializable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -14,6 +17,8 @@ import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -25,9 +30,17 @@ public class LoginBackingBean implements Serializable {
 
   private String email;
   private String password;
+  private String styling;
+
+  @Inject
+  private ClientJpaController clientJpaController;
 
   public String getEmail() {
     return email;
+  }
+
+  public String getInvalidPasswordMessage() {
+    return "  invalid password";
   }
 
   public void setEmail(final String email) {
@@ -41,33 +54,40 @@ public class LoginBackingBean implements Serializable {
   public void setPassword(final String password) {
     this.password = password;
   }
-  
-  public void validateEmail(FacesContext fc, UIComponent c, Object value) {
-    
-     String email = (String)value;
-      String pattern = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 
-      // Create a Pattern object
-      Pattern r = Pattern.compile(pattern);
-      
-      // Now create matcher object.
-      Matcher m = r.matcher(email);
+  public void validateEmail(FacesContext fc, UIComponent c, Object value) {
+
+    String email = (String) value;
+    String pattern = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+
+    // Create a Pattern object
+    Pattern r = Pattern.compile(pattern);
+
+    // Now create matcher object.
+    Matcher m = r.matcher(email);
     if (!m.find()) {
       throw new ValidatorException(new FacesMessage(
               "Email improperly typed"));
     }
-    
+
+  }
+
+  public String getStyling() {
+    HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+
+    Client curr_user = (Client) session.getAttribute("current_user");
+
+    if (curr_user == null) {
+      return "hideLoginBtn btn btn-warning";
+    }
+    return "";
   }
 
   public void validatePassword(FacesContext fc, UIComponent c, Object value) {
-    
-     String password = (String)value;
-      
 
-    
+    String password = (String) value;
+
   }
-
-
 
   public String doSomeAction() {
 
@@ -81,7 +101,4 @@ public class LoginBackingBean implements Serializable {
 
   }
 
-  
 }
-
-

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition template="/pageTemplates/master_template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:b="http://bootsfaces.net/ui"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:define name="content">
+        <h:form>
+            <b:container>
+                <b:row>
+                    <b:column span="12">
+                        <h:outputText value="#{msgs.downloads}"/>
+                    </b:column>
+                </b:row>
+                <b:row>
+                    <b:column span="2">
+                        <h:outputText value="___________________________" />
+                    </b:column>
+                    <b:column span="2">
+                        <h:outputText value="___________________________" />
+                    </b:column>
+                    <b:column span="2">
+                        <h:outputText value="___________________________" />
+                    </b:column> 
+                    <b:column span="2">
+                        <h:outputText value="___________________________" />
+                    </b:column> 
+                    <b:column span="2">
+                        <h:outputText value="___________________________" />
+                    </b:column> 
+                    <b:column span="2">
+                        <h:outputText value="___________________________" />
+                    </b:column> 
+                </b:row>
+                <ui:repeat value="#{downloadsBackingBean.books}" var="book">
+                    <br></br>
+                    <b:row>
+                        <b:column span="3">
+                            <b:thumbnail>
+                            <b:image library="images" name="/books/#{book.isbn}.jpg"/>
+                        </b:thumbnail>
+                        </b:column>
+                        <b:column span="8">                           
+                            <h:outputText value="#{book.title}"/>
+                        </b:column>
+                        <b:column span="1" offset="11">                           
+                            <b:commandButton value="Download" look="primary" style="width:100px" action="#{downloadsBackingBean.getDownload()}"/>
+                        </b:column>
+                    </b:row>
+                    <b:row>
+                        <b:column span="2">
+                            <h:outputText value="___________________________"/>
+                        </b:column>
+                        <b:column span="2">
+                            <h:outputText value="___________________________"/>
+                        </b:column>
+                        <b:column span="2">
+                            <h:outputText value="___________________________" />
+                        </b:column> 
+                        <b:column span="2">
+                            <h:outputText value="___________________________" />
+                        </b:column> 
+                        <b:column span="2">
+                            <h:outputText value="___________________________" />
+                        </b:column> 
+                        <b:column span="2">
+                            <h:outputText value="___________________________" />
+                        </b:column> 
+                    </b:row>
+                </ui:repeat>
+            </b:container>
+        </h:form>
+    </ui:define>
+</ui:composition>
