@@ -6,7 +6,9 @@
 package com.rimidev.backing;
 
 import com.rimidev.maxbook.controller.BookJpaController;
+import com.rimidev.maxbook.controller.ReviewJpaController;
 import com.rimidev.maxbook.entities.Book;
+import com.rimidev.maxbook.entities.Review;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +36,9 @@ public class ManagementBacking implements Serializable {
     
     @Inject
     BookJpaController bkcon;
+    ReviewJpaController revcon;
     List<Book> bk;
+    List<Review>rev;
     List<Integer> status;
 //    private String message;
 //
@@ -64,6 +68,8 @@ public class ManagementBacking implements Serializable {
     @PostConstruct
     public void init() {
         bk = bkcon.findBookEntities();
+        rev = revcon.findReviewEntities();
+        
         status = new ArrayList<Integer>();
         status.add(0);
         status.add(1);

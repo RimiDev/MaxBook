@@ -138,6 +138,88 @@ and open the template in the editor.
         </p:panel>
         <p:panel id="revApprove" header="Review Approval" toggleable="true" toggleOrientation="vertical" collapsed="true">
             <h:outputText value="Review APPROVING"/>
+             <b:panelGrid columns="1">
+                <h:form id="form">
+                    <p:growl id="msgs" showDetail="true"/>
+
+                    <p:dataTable id="reviews" var="review" value="#{managementBacking.rev}" editable="true" style="margin-bottom:20px" >
+                        <f:facet name="header">
+                            Row Editing
+                        </f:facet>
+
+                        <p:ajax event="rowEdit" listener="#{managementBacking.onRowEdit}" update=":form:msgs" />
+                        <p:ajax event="rowEditCancel" listener="#{managementBacking.onRowCancel}" update=":form:msgs" />
+
+                         <p:column headerText="Id">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{review.id}" /></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        
+                        <p:column headerText="Isbn">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{review.isbn}" /></f:facet>
+                                <f:facet name="input"><p:inputText id="modelInput" value="#{review.isbn}" style="width:100%"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+
+                        <p:column headerText="Client Id">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{review.client_id}" /></f:facet>
+                                <f:facet name="input"><p:inputText value="#{book.title}" style="width:100%" label="Title"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                       
+                        <p:column headerText="Rating">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{book.pages}"/></f:facet>
+                                <f:facet name="input"><p:inputText id="modelInputPages" value="#{book.pages}" style="width:100%"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column headerText="Message">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{book.genre}"/></f:facet>
+                                <f:facet name="input"><p:inputText id="modelInputGenre" value="#{book.genre}" style="width:100%"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column headerText="Approval Status">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{book.listPrice}"/></f:facet>
+                                <f:facet name="input"><p:inputText id="modelInputLstPrice" value="#{book.listPrice}" style="width:100%"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column headerText="Sale Price">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{book.salePrice}"/></f:facet>
+                                <f:facet name="input"><p:inputText id="modelInputSlPrice" value="#{book.salePrice}" style="width:100%"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column headerText="Wholesale Price">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{book.wholesalePrice}"/></f:facet>
+                                <f:facet name="input"><p:inputText id="modelInputWhlsaleprice" value="#{book.wholesalePrice}" style="width:100%"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column headerText="Review Date">
+                            <p:cellEditor>
+                                <f:facet name="output">
+                                    <h:outputText value="#{review.review_date}"/>
+                                </f:facet>
+                                <f:facet name="input"><p:inputText id="modelInputEnterDate" value="#{review.review_date}" style="width:100%">
+                                        <f:convertDateTime  pattern="dd-mm-yyyy"/>
+                                    </p:inputText>
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column style="width:32px">
+                            <p:rowEditor />
+                        </p:column>
+                    </p:dataTable>
+                    <p:commandButton actionListener="#{managementBacking.newLine}"
+                                     value="New" update="books" oncomplete="addRowOnComplete()"
+                                     ajax="true" />
+                </h:form>
+            </b:panelGrid>
         </p:panel>
         <p:panel id="clntManage" header="Client Management" toggleable="true" toggleOrientation="vertical" collapsed="true">
             <h:outputText value="Mange clients"/>
