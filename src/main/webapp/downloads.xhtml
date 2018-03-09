@@ -10,70 +10,39 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:define name="title">
+        <title>#{msgs.downloads}</title>
+    </ui:define>
     <ui:define name="content">
         <h:form>
-            <b:container>
+            <b:panel>
                 <b:row>
-                    <b:column span="12">
-                        <h:outputText value="#{msgs.downloads}"/>
-                    </b:column>
-                </b:row>
-                <b:row>
-                    <b:column span="2">
-                        <h:outputText value="___________________________" />
-                    </b:column>
-                    <b:column span="2">
-                        <h:outputText value="___________________________" />
-                    </b:column>
-                    <b:column span="2">
-                        <h:outputText value="___________________________" />
-                    </b:column> 
-                    <b:column span="2">
-                        <h:outputText value="___________________________" />
-                    </b:column> 
-                    <b:column span="2">
-                        <h:outputText value="___________________________" />
-                    </b:column> 
-                    <b:column span="2">
-                        <h:outputText value="___________________________" />
-                    </b:column> 
-                </b:row>
-                <ui:repeat value="#{downloadsBackingBean.books}" var="book">
-                    <br></br>
-                    <b:row>
-                        <b:column span="3">
-                            <b:thumbnail>
-                            <b:image library="images" name="/books/#{book.isbn}.jpg"/>
-                        </b:thumbnail>
+                    <ui:repeat value="#{downloadsBackingBean.model}" var="book">
+                        <b:column col-sm="3">                           
+                            <p:graphicImage library="images" name="/books/#{book.isbn}.jpg" height="150px" width="150px"/>
                         </b:column>
-                        <b:column span="8">                           
+                    </ui:repeat>
+                </b:row>
+                <b:row>
+                    <ui:repeat value="#{downloadsBackingBean.model}" var="book">
+                        <b:column col-sm="3">     
+                            <br/>
                             <h:outputText value="#{book.title}"/>
                         </b:column>
-                        <b:column span="1" offset="11">                           
-                            <b:commandButton value="Download" look="primary" style="width:100px" action="#{downloadsBackingBean.getDownload()}"/>
+                    </ui:repeat>
+                </b:row>
+                <b:row>
+                    <ui:repeat value="#{downloadsBackingBean.model}" var="book">
+                        <b:column col-sm="3">                           
+                            <b:commandButton value="#{msgs.download}" actionListener="#{downloadsBackingBean.download()}" look="info" />
                         </b:column>
-                    </b:row>
-                    <b:row>
-                        <b:column span="2">
-                            <h:outputText value="___________________________"/>
-                        </b:column>
-                        <b:column span="2">
-                            <h:outputText value="___________________________"/>
-                        </b:column>
-                        <b:column span="2">
-                            <h:outputText value="___________________________" />
-                        </b:column> 
-                        <b:column span="2">
-                            <h:outputText value="___________________________" />
-                        </b:column> 
-                        <b:column span="2">
-                            <h:outputText value="___________________________" />
-                        </b:column> 
-                        <b:column span="2">
-                            <h:outputText value="___________________________" />
-                        </b:column> 
-                    </b:row>
-                </ui:repeat>
+                    </ui:repeat>
+                </b:row>
+            </b:panel>
+            <b:container>
+                <b:commandButton value="#{msgs.prev}" action="#{allBooks.prev()}" col-sm="1" offset="4" look="info" />
+                <b:label value="Page: #{allBooks.currentPageIndex}" col-sm="1" />
+                <b:commandButton value="#{msgs.next}" actionListener="#{allBooks.next()}" col-sm="1" look="info" />
             </b:container>
         </h:form>
     </ui:define>
