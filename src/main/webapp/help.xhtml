@@ -1,0 +1,40 @@
+<ui:composition template="/pageTemplates/master_template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:b="http://bootsfaces.net/ui"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <ui:define name="content">
+        <b:accordion>
+            <b:panel title="#{msgs.helpAdvanceLabel}">
+                <h:outputText value="#{msgs.helpAdvanceText}"/>
+            </b:panel>
+            <b:panel title="#{msgs.helpAllBooksLabel}">
+                <h:outputText value="#{msgs.helpAllBooksText}"/>
+            </b:panel>
+            <b:panel title="#{msgs.helpBookPageLabel}">
+                <h:outputText value="#{msgs.helpBookPageText}"/>
+            </b:panel>
+            <b:panel title="#{msgs.helpReviewEntryLabel}">
+                <h:outputText value="#{msgs.helpReviewEntryText}"/>
+            </b:panel>
+            <b:panel title="#{msgs.helpCheckoutLabel}">
+                <h:outputText value="#{msgs.helpCheckoutText}"/>
+            </b:panel>
+            <b:panel title="#{msgs.helpFinalizationLabel}">
+                <h:outputText value="#{msgs.helpFinalizationText}"/>
+            </b:panel>
+            <b:panel title="#{msgs.helpInvoiceLabel}">
+                <h:outputText value="#{msgs.helpInvoiceText}"/>
+            </b:panel>
+            <b:panel title="#{msgs.helpDownloadLabel}">
+                <h:outputText value="#{msgs.helpDownloadText}"/>
+            </b:panel>
+            <b:panel title="#{msgs.helpRegistrationLabel}">
+                <h:outputText value="#{msgs.helpRegistrationText}"/>
+            </b:panel>
+        </b:accordion>
+    </ui:define>
+</ui:composition>
+
