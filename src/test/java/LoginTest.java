@@ -33,7 +33,7 @@ public class LoginTest {
         loginBox.sendKeys("test@test.com");
 
         //register-password
-        Thread.sleep(1000);
+        Thread.sleep(1000); 
         WebElement passwordBox = driver.findElement(By.id("loginform:login-password"));
         passwordBox.sendKeys("password");
 

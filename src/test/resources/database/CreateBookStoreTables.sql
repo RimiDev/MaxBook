@@ -1,17 +1,16 @@
 USE BookStore_DB;
-
-DROP TABLE IF EXISTS Survey_Results;
-DROP TABLE IF EXISTS Question_Option;
+SET foreign_key_checks = 1;
+DROP TABLE IF EXISTS Ads;
+DROP TABLE IF EXISTS Survey;
 DROP TABLE IF EXISTS Invoice_Details;
 DROP TABLE IF EXISTS Invoice;
 DROP TABLE IF EXISTS Review;
-DROP TABLE IF EXISTS Client;
+DROP TABLE IF EXISTS Client ;
 DROP TABLE IF EXISTS Author_Book;
 DROP TABLE IF EXISTS Book;
 DROP TABLE IF EXISTS Taxes;
 DROP TABLE IF EXISTS Publisher;
 DROP TABLE IF EXISTS Author;
-DROP TABLE IF EXISTS Question;
 
 CREATE TABLE Author (
     id int PRIMARY KEY auto_increment,
@@ -506,37 +505,20 @@ INSERT INTO Invoice_Details VALUES (6, 1, '978-1408711392', 14.99, 0.10, 0.05, 0
 INSERT INTO Invoice_Details (invoice_id, isbn, book_price, PST_rate, GST_rate, HST_rate) VALUES 
 (1, '978-1449474256', 14.99, 0.10, 0.05, 0.15);
 
-CREATE TABLE Question (
+CREATE TABLE Survey (
     id int PRIMARY KEY auto_increment,
-    message varchar(1000) NOT NULL default ''
+    question varchar(255) NOT NULL DEFAULT '',
+    option1 varchar(255) NOT NULL DEFAULT '',
+    option2 varchar(255) NOT NULL DEFAULT '',
+    option3 varchar(255) NOT NULL DEFAULT '',
+    option4 varchar(255) NOT NULL DEFAULT '',
+    count1 int NOT NULL DEFAULT 0,
+    count2 int NOT NULL DEFAULT 0,
+    count3 int NOT NULL DEFAULT 0,
+    count4 int NOT NULL DEFAULT 0
 );
-INSERT INTO Question (message) VALUES 
-("This is a test question.");
-
-CREATE TABLE Question_Option (
-    id int PRIMARY KEY auto_increment,
-    question_id int NOT NULL default 1,
-    option_message varchar(255) NOT NULL default '',
-    vote_count int NOT NULL default 0,
-    FOREIGN KEY (question_id) REFERENCES Question(id)
-);
-INSERT INTO Question_Option (question_id, option_message, vote_count) VALUES
-(1, "test option 1", 1),
-(1, "test option 2", 0),
-(1, "test option 3", 0),
-(1, "test option 4", 0);
-
-CREATE TABLE Survey_Results (
-    id int PRIMARY KEY auto_increment,
-    question_id int NOT NULL default 1,
-    client_id int NOT NULL default 1,
-    FOREIGN KEY (question_id) REFERENCES Question(id),
-    FOREIGN KEY (client_id) REFERENCES Client(id)
-);
-INSERT INTO Survey_Results (question_id, client_id) VALUES
-(1, 1);
-
-DROP TABLE IF EXISTS Ads;
+INSERT INTO Survey(question, option1, option2, option3, option4, count1, count2, count3, count4) VALUES 
+("Do you like Horror?", "Very Much", "Yes", "No", "I hate it", 0, 0, 0, 0);
 
 CREATE TABLE Ads (
 id int PRIMARY KEY auto_increment,

@@ -118,8 +118,8 @@ public class DownloadsBackingBean implements Serializable{
             this.allDownloads = (List<Book>) session.getAttribute("cartItems");
             this.startIndex = 0;
             this.totalRecords = allDownloads.size();
-//            this.model = bookJpaController.findBookEntities(4, 1);
-//            logger.info(Integer.toString(allDownloads.size()));
+            this.model = bookJpaController.findBookEntities(4, 1);
+            logger.info(Integer.toString(allDownloads.size()));
             if(allDownloads.size() == 0){
                 return new ArrayList();
             }
