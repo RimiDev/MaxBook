@@ -1,9 +1,11 @@
 package com.rimidev.backing;
 
 import com.rimidev.maxbook.controller.BookJpaController;
+import com.rimidev.maxbook.controller.ClientJpaController;
 import com.rimidev.maxbook.controller.InvoiceDetailsJpaController;
 import com.rimidev.maxbook.controller.InvoiceJpaController;
 import com.rimidev.maxbook.entities.Book;
+import com.rimidev.maxbook.entities.Client;
 import com.rimidev.maxbook.entities.Invoice;
 import com.rimidev.maxbook.entities.InvoiceDetails;
 import java.io.Serializable;
@@ -14,6 +16,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.criteria.CriteriaQuery;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -30,6 +33,8 @@ public class DownloadsBackingBean implements Serializable{
     private InvoiceJpaController invoiceController;
     @Inject
     private InvoiceDetailsJpaController invoiceDetailsController;
+    @Inject
+    private ClientJpaController clientController;
 
     private static final Logger logger = Logger.getLogger(DownloadsBackingBean.class.getName());
     
@@ -49,6 +54,20 @@ public class DownloadsBackingBean implements Serializable{
         Invoice invoice = invoiceController.findInvoice(1);
         logger.info("INVOICE ID: " +invoice.getId());
         List<InvoiceDetails> details = invoice.getInvoiceDetailsList();
+        for(InvoiceDetails d : details){
+            logger.info(d.getIsbn().getIsbn());
+        }
+        return null;
+    }
+    
+    public List<Book> getAllOwnedBooks(int clientId){
+        Client c = clientController.findClient(clientId);
+        List<Invoice> invoices = c.getInvoiceList();
+        logger.info("Number of Associated Invoices: " +invoices.size());
+        List<InvoiceDetails> details = new ArrayList();
+        for(Invoice i : invoices){
+            details.addAll(i.getInvoiceDetailsList());
+        }
         for(InvoiceDetails d : details){
             logger.info(d.getIsbn().getIsbn());
         }
@@ -131,10 +150,9 @@ public class DownloadsBackingBean implements Serializable{
         logger.info("AllBooksBackingBean -> getModel");
         if (model == null) {
             logger.info("model is null");
+            getAllOwnedBooks(1);
             this.records = 4;
             this.currentPageIndex = 1;
-            this.session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-            this.allDownloads = (List<Book>) session.getAttribute("cartItems");
             this.startIndex = 0;
             this.totalRecords = allDownloads.size();
 //            this.model = bookJpaController.findBookEntities(4, 1);
