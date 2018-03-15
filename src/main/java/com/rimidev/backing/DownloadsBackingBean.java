@@ -8,15 +8,19 @@ import com.rimidev.maxbook.entities.Book;
 import com.rimidev.maxbook.entities.Client;
 import com.rimidev.maxbook.entities.Invoice;
 import com.rimidev.maxbook.entities.InvoiceDetails;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
+import java.util.zip.ZipOutputStream;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -189,7 +193,27 @@ public class DownloadsBackingBean implements Serializable{
         this.currentPageIndex = pageIndex;
     }
     
-    public void getDownload(){
-        logger.info("Downloading Book");
+    /**
+     * 
+     * @throws IOException 
+     */
+    public void getDownload() throws IOException{
+        OutputStream out = null;
+        String filename = "defaultBook.pdf";
+        FacesContext fc = FacesContext.getCurrentInstance();
+        HttpServletResponse response = (HttpServletResponse) fc.getExternalContext().getResponse();
+        out = response.getOutputStream();
+        ZipOutputStream zipout = new ZipOutputStream(out);
+        response.setContentType("application/octet-stream");
+        response.addHeader("Content-Disposition", "attachment; filename=\""+filename+"\"");
+        out.flush();
+        try {
+            if (out != null) {
+                out.close();
+            }
+            FacesContext.getCurrentInstance().responseComplete();
+        } catch (IOException e) {
+            logger.info(e.getMessage());
+        }
     }
 }
