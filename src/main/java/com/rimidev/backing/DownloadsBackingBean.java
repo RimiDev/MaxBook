@@ -48,30 +48,25 @@ public class DownloadsBackingBean implements Serializable{
     private int currentPageIndex;
     private int totalPages;
     private HttpSession session;
-    
-    public List<Book> tester(){
-        logger.info("INSIDE TESTER");
-        Invoice invoice = invoiceController.findInvoice(1);
-        logger.info("INVOICE ID: " +invoice.getId());
-        List<InvoiceDetails> details = invoice.getInvoiceDetailsList();
-        for(InvoiceDetails d : details){
-            logger.info(d.getIsbn().getIsbn());
-        }
-        return null;
-    }
-    
+       
     public List<Book> getAllOwnedBooks(int clientId){
-        Client c = clientController.findClient(clientId);
-        List<Invoice> invoices = c.getInvoiceList();
-        logger.info("Number of Associated Invoices: " +invoices.size());
-        List<InvoiceDetails> details = new ArrayList();
-        for(Invoice i : invoices){
-            details.addAll(i.getInvoiceDetailsList());
+        if(this.model == null){
+            logger.info("DownloadsBackingBean -> model was null");
+            Client c = clientController.findClient(clientId);
+            List<Invoice> invoices = c.getInvoiceList();
+            logger.info("Number of Associated Invoices: " +invoices.size());
+            List<InvoiceDetails> details = new ArrayList();
+            List<Book> books = new ArrayList();
+            for(Invoice i : invoices){
+                details.addAll(i.getInvoiceDetailsList());
+            }
+            for(InvoiceDetails d : details){
+                logger.info(d.getIsbn().getIsbn());
+                books.add(d.getIsbn());
+            }
+            this.model = books;
         }
-        for(InvoiceDetails d : details){
-            logger.info(d.getIsbn().getIsbn());
-        }
-        return null;
+        return this.model;
     }
     
     /**
@@ -147,16 +142,16 @@ public class DownloadsBackingBean implements Serializable{
      * @return List of the books to be displayed
      */
     public List<Book> getModel() {
-        logger.info("AllBooksBackingBean -> getModel");
+        logger.info("DownloadsBackingBean -> getModel");
         if (model == null) {
             logger.info("model is null");
-            getAllOwnedBooks(1);
+//             NEED TO ADD SUPPORT FOR GETTING SESSION CLIENT ID
+            this.model = getAllOwnedBooks(1);
+            // IMPLEMENT IN-BETWEEN
             this.records = 4;
             this.currentPageIndex = 1;
             this.startIndex = 0;
             this.totalRecords = allDownloads.size();
-//            this.model = bookJpaController.findBookEntities(4, 1);
-//            logger.info(Integer.toString(allDownloads.size()));
             if(allDownloads.size() == 0){
                 return new ArrayList();
             }

@@ -16,13 +16,29 @@
     <ui:define name="content">
         <h:form>
             <b:panel>
-                <b:row>
+                <ui:repeat value="#{downloadsBackingBean.getAllOwnedBooks(1)}" var="book">
+                    <b:row>
+                        <b:column col-sm="1" offset="2">                           
+                            <p:graphicImage library="images" name="/books/#{book.isbn}.jpg" height="150px" width="100px"/>
+                        </b:column>
+                        <b:column col-sm="5">   
+                            <br/><br/><br/><br/>
+                            <h:outputText value="#{book.title}"/>
+                        </b:column>
+                        <b:column col-sm="2">    
+                            <br/><br/><br/><br/>
+                            <b:commandButton value="#{msgs.download}" actionListener="#{downloadsBackingBean.download()}" look="info" />
+                        </b:column>
+                    </b:row>
+                    <br/>
+                </ui:repeat>
+<!--                <b:row>
                     <ui:repeat value="#{downloadsBackingBean.getAllOwnedBooks(1)}" var="book">
-<!--                        <b:column col-sm="3">                           
-                            <p:graphicImage library="images" name="/books/#{bookJpaController.findBook(book.id)}.jpg" height="150px" width="150px"/>
-                        </b:column>-->
+                        <b:column col-sm="3">                           
+                            <p:graphicImage library="images" name="/books/#{book.isbn}.jpg" height="150px" width="150px"/>
+                        </b:column>
                     </ui:repeat>
-<!--                    <ui:repeat value="#{invoiceJpaController.findInvoice(1).invoiceDetailsList}" var="book">
+                    <ui:repeat value="#{invoiceJpaController.findInvoice(1).invoiceDetailsList}" var="book">
                         <b:column col-sm="3">                           
                             <p:graphicImage library="images" name="/books/#{bookJpaController.findBook(book.id)}.jpg" height="150px" width="150px"/>
                         </b:column>
@@ -41,14 +57,14 @@
                         <b:column col-sm="3">                           
                             <b:commandButton value="#{msgs.download}" actionListener="#{downloadsBackingBean.download()}" look="info" />
                         </b:column>
-                    </ui:repeat>-->
-                </b:row>
+                    </ui:repeat>
+                </b:row>-->
             </b:panel>
-            <b:container>
+<!--            <b:container>
                 <b:commandButton value="#{msgs.prev}" action="#{allBooks.prev()}" col-sm="1" offset="4" look="info" />
                 <b:label value="Page: #{allBooks.currentPageIndex}" col-sm="1" />
                 <b:commandButton value="#{msgs.next}" actionListener="#{allBooks.next()}" col-sm="1" look="info" />
-            </b:container>
+            </b:container>-->
         </h:form>
     </ui:define>
 </ui:composition>
