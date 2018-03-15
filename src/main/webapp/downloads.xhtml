@@ -17,26 +17,31 @@
         <h:form>
             <b:panel>
                 <b:row>
-                    <ui:repeat value="#{downloadsBackingBean.model}" var="book">
+                    <ui:repeat value="#{downloadsBackingBean.tester()}" var="book">
                         <b:column col-sm="3">                           
-                            <p:graphicImage library="images" name="/books/#{book.isbn}.jpg" height="150px" width="150px"/>
+                            <p:graphicImage library="images" name="/books/#{bookJpaController.findBook(book.id)}.jpg" height="150px" width="150px"/>
+                        </b:column>
+                    </ui:repeat>
+<!--                    <ui:repeat value="#{invoiceJpaController.findInvoice(1).invoiceDetailsList}" var="book">
+                        <b:column col-sm="3">                           
+                            <p:graphicImage library="images" name="/books/#{bookJpaController.findBook(book.id)}.jpg" height="150px" width="150px"/>
                         </b:column>
                     </ui:repeat>
                 </b:row>
                 <b:row>
-                    <ui:repeat value="#{downloadsBackingBean.model}" var="book">
+                    <ui:repeat value="#{invoiceJpaController.findInvoice(1).invoiceDetailsList}" var="book">
                         <b:column col-sm="3">     
                             <br/>
-                            <h:outputText value="#{book.title}"/>
+                            <h:outputText value="#{bookJpaController.findBook(book.id)}"/>
                         </b:column>
                     </ui:repeat>
                 </b:row>
                 <b:row>
-                    <ui:repeat value="#{downloadsBackingBean.model}" var="book">
+                    <ui:repeat value="#{invoiceJpaController.findInvoice(1).invoiceDetailsList}" var="book">
                         <b:column col-sm="3">                           
                             <b:commandButton value="#{msgs.download}" actionListener="#{downloadsBackingBean.download()}" look="info" />
                         </b:column>
-                    </ui:repeat>
+                    </ui:repeat>-->
                 </b:row>
             </b:panel>
             <b:container>

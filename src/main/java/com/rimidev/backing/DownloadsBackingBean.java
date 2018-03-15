@@ -1,7 +1,11 @@
 package com.rimidev.backing;
 
 import com.rimidev.maxbook.controller.BookJpaController;
+import com.rimidev.maxbook.controller.InvoiceDetailsJpaController;
+import com.rimidev.maxbook.controller.InvoiceJpaController;
 import com.rimidev.maxbook.entities.Book;
+import com.rimidev.maxbook.entities.Invoice;
+import com.rimidev.maxbook.entities.InvoiceDetails;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +26,10 @@ public class DownloadsBackingBean implements Serializable{
     
     @Inject
     private BookJpaController bookJpaController;
+    @Inject
+    private InvoiceJpaController invoiceController;
+    @Inject
+    private InvoiceDetailsJpaController invoiceDetailsController;
 
     private static final Logger logger = Logger.getLogger(DownloadsBackingBean.class.getName());
     
@@ -35,6 +43,17 @@ public class DownloadsBackingBean implements Serializable{
     private int currentPageIndex;
     private int totalPages;
     private HttpSession session;
+    
+    public List<Book> tester(){
+        logger.info("INSIDE TESTER");
+        Invoice invoice = invoiceController.findInvoice(1);
+        logger.info("INVOICE ID: " +invoice.getId());
+        List<InvoiceDetails> details = invoice.getInvoiceDetailsList();
+        for(InvoiceDetails d : details){
+            logger.info(d.getIsbn().getIsbn());
+        }
+        return null;
+    }
     
     /**
      * Updates the model based on the current configurations of the pagination.
