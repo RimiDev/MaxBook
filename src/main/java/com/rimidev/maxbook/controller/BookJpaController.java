@@ -455,10 +455,11 @@ public class BookJpaController implements Serializable {
         logger.log(Level.INFO, "Search Criteria >>> "+criteria);
 
 //        String quer = "select distinct bk from Book bk INNER JOIN bk.authorList bkl INNER JOIN bk.publisher_id";
-        String quer = "select distinct bk from Book bk INNER JOIN bk.authorList bkl where bkl.lastName = 'Beck'";
+        String quer = "select bk from Book bk inner join bk.publisherId bkp where bkp.id = 1";
+        //just need to fix critera to join to the authors and publishers then use the criteria
 
 //        String query = "select distinct bk from Book bk INNER JOIN bk.authorList bkl where bkl.id IN :auths AND bk.isbn <> :bookIsbn";
-        TypedQuery<Object> authBooks = em.createQuery(quer, Object.class);
+        TypedQuery<Book> authBooks = em.createQuery(quer, Book.class);
 //        authBooks.setParameter("auths", authIds);
 //        authBooks.setParameter("bookIsbn", isbn);
 
