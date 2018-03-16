@@ -144,6 +144,10 @@ public class SearchBackingBean {
         this.searchedBooks = searchedBooks;
     }
     
+    public void searchQuery(){
+        bookJPA.searchBooks("");
+    }
+    
     
 
     
