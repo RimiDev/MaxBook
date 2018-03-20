@@ -1,5 +1,5 @@
 USE BookStore_DB;
-SET foreign_key_checks = 0;
+SET foreign_key_checks = 1;
 DROP TABLE IF EXISTS Ads;
 DROP TABLE IF EXISTS Survey;
 DROP TABLE IF EXISTS Invoice_Details;
@@ -11,7 +11,6 @@ DROP TABLE IF EXISTS Book;
 DROP TABLE IF EXISTS Taxes;
 DROP TABLE IF EXISTS Publisher;
 DROP TABLE IF EXISTS Author;
-SET foreign_key_checks = 1;
 
 CREATE TABLE Author (
     id int PRIMARY KEY auto_increment,
@@ -520,7 +519,6 @@ CREATE TABLE Survey (
     count3 int NOT NULL DEFAULT 0,
     count4 int NOT NULL DEFAULT 0
 );
-
 INSERT INTO Survey(question, option1, option2, option3, option4, count1, count2, count3, count4) VALUES 
 ("Do you like Horror?", "Very Much", "Yes", "No", "I hate it", 0, 0, 0, 0);
 
