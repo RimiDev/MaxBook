@@ -11,7 +11,9 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.ConfigurableNavigationHandler;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ComponentSystemEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpSession;
@@ -28,7 +30,7 @@ public class BookDisplayBacking implements Serializable {
 
     @Inject
     private BookJpaController bookjpaControl;
-    private String isbn = "1";
+    private String isbn = "";
     private String visibilityStyle="";
 
     public String getVisibilityStyle() {
@@ -60,16 +62,20 @@ public class BookDisplayBacking implements Serializable {
         return "bookDetails?faces-redirect=true";
     }
     
-    public String checkBookExist(){
+    public void checkBookExist(ComponentSystemEvent event){
          //need to fix reidrect where i cant go directly to book details page
-        if(isbn == null || isbn.isEmpty()){
+        logger.log(Level.INFO, "We in checkBookExist");
+        logger.log(Level.INFO, "isbn " + this.isbn);
+         if(isbn == null || isbn.isEmpty()){
              logger.log(Level.INFO, "isbn " + this.isbn);
         
-            return "404";
+            FacesContext context = FacesContext.getCurrentInstance();
+            ConfigurableNavigationHandler handler = (ConfigurableNavigationHandler) context.getApplication().getNavigationHandler();
+            handler.performNavigation("404");
         }
          
-        return isbn;
     }
+    
 
     public List<Book> getRecsByAuthor(List<Author> auths) {
         

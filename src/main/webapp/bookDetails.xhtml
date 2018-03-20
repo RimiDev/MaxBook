@@ -12,58 +12,60 @@
     </ui:define>
 
     <ui:define name="content">
+        <f:view>
+            <f:event type="preRenderView" listener="#{bookDisplayBacking.checkBookExist}"/>
 
-        <ui:param  name="bookie" value="#{bookDisplayBacking.checkBookExist}"/>
+            <ui:param  name="bookie" value="#{bookJpaController.findBook(bookDisplayBacking.isbn)}" />
 
-        <!--start of book details<-->
-        <br/><br/>
-        <h:form>
-            <div class="container" >
-                <div class="card">
-                    <div class="container-fliud">
-                        <div class="wrapper row">
+            <!--start of book details<-->
+            <br/><br/>
+            <h:form>
+                <div class="container" >
+                    <div class="card">
+                        <div class="container-fliud">
+                            <div class="wrapper row">
 
-                            <div class="preview col-md-6">
+                                <div class="preview col-md-6">
 
-                                <div class="preview-pic tab-content">
-                                    <div class="tab-pane active" id="pic-1"><b:image class="detailsImg" library="images" name="/books/#{bookie.isbn}.jpg"/></div>
+                                    <div class="preview-pic tab-content">
+                                        <div class="tab-pane active" id="pic-1"><b:image class="detailsImg" library="images" name="/books/#{bookie.isbn}.jpg"/></div>
+                                    </div>
+
+
                                 </div>
+                                <div class="details col-md-6">
+                                    <h3 class="product-title">#{bookie.title}</h3>
+                                    <h:outputText value="#{bookie.isbn}"/>
+                                    <div class="rating">
+                                        <!-- need to convert to p:rating and use average rating for book-->
+                                        <p:rating readonly="true"/>
+                                        <span class="review-no">#{bookie.reviewList.size()} reviews</span>
+                                    </div>
+                                    <p class="product-description">#{bookie.description}</p>
+                                    <!--create method in bookdisplayback bean to check saleprice -->
+                                    <h4 class="price">current price: <span>$#{bookie.salePrice}</span></h4>
+
+                                    <div class="action">
+                                        <b:commandButton icon="shopping-cart" action="#{cartBackingBean.addToCart(bookie.isbn)}" value="Add to cart" />
 
 
-                            </div>
-                            <div class="details col-md-6">
-                                <h3 class="product-title">#{bookie.title}</h3>
-                                <h:outputText value="#{bookie.isbn}"/>
-                                <div class="rating">
-                                    <!-- need to convert to p:rating and use average rating for book-->
-                                    <p:rating readonly="true"/>
-                                    <span class="review-no">#{bookie.reviewList.size()} reviews</span>
-                                </div>
-                                <p class="product-description">#{bookie.description}</p>
-                                <!--create method in bookdisplayback bean to check saleprice -->
-                                <h4 class="price">current price: <span>$#{bookie.salePrice}</span></h4>
-
-                                <div class="action">
-                                    <b:commandButton icon="shopping-cart" action="#{cartBackingBean.addToCart(bookie.isbn)}" value="Add to cart" />
-
-
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </h:form>
+            </h:form>
 
 
-        <!--end of book details<-->
+            <!--end of book details<-->
 
-        <h:form style="margin-top: 3%">
+            <h:form style="margin-top: 3%">
 
-            <b:panel>
+                <b:panel>
 
-                <h2 style="text-align:center"> Recommendations</h2>
-                <br/>
+                    <h2 style="text-align:center"> Recommendations</h2>
+                    <br/>
 
 <!--        <ui:repeat value="#{bookDisplayBacking.getRecsByAuthor(bookie.authorList)}" var="book">
 
@@ -91,43 +93,43 @@
 
         </ui:repeat>-->
 
-            </b:panel>
-        </h:form>
+                </b:panel>
+            </h:form>
 
-        <!--END OF RECOMMENDATIONS-->
+            <!--END OF RECOMMENDATIONS-->
 
-        <h:form style="margin-top: 3%">
-            <b:panel>
-                <h2> Reviews</h2>
-                <br/>
-                <ui:repeat var="rev" value="#{bookie.reviewList}">
-                    <b:row style="margin-bottom: 3%">
-                        <p:rating value="#{rev.rating}" readonly="true"/>
-                        <h:outputText value="#{rev.reviewMessage}"/>
-                        <br/>
-                        <div class="container-fluid">
-                            <div class="row">
-                                <h:outputText value="BY: #{rev.clientId.firstName} "/>
-                                <h:outputText value="#{rev.clientId.lastName}"/>
+            <h:form style="margin-top: 3%">
+                <b:panel>
+                    <h2> Reviews</h2>
+                    <br/>
+                    <ui:repeat var="rev" value="#{bookie.reviewList}">
+                        <b:row style="margin-bottom: 3%">
+                            <p:rating value="#{rev.rating}" readonly="true"/>
+                            <h:outputText value="#{rev.reviewMessage}"/>
+                            <br/>
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <h:outputText value="BY: #{rev.clientId.firstName} "/>
+                                    <h:outputText value="#{rev.clientId.lastName}"/>
+                                </div>
                             </div>
-                        </div>
-                    </b:row>                          
-                </ui:repeat>
-                <p:outputPanel id="revBox" styleClass="#{bookDisplayBacking.visibilityStyle}">
-                    <b:row style="resize: none;display: block">
-                        <h:message id="errLenght" for="msg" style="color: red"/>
-                        <b:inputTextarea id="msg" value="#{reviewBacking.revMsg}" validator="#{reviewBacking.validateReview}" style="resize: none" span="6" rows="5" fieldSize="lg">
-                            <f:ajax event="blur" render="errLenght"/>
-                        </b:inputTextarea>
-                    </b:row>
-                    <b:row>
-                        <p:rating value="#{reviewBacking.rating}"/>
-                    </b:row>
-                    <b:commandButton action="#{reviewBacking.addReview()}" look="info" value="submit"/>
-                </p:outputPanel>
-            </b:panel>
-        </h:form>
-
+                        </b:row>                          
+                    </ui:repeat>
+                    <p:outputPanel id="revBox" styleClass="#{bookDisplayBacking.visibilityStyle}">
+                        <b:row style="resize: none;display: block">
+                            <h:message id="errLenght" for="msg" style="color: red"/>
+                            <b:inputTextarea id="msg" value="#{reviewBacking.revMsg}" validator="#{reviewBacking.validateReview}" style="resize: none" span="6" rows="5" fieldSize="lg">
+                                <f:ajax event="blur" render="errLenght"/>
+                            </b:inputTextarea>
+                        </b:row>
+                        <b:row>
+                            <p:rating value="#{reviewBacking.rating}"/>
+                        </b:row>
+                        <b:commandButton action="#{reviewBacking.addReview()}" look="info" value="submit"/>
+                    </p:outputPanel>
+                </b:panel>
+            </h:form>
+        </f:view>
     </ui:define>
 
 
