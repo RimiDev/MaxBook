@@ -39,16 +39,44 @@ public class LoginBackingBean implements Serializable {
   private ClientJpaController clientJpaController;
   private Client client;
   private String styling;
+  private String compare_password;
 
   public String getInvalidPasswordMessage() {
     return "  invalid password";
   }
+  
+  public String getPasswordsDontMatch() {
+    return "  passwords don't match";
+  }
 
   public String createClient() throws Exception {
 
-    clientJpaController.create(client);
-    return "home";
+    logger.log(Level.INFO, "inside on createClient");
+    HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+    Client current_user = clientJpaController.findClientByEmail(client.getEmail());
 
+    if (current_user == null) {
+      logger.log(Level.INFO, "inside createClient >>> " + client.getEmail());
+      logger.log(Level.INFO, "inside createClient password" + client.getPassword());
+      if (client.getPassword().equals(compare_password)) {
+        clientJpaController.create(client);
+        session.setAttribute("current_user", client);
+        session.setAttribute("cartItems", new ArrayList<Book>());
+
+        return "home";
+      }
+    }
+
+    return null;
+
+  }
+
+  public String getCompare_password() {
+    return compare_password;
+  }
+
+  public void setCompare_password(String compare_password) {
+    this.compare_password = compare_password;
   }
 
   public Client getClient() {
@@ -89,8 +117,6 @@ public class LoginBackingBean implements Serializable {
     }
     return "Logout";
   }
-
-
 
   public String onLogin() {
 
@@ -135,7 +161,7 @@ public class LoginBackingBean implements Serializable {
     }
   }
 
-   public String onSignUp() {
+  public String onSignUp() {
 
     logger.log(Level.INFO, "onSignUp >>> ");
     return "register";
