@@ -6,6 +6,9 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
+<<<<<<< HEAD
+  <ui:define name="content">            
+=======
   <ui:define name="content">
 
     <br/>            
@@ -16,26 +19,9 @@
     </div>
 
     <br/>            
+>>>>>>> 53f50317d7588c62e2c299abb9b4d6c7f0bf970a
 
     <!--MAIN HOME PAGE-->
-
-    <!--Top recent sold books-->
-
-    <!--            <h:form>
-    
-                    <h:dataTable value="" var="books">
-    
-                        <h:column>
-                            <f:facet name="header">Top selling Books</f:facet>
-    #{books.isbn}
-    </h:column>
-
-
-</h:dataTable>
-
-</h:form>-->
-
-    <!--ADS-->
 
     <div class="container-fluid">
       <div class="col-sm-2">
@@ -151,47 +137,6 @@
           </b:panel>
 
         </h:form>
-
-
-
-        <!--            <h:form>
-        
-                        <b:panel>
-                            
-                              <h2 style="text-align:center"> Most Recently Sold Books </h2>
-                              <br/>
-        
-                              <ui:repeat value="#{homeBackingBean.recentSoldBooks}" var="book">
-                                
-                                <b:column col-md="3">                           
-                                    
-                                <b:thumbnail>
-                                    
-                                    <b:image library="images" name="/books/#{book.isbn}.jpg"/>
-                                    
-                                    <f:facet name="caption">
-                                        <b:commandLink outcome="bookDetails">
-                                            
-                                            <h:outputText value="#{book.title}"/>
-                                                                     
-                                        </b:commandLink>
-                                        
-                                        <br/>
-                                        
-                                        <h:outputText  value="$#{book.listPrice}"/>
-                                    </f:facet>
-                                    
-                                </b:thumbnail>
-                                    
-                                </b:column>
-        
-                            </ui:repeat>
-                              
-        
-        
-                        </b:panel>
-        
-                    </h:form>-->
 
       </div>
 
