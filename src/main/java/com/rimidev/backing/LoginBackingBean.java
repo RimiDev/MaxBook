@@ -31,9 +31,10 @@ import javax.servlet.http.HttpSession;
 @Named("loginBackingBean")
 @SessionScoped
 public class LoginBackingBean implements Serializable {
+  
 
-  private static final Logger logger = Logger.getLogger(ClientBackingBean.class.getName());
-
+  private static final Logger logger = Logger.getLogger(LoginBackingBean.class.getName());
+  
   @Inject
   private ClientJpaController clientJpaController;
   private Client client;
@@ -99,14 +100,16 @@ public class LoginBackingBean implements Serializable {
     Client registered_user = clientJpaController.findClientByEmail(client.getEmail());
 
     if (registered_user != null) {
-      logger.log(Level.INFO, "onLogin registered user email is >>> " + registered_user.getEmail());
-      logger.log(Level.INFO, "inside ClientBackingBean onLogin" + registered_user.getEmail());
       if (registered_user.getPassword().equals(client.getPassword())) {
 
         session.setAttribute("current_user", registered_user);
-        session.setAttribute("cartItems", new ArrayList<Book>());
+        
+        if (session.getAttribute("cartItems") == null){
+        
+            session.setAttribute("cartItems", new ArrayList<Book>());
+        }
 
-        return "home";
+        return "home?faces-redirect=true";
       }
     }
 
@@ -125,10 +128,11 @@ public class LoginBackingBean implements Serializable {
       curr_user = null;
 
       return null;
+    } else {
+
+    return "login?faces-redirect=true";
+
     }
-
-    return "login";
-
   }
 
    public String onSignUp() {

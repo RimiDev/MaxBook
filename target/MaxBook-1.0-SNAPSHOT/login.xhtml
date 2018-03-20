@@ -8,52 +8,52 @@
 
   <ui:define name="top">
     <h:form>
-        <p:menubar>
-            <p:menuitem>
-                <h:link outcome="/home.xhmtl">
-                   <h:graphicImage value="resources/images/citrus.png" height="40"/>
-                </h:link>
-            </p:menuitem>
-            <p:submenu label="Bookstore" icon="fa-search">
-                <p:menuitem value="All books" url="/allbooks.xhtml" />
-                <p:separator />
-                <p:submenu label="Genre" style="margin-right: 80%;">
-                    <p:menuitem value="Adventure" url="#" />
-                    <p:menuitem value="Science Fiction" url="#" />
-                    <p:menuitem value="Romance" url="#" />
-                    <p:menuitem value="Other" url="#" />
-                </p:submenu>
-                <p:submenu label="Year" icon="ui-icon-contact">
-                    <p:menuitem value="2017" url="#" />
-                    <p:menuitem value="2016" url="#" />
-                    <p:menuitem value="testdownloads" url="downloads.xhtml" />
-                    <p:menuitem value="testconfirmation" url="confirmation.xhtml" />
-                </p:submenu>
-            </p:submenu>
+      <p:menubar>
+        <p:menuitem>
+          <h:link outcome="/home.xhmtl">
+            <h:graphicImage value="resources/images/citrus.png" height="40"/>
+          </h:link>
+        </p:menuitem>
+        <p:submenu label="Bookstore" icon="fa-search">
+          <p:menuitem value="All books" url="/allbooks.xhtml" />
+          <p:separator />
+          <p:submenu label="Genre" style="margin-right: 80%;">
+            <p:menuitem value="Adventure" url="#" />
+            <p:menuitem value="Science Fiction" url="#" />
+            <p:menuitem value="Romance" url="#" />
+            <p:menuitem value="Other" url="#" />
+          </p:submenu>
+          <p:submenu label="Year" icon="ui-icon-contact">
+            <p:menuitem value="2017" url="#" />
+            <p:menuitem value="2016" url="#" />
+            <p:menuitem value="testdownloads" url="downloads.xhtml" />
+            <p:menuitem value="testconfirmation" url="confirmation.xhtml" />
+          </p:submenu>
+        </p:submenu>
 
 
-            <f:facet name="options">
-                <p:outputLabel value="Welcome #{user.username}!" style="margin-right:10px"/>
+        <f:facet name="options">
+          <p:outputLabel value="Welcome #{user.username}!" style="margin-right:10px"/>
 
-                <p:inputText style="margin-right:10px; box-shadow: none" placeholder="Search" id="userSearch" value="#{user.searched}"/>
+          <p:inputText style="margin-right:10px; box-shadow: none" placeholder="Search" id="userSearch" value="#{user.searched}"/>
 
-                <b:commandButton type="Submit" value="Search" class="btn btn-success" iconAwesome="fa-search" action="search" ajax="false"/>
-                
-                <b:commandButton look="info" value="Cart" action="cart" icon-awesome="fa-shopping-cart" />
-                
-                
-            </f:facet>
-        </p:menubar>
+          <b:commandButton type="Submit" value="Search" class="btn btn-success" iconAwesome="fa-search" action="search" ajax="false"/>
+
+          <b:commandButton look="info" value="Cart" action="cart" icon-awesome="fa-shopping-cart" />
+
+
+        </f:facet>
+      </p:menubar>
 
     </h:form>
-    
+
   </ui:define>
-  
-  
+
+
   <!--LOGIN FORM-->
   <ui:define name="content">
-    
-  
+
+
     <div class="container">
       <div class="row">
 
@@ -68,41 +68,36 @@
                 <div style="display:none" id="login-alert" class="alert alert-danger col-sm-12"></div>
 
                 <h:form id="loginform" class="form-horizontal" role="form">
+                  
                   <h:message id="nameError1" for="login-username" style="color: red"/>
+                  
                   <div style="margin-bottom: 25px" class="input-group">
-                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                    
+                    <span class="input-group-addon"><span>Email </span><i class="glyphicon glyphicon-user"></i></span>
                     <h:inputText id="login-username" value="#{loginBackingBean.client.email}" 
+                                 validator="#{loginBackingBean.validateEmail}"
                                  class="form-control"
-                                  >
-                    <f:ajax event="blur" render="nameError1"/>
+                                 >
+                      <f:ajax event="blur" render="nameError1"/>
                     </h:inputText>
                   </div>
-<!--                  validator="#{loginBackingBean.validateEmail}"-->
+
 
                   <h:message id="nameError2" for="login-password" style="color: red"/>
                   <h:outputText id = "outputMessage2" style="color: red"
                                 value = "#{loginBackingBean.client.password != null ?
                                            loginBackingBean.invalidPasswordMessage: ''}">
-                  </h:outputText><!--
-
--->                  <div style="margin-bottom: 25px" class="input-group">
-                    <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                  </h:outputText>
+                  
+                  <div style="margin-bottom: 25px" class="input-group">
+                    <span class="input-group-addon"><span>Password </span><i class="glyphicon glyphicon-lock"></i></span>
                     <h:inputText id="login-password" value="#{loginBackingBean.client.password}" 
-                                 class="form-control" 
-                                >
+                                 class="form-control" >
                       <f:ajax event="blur" render="nameError2"/>
                     </h:inputText>
                   </div>
-<!-- validator="#{loginBackingBean.validatePassword}"-->
 
 
-                  <div class="input-group">
-                    <div class="checkbox">
-                      <label>
-                        <input id="login-remember" type="checkbox" name="remember" value="1"> Remember me</input>  
-                      </label>
-                    </div>
-                  </div>
 
 
                   <div style="margin-top:10px" class="form-group">
@@ -110,18 +105,15 @@
                     <div class="col-sm-12 controls">
 
 
-                      <!--                      <h:commandButton value = "Show Message">
-                                              <f:ajax execute = "login-password" render = "outputMessage2" />
-                                            </h:commandButton>
-                      -->
                       <b:commandButton  value="Login" class="btn btn-warning"
                                         action="#{loginBackingBean.onLogin}" >
                         <f:ajax execute = "login-password login-username" render = "outputMessage2" />
-                        
+
                       </b:commandButton>
-                      
-                      
-                      <b:commandButton  value="Sign up" 
+
+
+                      <b:commandButton  value="Sign up"
+                                        immediate="true"
                                         action="#{loginBackingBean.onSignUp}" >
                         <f:ajax execute = "login-password login-username" render = "outputMessage2" />
                       </b:commandButton>
