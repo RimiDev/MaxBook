@@ -31,7 +31,6 @@ import javax.servlet.http.HttpSession;
 @Named("loginBackingBean")
 @SessionScoped
 public class LoginBackingBean implements Serializable {
-
   
 
   private static final Logger logger = Logger.getLogger(LoginBackingBean.class.getName());
@@ -41,13 +40,9 @@ public class LoginBackingBean implements Serializable {
   private Client client;
   private String styling;
 
-
-
-
   public String getInvalidPasswordMessage() {
     return "  invalid password";
   }
-
 
   public String createClient() throws Exception {
 
@@ -56,7 +51,7 @@ public class LoginBackingBean implements Serializable {
 
   }
 
-   public Client getClient() {
+  public Client getClient() {
     if (client == null) {
       client = new Client();
     }
@@ -95,26 +90,11 @@ public class LoginBackingBean implements Serializable {
     return "Logout";
   }
 
-  public void validatePassword(FacesContext fc, UIComponent c, Object value) {
 
-    String password = (String) value;
-
-  }
-
-  public String doSomeAction() {
-
-    if (true) {
-      FacesContext.getCurrentInstance().addMessage(null,
-              new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error Message Displayed Growl",
-                      "Error Message Displayed Growl"));
-    }
-
-    return null;
-
-  }
 
   public String onLogin() {
 
+    logger.log(Level.INFO, "inside on login");
     HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
 
     Client registered_user = clientJpaController.findClientByEmail(client.getEmail());
@@ -153,6 +133,13 @@ public class LoginBackingBean implements Serializable {
     return "login?faces-redirect=true";
 
     }
+  }
+
+   public String onSignUp() {
+
+    logger.log(Level.INFO, "onSignUp >>> ");
+    return "register";
+
   }
 
 }
