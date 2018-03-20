@@ -44,6 +44,10 @@ public class LoginBackingBean implements Serializable {
   public String getInvalidPasswordMessage() {
     return "  invalid password";
   }
+  
+  public String getPasswordsDontMatch() {
+    return "  passwords don't match";
+  }
 
   public String createClient() throws Exception {
 
