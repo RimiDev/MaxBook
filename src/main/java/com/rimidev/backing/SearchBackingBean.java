@@ -144,8 +144,8 @@ public class SearchBackingBean {
         this.searchedBooks = searchedBooks;
     }
     
-    public void searchQuery(){
-        bookJPA.searchBooks("");
+    public void searchQuery(String criteria){
+        List<Book> searchedBooks = bookJPA.searchBooks(criteria);
     }
     
     

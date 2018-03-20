@@ -13,7 +13,7 @@
 
     <ui:define name="content">
 
-        <ui:param  name="bookie" value="#{bookJpaController.findBook(bookDisplayBacking.isbn)}"/>
+        <ui:param  name="bookie" value="#{bookDisplayBacking.checkBookExist}"/>
 
         <!--start of book details<-->
         <br/><br/>

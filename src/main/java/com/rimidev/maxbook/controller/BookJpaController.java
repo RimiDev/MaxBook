@@ -351,6 +351,7 @@ public class BookJpaController implements Serializable {
     }
 
     public Book findBook(String id) {
+
         return em.find(Book.class, id);
     }
 
@@ -452,21 +453,17 @@ public class BookJpaController implements Serializable {
     }
 
     public List<Book> searchBooks(String criteria) {
-        logger.log(Level.INFO, "Search Criteria >>> "+criteria);
+        logger.log(Level.INFO, "Search Criteria >>> " + criteria);
 
-//        String quer = "select distinct bk from Book bk INNER JOIN bk.authorList bkl INNER JOIN bk.publisher_id";
-        String quer = "select bk from Book bk inner join bk.publisherId bkp where bkp.id = 1";
-        //just need to fix critera to join to the authors and publishers then use the criteria
+        String quer = "select distinct bk from Book bk inner join bk.authorList bkl inner join bk.publisherId bkp where bk.isbn LIKE :crit OR bk.title LIKE :crit OR bkl.firstName LIKE :crit "
+                + "OR bkl.lastName LIKE :crit OR bkp.name LIKE :crit";
 
-//        String query = "select distinct bk from Book bk INNER JOIN bk.authorList bkl where bkl.id IN :auths AND bk.isbn <> :bookIsbn";
-        TypedQuery<Book> authBooks = em.createQuery(quer, Book.class);
-//        authBooks.setParameter("auths", authIds);
-//        authBooks.setParameter("bookIsbn", isbn);
+        TypedQuery<Book> searchedBooks = em.createQuery(quer, Book.class);
+        searchedBooks.setParameter("crit", "%" + criteria + "%");
 
+        logger.log(Level.INFO, "Author Books>> " + searchedBooks.getResultList());
+        return searchedBooks.getResultList();
 
-        logger.log(Level.INFO, "Author Books>> " + authBooks.getResultList());
-//        return authBooks.getResultList();
-        return null;
     }
 
 }

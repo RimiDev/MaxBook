@@ -56,13 +56,19 @@ public class BookDisplayBacking implements Serializable {
         isbn = params.get("isbn");
         
         logger.log(Level.INFO, "Book Isbn>>> " + this.isbn);
-        
+
+        return "bookDetails?faces-redirect=true";
+    }
+    
+    public String checkBookExist(){
+         //need to fix reidrect where i cant go directly to book details page
         if(isbn == null || isbn.isEmpty()){
+             logger.log(Level.INFO, "isbn " + this.isbn);
+        
             return "404";
         }
-       
-        
-        return "bookDetails?faces-redirect=true";
+         
+        return isbn;
     }
 
     public List<Book> getRecsByAuthor(List<Author> auths) {
