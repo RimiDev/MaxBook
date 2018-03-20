@@ -34,7 +34,7 @@ public class LoginBackingBean implements Serializable {
 
   
 
-  private static final Logger logger = Logger.getLogger(ClientBackingBean.class.getName());
+  private static final Logger logger = Logger.getLogger(LoginBackingBean.class.getName());
   
   @Inject
   private ClientJpaController clientJpaController;

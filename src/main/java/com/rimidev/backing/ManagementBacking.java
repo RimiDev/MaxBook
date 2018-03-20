@@ -73,9 +73,14 @@ public class ManagementBacking implements Serializable {
 
     }
 
-    public void onRowEdit(RowEditEvent event) {
-        FacesMessage msg = new FacesMessage("Book Edited", ((Book) event.getObject()).getIsbn());
+    
+    public void onRowEdit(RowEditEvent event) throws Exception {
+        String isbn =  ((Book)event.getObject()).getIsbn();
+        Book editedBook = (Book) event.getObject();
+        bkcon.edit(editedBook);
+        FacesMessage msg = new FacesMessage("Book Edited", String.valueOf(editedBook));
         FacesContext.getCurrentInstance().addMessage(null, msg);
+
     }
 
     public void onRowRemove(RowEditEvent event) {

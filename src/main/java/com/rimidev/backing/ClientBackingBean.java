@@ -6,20 +6,14 @@
 package com.rimidev.backing;
 
 import com.rimidev.maxbook.controller.ClientJpaController;
-import com.rimidev.maxbook.entities.Book;
 import com.rimidev.maxbook.entities.Client;
 import com.rimidev.maxbook.util.MessagesUtil;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.servlet.http.HttpSession;
 
 /**
  *

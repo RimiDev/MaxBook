@@ -41,6 +41,6 @@
     <!-- if there is no page in the in the URL then this page will be called upon -->
     <welcome-file-list>
 
-        <welcome-file>downloads.xhtml</welcome-file>
+        <welcome-file>management.xhtml</welcome-file>
     </welcome-file-list>
 </web-app>
