@@ -24,26 +24,26 @@ public class LoginTest {
 
     @Test
     public void get_members() throws InterruptedException, AWTException {
-        System.setProperty("webdriver.chrome.driver", "C:\\dev\\chromedriver.exe");
-        WebDriver driver = new ChromeDriver();
-        driver.manage().window().maximize();
-        driver.get("http://localhost:8080/MaxBook/login.xhtml");
-        Thread.sleep(1000);
-        WebElement loginBox = driver.findElement(By.id("loginform:login-username"));
-        loginBox.sendKeys("test@test.com");
-
-        //register-password
-        Thread.sleep(1000); 
-        WebElement passwordBox = driver.findElement(By.id("loginform:login-password"));
-        passwordBox.sendKeys("password");
-
-        Robot robot = new Robot();
-        robot.keyPress(KeyEvent.VK_ENTER);
-        robot.keyRelease(KeyEvent.VK_ENTER);
-        robot.delay(2000);
-        
-        robot.keyPress(KeyEvent.VK_ENTER);
-        robot.keyRelease(KeyEvent.VK_ENTER);
+//        System.setProperty("webdriver.chrome.driver", "C:\\dev\\chromedriver.exe");
+//        WebDriver driver = new ChromeDriver();
+//        driver.manage().window().maximize();
+//        driver.get("http://localhost:8080/MaxBook/login.xhtml");
+//        Thread.sleep(1000);
+//        WebElement loginBox = driver.findElement(By.id("loginform:login-username"));
+//        loginBox.sendKeys("test@test.com");
+//
+//        //register-password
+//        Thread.sleep(1000); 
+//        WebElement passwordBox = driver.findElement(By.id("loginform:login-password"));
+//        passwordBox.sendKeys("password");
+//
+//        Robot robot = new Robot();
+//        robot.keyPress(KeyEvent.VK_ENTER);
+//        robot.keyRelease(KeyEvent.VK_ENTER);
+//        robot.delay(2000);
+//        
+//        robot.keyPress(KeyEvent.VK_ENTER);
+//        robot.keyRelease(KeyEvent.VK_ENTER);
         
 
        
