@@ -120,8 +120,6 @@ public class LoginBackingBean implements Serializable {
     Client registered_user = clientJpaController.findClientByEmail(client.getEmail());
 
     if (registered_user != null) {
-      logger.log(Level.INFO, "onLogin registered user email is >>> " + registered_user.getEmail());
-      logger.log(Level.INFO, "inside ClientBackingBean onLogin" + registered_user.getEmail());
       if (registered_user.getPassword().equals(client.getPassword())) {
 
         session.setAttribute("current_user", registered_user);
@@ -130,7 +128,6 @@ public class LoginBackingBean implements Serializable {
         
             session.setAttribute("cartItems", new ArrayList<Book>());
         }
-//            session.getAttribute("cartItems");
 
         return "home?faces-redirect=true";
       }
