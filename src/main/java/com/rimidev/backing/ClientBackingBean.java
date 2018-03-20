@@ -60,41 +60,9 @@ public class ClientBackingBean implements Serializable {
    * @return
    * @throws Exception
    */
-  public String createClient() throws Exception {
-    if (isValidEmail()) {
-      clientJpaController.create(client);
-      return "home";
-    } else {
-      return null;
-    }
-  }
+  
 
-  public String onLogin() {
-    getClient();
-    
-    HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-    
-    Client user = clientJpaController.findClientByEmail("test@test.com");
-    client = user;
-    logger.log(Level.INFO, "onLogin incoming email is >>> " + user.getEmail());
-    logger.log(Level.INFO, "inside ClientBackingBean onLogin" + user.getEmail());
-    session.setAttribute("current_user", user);
-    session.setAttribute("cartItems", new ArrayList<Book>());
-     return "home";
-//    if (user != null) {
-//      if (user.getPassword().equals(client.getPassword())) {
-//        logger.log(Level.INFO, "(Login)User >>> " + client.getEmail());
-//        session.setAttribute("current_user", client);
-//        session.setAttribute("cartItems", new ArrayList<Book>());
-//        
-//        return "home";
-//      }
-//    }
-//      isSamePassword = false;
-//
-//        return null;
-    
-  }
+
     /**
      * This method checks to see if the email address is already exists.
      *

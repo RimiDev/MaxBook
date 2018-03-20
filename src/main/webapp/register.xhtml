@@ -73,11 +73,12 @@
                     <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
                     <h:inputText id="login-username" value="#{loginBackingBean.client.email}" 
                                  class="form-control"
+                                  validator="#{loginBackingBean.validateEmail}"
                                  >
                       <f:ajax event="blur" render="nameError1"/>
                     </h:inputText>
                   </div>
-<!--                  validator="#{loginBackingBean.validateEmail}"-->
+
 
                   <h:message id="nameError2" for="login-password" style="color: red"/>
                   <h:outputText id = "outputMessage2" style="color: red"
@@ -96,7 +97,7 @@
 
                   <div style="margin-bottom: 25px" class="input-group">
                     <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                    <h:inputText id="login-confirm-password" value="#{loginBackingBean.client.password}" 
+                    <h:inputText id="login-confirm-password" value="#{loginBackingBean.compare_password}" 
                                  class="form-control" >
                       <f:ajax event="blur" render="nameError2"/>
                     </h:inputText>
@@ -114,17 +115,13 @@
 
                     <div class="col-sm-12 controls">
 
-                      <b:commandButton  value="Login" class="btn btn-warning"
-                                        action="#{loginBackingBean.onLogin}" >
+                      <b:commandButton  value="Create Account" class="btn btn-warning"
+                                        action="#{loginBackingBean.createClient()}" >
                         <f:ajax execute = "login-password login-username" render = "outputMessage2" />
 
                       </b:commandButton>
 
 
-                      <b:commandButton  value="Sign up" 
-                                        action="#{loginBackingBean.onSignUp}" >
-                        <f:ajax execute = "login-password login-username" render = "outputMessage2" />
-                      </b:commandButton>
 
 
 
