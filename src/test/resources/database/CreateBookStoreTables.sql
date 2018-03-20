@@ -524,17 +524,20 @@ CREATE TABLE Survey (
 INSERT INTO Survey(question, option1, option2, option3, option4, count1, count2, count3, count4) VALUES 
 ("Do you like Horror?", "Very Much", "Yes", "No", "I hate it", 0, 0, 0, 0);
 
+DROP TABLE IF EXISTS Ads;
+
 CREATE TABLE Ads (
 id int PRIMARY KEY auto_increment,
-imageName varchar(255) NOT NULL);
+imageName varchar(255) NOT NULL,
+siteLink varchar(255) NOT NULL);
 
-INSERT INTO Ads (imageName) VALUES
-("gillette.jpg");
-INSERT INTO Ads (imageName) VALUES
-("gusta.png");
-INSERT INTO Ads (imageName) VALUES
-("mountainDew.jpg");
-INSERT INTO Ads (imageName) VALUES
-("museumFineArts.jpg");
-INSERT INTO Ads (imageName) VALUES
-("macbook.jpg");
+INSERT INTO Ads (imageName,siteLink) VALUES
+("gillette.jpg", "https://gillette.ca");
+INSERT INTO Ads (imageName,siteLink) VALUES
+("gusta.png", "http://gustafoods.com");
+INSERT INTO Ads (imageName,siteLink VALUES
+("mountainDew.jpg", "http://www.mountaindew.com");
+INSERT INTO Ads (imageName,siteLink) VALUES
+("museumFineArts.jpg", "https://www.mbam.qc.ca/en/");
+INSERT INTO Ads (imageName,siteLink) VALUES
+("macbook.jpg", "https://www.apple.com/ca/macbook/");

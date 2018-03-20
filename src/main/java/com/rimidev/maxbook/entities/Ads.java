@@ -44,6 +44,11 @@ public class Ads implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "imageName")
     private String imageName;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 255)
+    @Column(name = "siteLink")
+    private String siteLink;
 
     public Ads() {
     }
@@ -72,6 +77,16 @@ public class Ads implements Serializable {
     public void setImageName(String imageName) {
         this.imageName = imageName;
     }
+    
+    public String getSiteLink(){
+        return siteLink;
+    }
+    
+    public void setSiteLink(String siteLink){
+        this.siteLink = siteLink;
+    }
+    
+    
 
     @Override
     public int hashCode() {
@@ -97,5 +112,6 @@ public class Ads implements Serializable {
     public String toString() {
         return "com.rimidev.maxbook.controller.Ads[ id=" + id + " ]";
     }
+
     
 }
