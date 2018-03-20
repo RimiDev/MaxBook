@@ -1,15 +1,26 @@
 package com.rimidev.backing;
 
 import com.rimidev.maxbook.controller.BookJpaController;
+import com.rimidev.maxbook.controller.ClientJpaController;
+import com.rimidev.maxbook.controller.InvoiceDetailsJpaController;
+import com.rimidev.maxbook.controller.InvoiceJpaController;
 import com.rimidev.maxbook.entities.Book;
+import com.rimidev.maxbook.entities.Client;
+import com.rimidev.maxbook.entities.Invoice;
+import com.rimidev.maxbook.entities.InvoiceDetails;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
+import java.util.zip.ZipOutputStream;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -22,6 +33,12 @@ public class DownloadsBackingBean implements Serializable{
     
     @Inject
     private BookJpaController bookJpaController;
+    @Inject
+    private InvoiceJpaController invoiceController;
+    @Inject
+    private InvoiceDetailsJpaController invoiceDetailsController;
+    @Inject
+    private ClientJpaController clientController;
 
     private static final Logger logger = Logger.getLogger(DownloadsBackingBean.class.getName());
     
@@ -35,6 +52,26 @@ public class DownloadsBackingBean implements Serializable{
     private int currentPageIndex;
     private int totalPages;
     private HttpSession session;
+       
+    public List<Book> getAllOwnedBooks(int clientId){
+        if(this.model == null){
+            logger.info("DownloadsBackingBean -> model was null");
+            Client c = clientController.findClient(clientId);
+            List<Invoice> invoices = c.getInvoiceList();
+            logger.info("Number of Associated Invoices: " +invoices.size());
+            List<InvoiceDetails> details = new ArrayList();
+            List<Book> books = new ArrayList();
+            for(Invoice i : invoices){
+                details.addAll(i.getInvoiceDetailsList());
+            }
+            for(InvoiceDetails d : details){
+                logger.info(d.getIsbn().getIsbn());
+                books.add(d.getIsbn());
+            }
+            this.model = books;
+        }
+        return this.model;
+    }
     
     /**
      * Updates the model based on the current configurations of the pagination.
@@ -109,17 +146,16 @@ public class DownloadsBackingBean implements Serializable{
      * @return List of the books to be displayed
      */
     public List<Book> getModel() {
-        logger.info("AllBooksBackingBean -> getModel");
+        logger.info("DownloadsBackingBean -> getModel");
         if (model == null) {
             logger.info("model is null");
+//             NEED TO ADD SUPPORT FOR GETTING SESSION CLIENT ID
+            this.model = getAllOwnedBooks(1);
+            // IMPLEMENT IN-BETWEEN
             this.records = 4;
             this.currentPageIndex = 1;
-            this.session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-            this.allDownloads = (List<Book>) session.getAttribute("cartItems");
             this.startIndex = 0;
             this.totalRecords = allDownloads.size();
-            this.model = bookJpaController.findBookEntities(4, 1);
-            logger.info(Integer.toString(allDownloads.size()));
             if(allDownloads.size() == 0){
                 return new ArrayList();
             }
@@ -157,7 +193,27 @@ public class DownloadsBackingBean implements Serializable{
         this.currentPageIndex = pageIndex;
     }
     
-    public void getDownload(){
-        logger.info("Downloading Book");
+    /**
+     * 
+     * @throws IOException 
+     */
+    public void getDownload() throws IOException{
+        OutputStream out = null;
+        String filename = "defaultBook.pdf";
+        FacesContext fc = FacesContext.getCurrentInstance();
+        HttpServletResponse response = (HttpServletResponse) fc.getExternalContext().getResponse();
+        out = response.getOutputStream();
+        ZipOutputStream zipout = new ZipOutputStream(out);
+        response.setContentType("application/octet-stream");
+        response.addHeader("Content-Disposition", "attachment; filename=\""+filename+"\"");
+        out.flush();
+        try {
+            if (out != null) {
+                out.close();
+            }
+            FacesContext.getCurrentInstance().responseComplete();
+        } catch (IOException e) {
+            logger.info(e.getMessage());
+        }
     }
 }

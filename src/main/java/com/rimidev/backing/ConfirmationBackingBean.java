@@ -9,6 +9,7 @@ import com.rimidev.maxbook.entities.Client;
 import com.rimidev.maxbook.entities.Invoice;
 import com.rimidev.maxbook.entities.InvoiceDetails;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
@@ -60,8 +61,8 @@ public class ConfirmationBackingBean implements Serializable{
             invoice.setId(invoiceController.getInvoiceCount() + 1);
             invoice.setDateOfSale(Date.valueOf(LocalDate.now()));
             invoice.setClientId(clientController.findClient(1));
-            invoice.setGrossValue(1300);
-            invoice.setNetValue(1500);
+            invoice.setGrossValue(new BigDecimal(1300.00));
+            invoice.setNetValue(new BigDecimal(1500.00));
             details = invoiceDetailsController.findInvoiceDetails(1);
         }
         return this.invoice;
@@ -83,11 +84,11 @@ public class ConfirmationBackingBean implements Serializable{
         return invoice.getClientId();
     }
     
-    public int getGross(){
+    public BigDecimal getGross(){
         return invoice.getGrossValue();
     }
     
-    public int getNet(){
+    public BigDecimal getNet(){
         return invoice.getNetValue();
     }
     
