@@ -133,6 +133,10 @@ and open the template in the editor.
                     <p:commandButton actionListener="#{managementBacking.newLine}"
                                      value="New" update="books" oncomplete="addRowOnComplete()"
                                      ajax="true" />
+                    <p:commandButton actionListener="#{managementBacking.onRowAdd}"
+                                     value="Add" update="books" oncomplete="addRowOnComplete()"
+                                     ajax="true" />                    
+                  
                 </h:form>
             </b:panelGrid>
         </p:panel>

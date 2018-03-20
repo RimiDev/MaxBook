@@ -36,20 +36,30 @@ public class CartBackingBean implements Serializable {
 
 
     public void addToCart(String isbn) {
-        logger.log(Level.WARNING,"inside CartBackinBean  add_to_cart isbn param " + isbn);
         HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-        
+               
         cart = (List<Book>) session.getAttribute("cartItems");
         Book book = bookJpaController.findBook(isbn);
-        cart.add(book);
-        logger.log(Level.WARNING, ">>>>>> add_to_cart() method book: " + book);
-        session.setAttribute("cartItems", cart);
+        Boolean bookAlreadyInCart = false;
         
+        for (int i = 0; i < cart.size(); i++){
+            if (cart.get(i).getIsbn().equals(book.getIsbn())){
+                bookAlreadyInCart = true;
+                break;
+            }
+        }
+        
+        if (!bookAlreadyInCart){
+            cart.add(book);
+            session.setAttribute("cartItems", cart);
+        }
+        
+
         logger.log(Level.WARNING, ">>>>>> add_to_cart() method cartsize after add: " + cart.size());
 
     }
     
-     public void removeFromCart(String isbn) {
+     public String removeFromCart(String isbn) {
         logger.log(Level.WARNING,"inside CartBackinBean  add_to_cart isbn param " + isbn);
         HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
 
@@ -60,12 +70,13 @@ public class CartBackingBean implements Serializable {
              Book next = iterator.next();
              if (next.getIsbn().equals(isbn))
                  cart.remove(next);
-             
+             break;
          }
-        
-        session.setAttribute("cartItems", cart);
-        
-        logger.log(Level.WARNING, ">>>>>> add_to_cart() method cartsize after add: " + cart.size());
+         session.setAttribute("cartItems", cart);
+         
+         return null;
+
+               
 
     }
 }

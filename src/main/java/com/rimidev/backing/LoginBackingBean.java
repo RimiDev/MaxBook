@@ -125,9 +125,14 @@ public class LoginBackingBean implements Serializable {
       if (registered_user.getPassword().equals(client.getPassword())) {
 
         session.setAttribute("current_user", registered_user);
-        session.setAttribute("cartItems", new ArrayList<Book>());
+        
+        if (session.getAttribute("cartItems") == null){
+        
+            session.setAttribute("cartItems", new ArrayList<Book>());
+        }
+//            session.getAttribute("cartItems");
 
-        return "home";
+        return "home?faces-redirect=true";
       }
     }
 
@@ -146,10 +151,11 @@ public class LoginBackingBean implements Serializable {
       curr_user = null;
 
       return null;
+    } else {
+
+    return "login?faces-redirect=true";
+
     }
-
-    return "login";
-
   }
 
 }
