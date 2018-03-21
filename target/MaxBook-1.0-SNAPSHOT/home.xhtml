@@ -103,14 +103,15 @@
 
                 <b:thumbnail>
 
-                  <b:image library="images" name="/books/#{book.isbn}.jpg"/>
-
                   <f:facet name="caption">
-                    <b:commandLink outcome="bookDetails">
+                    <h:commandLink value="#{books.title}" action="#{bookDisplayBacking.showDetails}" >
+                    <b:image library="images" name="/books/#{book.isbn}.jpg"/>
 
                       <h:outputText value="#{book.title}"/>
+                      <f:param name="isbn" value="#{book.isbn}"/>
+                      
 
-                    </b:commandLink>
+                    </h:commandLink>
 
                     <br/>
 
