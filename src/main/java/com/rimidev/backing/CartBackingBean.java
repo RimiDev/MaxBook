@@ -7,13 +7,13 @@ package com.rimidev.backing;
 
 import com.rimidev.maxbook.controller.BookJpaController;
 import com.rimidev.maxbook.entities.Book;
+import com.rimidev.maxbook.entities.Client;
 import java.io.Serializable;
-import java.util.ArrayList;
+import static java.lang.Math.round;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -23,6 +23,7 @@ import javax.servlet.http.HttpSession;
 /**
  *
  * @author ehugh
+ * @author maxime Lacasse
  */
 @Named
 @SessionScoped
@@ -54,6 +55,9 @@ public class CartBackingBean implements Serializable {
             session.setAttribute("cartItems", cart);
         }
         
+          Client curr_user = (Client) session.getAttribute("current_user");
+                logger.log(Level.WARNING, ">>>>>> CURRENT USER: " + curr_user.getProvince());
+
 
         logger.log(Level.WARNING, ">>>>>> add_to_cart() method cartsize after add: " + cart.size());
 
@@ -68,15 +72,46 @@ public class CartBackingBean implements Serializable {
         
          for (Iterator<Book> iterator = cart.iterator(); iterator.hasNext();) {
              Book next = iterator.next();
-             if (next.getIsbn().equals(isbn))
+             if (next.getIsbn().equals(isbn)){
                  cart.remove(next);
              break;
+             }
          }
          session.setAttribute("cartItems", cart);
          
          return null;
-
-               
-
+       
     }
+     
+     
+     public double generateTotal(){
+         
+        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);         
+        cart = (List<Book>) session.getAttribute("cartItems");
+        
+        double total = 0.0;
+        
+        for (int i = 0; i < cart.size(); i++){
+            total += cart.get(i).getSalePrice().doubleValue();
+        }
+        
+        return Double.valueOf(String.format("%.2f", total));
+        
+     }
+     
+     public Double generateTaxTotal(){
+         
+        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);         
+        Client user = (Client) session.getAttribute("current_user");
+        double tax = user.getProvince().getHSTrate().doubleValue();
+        
+        double taxTotal = (generateTotal() * tax);
+        return Double.valueOf(String.format("%.2f", taxTotal));
+         
+     }
+     
+     public Double generateTotalTaxedSale(){
+         
+         return Double.valueOf(String.format("%.2f", (generateTotal() + generateTaxTotal())));
+     }
 }

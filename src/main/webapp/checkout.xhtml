@@ -1,93 +1,35 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/pageTemplates/master_template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:b="http://bootsfaces.net/ui"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:b="http://bootsfaces.net/ui"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
-
-    <h:head>
-        <link type="text/css" rel="stylesheet" href="/project/faces/javax.faces.resource/theme.css?ln=primefaces-glass-x" />
-        <h:outputStylesheet library="css" name="styles.css" />
-        <title>#{msgs.homeTitle}</title>
-        <h:outputStylesheet library="webjars" name="bootstrap/3.3.7-1/css/bootstrap.min-jsf.css" />
-        <h:outputStylesheet library="webjars" name="bootstrap/3.3.7-1/css/bootstrap-theme.min-jsf.css" />
-        <h:outputStylesheet library="webjars" name="font-awesome/4.7.0/css/font-awesome.min-jsf.css" />
-
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    </h:head>
-
-
-
-    <h:body>
-
-
-        <!---//START OF MENUS//-->
-
-        <!--MENU BAR-->
-
-        <h:form id="menuBar">
-
-            <p:menubar>
-                <p:menuitem value="MaxBook" url="/home.xhtml"/>
-                <p:submenu label="Bookstore" icon="ui-icon-document">
-                    <p:menuitem value="All books" url="/all_books.xhtml" />
-                    <p:separator />
-                    <p:submenu label="Genre" icon="ui-icon-contact">
-                        <p:menuitem value="Adventure" url="#" />
-                        <p:menuitem value="Science Fiction" url="#" />
-                        <p:menuitem value="Romance" url="#" />
-                        <p:menuitem value="Other" url="#" />
-                    </p:submenu>
-                    <p:submenu label="Year" icon="ui-icon-contact">
-                        <p:menuitem value="2017" url="#" />
-                        <p:menuitem value="2016" url="#" />
-                    </p:submenu>
-                </p:submenu>
-                <p:menuitem value="Search" url="/search.xhtml"/>
-
-                <f:facet name="options">
-                    <p:outputLabel value="Welcome #{user.username}!" style="margin-right:10px"/>
-                    <p:inputText style="margin-right:10px" placeholder="Search" id="userSearch" value="#{user.searched}"/>
-                    <p:commandButton type="Submit" value="Search" icon="/resources/images/search.png" action="search" ajax="false"/>
-                    <p:commandButton type="Submit" value="Login" icon="ui-icon-extlink" action="login" ajax="false"/>
-                    <p:commandButton type="button" value="Logout" icon="ui-icon-extlink" />
-                </f:facet>
-            </p:menubar>
-
-        </h:form>
-
-        <!-- STACK MENU -->
-
-        <p:stack icon="/resources/images/stack.png" expanded="true">
-            <p:menuitem value="Home"  icon="/resources/images/home.png" url="./home.xhtml"/>
-            <p:menuitem value="Cart" icon="/resources/images/shoppingCart.png" url="./cart.xhtml"/>
-            <p:menuitem value="Search" icon="/resources/images/search.png" url="./advancedSearch.xhtml"/>
-        </p:stack>
+    <ui:define name="content">
 
         <div class="container">
-            
+
             <div class="row">
                 <div class="col-sm-8 panel panel-default" >
                     <!--start review your order<-->
                     <div class="container">
+                        
                         <div class="row">
                             <h3>Review your order</h3>
                             <div class="col-sm-4">
                                 <label>Shipping Details</label>
-                                <p>eric hughes</p>
-                                <p>100 rue lapointe</p>
-                                <p><span>Longueuil</span><span>Quebec</span></p>
-                                <p>J4G 1H3</p>
-                                <p>Canada</p>
+                            <br/>
+                                <h:outputText value="#{sessionScope['current_user'].firstName}  #{sessionScope['current_user'].lastName}"/>
+                                <p>#{sessionScope['current_user'].address1}</p>
+                                <p>#{sessionScope['current_user'].city}, #{sessionScope['current_user'].country}</p>
+                                <p>#{sessionScope['current_user'].postalCode}</p>
+                                <p>#{sessionScope['current_user'].province.province}</p>
                             </div>
                             <div class="col-sm-4">
                                 <label>Payment Method</label>
 
-                                <p>MasterCard ending in <span>1485</span></p>
+                                <p>Credit card ending in <span>1485</span></p>
                                 <p></p>
 
 
@@ -100,57 +42,55 @@
                     <table id="table" class="table">
                         <thead>
                             <tr>
-                                <th style="width:20%">Cart</th>
+                                <th style="width:80%">Title</th>
                                 <th style="width:10%">Price</th>
-                                <th style="width:8%"> Quantity</th>
-                                <th style="width:10%" class="text-center">Subtotal</th>
                                 <th style="width:10%"></th>
                             </tr>
                         </thead>
-
-
+                        
                         <ui:repeat var="b" value="#{sessionScope['cartItems']}" varStatus="index">
-                        <tbody>
+                            <tbody>
 
-                            <tr>
-                                <td data-th="Product">
-                                    <div class="row">
-                                        <div class="col-sm-2 hidden-xs"><img src="http://placehold.it/100x100" alt="..." class="img-responsive"/></div>
+                                <tr>
+                                    <td data-th="Product">
+                                        <div class="row">
+                                            <div class="col-sm-2 hidden-xs">
+<!--                                                <img src="http://placehold.it/100x100" alt="..." class="img-responsive"/>-->
+                                            <b:image library="images" name="/books/#{b.isbn}.jpg" tooltip="#{book.genre}"
+                                                     style="height:80px;width:80px;"/>
+
+                                            </div>
+                                            <div class="col-sm-10">
+                                                <h4 class="nomargin"></h4>
+                                                <h:outputText value="#{b.title}" /> 
+
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td data-th="Price" value="">
                                         <div class="col-sm-10">
                                             <h4 class="nomargin"></h4>
-                                            <h:outputText value="#{b.title}" /> 
+                                            <h:outputText value="#{b.salePrice}" /> 
 
                                         </div>
-                                    </div>
-                                </td>
-                                <td data-th="Price" value="">
-                                    <div class="col-sm-10">
-                                        <h4 class="nomargin"></h4>
-                                        <h:outputText value="#{b.salePrice}" /> 
+                                    </td>
 
-                                    </div>
-                                </td>
-
-                                <td data-th="Subtotal" class="text-center"></td>
-                                <td class="actions" data-th="">
- 
+                                    <td data-th="Subtotal" class="text-center"></td>
+                                    <td class="actions" data-th="">
 
 
 
-                                </td>
 
-                            </tr>
-                        </tbody>
+                                    </td>
 
-                    </ui:repeat>
+                                </tr>
+                            </tbody>
+
+                        </ui:repeat>
                         <tfoot>
-                            <tr class="visible-xs">
-                                <td class="text-center"><strong>Total 1.99</strong></td>
-                            </tr>
                             <tr>
                                 <td><a href="#" class="btn btn-warning"><i class="fa fa-angle-left"></i> Continue Shopping</a></td>
                                 <td colspan="2" class="hidden-xs"></td>
-                                <td class="hidden-xs text-center"><strong>Total $1.99</strong></td>
                                 <td><a href="#" class="btn btn-success btn-block">Checkout <i class="fa fa-angle-right"></i></a></td>
                             </tr>
                         </tfoot>
@@ -160,35 +100,26 @@
                 <div class="col-sm-4 panel panel-default">
                     <button type="button" class="btn btn-warning" style="width: 100%;margin-top: 10px">Submit Order</button>
                     <p></p>
-                    
+
 
 
                     <label>Order Summary</label>
-                    <p>Items <span>(2)</span></p>
-                    <p>Shiping and handling<span>12.34</span></p>
-                    <p>Total before taxes<span>12.34</span></p>
+                    <p>Items <span>(#{sessionScope['cartItems'].size()})</span></p>
+                    <p>PST <span>#{sessionScope['current_user'].province.PSTrate}</span></p>
+                    <p>GST <span>#{sessionScope['current_user'].province.GSTrate}</span></p>
+                    <p>Total before taxes: $<span>#{cartBackingBean.generateTotal()}</span></p>
                     <p></p>
-                    <p>Taxes   <span>1.10</span></p>
+                    <p>Taxes:  $<span>#{cartBackingBean.generateTaxTotal()}</span></p>
 
                     <div style="color: #d9534f ; font-size: 30px">
-                        <p>Order Total <span>13.44</span></p>
+                        <p>Order Total <span>#{cartBackingBean.generateTotalTaxedSale()}</span></p>
                     </div>
-
 
                 </div>
 
-
-
             </div>
-
-
 
         </div>
 
-        <!-- load js at bottom for faster loading-->
-        <h:outputScript library="webjars" name="jquery/3.1.1-1/jquery.min.js"/>
-        <h:outputScript library="webjars" name="bootstrap/3.3.7-1/js/bootstrap.min.js" />
-    </h:body>
-
-
-</html>
+    </ui:define>
+</ui:composition>

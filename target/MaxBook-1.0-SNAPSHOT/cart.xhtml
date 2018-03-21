@@ -57,16 +57,16 @@
           </ui:repeat>
           <tfoot>
             <tr class="visible-xs">
-              <td class="text-center"><strong>Total 1.99</strong></td>
+              <td class="text-center"><strong>#{cartbackingBean.generateTotal()}</strong></td>
             </tr>
             <tr>
               <td><a href="#" class="btn btn-warning"><i class="fa fa-angle-left"></i> Continue Shopping</a></td>
               <td colspan="2" class="hidden-xs"></td>
-              <td class="hidden-xs text-center"><strong>Total $1.99</strong></td>
+              <td class="hidden-xs text-center"><p><strong>Total: $#{cartBackingBean.generateTotal()}</strong></p></td>
               <td>
                 <b:commandButton
                   class="btn btn-success btn-block"
-                  action="checkout.xhtml" value="Checkout" ></b:commandButton>
+                  action="checkout?faces-redirect=true" value="Checkout" ></b:commandButton>
                 
               </td>
             </tr>
