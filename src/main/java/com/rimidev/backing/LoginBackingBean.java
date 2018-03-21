@@ -11,6 +11,7 @@ import com.rimidev.maxbook.entities.Book;
 import com.rimidev.maxbook.entities.Client;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -31,34 +32,45 @@ import javax.servlet.http.HttpSession;
 @Named("loginBackingBean")
 @SessionScoped
 public class LoginBackingBean implements Serializable {
-  
 
   private static final Logger logger = Logger.getLogger(LoginBackingBean.class.getName());
-  
+
   @Inject
   private ClientJpaController clientJpaController;
   private Client client;
   private String styling;
-  private String passwordsDontMatch;
+  
   private String comparePassword;
 
-  public void setPasswordsDontMatch(String passwordsDontMatch) {
-    this.passwordsDontMatch = passwordsDontMatch;
-  }
   
-  public String checkPassword(String password){
-    if (password.length() == 0){
-      return "  invalid password length";
-    }else{
-      return "";
-    }
+
+  public String checkPassword(FacesContext fc, UIComponent c, Object value) {
+    String password = (String) value;
+    FacesContext context = FacesContext.getCurrentInstance();
+    ResourceBundle bundle = context.getApplication().getResourceBundle(context, "msgs");
+
+      if (password.length() == 0) {
+        String message = bundle.getString("invalidPasswordLength2");
+       throw new ValidatorException(new FacesMessage(
+              message));
+      }
+    
+    return "";
   }
 
-  public String getInvalidPasswordMessage() {
-    return "  invalid password";
+  public void checkMatchingPasswords(FacesContext fc, UIComponent c, Object value) {
+    String compare_password = (String) value;
+    FacesContext context = FacesContext.getCurrentInstance();
+    ResourceBundle bundle = context.getApplication().getResourceBundle(context, "msgs");
+    
+    if (!client.getPassword().equals(compare_password)) {
+      throw new ValidatorException(new FacesMessage(
+              "passwords don't match"));
+    }else{
+      comparePassword = compare_password; 
+    }
+
   }
-  
-  
 
   public String createClient() throws Exception {
 
@@ -75,16 +87,14 @@ public class LoginBackingBean implements Serializable {
         session.setAttribute("cartItems", new ArrayList<Book>());
 
         return "home?faces-redirect=true";
-      }else{
-        
+      } else {
+
       }
     }
 
     return null;
 
   }
-
- 
 
   public void setClient(Client client) {
     this.client = client;
@@ -100,19 +110,13 @@ public class LoginBackingBean implements Serializable {
 
     // Now create matcher object.
     Matcher m = r.matcher(email);
+    FacesContext context = FacesContext.getCurrentInstance();
+    ResourceBundle bundle = context.getApplication().getResourceBundle(context, "msgs");
+
+    String message = bundle.getString("improperEmail");
     if (!m.find()) {
       throw new ValidatorException(new FacesMessage(
-              "Email improperly typed"));
-    }
-
-  }
-  
-  public void validateMatchingPasswords(FacesContext fc, UIComponent c, Object value) {
-
-    comparePassword = (String) value;
-    if (!client.getPassword().equals(comparePassword)) {
-      throw new ValidatorException(new FacesMessage(
-              "passwords don't match"));
+              message));
     }
 
   }
@@ -139,10 +143,10 @@ public class LoginBackingBean implements Serializable {
       if (registered_user.getPassword().equals(client.getPassword())) {
 
         session.setAttribute("current_user", registered_user);
-        
-        if (session.getAttribute("cartItems") == null){
-        
-            session.setAttribute("cartItems", new ArrayList<Book>());
+
+        if (session.getAttribute("cartItems") == null) {
+
+          session.setAttribute("cartItems", new ArrayList<Book>());
         }
 
         return "home?faces-redirect=true";
@@ -166,7 +170,7 @@ public class LoginBackingBean implements Serializable {
       return null;
     } else {
 
-    return "login?faces-redirect=true";
+      return "login?faces-redirect=true";
 
     }
   }
@@ -177,7 +181,7 @@ public class LoginBackingBean implements Serializable {
     return "register";
 
   }
-  
+
   public String getComparePassword() {
     return comparePassword;
   }
