@@ -18,6 +18,11 @@
             <var>msgs</var>
         </resource-bundle>
         
+        <resource-bundle>
+            <base-name>bundles.ValidationMessages</base-name>
+            
+        </resource-bundle>
+        
     <navigation-rule>
         <display-name>signUp.xhtml</display-name>
         <from-view-id>/signUp.xhtml</from-view-id>
