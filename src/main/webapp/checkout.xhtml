@@ -34,15 +34,18 @@
                             <div class="col-sm-8">
 
                                 <div class="col-sm-4"><label class="">#{msgs.cardHolderName}</label></div>
-                                <div class="col-sm-8"> <b:inputText placeholder="#{msgs.cardHolderName}" class="" required="true"
-                                                                    requiredMessage="Need card holder name to place order"></b:inputText></div>
+                                <div class="col-sm-8"> 
+                                    <b:inputText placeholder="#{msgs.cardHolderName}" class="" required="true"
+                                                         requiredMessage="Need card holder name to place order"
+                                                         value="#{creditCardBean.name}"></b:inputText></div>
 
                                 <div class="col-sm-4">
-                                    <label class="">#{msgs.cardHolderName}</label>
+                                    <label class="">#{msgs.cardNumber}</label>
                                 </div>
                                 <div class="col-sm-8"> 
                                     <b:inputText placeholder="#{msgs.cardNumber}" class="form-control input-md" required="true"
-                                                 requiredMessage="Need card number to place order"></b:inputText>
+                                                 requiredMessage="Need card number to place order"
+                                                 value="#{creditCardBean.number}"></b:inputText>
                                 </div>
 
 
@@ -51,7 +54,8 @@
                                 </div>
                                 <div class="col-sm-3"> 
                                     <b:inputText placeholder="#{msgs.expiry}" class="form-control input-md" required="true"
-                                                 requiredMessage="Need card number to place order"></b:inputText>
+                                                 requiredMessage="Need card number to place order"
+                                                 value="#{creditCardBean.exp}"></b:inputText>
                                 </div>
                                 <div class="col-sm-1">
                                     <label class="">#{msgs.cvCode}</label>
@@ -116,7 +120,6 @@
                                         <td data-th="Product">
                                             <div class="row">
                                                 <div class="col-sm-2 hidden-xs">
-                                                    <!--                                                <img src="http://placehold.it/100x100" alt="..." class="img-responsive"/>-->
                                                     <b:image library="images" name="/books/#{b.isbn}.jpg" tooltip="#{book.genre}"
                                                              style="height:80px;width:80px;"/>
 

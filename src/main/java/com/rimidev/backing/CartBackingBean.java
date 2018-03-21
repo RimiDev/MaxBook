@@ -9,7 +9,6 @@ import com.rimidev.maxbook.controller.BookJpaController;
 import com.rimidev.maxbook.entities.Book;
 import com.rimidev.maxbook.entities.Client;
 import java.io.Serializable;
-import static java.lang.Math.round;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
@@ -56,15 +55,10 @@ public class CartBackingBean implements Serializable {
         }
         
           Client curr_user = (Client) session.getAttribute("current_user");
-                logger.log(Level.WARNING, ">>>>>> CURRENT USER: " + curr_user.getProvince());
-
-
-        logger.log(Level.WARNING, ">>>>>> add_to_cart() method cartsize after add: " + cart.size());
 
     }
     
      public String removeFromCart(String isbn) {
-        logger.log(Level.WARNING,"inside CartBackinBean  add_to_cart isbn param " + isbn);
         HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
 
         cart = (List<Book>) session.getAttribute("cartItems");
@@ -121,4 +115,33 @@ public class CartBackingBean implements Serializable {
          
          return "invoice?faces-redirect=true";
      }
+     
+     public Double generatePST(){
+         
+        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);         
+        Client user = (Client) session.getAttribute("current_user");
+        double pstRate = user.getProvince().getPSTrate().doubleValue();
+                
+        return Double.valueOf(String.format("%.2f", (generateTotal() * pstRate)));
+     }
+     
+    public Double generateGST() {
+
+        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+        Client user = (Client) session.getAttribute("current_user");
+        double gstRate = user.getProvince().getGSTrate().doubleValue();
+
+        return Double.valueOf(String.format("%.2f", (generateTotal() * gstRate)));
+    }
+    
+    public Double generateHST() {
+
+        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+        Client user = (Client) session.getAttribute("current_user");
+        double hstRate = user.getProvince().getHSTrate().doubleValue();
+
+        return Double.valueOf(String.format("%.2f", (generateTotal() * hstRate)));
+    }
+       
+    
 }

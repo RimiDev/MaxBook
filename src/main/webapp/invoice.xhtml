@@ -61,7 +61,8 @@
                                   #{invoiceBacking.invoice.clientId.lastName}"/>
                 </b:column>
                 <b:column span="3">
-                    <h:outputText value="#{msgs.cardName}"/>
+                    <h:outputText value="#{msgs.cardName} : #{creditCardBean.name}"/>
+                    
                 </b:column>
                 <b:column span="3" offset="3">
                     <h:outputText value="#{msgs.datePurchase} #{invoiceBacking.dateOfSale.toString()}" />
@@ -72,7 +73,7 @@
                     <h:outputText value="#{invoiceBacking.invoice.dateOfSale.toString()}"/>
                 </b:column>
                 <b:column span="3">
-                    <h:outputText value="#{msgs.cardNumber}"/>
+                    <h:outputText value="#{msgs.cardNumber} : #{creditCardBean.number}"/>
                 </b:column>
                 <b:column span="3" offset="3">
                     <h:outputText value="#{msgs.pstRate} #{invoiceBacking.details.PSTrate}" />
@@ -83,7 +84,7 @@
                     <h:outputText value="#{invoiceBacking.location}"/>
                 </b:column>
                 <b:column span="3">
-                    <h:outputText value="#{msgs.expDate}"/>
+                    <h:outputText value="#{msgs.expDate} : #{creditCardBean.exp}"/>
                 </b:column>
                 <b:column span="3" offset="3">
                     <h:outputText value="#{msgs.gstRate} #{invoiceBacking.details.GSTrate}" />
@@ -113,19 +114,18 @@
                         <h:outputText value="#{msgs.priceHeader}"/>
                     </b:column>
                 </b:row>
-                <ui:repeat value="#{allBooks.model}" var="book">
+                <ui:repeat value="#{sessionScope['cartItems']}" var="cartBooks">
                     <b:row>
                         <b:column span="1">                           
-                            <h:outputText value="#"/>
                         </b:column>
                         <b:column span="2">                           
-                            <h:outputText value="#{book.isbn}"/>
+                            <h:outputText value="##{cartBooks.isbn}"/>
                         </b:column>
                         <b:column span="7">                           
-                            <h:outputText value="#{book.title}"/>
+                            <h:outputText value="#{cartBooks.title}"/>
                         </b:column>
                         <b:column span="2">                           
-                            <h:outputText value="$#{book.listPrice}"/>
+                            <h:outputText value="$#{cartBooks.salePrice}"/>
                         </b:column>
                     </b:row>
                 </ui:repeat>
@@ -139,42 +139,42 @@
                 </b:row>
                 <b:row>
                     <b:column span="2" offset="8">                           
-                        <h:outputText value="Subtotal: "/>
+                        <h:outputText value="#{msgs.subTotal}"/>
                     </b:column>
                     <b:column span="2">                           
-                        <h:outputText value="$1000.00"/>
+                        <h:outputText value="$#{cartBackingBean.generateTotal()}"/>
                     </b:column>
                 </b:row>
                 <b:row>
                     <b:column span="2" offset="8">                            
-                        <h:outputText value="PST: "/>
+                        <h:outputText value="#{msgs.pst} "/>
                     </b:column>
                     <b:column span="2">                           
-                        <h:outputText value="$1000.00"/>
+                        <p> $#{cartBackingBean.generatePST()}</p>
                     </b:column>
                 </b:row>
                 <b:row>
                     <b:column span="2" offset="8">                            
-                        <h:outputText value="GST: "/>
+                        <h:outputText value="#{msgs.gst} "/>
                     </b:column>
                     <b:column span="2">                           
-                        <h:outputText value="$1000.00"/>
+                        <p>$#{cartBackingBean.generateGST()}</p>
                     </b:column>
                 </b:row>
                 <b:row>
                     <b:column span="2" offset="8">                           
-                        <h:outputText value="HST: "/>
+                        <h:outputText value="#{msgs.hst} "/>
                     </b:column>
                     <b:column span="2">                           
-                        <h:outputText value="$1000.00"/>
+                        <p> $#{cartBackingBean.generateHST()}</p>
                     </b:column>
                 </b:row>
                 <b:row>
                     <b:column span="2" offset="8">                            
-                        <h:outputText value="Total: "/>
+                        <h:outputText value="#{msgs.total} "/>
                     </b:column>
                     <b:column span="2">                           
-                        <h:outputText value="$1000.00"/>
+                        <p> $#{cartBackingBean.generateTotalTaxedSale()}</p>
                     </b:column>
                 </b:row>
             </b:panel>
