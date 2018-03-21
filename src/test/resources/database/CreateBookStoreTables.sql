@@ -1,16 +1,17 @@
 USE BookStore_DB;
-SET foreign_key_checks = 1;
+SET foreign_key_checks = 0;
 DROP TABLE IF EXISTS Ads;
 DROP TABLE IF EXISTS Survey;
 DROP TABLE IF EXISTS Invoice_Details;
 DROP TABLE IF EXISTS Invoice;
 DROP TABLE IF EXISTS Review;
-DROP TABLE IF EXISTS Client ;
+DROP TABLE IF EXISTS Client;
 DROP TABLE IF EXISTS Author_Book;
 DROP TABLE IF EXISTS Book;
 DROP TABLE IF EXISTS Taxes;
 DROP TABLE IF EXISTS Publisher;
 DROP TABLE IF EXISTS Author;
+SET foreign_key_checks = 1;
 
 CREATE TABLE Author (
     id int PRIMARY KEY auto_increment,
@@ -533,7 +534,7 @@ INSERT INTO Ads (imageName,siteLink) VALUES
 ("gillette.jpg", "https://gillette.ca");
 INSERT INTO Ads (imageName,siteLink) VALUES
 ("gusta.png", "http://gustafoods.com");
-INSERT INTO Ads (imageName,siteLink VALUES
+INSERT INTO Ads (imageName,siteLink) VALUES
 ("mountainDew.jpg", "http://www.mountaindew.com");
 INSERT INTO Ads (imageName,siteLink) VALUES
 ("museumFineArts.jpg", "https://www.mbam.qc.ca/en/");

@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui">
     <f:view locale="#{localeBean.locale}">
         <h:head>
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -34,7 +35,44 @@
                         <ui:insert name="content"></ui:insert>
                     </div>
                 </div>
-            </div>        
+            </div>      
+            <div id="footer">
+                <ui:insert name="footer">
+                    <b:panel style="background-color: #c1d4f2;">
+                        <b:row>    
+                            <b:column span="2">
+                                <h:outputText value="#{msgs.contactUs}"/>
+                            </b:column>
+                            <b:column span="2" offset="6">
+                                <b:navLink href="help.xhtml" value="#{msgs.help}"/>
+                            </b:column>
+                        </b:row>
+                        <b:row>
+                            <b:column span="2" offset="7">
+                                <b:navLink href="allbooks.xhtml" value="#{msgs.allBooksTitle}" offset="6"/>
+                            </b:column>
+                        </b:row>
+                        <b:row>
+                            <b:column span="2">
+                                <h:outputText value="#{msgs.contactEmail}"/>
+                            </b:column>
+                        </b:row>
+                        <b:row>
+                            <b:column span="2">
+                                <h:outputText value="#{msgs.contactPhone}"/>
+                            </b:column>
+                        </b:row>
+                        <br/>
+                        <b:row>
+                            <b:column span="2">
+                                <h:link outcome="/home.xhmtl">
+                                    <h:graphicImage value="resources/images/citrus.png" height="40"/>
+                                </h:link>
+                            </b:column>
+                        </b:row>
+                    </b:panel>
+                </ui:insert>
+            </div>
         </h:body>
         <!-- load js at bottom for faster loading-->
         <h:outputScript library="webjars" name="jquery/3.1.1-1/jquery.min.js"/>
