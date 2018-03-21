@@ -39,15 +39,26 @@ public class LoginBackingBean implements Serializable {
   private ClientJpaController clientJpaController;
   private Client client;
   private String styling;
-  private String compare_password;
+  private String passwordsDontMatch;
+  private String comparePassword;
+
+  public void setPasswordsDontMatch(String passwordsDontMatch) {
+    this.passwordsDontMatch = passwordsDontMatch;
+  }
+  
+  public String checkPassword(String password){
+    if (password.length() == 0){
+      return "  invalid password length";
+    }else{
+      return "";
+    }
+  }
 
   public String getInvalidPasswordMessage() {
     return "  invalid password";
   }
   
-  public String getPasswordsDontMatch() {
-    return "  passwords don't match";
-  }
+  
 
   public String createClient() throws Exception {
 
@@ -58,12 +69,14 @@ public class LoginBackingBean implements Serializable {
     if (current_user == null) {
       logger.log(Level.INFO, "inside createClient >>> " + client.getEmail());
       logger.log(Level.INFO, "inside createClient password" + client.getPassword());
-      if (client.getPassword().equals(compare_password)) {
+      if (client.getPassword().equals(comparePassword)) {
         clientJpaController.create(client);
         session.setAttribute("current_user", client);
         session.setAttribute("cartItems", new ArrayList<Book>());
 
-        return "home";
+        return "home?faces-redirect=true";
+      }else{
+        
       }
     }
 
@@ -71,20 +84,7 @@ public class LoginBackingBean implements Serializable {
 
   }
 
-  public String getCompare_password() {
-    return compare_password;
-  }
-
-  public void setCompare_password(String compare_password) {
-    this.compare_password = compare_password;
-  }
-
-  public Client getClient() {
-    if (client == null) {
-      client = new Client();
-    }
-    return client;
-  }
+ 
 
   public void setClient(Client client) {
     this.client = client;
@@ -103,6 +103,16 @@ public class LoginBackingBean implements Serializable {
     if (!m.find()) {
       throw new ValidatorException(new FacesMessage(
               "Email improperly typed"));
+    }
+
+  }
+  
+  public void validateMatchingPasswords(FacesContext fc, UIComponent c, Object value) {
+
+    comparePassword = (String) value;
+    if (!client.getPassword().equals(comparePassword)) {
+      throw new ValidatorException(new FacesMessage(
+              "passwords don't match"));
     }
 
   }
@@ -166,6 +176,21 @@ public class LoginBackingBean implements Serializable {
     logger.log(Level.INFO, "onSignUp >>> ");
     return "register";
 
+  }
+  
+  public String getComparePassword() {
+    return comparePassword;
+  }
+
+  public void setComparePassword(String compare_password) {
+    this.comparePassword = compare_password;
+  }
+
+  public Client getClient() {
+    if (client == null) {
+      client = new Client();
+    }
+    return client;
   }
 
 }
