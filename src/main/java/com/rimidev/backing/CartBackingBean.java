@@ -114,4 +114,11 @@ public class CartBackingBean implements Serializable {
          
          return Double.valueOf(String.format("%.2f", (generateTotal() + generateTaxTotal())));
      }
+     
+     public String validateCreditCardInformation(){
+         
+         
+         
+         return "invoice?faces-redirect=true";
+     }
 }
