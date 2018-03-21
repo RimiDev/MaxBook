@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <ui:composition template="/pageTemplates/master_template.xhtml"
                 xmlns="http://www.w3.org/1999/xhtml"
@@ -10,32 +10,31 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
-  <ui:define name="title">
-    <title>#{msgs.allBooksTitle}</title>
-  </ui:define>
-  <ui:define name="content">
-    <h:form>
-      <b:panel>
-        <ui:repeat value="#{allBooks.model}" var="book">
-          <b:column col-sm="2">                           
-            <b:thumbnail>
-              <f:facet name="caption">
-                <h:commandLink value="#{books.title}" action="#{bookDisplayBacking.showDetails}" >
-                  <b:image library="images" name="/books/#{book.isbn}.jpg"/>
-
-                  <h:outputText value="#{book.title}"/>
-                  <f:param name="isbn" value="#{book.isbn}"/>
-                </h:commandLink>  
-                <h:outputText  value="$#{book.listPrice}"/>
-              </f:facet>
-            </b:thumbnail>
-          </b:column>
-        </ui:repeat>
-      </b:panel>
-      <b:commandButton value="#{msgs.prev}" action="#{allBooks.prev()}" col-sm="1"></b:commandButton>
-      <b:label value="Page: #{allBooks.currentPageIndex}" severity="primary" col-sm="2"></b:label>
-      <b:commandButton value="#{msgs.next}" actionListener="#{allBooks.next()}" col-sm="1"></b:commandButton>
-    </h:form>
-  </ui:define>
+    <ui:define name="title">
+        <title>#{msgs.allBooksTitle}</title>
+    </ui:define>
+    <ui:define name="content">
+        <h:form>
+            <b:panel>
+                <ui:repeat value="#{allBooks.model}" var="book">
+                    <b:column col-sm="2">                           
+                        <h:commandLink value="#{books.title}" action="#{bookDisplayBacking.showDetails}" >
+                            <b:image library="images" name="/books/#{book.isbn}.jpg" height="200px" width="150px"/>
+                            <br/><br/>
+                            <h:outputText value="#{book.title}"/>
+                            <f:param name="isbn" value="#{book.isbn}"/>
+                        </h:commandLink>  
+                        <br/>
+                        <h:outputText  value="$#{book.listPrice}"/>
+                    </b:column>
+                </ui:repeat>
+            </b:panel>
+            <b:panel>
+                <b:commandButton value="#{msgs.prev}" action="#{allBooks.prev()}" col-sm="1" offset-sm="4"></b:commandButton>
+                <b:label value="Page: #{allBooks.currentPageIndex} / #{allBooks.totalPages}" severity="primary" col-sm="2"></b:label>
+                <b:commandButton value="#{msgs.next}" actionListener="#{allBooks.next()}" col-sm="1"></b:commandButton>
+            </b:panel>
+        </h:form>
+    </ui:define>
 </ui:composition>
 
