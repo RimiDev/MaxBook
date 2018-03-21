@@ -163,9 +163,10 @@ public class AdsJpaController implements Serializable {
         
         TypedQuery<Ads> query = em.createNamedQuery("Ads.findAll", Ads.class);
         
-        Collection<Ads> Ads = query.getResultList();
-        
-        return (List<Ads>) Ads;
+//        Collection<Ads> Ads = query.getResultList();
+//        
+//        return (List<Ads>) Ads;
+        return query.getResultList();
     
 }
         
