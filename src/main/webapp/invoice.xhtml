@@ -66,7 +66,7 @@
                                       #{invoiceBacking.invoice.clientId.lastName}"/>
                     </b:column>
                     <b:column span="3">
-                        <h:outputText value="#{msgs.cardName} : #{creditCardBean.name}"/>
+                        <h:outputText value="#{msgs.cardName} : #{cartBackingBean.creditcardBean.name}"/>
 
                     </b:column>
                     <b:column span="3" offset="3">
@@ -78,7 +78,7 @@
                         <h:outputText value="#{invoiceBacking.invoice.dateOfSale.toString()}"/>
                     </b:column>
                     <b:column span="3">
-                        <h:outputText value="#{msgs.cardNumber} : #{creditCardBean.number}"/>
+                        <h:outputText value="#{msgs.cardNumber} : #{cartBackingBean.creditcardBean.number}"/>
                     </b:column>
                     <b:column span="3" offset="3">
                         <h:outputText value="#{msgs.pstRate} #{invoiceBacking.details.PSTrate}" />
@@ -89,7 +89,7 @@
                         <h:outputText value="#{invoiceBacking.location}"/>
                     </b:column>
                     <b:column span="3">
-                        <h:outputText value="#{msgs.expDate} : #{creditCardBean.exp}"/>
+                        <h:outputText value="#{msgs.expDate} : #{cartBackingBean.creditcardBean.exp}"/>
                     </b:column>
                     <b:column span="3" offset="3">
                         <h:outputText value="#{msgs.gstRate} #{invoiceBacking.details.GSTrate}" />
@@ -118,7 +118,7 @@
                         <h:outputText value="#{msgs.priceHeader}"/>
                     </b:column>
                 </b:row>
-                <ui:repeat value="#{sessionScope['cartItems']}" var="cartBooks">
+            <ui:repeat value="#{cartBackingBean.cart}" var="cartBooks">
                     <b:row>
                         <b:column span="1">                           
                         </b:column>

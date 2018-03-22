@@ -22,6 +22,13 @@ public class CreditCardBean implements Serializable {
     private String exp;
     private String cv;
 
+    public CreditCardBean() {
+        this.name = "";
+        this.number = "";
+        this.exp = "";
+        this.cv = "";
+    }
+
     public String getName() {
         return name;
     }

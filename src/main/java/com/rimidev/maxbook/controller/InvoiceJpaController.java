@@ -235,28 +235,5 @@ public class InvoiceJpaController implements Serializable {
         return ((Long) q.getSingleResult()).intValue();
     }
 
-    public void insertInvoiceIntoDatabase(int id, Timestamp dateSale, BigDecimal net, BigDecimal gross) throws Exception {
-
-        //create(new Invoice(id,dateSale, net, gross));
-                create(new Invoice(Integer.valueOf(2),Timestamp.valueOf(LocalDateTime.now()), new BigDecimal(1), new BigDecimal(2)));
-
-        
-//        try{
-//
-//        utx.begin();
-//        em.joinTransaction();
-//
-//        Query query = em.createNativeQuery("INSERT INTO invoice (client_id,date_of_sale,net_value,gross_value) "
-//                + " VALUES(?,?,?,?)");
-//        query.setParameter(1, id);
-//        query.setParameter(2, dateSale);
-//        query.setParameter(3, net);
-//        query.setParameter(4, gross);
-//        query.executeUpdate();
-//
-//        utx.commit();
-//        } catch (Exception e){
-//            logger.log(Level.WARNING, "Catch block-----");
-//        }
-    }
+   
 }
