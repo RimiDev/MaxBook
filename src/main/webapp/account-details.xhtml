@@ -13,124 +13,182 @@
     <div class="col-md-12 profile-dashboard">
       <div class="row">
         <div class="container">
-          <p:outputLabel value="#{ msgs.welcome} #{sessionScope['current_user'].email}" style="margin-right:10px"/>
+          
           <b:form class="form-horizontal">
             <b:tabView contentStyle="border-right: 1px solid #ddd;border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding:10px">
               <b:tab title="Account Details" class="">
+                
+                
+                <!--email-->
+                <h:message id="emailError" for="account-details-email" style="color: red"/>
 
-                <div class="add_listing_info">
-                  <h2 class="form-title"></h2>
-                  <div class="form-group">
-                    <label class="col-md-4 control-label" for="name">Email<span class="required">*</span></label>
-                    <div class="col-md-8">
-                      <b:inputText  placeholder="Email" value="#{clientJpaController.findClient(1).email}"
-                                    class="form-control input-md" required=""></b:inputText>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label class="col-md-4 control-label" for="name">First Name<span class="">*</span></label>
-                    <div class="col-md-8">
-                      <b:inputText  placeholder="FirstName" value="#{sessionScope['current_user'].firstName}"
-                                    class="form-control input-md" required=""></b:inputText>
-                    </div>
-                  </div>
+                <div style="margin-bottom: 25px" class="input-group">
 
+                  <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                  <h:inputText id="account-details-email" value="#{sessionScope['current_user'].email}" 
+                               validator="#{loginBackingBean.validateEmail}"
+                               a:placeholder="Email"
+                               class="form-control"
+
+                               >
+                    <f:ajax event="blur" render="emailError"/>
+                  </h:inputText>
                 </div>
-                <div class="form-group">
-                  <label class="col-md-4 control-label" for="name">Last Name </label>
-                  <div class="col-md-8">
-                    <b:inputText  placeholder="Vendor Website" value="#{sessionScope['current_user'].lastName}"
-                                  class="form-control input-md" required=""></b:inputText>
-                  </div>
-                </div>
+                
+                 <!--first name-->
+                <h:message id="firstNameError" for="account-details-firstName" style="color: red"/>
 
-                <div class="form-group">
-                  <label class="col-md-4 control-label" for="name">Phone<span class="required">*</span></label>
-                  <div class="col-md-8">
-                    <b:inputText  placeholder="Phone" value="#{sessionScope['current_user'].phoneNumber}" 
-                                  class="form-control input-md" required=""></b:inputText>
-                  </div>
-                </div>
+                <div style="margin-bottom: 25px" class="input-group">
 
-                <div class="form-group">
-                  <label class="col-md-4 control-label" for="submit"></label>
-                  <div class="col-md-4">
+                  <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                  <h:inputText id="account-details-firstName" value="#{sessionScope['current_user'].firstName }" 
+                               validator="#{accountDetailsBacking.checkAddresses}"
+                               a:placeholder="Email"
+                               class="form-control"
 
-                    <p:commandButton class="btn btn-success" value="Save" actionListener="#{messagesBean.fatal}" 
-                                     update="@form"/>
-                  </div>
+                               >
+                    <f:ajax event="blur" render="firstNameError"/>
+                  </h:inputText>
                 </div>
+                
+                 <!--lastName-->
+                <h:message id="lastNameError" for="account-details-lastName" style="color: red"/>
+
+                <div style="margin-bottom: 25px" class="input-group">
+
+                  <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                  <h:inputText id="account-details-lastName" value="#{sessionScope['current_user'].lastName}" 
+                               validator="#{accountDetailsBacking.checkAddresses}"
+                               a:placeholder="Email"
+                               class="form-control"
+
+                               >
+                    <f:ajax event="blur" render="lastNameError"/>
+                  </h:inputText>
+                </div>
+                
+                 <!--phone-->
+                <div style="margin-bottom: 25px" class="input-group">
+
+                  <span class="input-group-addon"><i class="glyphicon glyphicon-phone"></i></span>
+                  <h:inputText id="account-details-phoneNumber" value="#{sessionScope['current_user'].phoneNumber}" 
+                               
+                               a:placeholder="Phone Number"
+                               class="form-control"
+
+                               >
+                    
+                  </h:inputText>
+                </div>
+                
 
               </b:tab>
               <b:tab title="Shipping Details">
-                
-                
-                
+
+
+
                 <!--address1-->
                 <h:message id="address1Error" for="account-details-address1" style="color: red"/>
-                  
-                  <div style="margin-bottom: 25px" class="input-group">
-                    
-                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                    <h:inputText id="account-details-address1" value="#{sessionScope['current_user'].address1}" 
-                                 validator="#{accountDetailsBacking.checkAddresses}"
-                                 a:placeholder="Address 1"
-                                 class="form-control"
-                                 
-                                 >
-                      <f:ajax event="blur" render="address1Error"/>
-                    </h:inputText>
-                  </div>
-                
+
+                <div style="margin-bottom: 25px" class="input-group">
+
+                  <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
+                  <h:inputText id="account-details-address1" value="#{sessionScope['current_user'].address1}" 
+                               validator="#{accountDetailsBacking.checkAddresses}"
+                               a:placeholder="Address 1"
+                               class="form-control"
+
+                               >
+                    <f:ajax event="blur" render="address1Error"/>
+                  </h:inputText>
+                </div>
+
                 <!--address2-->
                 <h:message id="address2Error" for="account-details-address2" style="color: red"/>
+
+                <div style="margin-bottom: 25px" class="input-group">
+
+                  <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
+                  <h:inputText id="account-details-address2" value="#{sessionScope['current_user'].address2}" 
+                               validator="#{accountDetailsBacking.checkAddresses}"
+                               a:placeholder="Address 2"
+                               class="form-control"
+
+                               >
+                    <f:ajax event="blur" render="address2Error"/>
+                  </h:inputText>
+                </div>
+
+                <!--City<-->
+                <h:message id="cityError" for="account-details-firstName" style="color: red"/>
+
+                <div style="margin-bottom: 25px" class="input-group">
+
+                  <span class="input-group-addon"><i class="glyphicon glyphicon-map-marker"></i></span>
+                  <h:inputText id="account-details-city" value="#{sessionScope['current_user'].city}" 
+                               validator="#{accountDetailsBacking.checkAddresses}"
+                               a:placeholder="City"
+                               class="form-control"
+
+                               >
+                    <f:ajax event="blur" render="cityError"/>
+                  </h:inputText>
+                </div>
+
+                
+
+                <!--Province<-->
+                <h:message id="provinceError" for="account-details-provinceComboxBox" style="color: red"/>
+
+                <div style="margin-bottom: 25px" class="input-group">
+
+                  <span class="input-group-addon"><i class="glyphicon glyphicon-map-marker"></i></span>
+                  <h:selectOneMenu id="account-details-provinceComboxBox" value="#{sessionScope['current_user'].city}"
+                                   class="dropdown">
+                    <f:selectItem itemValue="Quebec" itemLabel="Quebec" />
+                    <f:selectItem itemValue="Ontario" itemLabel="Ontario" />
+                    <f:selectItem itemValue="Alberta" itemLabel="Quebec" />
+                  </h:selectOneMenu>
+<!--                  <f:ajax event="blur" render="provinceError"/>-->
                   
-                  <div style="margin-bottom: 25px" class="input-group">
-                    
-                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                    <h:inputText id="account-details-address2" value="#{sessionScope['current_user'].address2}" 
-                                 validator="#{accountDetailsBacking.checkAddresses}"
-                                 a:placeholder="Address 2"
-                                 class="form-control"
-                                 
-                                 >
-                      <f:ajax event="blur" render="address2Error"/>
-                    </h:inputText>
-                  </div>
+                </div>
                 
-<!--                First name<
-                <h:message id="firstNameError" for="account-details-firstName" style="color: red"/>
-                  
-                  <div style="margin-bottom: 25px" class="input-group">
-                    
-                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                    <h:inputText id="account-details-address2" value="#{sessionScope['current_user'].address2}" 
-                                 validator="#{accountDetailsBacking.checkAddresses}"
-                                 a:placeholder="Address 2"
-                                 class="form-control"
-                                 
-                                 >
-                      <f:ajax event="blur" render="address2Error"/>
-                    </h:inputText>
-                  </div>-->
+                <!--postalcode<-->
+                <h:message id="postalCodeError" for="account-details-postalcode" style="color: red"/>
+
+                <div style="margin-bottom: 25px" class="input-group">
+
+                  <span class="input-group-addon"><i class="glyphicon glyphicon-road"></i></span>
+                  <h:inputText id="account-details-postalcode" value="#{sessionScope['current_user'].postalCode}" 
+                               validator="#{accountDetailsBacking.checkPostalCode}"
+                               a:placeholder="PostalCode"
+                               class="form-control"
+
+                               >
+                    <f:ajax event="blur" render="postalCodeError"/>
+                  </h:inputText>
+                </div>
+                
+                <!--Country<-->
+                <h:message id="countryError" for="account-details-country" style="color: red"/>
+
+                <div style="margin-bottom: 25px" class="input-group">
+
+                  <span class="input-group-addon"><i class="glyphicon glyphicon-flag"></i></span>
+                  <h:inputText id="account-details-country" value="#{sessionScope['current_user'].country}" 
+                               
+                               a:placeholder="Country"
+                               readonly="true"
+                               class="form-control"
+
+                               >
+                    <f:ajax event="blur" render="countryError"/>
+                  </h:inputText>
+                </div>
                 
                 
-                <!--postal code<-->
-                 <h:message id="postalCodeError" for="account-details-postalcode" style="color: red"/>
-                  
-                  <div style="margin-bottom: 25px" class="input-group">
-                    
-                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                    <h:inputText id="account-details-postalcode" value="#{sessionScope['current_user'].postalCode}" 
-                                 validator="#{accountDetailsBacking.checkPostalCode}"
-                                 a:placeholder="Postal Code"
-                                 class="form-control"
-                                 
-                                 >
-                      <f:ajax event="blur" render="postalCodeError"/>
-                    </h:inputText>
-                  </div>
-                
+               
+
                 <div class="form-group">
                   <label class="col-md-4 control-label" for="submit"></label>
                   <div class="col-md-4">
@@ -139,7 +197,7 @@
                 </div>
               </b:tab>
 
-              
+
             </b:tabView>
 
 
