@@ -215,6 +215,15 @@
             <version>2.10.0</version>
             <scope>test</scope>
         </dependency>
+        
+        <!-- Jodd Mail Dependency -->
+        <dependency>
+            <groupId>org.jodd</groupId>
+            <artifactId>jodd-mail</artifactId>
+            <version>3.9.1</version>
+        </dependency>
+
+        
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-api</artifactId>

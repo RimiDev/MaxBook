@@ -27,7 +27,7 @@
                   <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
                   <h:inputText id="account-details-email" value="#{sessionScope['current_user'].email}" 
                                validator="#{loginBackingBean.validateEmail}"
-                               a:placeholder="Email"
+                               a:placeholder="#{msgs.emailLabel}"
                                class="form-control"
 
                                >
@@ -43,7 +43,7 @@
                   <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
                   <h:inputText id="account-details-firstName" value="#{sessionScope['current_user'].firstName }" 
                                validator="#{accountDetailsBacking.checkAddresses}"
-                               a:placeholder="Email"
+                               a:placeholder="#{msgs.firstNameLabel}"
                                class="form-control"
 
                                >
@@ -59,7 +59,7 @@
                   <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
                   <h:inputText id="account-details-lastName" value="#{sessionScope['current_user'].lastName}" 
                                validator="#{accountDetailsBacking.checkAddresses}"
-                               a:placeholder="Email"
+                               a:placeholder="#{msgs.lastNameLabel}"
                                class="form-control"
 
                                >
@@ -72,11 +72,8 @@
 
                   <span class="input-group-addon"><i class="glyphicon glyphicon-phone"></i></span>
                   <h:inputText id="account-details-phoneNumber" value="#{sessionScope['current_user'].phoneNumber}" 
-                               
-                               a:placeholder="Phone Number"
-                               class="form-control"
-
-                               >
+                               a:placeholder="#{msgs.phoneNumberLabel}"
+                               class="form-control">
                     
                   </h:inputText>
                 </div>
@@ -84,9 +81,6 @@
 
               </b:tab>
               <b:tab title="Shipping Details">
-
-
-
                 <!--address1-->
                 <h:message id="address1Error" for="account-details-address1" style="color: red"/>
 
@@ -95,7 +89,7 @@
                   <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
                   <h:inputText id="account-details-address1" value="#{sessionScope['current_user'].address1}" 
                                validator="#{accountDetailsBacking.checkAddresses}"
-                               a:placeholder="Address 1"
+                               a:placeholder="#{msgs.addressLabel}"
                                class="form-control"
 
                                >
@@ -111,7 +105,7 @@
                   <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
                   <h:inputText id="account-details-address2" value="#{sessionScope['current_user'].address2}" 
                                validator="#{accountDetailsBacking.checkAddresses}"
-                               a:placeholder="Address 2"
+                               a:placeholder="#{msgs.address2Label}"
                                class="form-control"
 
                                >
@@ -127,7 +121,7 @@
                   <span class="input-group-addon"><i class="glyphicon glyphicon-map-marker"></i></span>
                   <h:inputText id="account-details-city" value="#{sessionScope['current_user'].city}" 
                                validator="#{accountDetailsBacking.checkAddresses}"
-                               a:placeholder="City"
+                               a:placeholder="#{msgs.cityLabel}"
                                class="form-control"
 
                                >
@@ -145,11 +139,23 @@
                   <span class="input-group-addon"><i class="glyphicon glyphicon-map-marker"></i></span>
                   <h:selectOneMenu id="account-details-provinceComboxBox" value="#{sessionScope['current_user'].city}"
                                    class="dropdown">
-                    <f:selectItem itemValue="Quebec" itemLabel="Quebec" />
-                    <f:selectItem itemValue="Ontario" itemLabel="Ontario" />
-                    <f:selectItem itemValue="Alberta" itemLabel="Quebec" />
+                    <f:selectItem itemValue="Alberta" itemLabel="#{msgs.Alberta}" />
+                    <f:selectItem itemValue="British Comlumbia" itemLabel="#{msgs.BritishColumbia}" />
+                    <f:selectItem itemValue="Manitoba" itemLabel="#{msgs.Manitoba}" />
+                    <f:selectItem itemValue="New Brunswick" itemLabel="#{msgs.NewBrunswick}" />
+                    <f:selectItem itemValue="Newfoundland and Labrador" itemLabel="#{msgs.NewfoundlandandLabrador}" /> 
+                    <f:selectItem itemValue="North West Territories" itemLabel="#{msgs.NorthWestTerritories}" /> 
+                    <f:selectItem itemValue="Nova Scotia" itemLabel="#{msgs.NovaScotia}" /> 
+                    <f:selectItem itemValue="Nunavut" itemLabel="#{msgs.Nunavut}" /> 
+                    <f:selectItem itemValue="Ontario" itemLabel="#{msgs.Ontario}" />
+                    <f:selectItem itemValue="Prince Edward Island" itemLabel="#{msgs.PrinceEdwardIsland}" />
+                    <f:selectItem itemValue="Quebec" itemLabel="#{msgs.Quebec}" />
+                    <f:selectItem itemValue="Saskatchewan" itemLabel="#{msgs.Saskatchewan}" />
+                    <f:selectItem itemValue="Yukon" itemLabel="#{msgs.Yukon}" />
+                    
+                    
                   </h:selectOneMenu>
-<!--                  <f:ajax event="blur" render="provinceError"/>-->
+
                   
                 </div>
                 
@@ -161,7 +167,7 @@
                   <span class="input-group-addon"><i class="glyphicon glyphicon-road"></i></span>
                   <h:inputText id="account-details-postalcode" value="#{sessionScope['current_user'].postalCode}" 
                                validator="#{accountDetailsBacking.checkPostalCode}"
-                               a:placeholder="PostalCode"
+                               a:placeholder="#{msgs.postalCodeLabel}"
                                class="form-control"
 
                                >
@@ -177,7 +183,7 @@
                   <span class="input-group-addon"><i class="glyphicon glyphicon-flag"></i></span>
                   <h:inputText id="account-details-country" value="#{sessionScope['current_user'].country}" 
                                
-                               a:placeholder="Country"
+                               a:placeholder="#{msgs.countryLabel}"
                                readonly="true"
                                class="form-control"
 
@@ -187,14 +193,7 @@
                 </div>
                 
                 
-               
 
-                <div class="form-group">
-                  <label class="col-md-4 control-label" for="submit"></label>
-                  <div class="col-md-4">
-                    <button class="btn btn-success">Save</button>
-                  </div>
-                </div>
               </b:tab>
 
 
