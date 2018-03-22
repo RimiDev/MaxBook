@@ -49,6 +49,21 @@ public class AccountDetailsBacking implements Serializable{
 
   }
   
+   public void checkNames(FacesContext fc, UIComponent c, Object value) {
+    String name = (String) value;
+    
+    FacesContext context = FacesContext.getCurrentInstance();
+    ResourceBundle bundle = context.getApplication().getResourceBundle(context, "msgs");
+
+    String message = bundle.getString("firstNameRequired");
+    if (name.length() == 0) {
+      throw new ValidatorException(new FacesMessage(
+              message));
+    }
+
+  }
+  
+  
   
   public void checkPostalCode(FacesContext fc, UIComponent c, Object value) {
     String postalcode = (String) value;
