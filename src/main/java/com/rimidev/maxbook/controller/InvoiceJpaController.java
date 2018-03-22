@@ -5,6 +5,7 @@
  */
 package com.rimidev.maxbook.controller;
 
+import com.rimidev.backing.CartBackingBean;
 import com.rimidev.maxbook.controller.exceptions.IllegalOrphanException;
 import com.rimidev.maxbook.controller.exceptions.NonexistentEntityException;
 import com.rimidev.maxbook.controller.exceptions.RollbackFailureException;
@@ -17,8 +18,13 @@ import com.rimidev.maxbook.entities.Client;
 import com.rimidev.maxbook.entities.Invoice;
 import com.rimidev.maxbook.entities.InvoiceDetails;
 import com.rimidev.maxbook.entities.Invoice_;
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.Resource;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
@@ -37,17 +43,20 @@ import javax.transaction.UserTransaction;
 @RequestScoped
 public class InvoiceJpaController implements Serializable {
 
-   @Resource
+    @Resource
     private UserTransaction utx;
 
     @PersistenceContext
     private EntityManager em;
+    
+   private static final Logger logger = Logger.getLogger(CartBackingBean.class.getName());
+
 
     public void create(Invoice invoice) throws RollbackFailureException, Exception {
         if (invoice.getInvoiceDetailsList() == null) {
             invoice.setInvoiceDetailsList(new ArrayList<InvoiceDetails>());
         }
-        
+
         try {
             utx.begin();
             Client clientId = invoice.getClientId();
@@ -83,11 +92,11 @@ public class InvoiceJpaController implements Serializable {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }
             throw ex;
-        } 
+        }
     }
 
     public void edit(Invoice invoice) throws IllegalOrphanException, NonexistentEntityException, RollbackFailureException, Exception {
-        
+
         try {
             utx.begin();
             Invoice persistentInvoice = em.find(Invoice.class, invoice.getId());
@@ -157,7 +166,7 @@ public class InvoiceJpaController implements Serializable {
     }
 
     public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException, RollbackFailureException, Exception {
-        
+
         try {
             utx.begin();
             Invoice invoice;
@@ -204,25 +213,27 @@ public class InvoiceJpaController implements Serializable {
     }
 
     private List<Invoice> findInvoiceEntities(boolean all, int maxResults, int firstResult) {
-            CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(Invoice.class));
-            Query q = em.createQuery(cq);
-            if (!all) {
-                q.setMaxResults(maxResults);
-                q.setFirstResult(firstResult);
-            }
-            return q.getResultList();    
+        CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
+        cq.select(cq.from(Invoice.class));
+        Query q = em.createQuery(cq);
+        if (!all) {
+            q.setMaxResults(maxResults);
+            q.setFirstResult(firstResult);
+        }
+        return q.getResultList();
     }
 
     public Invoice findInvoice(Integer id) {
-            return em.find(Invoice.class, id);     
+        return em.find(Invoice.class, id);
     }
 
     public int getInvoiceCount() {
-            CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            Root<Invoice> rt = cq.from(Invoice.class);
-            cq.select(em.getCriteriaBuilder().count(rt));
-            Query q = em.createQuery(cq);
-            return ((Long) q.getSingleResult()).intValue();
-    }  
+        CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
+        Root<Invoice> rt = cq.from(Invoice.class);
+        cq.select(em.getCriteriaBuilder().count(rt));
+        Query q = em.createQuery(cq);
+        return ((Long) q.getSingleResult()).intValue();
+    }
+
+   
 }

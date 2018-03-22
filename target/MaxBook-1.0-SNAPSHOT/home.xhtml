@@ -6,148 +6,158 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
-  <ui:define name="content">            
+    <ui:define name="content">            
 
-    <!--MAIN HOME PAGE-->
+        <!--MAIN HOME PAGE-->
 
-    <div class="container-fluid">
-      <div class="col-sm-2">
+        <div class="container-fluid">
+            <div class="col-sm-2">
 
-        <h:form>
-
-
-
-          <ui:repeat value="#{adsJpaController.allAds}" var="adv">
-
-            <b:column col-md="12">
-
-              <b:thumbnail>
-
-                  <a href="#{adv.siteLink}">
-                    <b:image library="images" name="ads/#{adv.imageName}" style="margin-left:0;"/>
-                </a>
-
-              </b:thumbnail>
-
-            </b:column>
-
-
-          </ui:repeat>
+                <h:form>
 
 
 
-        </h:form>  
+                    <ui:repeat value="#{adsJpaController.allAds}" var="adv">
+
+                        <b:column col-md="12">
+
+                            <b:thumbnail>
+
+                                <a href="#{adv.siteLink}">
+                                    <b:image style="margin-left:0;" library="images" name="ads/#{adv.imageName}"/>
+                                </a>
+
+                            </b:thumbnail>
+
+                        </b:column>
+
+
+                    </ui:repeat>
 
 
 
-      </div>
-      <div class="col-sm-8">
-
-        <!--Top selling books-->
-
-        <h:form>
-
-          <b:panel>
-
-            <h2 style="text-align:center"> Best selling books </h2>
-            <br/>
-
-            <ui:repeat value="#{homeBackingBean.topSellingBooks}" var="book">
-
-              <b:column col-md="3">                           
-
-                <b:thumbnail>
-
-                  
-                  <f:facet name="caption">
-                    <h:commandLink value="#{books.title}" action="#{bookDisplayBacking.showDetails}" >
-                  <b:image library="images" name="/books/#{book.isbn}.jpg"/>
-
-                      <h:outputText value="#{book.title}"/>
-                      
-                      <f:param name="isbn" value="#{book.isbn}"/>
-                    </h:commandLink>  
-
-                    <br/>
-
-                    <h:outputText  value="$#{book.listPrice}"/>
-                  </f:facet>
-
-                </b:thumbnail>
-
-              </b:column>
-
-            </ui:repeat>
-
-          </b:panel>
-
-        </h:form>
-
-
-        <br/>
-        <br/>
-
-
-        <!--Top selling books-->
-
-        <h:form>
-
-          <b:panel>
-
-            <h2 style="text-align:center"> Recent sold books </h2>
-            <br/>
-
-            <ui:repeat value="#{homeBackingBean.recentSoldBooks}" var="book">
-
-              <b:column col-md="3">                           
-
-                <b:thumbnail>
-
-                  <f:facet name="caption">
-                    <h:commandLink value="#{books.title}" action="#{bookDisplayBacking.showDetails}" >
-                    <b:image library="images" name="/books/#{book.isbn}.jpg"/>
-
-                      <h:outputText value="#{book.title}"/>
-                      <f:param name="isbn" value="#{book.isbn}"/>
-                      
-
-                    </h:commandLink>
-
-                    <br/>
-
-                    <h:outputText  value="$#{book.listPrice}"/>
-                  </f:facet>
-
-                </b:thumbnail>
-
-              </b:column>
-
-            </ui:repeat>
-
-          </b:panel>
-
-        </h:form>
-
-      </div>
+                </h:form>  
 
 
 
-      <div class="col-sm-2">
-        <h:form id="surveyForm"> 
-          <b:label value="#{surveyBacking.survey.question}" />
-          <b:radiobutton value="#{surveyBacking.answer}" required="true">
-            <f:selectItem itemValue="1" itemLabel="#{surveyBacking.survey.option1}" />
-            <f:selectItem itemValue="2" itemLabel="#{surveyBacking.survey.option2}" />
-            <f:selectItem itemValue="3" itemLabel="#{surveyBacking.survey.option3}" />
-            <f:selectItem itemValue="4" itemLabel="#{surveyBacking.survey.option4}" />
-          </b:radiobutton>
-          <b:commandButton value="#{msgs.submit}" look="primary" action="#{surveyBacking.submit}" >
-            <f:ajax execute="@form" render=":surveyForm"/>
-          </b:commandButton>
-        </h:form>
-      </div>
-    </div>
+            </div>
+            <div class="col-sm-8">
 
-  </ui:define>
+                <!--Top selling books-->
+
+                <h:form>
+
+                    <b:panel>
+
+                        <h2 style="text-align:center">#{msgs.bestSellingBook} </h2>
+                        <br/>
+
+                        <ui:repeat value="#{homeBackingBean.topSellingBooks}" var="book">
+
+                            <b:column col-md="3">                           
+
+                                <b:thumbnail style="height:400px;">
+
+
+                                    <f:facet name="caption">
+                                        <h:commandLink value="#{books.title}" action="#{bookDisplayBacking.showDetails}" >
+                                            <b:image tooltip="#{book.genre}" style="height:250px;width:200px;" library="images" name="/books/#{book.isbn}.jpg"/>
+
+                                            <h:outputText value="#{book.title}"/>
+
+                                            <f:param name="isbn" value="#{book.isbn}"/>
+                                        </h:commandLink>  
+
+                                        <br/>
+
+                                        <h:outputText  value="$#{book.listPrice}"/>
+                                        <br/>
+                                        <ui:repeat value="#{searchBackingBean.getFullName(book)}" var="authors">
+                                            <h:outputText value="#{authors}"/>
+                                            <br/>
+                                        </ui:repeat>
+                                    </f:facet>
+
+                                </b:thumbnail>
+
+                            </b:column>
+
+                        </ui:repeat>
+
+                    </b:panel>
+
+                </h:form>
+
+
+                <br/>
+                <br/>
+
+
+                <!--Top selling books-->
+
+                <h:form>
+
+                    <b:panel>
+
+                        <h2 style="text-align:center"> #{msgs.recentSoldBook} </h2>
+                        <br/>
+
+                        <ui:repeat value="#{homeBackingBean.recentSoldBooks}" var="book">
+
+                            <b:column col-md="3">                           
+
+                                <b:thumbnail style="height:400px;">
+
+                                    <f:facet name="caption">
+                                        <h:commandLink value="#{books.title}" action="#{bookDisplayBacking.showDetails}" >
+                                            <b:image tooltip="#{book.genre}" style="height:200px;width:200px;" library="images" name="/books/#{book.isbn}.jpg"/>
+
+                                            <h:outputText value="#{book.title}"/>
+                                            <f:param name="isbn" value="#{book.isbn}"/>
+
+
+                                        </h:commandLink>
+
+                                        <br/>
+
+                                        <h:outputText  value="$#{book.listPrice}"/>
+                                        <br/>
+                                        <ui:repeat value="#{searchBackingBean.getFullName(book)}" var="authors">
+                                            <h:outputText value="#{authors}"/>
+                                            <br/>
+                                        </ui:repeat>
+                                    </f:facet>
+
+                                </b:thumbnail>
+
+                            </b:column>
+
+                        </ui:repeat>
+
+                    </b:panel>
+
+                </h:form>
+
+            </div>
+
+
+
+            <div class="col-sm-2">
+                <h:form id="surveyForm"> 
+                    <b:label value="#{surveyBacking.survey.question}" />
+                    <b:radiobutton value="#{surveyBacking.answer}" required="true">
+                        <f:selectItem itemValue="1" itemLabel="#{surveyBacking.survey.option1}" />
+                        <f:selectItem itemValue="2" itemLabel="#{surveyBacking.survey.option2}" />
+                        <f:selectItem itemValue="3" itemLabel="#{surveyBacking.survey.option3}" />
+                        <f:selectItem itemValue="4" itemLabel="#{surveyBacking.survey.option4}" />
+                    </b:radiobutton>
+                    <b:commandButton value="#{msgs.submit}" look="primary" action="#{surveyBacking.submit}" >
+                        <f:ajax execute="@form" render=":surveyForm"/>
+                    </b:commandButton>
+                </h:form>
+            </div>
+        </div>
+
+    </ui:define>
 
 </ui:composition>

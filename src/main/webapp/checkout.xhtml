@@ -34,15 +34,21 @@
                             <div class="col-sm-8">
 
                                 <div class="col-sm-4"><label class="">#{msgs.cardHolderName}</label></div>
-                                <div class="col-sm-8"> <b:inputText placeholder="#{msgs.cardHolderName}" class="" required="true"
-                                                                    requiredMessage="Need card holder name to place order"></b:inputText></div>
+                                <div class="col-sm-8"> 
+                                    <b:inputText 
+                                        value="#{cartBackingBean.creditcardBean.name}" placeholder="#{msgs.cardHolderName}" class="" required="true"
+                                                         requiredMessage="Need card holder name to place order"
+                                                         >
+                                    </b:inputText>
+                                </div>
 
                                 <div class="col-sm-4">
-                                    <label class="">#{msgs.cardHolderName}</label>
+                                    <label class="">#{msgs.cardNumber}</label>
                                 </div>
                                 <div class="col-sm-8"> 
                                     <b:inputText placeholder="#{msgs.cardNumber}" class="form-control input-md" required="true"
-                                                 requiredMessage="Need card number to place order"></b:inputText>
+                                                 requiredMessage="Need card number to place order"
+                                                 value="#{cartBackingBean.creditcardBean.number}"></b:inputText>
                                 </div>
 
 
@@ -51,7 +57,8 @@
                                 </div>
                                 <div class="col-sm-3"> 
                                     <b:inputText placeholder="#{msgs.expiry}" class="form-control input-md" required="true"
-                                                 requiredMessage="Need card number to place order"></b:inputText>
+                                                 requiredMessage="Need card number to place order"
+                                                 value="#{cartBackingBean.creditcardBean.exp}"></b:inputText>
                                 </div>
                                 <div class="col-sm-1">
                                     <label class="">#{msgs.cvCode}</label>
@@ -74,13 +81,19 @@
                     <div class="col-sm-4 panel panel-default" >
 
                         <b:commandButton value="#{msgs.submitOrder}" class="btn btn-warning" style="width: 100%;margin-top: 10px"
-                                         action="#{cartBackingBean.validateCreditCardInformation()}">
+                                         action="#{cartBackingBean.validateCreditCardInformation
+                                                   (sessionScope['current_user'],
+                                                   Timestamp.valueOf(invoiceBacking.dateOfSale),
+                                                   cartBackingBean.generateTotal(),
+                                                   cartBackingBean.generateTotalTaxedSale(),
+                                                        cartBackingBean.cart,
+                                                        sessionScope['current_user'].province.province)}">
                         </b:commandButton>
 
                         <h:messages style="color:red;margin:8px;"/>
 
                         <label>#{msgs.orderSummary}</label>
-                        <p>#{msgs.items} <span>(#{sessionScope['cartItems'].size()})</span></p>
+                        <p>#{msgs.items} <span>(#{cartBackingBean.cart.size()})</span></p>
                         <p>#{msgs.pstRate} <span>#{sessionScope['current_user'].province.PSTrate}</span></p>
                         <p>#{msgs.gstRate} <span>#{sessionScope['current_user'].province.GSTrate}</span></p>
                         <p>#{msgs.totalBeforeTax} $<span>#{cartBackingBean.generateTotal()}</span></p>
@@ -109,14 +122,13 @@
                                 </tr>
                             </thead>
 
-                            <ui:repeat var="b" value="#{sessionScope['cartItems']}" varStatus="index">
+                            <ui:repeat var="b" value="#{cartBackingBean.cart}" varStatus="index">
                                 <tbody>
 
                                     <tr>
                                         <td data-th="Product">
                                             <div class="row">
                                                 <div class="col-sm-2 hidden-xs">
-                                                    <!--                                                <img src="http://placehold.it/100x100" alt="..." class="img-responsive"/>-->
                                                     <b:image library="images" name="/books/#{b.isbn}.jpg" tooltip="#{book.genre}"
                                                              style="height:80px;width:80px;"/>
 
