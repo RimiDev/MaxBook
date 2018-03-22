@@ -7,6 +7,8 @@ package com.rimidev.backing;
 
 import com.rimidev.maxbook.controller.BookJpaController;
 import com.rimidev.maxbook.controller.ReviewJpaController;
+import com.rimidev.maxbook.controller.exceptions.NonexistentEntityException;
+import com.rimidev.maxbook.controller.exceptions.RollbackFailureException;
 import com.rimidev.maxbook.entities.Book;
 import com.rimidev.maxbook.entities.Review;
 import java.io.Serializable;
@@ -85,13 +87,20 @@ public class ManagementBacking implements Serializable {
     }
     
     
-    public void onRowAdd(RowEditEvent event) {
-
+    public void onRowAdd(RowEditEvent event) throws Exception {
+        Book newBook = (Book) event.getObject();
+        bkcon.create(newBook);
+         FacesMessage msg = new FacesMessage("Book Created", String.valueOf(newBook));
+        FacesContext.getCurrentInstance().addMessage(null, msg);       
     }
 
-    public void onRowEdit(RowEditEvent event) {
-        FacesMessage msg = new FacesMessage("Book Edited", ((Book) event.getObject()).getIsbn());
+    
+    public void onRowEdit(RowEditEvent event) throws Exception {
+        Book editedBook = (Book) event.getObject();
+        bkcon.edit(editedBook);
+        FacesMessage msg = new FacesMessage("Book Edited", String.valueOf(editedBook));
         FacesContext.getCurrentInstance().addMessage(null, msg);
+
     }
 
     public void onRowRemove(RowEditEvent event) {

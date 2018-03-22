@@ -1,7 +1,7 @@
 USE BookStore_DB;
-
-DROP TABLE IF EXISTS Survey_Results;
-DROP TABLE IF EXISTS Question_Option;
+SET foreign_key_checks = 0;
+DROP TABLE IF EXISTS Ads;
+DROP TABLE IF EXISTS Survey;
 DROP TABLE IF EXISTS Invoice_Details;
 DROP TABLE IF EXISTS Invoice;
 DROP TABLE IF EXISTS Review;
@@ -11,13 +11,14 @@ DROP TABLE IF EXISTS Book;
 DROP TABLE IF EXISTS Taxes;
 DROP TABLE IF EXISTS Publisher;
 DROP TABLE IF EXISTS Author;
-DROP TABLE IF EXISTS Question;
+SET foreign_key_checks = 1;
 
 CREATE TABLE Author (
     id int PRIMARY KEY auto_increment,
     first_name varchar(255),
     last_name varchar(255) NOT NULL
 );
+
 INSERT INTO Author (first_name,last_name) VALUES
 ("Rupi", "Kaur"),
 ("R. J.", "Palacio"),
@@ -118,6 +119,7 @@ CREATE TABLE Publisher (
     id int PRIMARY KEY auto_increment,
     name varchar(255) NOT NULL
 );
+
 INSERT INTO PUBLISHER (name) VALUES
 ("Andrews McMeel Publishing"),
 ("Knopf Books for Young Readers"),
@@ -192,6 +194,7 @@ CREATE TABLE Taxes (
     GST_rate numeric(4,2) NOT NULL,
     HST_rate numeric(4,2) NOT NULL
 );
+
 INSERT INTO TAXES (province, PST_rate, GST_rate, HST_rate) VALUES 
 ('Alberta', 0.00, 0.05, 0.05),
 ('British Columbia', 0.07, 0.05, 0.12),
@@ -222,6 +225,7 @@ CREATE TABLE Book (
     description varchar(2184) NOT NULL,
     FOREIGN KEY (publisher_id) REFERENCES Publisher(id)
 );
+
 INSERT INTO book VALUES ('978-1449474256','Milk and Honey',1,'2015-10-06 00:00:00',208,'Poetry',14.99,8.99,7.19,'.png','2018-01-01 00:00:00',0,'The book is divided into four chapters, and each chapter serves a different purpose. Deals with a different pain. Heals a different heartache. Milk and Honey takes readers through a journey of the most bitter moments in life and finds sweetness in them because there is sweetness everywhere if you are just willing to look.');
 INSERT INTO book VALUES ('978-0375869020','Wonder',2,'2012-02-14 00:00:00',320,'Children',16.99,10.69,8.55,'.png','2018-01-01 00:00:00',0,'August Pullman was born with a facial difference that, up until now, has prevented him from going to a mainstream school. Starting 5th grade at Beecher Prep, he wants nothing more than to be treated as an ordinary kid—but his new classmates can’t get past Auggie’s extraordinary face. WONDER, now a #1 New York Times bestseller and included on the Texas Bluebonnet Award master list, begins from Auggie’s point of view, but soon switches to include his classmates, his sister, her boyfriend, and others. These perspectives converge in a portrait of one community’s struggle with empathy, compassion, and acceptance.');
 INSERT INTO book VALUES ('978-0545392556',"Giraffes Can't Dance",3,'2012-03-01 00:00:00',32,'Children',6.99,5.06,4.05,'.png','2018-01-01 00:00:00',0,"Giraffes Can't Dance is a touching tale of Gerald the giraffe, who wants nothing more than to dance. With crooked knees and thin legs, it's harder for a giraffe than you would think. Gerald is finally able to dance to his own tune when he gets some encouraging words from an unlikely friend.");
@@ -329,6 +333,7 @@ CREATE TABLE Author_Book (
     FOREIGN KEY (author_id) REFERENCES Author(id),
     FOREIGN KEY (isbn) REFERENCES Book(isbn)
 );
+
 INSERT INTO Author_Book VALUES (1,"978-1449474256");
 INSERT INTO Author_Book VALUES (2,"978-0375869020");
 INSERT INTO Author_Book VALUES (3,"978-0545392556");
@@ -452,6 +457,7 @@ CREATE TABLE Client (
     postal_code varchar(6) DEFAULT NULL,
     FOREIGN KEY (province) REFERENCES Taxes(province)
 );
+
 INSERT INTO Client (email, password, title, first_name, last_name, phone_number,
     manager, company_name, address_1, address_2, city, province, country, postal_code) VALUES
 ("test@test.com", "password", "tester", "John", "Doe", "1234567890", 0, "testers", 
@@ -468,6 +474,7 @@ CREATE TABLE Review (
     FOREIGN KEY (isbn) REFERENCES Book(isbn),
     FOREIGN KEY (client_id) REFERENCES Client(id)
 );
+
 INSERT INTO Review (isbn, client_id, rating, review_message, approval_status, review_date) VALUES 
 ('978-1449474256', 1, 4, 'It was aight.', 'Pending', '2018-01-01 22:22:22');
 
@@ -475,15 +482,13 @@ CREATE TABLE Invoice (
     id int PRIMARY KEY auto_increment,
     client_id int NOT NULL,
     date_of_sale timestamp NOT NULL,
-    net_value int NOT NULL,
-    gross_value int NOT NULL,
+    net_value numeric(6,2) NOT NULL,
+    gross_value numeric(6,2) NOT NULL,
     FOREIGN KEY (client_id) REFERENCES Client(id)
 );
 
 INSERT INTO Invoice (client_id, date_of_sale, net_value, gross_value) VALUES
-(1, '2017-1-12 12:12:12', 14.99, 7.80),
-(1, '2017-2-12 12:12:12', 25.99, 8.80),
-(1, '2017-3-12 12:12:12', 21.99, 11.80);
+(1, '2017-1-12 12:12:12', 59.96, 75.00);
 
 CREATE TABLE Invoice_Details (
     id int PRIMARY KEY auto_increment,
@@ -496,60 +501,42 @@ CREATE TABLE Invoice_Details (
     FOREIGN KEY (invoice_id) REFERENCES Invoice(id),
     FOREIGN KEY (isbn) REFERENCES Book(isbn)
 );
-INSERT INTO Invoice_Details VALUES (1, 1, '978-0762447695', 14.99, 0.10, 0.05, 0.15);
-INSERT INTO Invoice_Details VALUES (2, 1, '978-0762447695', 14.99, 0.10, 0.05, 0.15);
-INSERT INTO Invoice_Details VALUES (3, 1, '978-0762447695', 14.99, 0.10, 0.05, 0.15);
-INSERT INTO Invoice_Details VALUES (4, 1, '978-0545795661', 14.99, 0.10, 0.05, 0.15);
-INSERT INTO Invoice_Details VALUES (5, 1, '978-0545795661', 14.99, 0.10, 0.05, 0.15);
-INSERT INTO Invoice_Details VALUES (6, 1, '978-1408711392', 14.99, 0.10, 0.05, 0.15);
 
 INSERT INTO Invoice_Details (invoice_id, isbn, book_price, PST_rate, GST_rate, HST_rate) VALUES 
-(1, '978-1449474256', 14.99, 0.10, 0.05, 0.15);
+(1, '978-1449474256', 14.99, 0.10, 0.05, 0.15),
+(1, '978-0762447695', 14.99, 0.10, 0.05, 0.15),
+(1, '978-0545795661', 14.99, 0.10, 0.05, 0.15),
+(1, '978-1408711392', 14.99, 0.10, 0.05, 0.15);
 
-CREATE TABLE Question (
+CREATE TABLE Survey (
     id int PRIMARY KEY auto_increment,
-    message varchar(1000) NOT NULL default ''
+    question varchar(255) NOT NULL DEFAULT '',
+    option1 varchar(255) NOT NULL DEFAULT '',
+    option2 varchar(255) NOT NULL DEFAULT '',
+    option3 varchar(255) NOT NULL DEFAULT '',
+    option4 varchar(255) NOT NULL DEFAULT '',
+    count1 int NOT NULL DEFAULT 0,
+    count2 int NOT NULL DEFAULT 0,
+    count3 int NOT NULL DEFAULT 0,
+    count4 int NOT NULL DEFAULT 0
 );
-INSERT INTO Question (message) VALUES 
-("This is a test question.");
-
-CREATE TABLE Question_Option (
-    id int PRIMARY KEY auto_increment,
-    question_id int NOT NULL default 1,
-    option_message varchar(255) NOT NULL default '',
-    vote_count int NOT NULL default 0,
-    FOREIGN KEY (question_id) REFERENCES Question(id)
-);
-INSERT INTO Question_Option (question_id, option_message, vote_count) VALUES
-(1, "test option 1", 1),
-(1, "test option 2", 0),
-(1, "test option 3", 0),
-(1, "test option 4", 0);
-
-CREATE TABLE Survey_Results (
-    id int PRIMARY KEY auto_increment,
-    question_id int NOT NULL default 1,
-    client_id int NOT NULL default 1,
-    FOREIGN KEY (question_id) REFERENCES Question(id),
-    FOREIGN KEY (client_id) REFERENCES Client(id)
-);
-INSERT INTO Survey_Results (question_id, client_id) VALUES
-(1, 1);
+INSERT INTO Survey(question, option1, option2, option3, option4, count1, count2, count3, count4) VALUES 
+("Do you like Horror?", "Very Much", "Yes", "No", "I hate it", 0, 0, 0, 0);
 
 DROP TABLE IF EXISTS Ads;
 
 CREATE TABLE Ads (
 id int PRIMARY KEY auto_increment,
-imageName varchar(255) NOT NULL);
+imageName varchar(255) NOT NULL,
+siteLink varchar(255) NOT NULL);
 
-INSERT INTO Ads (imageName) VALUES
-("gillette.jpg");
-INSERT INTO Ads (imageName) VALUES
-("gusta.png");
-INSERT INTO Ads (imageName) VALUES
-("mountainDew.jpg");
-INSERT INTO Ads (imageName) VALUES
-("museumFineArts.jpg");
-INSERT INTO Ads (imageName) VALUES
-("macbook.jpg");
-
+INSERT INTO Ads (imageName,siteLink) VALUES
+("gillette.jpg", "https://gillette.ca");
+INSERT INTO Ads (imageName,siteLink) VALUES
+("gusta.png", "http://gustafoods.com");
+INSERT INTO Ads (imageName,siteLink) VALUES
+("mountainDew.jpg", "http://www.mountaindew.com");
+INSERT INTO Ads (imageName,siteLink) VALUES
+("museumFineArts.jpg", "https://www.mbam.qc.ca/en/");
+INSERT INTO Ads (imageName,siteLink) VALUES
+("macbook.jpg", "https://www.apple.com/ca/macbook/");

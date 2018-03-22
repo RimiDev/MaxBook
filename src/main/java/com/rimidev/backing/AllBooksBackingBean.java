@@ -42,11 +42,12 @@ public class AllBooksBackingBean implements Serializable {
         logger.info("Current Page Index: " +Integer.toString(currentPageIndex));
         if(records + startId > totalRecords){
             logger.info("updateModel -> LEFTOVERS");
-            int leftOverAmount = (totalRecords - startId + 1) * -1;
-            setModel(bookController.findBookEntities(leftOverAmount, startId));
+            int leftOverAmount = totalRecords - startId + 1;
+            logger.info("leftover amount: " +Integer.toString(leftOverAmount));
+            setModel(bookController.findBookEntities(leftOverAmount, startId -1));
         }else{
             logger.info("updateModel -> FULL LIST");
-            setModel(bookController.findBookEntities(records, startId));
+            setModel(bookController.findBookEntities(records, startId -1));
         }
     }
 
@@ -57,8 +58,8 @@ public class AllBooksBackingBean implements Serializable {
         logger.info("NEXT WAS CLICKED");
         if (this.currentPageIndex < this.totalPages) {
             this.currentPageIndex++;
+            updateModel();
         }
-        updateModel();
     }
 
     /**
@@ -68,8 +69,8 @@ public class AllBooksBackingBean implements Serializable {
         logger.info("PREV WAS CLICKED");
         if (this.currentPageIndex > 1) {
             this.currentPageIndex--;
+            updateModel();
         }
-        updateModel();
     }
 
     public int getRecords() {
@@ -137,6 +138,6 @@ public class AllBooksBackingBean implements Serializable {
      * @param pageIndex 
      */
     public void setPageIndex(int pageIndex) {
-        this.currentPageIndex= pageIndex;
+        this.currentPageIndex = pageIndex;
     }
 }

@@ -40,6 +40,11 @@
     </session-config>
     <!-- if there is no page in the in the URL then this page will be called upon -->
     <welcome-file-list>
+<<<<<<< HEAD
         <welcome-file>home.xhtml</welcome-file>
+=======
+        <welcome-file>login.xhtml</welcome-file>
+
+>>>>>>> beta
     </welcome-file-list>
 </web-app>

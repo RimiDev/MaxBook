@@ -7,8 +7,12 @@ package com.rimidev.backing;
 
 import com.rimidev.maxbook.controller.BookJpaController;
 import com.rimidev.maxbook.controller.ClientJpaController;
+import com.rimidev.maxbook.entities.Book;
 import com.rimidev.maxbook.entities.Client;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.faces.application.FacesMessage;
@@ -27,32 +31,63 @@ import javax.servlet.http.HttpSession;
 @Named("loginBackingBean")
 @SessionScoped
 public class LoginBackingBean implements Serializable {
+  
 
-  private String email;
-  private String password;
-  private String styling;
-
+  private static final Logger logger = Logger.getLogger(LoginBackingBean.class.getName());
+  
   @Inject
   private ClientJpaController clientJpaController;
-
-  public String getEmail() {
-    return email;
-  }
+  private Client client;
+  private String styling;
+  private String compare_password;
 
   public String getInvalidPasswordMessage() {
     return "  invalid password";
   }
-
-  public void setEmail(final String email) {
-    this.email = email;
+  
+  public String getPasswordsDontMatch() {
+    return "  passwords don't match";
   }
 
-  public String getPassword() {
-    return password;
+  public String createClient() throws Exception {
+
+    logger.log(Level.INFO, "inside on createClient");
+    HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+    Client current_user = clientJpaController.findClientByEmail(client.getEmail());
+
+    if (current_user == null) {
+      logger.log(Level.INFO, "inside createClient >>> " + client.getEmail());
+      logger.log(Level.INFO, "inside createClient password" + client.getPassword());
+      if (client.getPassword().equals(compare_password)) {
+        clientJpaController.create(client);
+        session.setAttribute("current_user", client);
+        session.setAttribute("cartItems", new ArrayList<Book>());
+
+        return "home";
+      }
+    }
+
+    return null;
+
   }
 
-  public void setPassword(final String password) {
-    this.password = password;
+  public String getCompare_password() {
+    return compare_password;
+  }
+
+  public void setCompare_password(String compare_password) {
+    this.compare_password = compare_password;
+  }
+
+  public Client getClient() {
+    if (client == null) {
+      client = new Client();
+    }
+    return client;
+  }
+
+  public void setClient(Client client) {
+    this.client = client;
   }
 
   public void validateEmail(FacesContext fc, UIComponent c, Object value) {
@@ -78,26 +113,58 @@ public class LoginBackingBean implements Serializable {
     Client curr_user = (Client) session.getAttribute("current_user");
 
     if (curr_user == null) {
-      return "hideLoginBtn btn btn-warning";
+      return "Login";
     }
-    return "";
+    return "Logout";
   }
 
-  public void validatePassword(FacesContext fc, UIComponent c, Object value) {
+  public String onLogin() {
 
-    String password = (String) value;
+    logger.log(Level.INFO, "inside on login");
+    HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
 
-  }
+    Client registered_user = clientJpaController.findClientByEmail(client.getEmail());
 
-  public String doSomeAction() {
+    if (registered_user != null) {
+      if (registered_user.getPassword().equals(client.getPassword())) {
 
-    if (true) {
-      FacesContext.getCurrentInstance().addMessage(null,
-              new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error Message Displayed Growl",
-                      "Error Message Displayed Growl"));
+        session.setAttribute("current_user", registered_user);
+        
+        if (session.getAttribute("cartItems") == null){
+        
+            session.setAttribute("cartItems", new ArrayList<Book>());
+        }
+
+        return "home?faces-redirect=true";
+      }
     }
 
     return null;
+
+  }
+
+  public String onLogout() {
+
+    HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+    Client curr_user = (Client) session.getAttribute("current_user");
+
+    // log out user if they exist
+    if (curr_user != null) {
+      session.setAttribute("current_user", null);
+      curr_user = null;
+
+      return null;
+    } else {
+
+    return "login?faces-redirect=true";
+
+    }
+  }
+
+  public String onSignUp() {
+
+    logger.log(Level.INFO, "onSignUp >>> ");
+    return "register";
 
   }
 

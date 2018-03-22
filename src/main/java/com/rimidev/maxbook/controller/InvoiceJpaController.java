@@ -24,6 +24,7 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.transaction.UserTransaction;
 
@@ -202,7 +203,6 @@ public class InvoiceJpaController implements Serializable {
     }
 
     private List<Invoice> findInvoiceEntities(boolean all, int maxResults, int firstResult) {
-
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             cq.select(cq.from(Invoice.class));
             Query q = em.createQuery(cq);
@@ -210,43 +210,18 @@ public class InvoiceJpaController implements Serializable {
                 q.setMaxResults(maxResults);
                 q.setFirstResult(firstResult);
             }
-            return q.getResultList();
-       
+            return q.getResultList();    
     }
 
     public Invoice findInvoice(Integer id) {
-
-            return em.find(Invoice.class, id);
-       
+            return em.find(Invoice.class, id);     
     }
 
     public int getInvoiceCount() {
-
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             Root<Invoice> rt = cq.from(Invoice.class);
             cq.select(em.getCriteriaBuilder().count(rt));
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();
-       
-    }
-    
-    //Custom queries
-    
-//            
-//        public List<Invoice> getRecentlySoldBooks() {
-//            
-//            CriteriaBuilder cb = em.getCriteriaBuilder();
-//            CriteriaQuery<Invoice> cq = cb.createQuery(Invoice.class);
-//            Root<InvoiceDetails> books = cq.from(InvoiceDetails.class);
-//            
-//            cq.select(books.get("isbn"));
-//            
-//            
-//            
-//            
-//            
-//            
-//            return recentSoldBooks;
-//        }
-    
+    }  
 }
