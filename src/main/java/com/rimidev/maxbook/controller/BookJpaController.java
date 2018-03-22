@@ -448,6 +448,16 @@ public class BookJpaController implements Serializable {
 
   }
   
+  public List<Book> getBookByIsbn(String isbn){
+      
+      TypedQuery<Book> query = em.createNamedQuery("Book.findByIsbn", Book.class);
+      query.setParameter("isbn", isbn);
+
+      List<Book> books = query.getResultList();
+      
+      return (List<Book>) books;
+  }
+  
   public List<Book> getEmptyList() {
 
     TypedQuery<Book> query = em.createNamedQuery("Book.findNoBooks", Book.class);

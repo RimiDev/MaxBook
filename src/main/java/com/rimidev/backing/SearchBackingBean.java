@@ -37,6 +37,7 @@ public class SearchBackingBean {
     private String firstName;
     private String lastName;
     private String fullName;
+    private String isbn;
   
     private List<Book> searchedBooks;
     private List<Author> searchedAuthors;
@@ -77,6 +78,12 @@ public class SearchBackingBean {
             return searchedBooks;
     }    
     
+    public List<Book> getBookByIsbn() {
+        searchedBooks = bookJPA.getBookByIsbn(isbn);
+        
+        return searchedBooks;
+    }
+    
     //Getters & Setters
     
         public List<String> getFullName(Book book) {
@@ -85,11 +92,15 @@ public class SearchBackingBean {
             
             if (book.getAuthorList().size() >= 1){
                 for (int i = 0; i < book.getAuthorList().size(); i++){
+                    if (book.getAuthorList().get(i).getFirstName() != null){
                     authorNameList.add(
                             book.getAuthorList().get(i).getFirstName()                           
                             + " " +
                             book.getAuthorList().get(i).getLastName());
                     
+                    } else {
+                        authorNameList.add(book.getAuthorList().get(i).getLastName());
+                    }
                 }
             }
            
@@ -128,6 +139,16 @@ public class SearchBackingBean {
     public void setGenre(String genre) {
         this.genre = genre;
     }
+
+    public String getIsbn() {
+        return isbn;
+    }
+
+    public void setIsbn(String isbn) {
+        this.isbn = isbn;
+    }
+    
+    
 
     public List<Author> getsearchedAuthors() {
         return searchedAuthors;

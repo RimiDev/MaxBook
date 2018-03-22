@@ -15,7 +15,7 @@
     
 
 
-      <h2>Advanced Search</h2>
+      <h2>#{msgs.advancedSearch}</h2>
 
       <div class="col-md-12 profile-dashboard">
         <div class="row">
@@ -23,79 +23,100 @@
             <b:form class="form-horizontal">
               <b:tabView contentStyle="border-right: 1px solid #ddd;border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding:10px">
 
-                Search by Title
-                <b:tab title="By Title" style="">
+                #{msgs.searchByTitle}
+                <b:tab title="#{msgs.byTitle}" style="">
 
                   <div class="add_listing_info">
-                    <h2 class="form-title">Search Title</h2>
+                    <h2 class="form-title">#{msgs.searchTitle}</h2>
                     <br/>
                     <div class="form-group">
-                      <label class="col-md-4 col-xs-5 control-label" for="Title">Title</label>
+                      <label class="col-md-4 col-xs-5 control-label" for="Title">#{msgs.title}</label>
                       <div class="col-md-5 col-xs-5">
-                        <b:inputText  placeholder="Title"  value="#{searchBackingBean.title}"
+                        <b:inputText  placeholder="#{msgs.title}"  value="#{searchBackingBean.title}"
                                       class="form-control input-md"></b:inputText>
                       </div>
                     </div>
 
-                    <b:commandButton class="btn btn-success" value="Search" action="#{searchBackingBean.getBookByTitle}"/>
+                    <b:commandButton class="btn btn-success" value="#{msgs.search}" action="#{searchBackingBean.getBookByTitle}"/>
 
                   </div>
 
                 </b:tab>
 
 
-                Search by genre
+                #{msgs.searchByGenre}
 
-                <b:tab title="By Genre">
+                <b:tab title="#{msgs.byGenre}">
 
                   <div class="add_listing_info">
-                    <h2 class="form-title">Search Genre</h2>
+                    <h2 class="form-title">#{msgs.searchGenre}</h2>
                     <br/>
                     <div class="form-group">
-                      <label class="col-md-4 col-xs-5 control-label" for="Genre">Genre</label>
+                      <label class="col-md-4 col-xs-5 control-label" for="Genre">#{msgs.genre}</label>
                       <div class="col-md-5 col-xs-5">
-                        <b:inputText  placeholder="Genre" value="#{searchBackingBean.genre}"
+                        <b:inputText  placeholder="#{msgs.genre}" value="#{searchBackingBean.genre}"
                                       class="form-control input-md"></b:inputText>
                       </div>
                     </div>
 
-                    <b:commandButton class="btn btn-success" value="Search" action="#{searchBackingBean.getBookByGenre}"/>                                    
+                    <b:commandButton class="btn btn-success" value="#{msgs.search}" action="#{searchBackingBean.getBookByGenre}"/>                                    
 
                   </div>
 
                 </b:tab>
 
-                Search by Author
+                #{msgs.searchByAuthor}
 
-                <b:tab title="By Author" style="">
+                <b:tab title="#{msgs.byAuthor}" style="">
 
                   <div class="add_listing_info">
-                    <h2 class="form-title">Search Authors</h2>
+                    <h2 class="form-title">#{msgs.searchAuthors}</h2>
                     <br/>
                     <div class="form-group">
-                      <label class="col-md-4 col-xs-4 control-label">First name</label>
+                      <label class="col-md-4 col-xs-4 control-label">#{msgs.firstName}</label>
                       <div class="col-md-5 col-xs-6">
-                        <b:inputText  placeholder="First name"  value="#{searchBackingBean.firstName}"
+                        <b:inputText  placeholder="#{msgs.firstName}"  value="#{searchBackingBean.firstName}"
                                       class="form-control input-md"></b:inputText>                         
                       </div>
                       <div class="col-md-2 col-xs-2">
-                        <b:commandButton class="btn btn-success" value="Search" action="#{searchBackingBean.getBookByFirstName}"/>                                    
+                        <b:commandButton class="btn btn-success" value="#{msgs.search}" action="#{searchBackingBean.getBookByFirstName}"/>                                    
                       </div>
 
                       <div class="form-group">
-                        <label class="col-md-4 col-xs-4 control-label" for="LastName">Last name</label>
+                        <label class="col-md-4 col-xs-4 control-label" for="LastName">#{msgs.lastName}</label>
                         <div class="col-md-5 col-xs-6">
-                          <b:inputText  placeholder="Last name" value="#{searchBackingBean.lastName}"
+                          <b:inputText  placeholder="#{msgs.lastName}" value="#{searchBackingBean.lastName}"
                                         class="form-control"></b:inputText>                                                        
                         </div>
                         <div class="col-md-2 col-xs-2">
-                          <b:commandButton class="btn btn-success" value="Search" action="#{searchBackingBean.getBookByLastName}"/>                                    
+                          <b:commandButton class="btn btn-success" value="#{msgs.search}" action="#{searchBackingBean.getBookByLastName}"/>                                    
                         </div>                                       
 
 
 
                       </div>
                     </div>
+
+                  </div>
+
+                </b:tab>
+                  
+                 #{msgs.searchByIsbn}
+
+                <b:tab title="#{msgs.byIsbn}">
+
+                  <div class="add_listing_info">
+                    <h2 class="form-title">#{msgs.searchIsbn}</h2>
+                    <br/>
+                    <div class="form-group">
+                      <label class="col-md-4 col-xs-5 control-label" for="Genre">#{msgs.isbn}</label>
+                      <div class="col-md-5 col-xs-5">
+                          <b:inputText  placeholder="#{msgs.isbn}" value="#{searchBackingBean.isbn}"
+                                      class="form-control input-md"></b:inputText>
+                      </div>
+                    </div>
+
+                    <b:commandButton class="btn btn-success" value="#{msgs.search}" action="#{searchBackingBean.getBookByIsbn}"/>                                    
 
                   </div>
 
@@ -123,7 +144,7 @@
           <b:panel>
 
              
-            <h2 style="text-align:center"> Search results </h2>
+            <h2 style="text-align:center"> #{msgs.searchResult} </h2>
              
         
               
@@ -134,15 +155,15 @@
 
               <b:column col-md="3">                           
 
-                <b:thumbnail>
+                <b:thumbnail style="height:400px;">
 
 
 
                   <f:facet name="caption">
                     <h:commandLink action="#{bookDisplayBacking.showDetails}">
 
-                      <b:image library="images" name="/books/#{book.isbn}.jpg" tooltip="#{book.genre}"/>
-                      <h:outputText value="#{book.title}"/>
+                      <b:image style="height:300px;width:200px;" library="images" name="/books/#{book.isbn}.jpg" tooltip="#{book.genre}"/>
+                      <h:outputText value="#{bookDisplayBacking.displayTitle(book.title)}"/>
                       <f:param name="isbn" value="#{book.isbn}"/>
 
                     </h:commandLink>

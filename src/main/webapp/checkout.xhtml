@@ -78,7 +78,11 @@
                     <div class="col-sm-4 panel panel-default" >
 
                         <b:commandButton value="#{msgs.submitOrder}" class="btn btn-warning" style="width: 100%;margin-top: 10px"
-                                         action="#{cartBackingBean.validateCreditCardInformation()}">
+                                         action="#{cartBackingBean.validateCreditCardInformation
+                                                   (sessionScope['current_user'],
+                                                   Timestamp.valueOf(invoiceBacking.dateOfSale),
+                                                   cartBackingBean.generateTotal(),
+                                                   cartBackingBean.generateTotalTaxedSale() )}">
                         </b:commandButton>
 
                         <h:messages style="color:red;margin:8px;"/>

@@ -6,9 +6,15 @@
 package com.rimidev.backing;
 
 import com.rimidev.maxbook.controller.BookJpaController;
+import com.rimidev.maxbook.controller.InvoiceJpaController;
 import com.rimidev.maxbook.entities.Book;
 import com.rimidev.maxbook.entities.Client;
+import com.rimidev.maxbook.entities.Invoice;
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
@@ -33,6 +39,8 @@ public class CartBackingBean implements Serializable {
     private List<Book> cart;
     @Inject
     private BookJpaController bookJpaController;
+    @Inject
+    private InvoiceJpaController invoiceJpaController;
 
 
     public void addToCart(String isbn) {
@@ -106,12 +114,23 @@ public class CartBackingBean implements Serializable {
      
      public Double generateTotalTaxedSale(){
          
+         
          return Double.valueOf(String.format("%.2f", (generateTotal() + generateTaxTotal())));
      }
      
-     public String validateCreditCardInformation(){
+     public String validateCreditCardInformation(Client id, Timestamp dateSale, BigDecimal net, BigDecimal gross) throws Exception{
          
          
+         //insert invoice to database
+         Invoice i = new Invoice();
+         
+         i.setClientId(id);
+         i.setDateOfSale(new Date());
+         i.setGrossValue(gross);
+         i.setNetValue(net);
+         
+         invoiceJpaController.create(i);
+       
          
          return "invoice?faces-redirect=true";
      }

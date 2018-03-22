@@ -5,101 +5,105 @@
                 xmlns:b="http://bootsfaces.net/ui"
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    
     <ui:define name="content">
+                    <p style="text-align:center;font-size:30px;"> #{msgs.thanksOrder} </p>            
+            <p style="text-align:center;font-size:30px;"> #{msgs.invoiceForwarded}</p>
+            <p style="text-align:center;font-size:15px;"> #{sessionScope['current_user'].email} </p>
+                        <b:panel>
         <b:container>
-            <b:row>
-                <b:column span="3">
-                    <h:graphicImage value="resources/images/citrus.png" height="75"/>
-                </b:column>
-            </b:row>
-            <b:row>
-                <b:column span="3">
-                    <h:outputText value=" "/>
-                </b:column>
-            </b:row>
-            <b:row>
-                <b:column span="3">
-                    <h:outputText value="#{msgs.invoice} #{invoiceBacking.invoice.id}"/>
-                </b:column>
-            </b:row>
-            <b:row>
-                <b:column span="3">
-                    <h:outputText value="_______________"/>
-                </b:column>
-                <b:column span="3">
-                    <h:outputText value="_______________"/>
-                </b:column>
-                <b:column span="3" offset="3">
-                    <h:outputText value="_______________" />
-                </b:column> 
-            </b:row>
-            <b:row>
-                <b:column span="3">
-                    <h:outputText value="#{msgs.billingDetails}"/>
-                </b:column>
-                <b:column span="3">
-                    <h:outputText value="#{msgs.paymentInfo}"/>
-                </b:column>
-                <b:column span="3" offset="3">
-                    <h:outputText value="#{msgs.invoiceDetails}" />
-                </b:column> 
-            </b:row>
-            <b:row>
-                <b:column span="3">
-                    <h:outputText value="_______________"/>
-                </b:column>
-                <b:column span="3">
-                    <h:outputText value="_______________"/>
-                </b:column>
-                <b:column span="3" offset="3">
-                    <h:outputText value="_______________" />
-                </b:column> 
-            </b:row>
-            <b:row>
-                <b:column span="3">
-                    <h:outputText value="#{invoiceBacking.invoice.clientId.firstName}, 
-                                  #{invoiceBacking.invoice.clientId.lastName}"/>
-                </b:column>
-                <b:column span="3">
-                    <h:outputText value="#{msgs.cardName} : #{creditCardBean.name}"/>
-                    
-                </b:column>
-                <b:column span="3" offset="3">
-                    <h:outputText value="#{msgs.datePurchase} #{invoiceBacking.dateOfSale.toString()}" />
-                </b:column> 
-            </b:row>
-            <b:row>
-                <b:column span="3">
-                    <h:outputText value="#{invoiceBacking.invoice.dateOfSale.toString()}"/>
-                </b:column>
-                <b:column span="3">
-                    <h:outputText value="#{msgs.cardNumber} : #{creditCardBean.number}"/>
-                </b:column>
-                <b:column span="3" offset="3">
-                    <h:outputText value="#{msgs.pstRate} #{invoiceBacking.details.PSTrate}" />
-                </b:column> 
-            </b:row>
-            <b:row>
-                <b:column span="3">
-                    <h:outputText value="#{invoiceBacking.location}"/>
-                </b:column>
-                <b:column span="3">
-                    <h:outputText value="#{msgs.expDate} : #{creditCardBean.exp}"/>
-                </b:column>
-                <b:column span="3" offset="3">
-                    <h:outputText value="#{msgs.gstRate} #{invoiceBacking.details.GSTrate}" />
-                </b:column> 
-            </b:row>
-            <b:row>
-                <b:column span="3" offset="9">
-                    <h:outputText value="#{msgs.hstRate} #{invoiceBacking.details.HSTrate}" />
-                </b:column> 
-            </b:row>
+                <b:row>
+                    <b:column span="3">
+                        <h:graphicImage value="resources/images/citrus.png" height="75"/>
+                    </b:column>
+                </b:row>
+                <b:row>
+                    <b:column span="3">
+                        <h:outputText value=" "/>
+                    </b:column>
+                </b:row>
+                <b:row>
+                    <b:column span="3">
+                        <h:outputText value="#{msgs.invoice} #{invoiceBacking.invoice.id}"/>
+                    </b:column>
+                </b:row>
+                <b:row>
+                    <b:column span="3">
+                        <h:outputText value="_______________"/>
+                    </b:column>
+                    <b:column span="3">
+                        <h:outputText value="_______________"/>
+                    </b:column>
+                    <b:column span="3" offset="3">
+                        <h:outputText value="_______________" />
+                    </b:column> 
+                </b:row>
+                <b:row>
+                    <b:column span="3">
+                        <h:outputText value="#{msgs.billingDetails}"/>
+                    </b:column>
+                    <b:column span="3">
+                        <h:outputText value="#{msgs.paymentInfo}"/>
+                    </b:column>
+                    <b:column span="3" offset="3">
+                        <h:outputText value="#{msgs.invoiceDetails}" />
+                    </b:column> 
+                </b:row>
+                <b:row>
+                    <b:column span="3">
+                        <h:outputText value="_______________"/>
+                    </b:column>
+                    <b:column span="3">
+                        <h:outputText value="_______________"/>
+                    </b:column>
+                    <b:column span="3" offset="3">
+                        <h:outputText value="_______________" />
+                    </b:column> 
+                </b:row>
+                <b:row>
+                    <b:column span="3">
+                        <h:outputText value="#{invoiceBacking.invoice.clientId.firstName}, 
+                                      #{invoiceBacking.invoice.clientId.lastName}"/>
+                    </b:column>
+                    <b:column span="3">
+                        <h:outputText value="#{msgs.cardName} : #{creditCardBean.name}"/>
+
+                    </b:column>
+                    <b:column span="3" offset="3">
+                        <h:outputText value="#{msgs.datePurchase} #{invoiceBacking.dateOfSale.toString()}" />
+                    </b:column> 
+                </b:row>
+                <b:row>
+                    <b:column span="3">
+                        <h:outputText value="#{invoiceBacking.invoice.dateOfSale.toString()}"/>
+                    </b:column>
+                    <b:column span="3">
+                        <h:outputText value="#{msgs.cardNumber} : #{creditCardBean.number}"/>
+                    </b:column>
+                    <b:column span="3" offset="3">
+                        <h:outputText value="#{msgs.pstRate} #{invoiceBacking.details.PSTrate}" />
+                    </b:column> 
+                </b:row>
+                <b:row>
+                    <b:column span="3">
+                        <h:outputText value="#{invoiceBacking.location}"/>
+                    </b:column>
+                    <b:column span="3">
+                        <h:outputText value="#{msgs.expDate} : #{creditCardBean.exp}"/>
+                    </b:column>
+                    <b:column span="3" offset="3">
+                        <h:outputText value="#{msgs.gstRate} #{invoiceBacking.details.GSTrate}" />
+                    </b:column> 
+                </b:row>
+                <b:row>
+                    <b:column span="3" offset="9">
+                        <h:outputText value="#{msgs.hstRate} #{invoiceBacking.details.HSTrate}" />
+                    </b:column> 
+                </b:row>
         </b:container>
         <br></br>
         <br></br>
         <h:form>
-            <b:panel>
                 <b:row>
                     <b:column span="1">                           
                         <h:outputText value="#{msgs.itemNum}"/>
@@ -177,8 +181,9 @@
                         <p> $#{cartBackingBean.generateTotalTaxedSale()}</p>
                     </b:column>
                 </b:row>
-            </b:panel>
         </h:form>
+                        </b:panel>
     </ui:define>
+        
 </ui:composition>
 
