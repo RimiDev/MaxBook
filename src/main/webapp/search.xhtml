@@ -12,17 +12,15 @@
        
     <ui:define name="content">
         <div>Welcome #{user.username} to the search page!</div>
-        <h4>You searched for:  #{search.searchQuery}</h4>
+        <h4>You searched for:  #{searchBackingBean.searchCriteria}</h4>
         <br/>
-        <h4>TYPE: #{search.searchType}</h4>
-        <div> RESULT FOUND OR NOT FOUND </div>
         <p:commandLink value="Log Books" action="#{searchBackingBean.searchQuery()}"></p:commandLink>
         <br/>
         <a href="advancedSearch.xhtml">Advanced Search</a>
         <ui:repeat value="#{searchBackingBean.searchedBooks}" var="books">
-            <f:facet name="caption">
-                <h:outputText value="#{book.title}"/>
-            </f:facet>
+
+                <h:outputText value="#{books.title}"/>
+     
         </ui:repeat>
         <br/>    
     </ui:define>

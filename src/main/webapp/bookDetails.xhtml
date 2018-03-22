@@ -66,32 +66,60 @@
 
                     <h2 style="text-align:center"> Recommendations</h2>
                     <br/>
+                    
+                    <h3>Author: </h3>
+                    <ui:repeat value="#{bookDisplayBacking.getRecommendationsByAuthor(bookie.authorList)}" var="book" >
 
-<!--        <ui:repeat value="#{bookDisplayBacking.getRecsByAuthor(bookie.authorList)}" var="book">
+                        <b:column col-md="3">
 
-          <b:column col-md="3">
+                            <b:thumbnail>
 
-            <b:thumbnail>
+                                <f:facet name="caption">
+                                    <h:commandLink action="#{bookDisplayBacking.showDetails(book.isbn)}">
 
-              <b:image library="images" name="/books/#{book.isbn}.jpg"/>
+                                        <b:image library="images" name="/books/#{book.isbn}.jpg" tooltip="#{book.genre}"/>
+                                        <h:outputText value="#{book.title}"/>
+                                        <h:outputText value="#{book.isbn}"/>
+                                        
+                                    </h:commandLink>
 
-              <f:facet name="caption">
-                <b:commandLink outcome="bookDetails">
+                                    <br/>
 
-                  <h:outputText value="#{book.title}"/>
+                                    <h:outputText  value="$#{book.listPrice}"/>
+                                </f:facet>
 
-                </b:commandLink>
+                            </b:thumbnail>
 
-                <br/>
+                        </b:column>
 
-                <h:outputText  value="$#{book.listPrice}"/>
-              </f:facet>
+                    </ui:repeat>
+                    
+                    <h3>Genre: </h3>
+                    <ui:repeat value="#{bookDisplayBacking.getRecommendationsByGenre(bookie.genre)}" var="book">
 
-            </b:thumbnail>
+                        <b:column col-md="3">
 
-          </b:column>
+                            <b:thumbnail>
 
-        </ui:repeat>-->
+                                <f:facet name="caption">
+                                    <h:commandLink action="#{bookDisplayBacking.showDetails(book.isbn)}">
+
+                                        <b:image library="images" name="/books/#{book.isbn}.jpg" tooltip="#{book.genre}"/>
+                                        <h:outputText value="#{book.title}"/>
+                                        <h:outputText value="#{book.isbn}"/>
+                                        
+                                    </h:commandLink>
+
+                                    <br/>
+
+                                    <h:outputText  value="$#{book.listPrice}"/>
+                                </f:facet>
+
+                            </b:thumbnail>
+
+                        </b:column>
+
+                    </ui:repeat>
 
                 </b:panel>
             </h:form>

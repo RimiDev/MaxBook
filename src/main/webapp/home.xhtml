@@ -85,12 +85,12 @@
 
                   
                   <f:facet name="caption">
-                    <h:commandLink value="#{books.title}" action="#{bookDisplayBacking.showDetails}" >
+                    <h:commandLink  action="#{bookDisplayBacking.showDetails(book.isbn)}" >
                   <b:image library="images" name="/books/#{book.isbn}.jpg"/>
 
                       <h:outputText value="#{book.title}"/>
                       
-                      <f:param name="isbn" value="#{book.isbn}"/>
+<!--                      <f:param name="isbn" value="#{book.isbn}"/>-->
                     </h:commandLink>  
 
                     <br/>
@@ -124,18 +124,19 @@
 
             <ui:repeat value="#{homeBackingBean.recentSoldBooks}" var="book">
 
-              <b:column col-md="3">                           
+               <b:column col-md="3">                           
 
                 <b:thumbnail>
 
+                  
+                  <f:facet name="caption">
+                    <h:commandLink  action="#{bookDisplayBacking.showDetails(book.isbn)}" >
                   <b:image library="images" name="/books/#{book.isbn}.jpg"/>
 
-                  <f:facet name="caption">
-                    <b:commandLink outcome="bookDetails">
-
                       <h:outputText value="#{book.title}"/>
-
-                    </b:commandLink>
+                      
+<!--                      <f:param name="isbn" value="#{book.isbn}"/>-->
+                    </h:commandLink>  
 
                     <br/>
 

@@ -6,6 +6,7 @@ import com.rimidev.maxbook.entities.Book;
 import com.rimidev.maxbook.entities.Client;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -31,7 +32,8 @@ public class BookDisplayBacking implements Serializable {
     @Inject
     private BookJpaController bookjpaControl;
     private String isbn = "";
-    private String visibilityStyle="";
+    private Book book;
+    private String visibilityStyle = "";
 
     public String getVisibilityStyle() {
         return visibilityStyle;
@@ -49,61 +51,84 @@ public class BookDisplayBacking implements Serializable {
         this.isbn = isbn;
     }
 
-    public String showDetails() {
-        
+    public String showDetails(String isbn) {
+
         hideReview();
+        logger.log(Level.INFO, "Book Isbn before>>> " + this.isbn);
+        this.isbn = isbn;
 
-        FacesContext fc = FacesContext.getCurrentInstance();
-        Map<String, String> params = fc.getExternalContext().getRequestParameterMap();
-        isbn = params.get("isbn");
-        
-        logger.log(Level.INFO, "Book Isbn>>> " + this.isbn);
+        logger.log(Level.INFO, "Book Isbn>>> after" + this.isbn);
 
-        return "bookDetails?faces-redirect=true";
+        return "bookDetails";
     }
-    
-    public void checkBookExist(ComponentSystemEvent event){
-         //need to fix reidrect where i cant go directly to book details page
+
+    public void checkBookExist(ComponentSystemEvent event) {
+        //need to fix reidrect where i cant go directly to book details page
         logger.log(Level.INFO, "We in checkBookExist");
         logger.log(Level.INFO, "isbn " + this.isbn);
-         if(isbn == null || isbn.isEmpty()){
-             logger.log(Level.INFO, "isbn " + this.isbn);
-        
+        if (isbn == null || isbn.isEmpty()) {
+            logger.log(Level.INFO, "isbn " + this.isbn);
+
             FacesContext context = FacesContext.getCurrentInstance();
             ConfigurableNavigationHandler handler = (ConfigurableNavigationHandler) context.getApplication().getNavigationHandler();
             handler.performNavigation("404");
         }
-         
-    }
-    
 
-    public List<Book> getRecsByAuthor(List<Author> auths) {
-        
+    }
+
+    public List<Book> getRecommendationsByAuthor(List<Author> auths) {
+
         List<Integer> authIds = new ArrayList<Integer>();
         for (Author au : auths) {
             authIds.add(au.getId());
         }
-        
-        List<Book> authBooks = bookjpaControl.getBooksByAuthor(authIds, isbn);
-        
-        return authBooks;
+
+        List<Book> recBooks = bookjpaControl.getBooksByAuthor(authIds, isbn);
+
+        Collections.shuffle(recBooks);
+        if (recBooks.size() >= 4) {
+            recBooks = recBooks.subList(0, 4);
+        } else {
+            recBooks = recBooks.subList(0, recBooks.size());
+        }
+        logger.log(Level.INFO, "AUTHOR Four recs: " + recBooks);
+
+        return recBooks;
     }
 
+    public List<Book> getRecommendationsByGenre(String genre) {
+        book = bookjpaControl.findBook(isbn);
+        List<Book> recBooks = bookjpaControl.getBookByGenre(book.getGenre());
+        recBooks.remove(book);
+
+        if (recBooks.size() >= 4) {
+            recBooks = recBooks.subList(0, 4);
+        } else {
+            recBooks = recBooks.subList(0, recBooks.size());
+        }
+        logger.log(Level.INFO, "GENRE Four recs: " + recBooks);
+
+        return recBooks;
+
+    }
+
+
     public Double checkSales(int salePrice) {
+        
         return 0.0;
     }
-    
-    public void hideReview(){
-          HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+
+    public void hideReview() {
+        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
         Client curr_user = (Client) session.getAttribute("current_user");
-        
-        logger.log(Level.INFO,"Currently logged in: "+curr_user);
-        
-        if(curr_user == null){
-           visibilityStyle = "hideRevStyle";
+
+        logger.log(Level.INFO, "Currently logged in: " + curr_user);
+
+        if (curr_user == null) {
+            visibilityStyle = "hideRevStyle";
         } else {
             visibilityStyle = "";
         }
-        
+
     }
 }

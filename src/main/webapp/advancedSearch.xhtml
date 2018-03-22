@@ -129,7 +129,7 @@
               
             <br/>
 
-            <ui:repeat value="#{searchBackingBean.searchedBooks}" var="book">
+            <ui:repeat value="#{searchBackingBean.searchedBooks}" var="book" varStatus="collection">
 
 
               <b:column col-md="3">                           
@@ -139,11 +139,12 @@
 
 
                   <f:facet name="caption">
-                    <h:commandLink action="#{bookDisplayBacking.showDetails}">
+                    <h:commandLink action="#{bookDisplayBacking.showDetails(book.isbn)}">
 
                       <b:image library="images" name="/books/#{book.isbn}.jpg" tooltip="#{book.genre}"/>
                       <h:outputText value="#{book.title}"/>
-                      <f:param name="isbn" value="#{book.isbn}"/>
+                      <h:outputText value="#{book.isbn}"/>
+                      
 
                     </h:commandLink>
 

@@ -36,6 +36,7 @@ public class ManagementBacking implements Serializable {
     
     @Inject
     BookJpaController bkcon;
+    @Inject
     ReviewJpaController revcon;
     List<Book> bk;
     List<Review>rev;
@@ -75,6 +76,15 @@ public class ManagementBacking implements Serializable {
         status.add(1);
     }
 
+    public List<Review> getRev() {
+        return rev;
+    }
+
+    public void setRev(List<Review> rev) {
+        this.rev = rev;
+    }
+    
+    
     public void onRowAdd(RowEditEvent event) {
 
     }

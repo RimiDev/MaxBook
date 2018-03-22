@@ -392,23 +392,11 @@ public class BookJpaController implements Serializable {
         authBooks.setParameter("auths", authIds);
         authBooks.setParameter("bookIsbn", isbn);
 
-        logger.log(Level.INFO, "Author Books>> " + authBooks.setMaxResults(3).getResultList());
+        logger.log(Level.INFO, "Author Books>> " + authBooks.getResultList());
 
         return authBooks.getResultList();
-//
-//    List<Book> results = query.getResultList();
-//
-//    return results.get(0);
     }
-
-    public List<Book> getBooksByAuthor(List<Author> auths) {
-        return null;
-//        use bookstore_db;
-//
-//        select ab.title,ab.fullname from (select book.isbn,title, concat(first_name,' ',last_name) 
-//        as fullname from book join author_book on book.isbn = author_book.isbn join author on author.id = author_book.author_id)
-//        as ab where ab.fullname in ("Adam Gasiewski","Emily Beck");
-    }
+    
 
     /**
      * Find all books by title
@@ -438,8 +426,10 @@ public class BookJpaController implements Serializable {
 //        query.setParameter("genre", genre);
 
         List<Book> books = query.getResultList();
+        
+        logger.log(Level.INFO, "Genre Books>> " + books);
 
-        return (List<Book>) books;
+        return books;
 
     }
 
@@ -461,7 +451,7 @@ public class BookJpaController implements Serializable {
         TypedQuery<Book> searchedBooks = em.createQuery(quer, Book.class);
         searchedBooks.setParameter("crit", "%" + criteria + "%");
 
-        logger.log(Level.INFO, "Author Books>> " + searchedBooks.getResultList());
+        logger.log(Level.INFO, "Books by search criteria>> " + searchedBooks.getResultList());
         return searchedBooks.getResultList();
 
     }
