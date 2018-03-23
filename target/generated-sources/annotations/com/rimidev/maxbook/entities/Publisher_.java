@@ -6,11 +6,7 @@ import javax.persistence.metamodel.ListAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-<<<<<<< HEAD
-@Generated(value="EclipseLink-2.7.1.v20171221-rNA", date="2018-03-22T18:08:48")
-=======
-@Generated(value="EclipseLink-2.7.1.v20171221-rNA", date="2018-03-20T19:46:26")
->>>>>>> beta
+@Generated(value="EclipseLink-2.7.1.v20171221-rNA", date="2018-03-22T21:00:13")
 @StaticMetamodel(Publisher.class)
 public class Publisher_ { 
 

@@ -37,23 +37,12 @@
                                     name="en_flag.gif" style="border: 0px; margin-right: 1em"/>
                 </h:commandLink>
                 <p:outputLabel value="Welcome #{user.username}!" style="margin-right:10px"/>
-<<<<<<< HEAD
 
                 <p:inputText style="margin-right:10px; box-shadow: none" placeholder="Search" id="userSearch" value="#{searchBackingBean.searchCriteria}"/>
-
-                <b:commandButton type="Submit" value="Search" class="btn btn-success" iconAwesome="fa-search" action="#{searchBackingBean.searchBooks()}" ajax="false"/>
-                
-                <b:commandButton look="info" value="Cart" action="cart" icon-awesome="fa-shopping-cart" />
-                
-                <b:commandButton type="Submit" value="Logout" styleClass="#{loginBackingBean.styling}"
-                                 action="#{clientBackingBean.onLogout}" ajax="false"/>
-=======
-                <p:inputText style="margin-right:10px; box-shadow: none" placeholder="Search" id="userSearch" value="#{user.searched}"/>
-                <b:commandButton type="Submit" value="Search" class="btn btn-success" iconAwesome="fa-search" action="search" ajax="false"/>                
+                <b:commandButton type="Submit" value="Search" class="btn btn-success" iconAwesome="fa-search" action="#{searchBackingBean.searchBooks()}" ajax="false"/>             
                 <b:commandButton look="info" value="Cart" action="cart?faces-redirect=true" icon-awesome="fa-shopping-cart" />               
                 <b:commandButton type="Submit" class="btn btn-warning" value="#{loginBackingBean.styling}"
                                  action="#{loginBackingBean.onLogout}" ajax="false"/>
->>>>>>> beta
             </f:facet>
         </p:menubar>
     </h:form>

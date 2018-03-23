@@ -40,9 +40,10 @@ public class ManagementBacking implements Serializable {
     BookJpaController bkcon;
     @Inject
     ReviewJpaController revcon;
-    List<Book> bk;
-    List<Review>rev;
-    List<Integer> status;
+    private List<Book> bk;
+    private List<Review>rev;
+    private List<Integer> status;
+    private List<String> revStatuses;
 //    private String message;
 //
 //    public String getMessage() {
@@ -73,6 +74,10 @@ public class ManagementBacking implements Serializable {
         bk = bkcon.findBookEntities();
         rev = revcon.findReviewEntities();
         
+        revStatuses = new ArrayList<String>();
+        revStatuses.add("Pending");
+        revStatuses.add("Approved");
+        
         status = new ArrayList<Integer>();
         status.add(0);
         status.add(1);
@@ -85,8 +90,7 @@ public class ManagementBacking implements Serializable {
     public void setRev(List<Review> rev) {
         this.rev = rev;
     }
-    
-    
+
     public void onRowAdd(RowEditEvent event) throws Exception {
         Book newBook = (Book) event.getObject();
         bkcon.create(newBook);
@@ -102,6 +106,14 @@ public class ManagementBacking implements Serializable {
         FacesContext.getCurrentInstance().addMessage(null, msg);
 
     }
+    
+     public void onReviewRowEdit(RowEditEvent event) throws Exception {
+        Review approvedReview = (Review) event.getObject();
+        revcon.edit(approvedReview);
+        FacesMessage msg = new FacesMessage("Review Edited", "Review #"+((Review) event.getObject()).getId());
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+
+    }
 
     public void onRowRemove(RowEditEvent event) {
 
@@ -109,6 +121,11 @@ public class ManagementBacking implements Serializable {
 
     public void onRowCancel(RowEditEvent event) {
         FacesMessage msg = new FacesMessage("Edit Cancelled", ((Book) event.getObject()).getIsbn());
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+    
+      public void onReviewRowCancel(RowEditEvent event) {
+        FacesMessage msg = new FacesMessage("Edit Cancelled", "Review #"+((Review) event.getObject()).getId());
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
@@ -130,6 +147,11 @@ public class ManagementBacking implements Serializable {
         return status;
     }
     
+     public List<String> getRevStatuses() {
+        logger.log(Level.SEVERE, "Loading status options");
+        return revStatuses;
+    }
+    
     public String checkStat(Integer stat){
         if(stat.equals(1)){
             return "Unavailable";
@@ -137,4 +159,6 @@ public class ManagementBacking implements Serializable {
         
         return "Available";
     }
+    
+    
 }
