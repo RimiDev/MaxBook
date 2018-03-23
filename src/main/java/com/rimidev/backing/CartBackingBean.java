@@ -182,6 +182,7 @@ public class CartBackingBean implements Serializable {
             session.setAttribute("cartItems", new ArrayList<Book>());
             
         }
+        
 
         return "invoice?faces-redirect=true";
     }
@@ -233,8 +234,7 @@ public class CartBackingBean implements Serializable {
           return "login?faces-redirect=true";
         }
         
-        InvoicePageBackingBean i = new InvoicePageBackingBean();
-        i.perform();
+        
         
         List<Book> sCart = (List<Book>) session.getAttribute("cartItems");        
         

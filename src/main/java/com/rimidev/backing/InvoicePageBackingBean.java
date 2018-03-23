@@ -36,6 +36,7 @@ import jodd.mail.ReceivedEmail;
 import jodd.mail.SendMailSession;
 import jodd.mail.SmtpServer;
 import jodd.mail.SmtpSslServer;
+import org.jsoup.Jsoup;
 
 /**
  *
@@ -247,6 +248,8 @@ public class InvoicePageBackingBean implements Serializable{
         in.close();
 
         return response.toString();
+
+//        return Jsoup.connect("http://localhost:8080/MaxBook/invoice.xhtml").get().toString();
       
       
     }
