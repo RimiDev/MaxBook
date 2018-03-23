@@ -13,7 +13,6 @@ import javax.persistence.criteria.Root;
 import com.rimidev.maxbook.entities.Publisher;
 import com.rimidev.maxbook.entities.Author;
 import com.rimidev.maxbook.entities.Book;
-import com.rimidev.maxbook.entities.Book_Sale;
 import java.util.ArrayList;
 import java.util.List;
 import com.rimidev.maxbook.entities.InvoiceDetails;
@@ -456,14 +455,20 @@ public class BookJpaController implements Serializable {
 
     }
 
-    public List<Book_Sale> getTotalSold(String isbn) {
-//        logger.log(Level.INFO,"");
-        String query = "Select bk,COUNT(inv.isbn) from Book bk INNER JOIN invoiceDetails inv WHERE "
-                + "inv.isbn=:luIsbn GROUP BY inv.isbn";
-        TypedQuery<Book_Sale> totalSold = em.createQuery(query, Book_Sale.class);
+    public Long getTotalSold(String isbn) {
+        logger.log(Level.INFO," IN Total sold "+isbn);
+        
+        String query = "Select COUNT(inv.isbn) FROM InvoiceDetails inv WHERE inv.isbn.isbn=:luIsbn GROUP BY inv.isbn";
+        TypedQuery<Long> totalSold = em.createQuery(query, Long.class);
         totalSold.setParameter("luIsbn", isbn);
-
-        return totalSold.getResultList();
+        
+        
+        if(totalSold.getResultList() == null || totalSold.getResultList().isEmpty()){
+            logger.log(Level.INFO,"List empty");
+            return (long) 0;
+        }
+        logger.log(Level.INFO,"Total sold "+totalSold.getResultList().get(0));
+        return totalSold.getResultList().get(0);
     }
 
 }

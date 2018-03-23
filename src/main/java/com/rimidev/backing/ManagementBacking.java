@@ -44,6 +44,7 @@ public class ManagementBacking implements Serializable {
     private List<Review>rev;
     private List<Integer> status;
     private List<String> revStatuses;
+    private Object selected;
 //    private String message;
 //
 //    public String getMessage() {
@@ -94,7 +95,7 @@ public class ManagementBacking implements Serializable {
     public void onRowAdd(RowEditEvent event) throws Exception {
         Book newBook = (Book) event.getObject();
         bkcon.create(newBook);
-         FacesMessage msg = new FacesMessage("Book Created", String.valueOf(newBook));
+        FacesMessage msg = new FacesMessage("new Book");
         FacesContext.getCurrentInstance().addMessage(null, msg);       
     }
 
@@ -115,8 +116,9 @@ public class ManagementBacking implements Serializable {
 
     }
 
-    public void onRowRemove(RowEditEvent event) {
-
+    public void onRowRemove(String isbn) throws Exception {
+        bkcon.destroy(isbn);
+        bk = bkcon.findBookEntities();
     }
 
     public void onRowCancel(RowEditEvent event) {
@@ -150,6 +152,19 @@ public class ManagementBacking implements Serializable {
      public List<String> getRevStatuses() {
         logger.log(Level.SEVERE, "Loading status options");
         return revStatuses;
+    }
+
+    public Object getSelected() {
+        return selected;
+    }
+
+    public void setSelected(Object selected) {
+        this.selected = selected;
+    }
+     
+    public void deleteItem() throws Exception {
+        bkcon.destroy(((Book)selected).getIsbn());
+        selected = null;
     }
     
     public String checkStat(Integer stat){
