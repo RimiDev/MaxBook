@@ -6,9 +6,11 @@
 package com.rimidev.backing;
 
 import com.rimidev.maxbook.controller.BookJpaController;
+import com.rimidev.maxbook.controller.ClientJpaController;
 import com.rimidev.maxbook.controller.exceptions.NonexistentEntityException;
 import com.rimidev.maxbook.controller.exceptions.RollbackFailureException;
 import com.rimidev.maxbook.entities.Book;
+import com.rimidev.maxbook.entities.Client;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,12 +34,17 @@ import org.primefaces.event.RowEditEvent;
 @SessionScoped
 public class ManagementBacking implements Serializable {
 
-     private Logger logger = Logger.getLogger(BookDisplayBacking.class.getName());
-    
-    @Inject
-    BookJpaController bkcon;
-    List<Book> bk;
-    List<Integer> status;
+  private Logger logger = Logger.getLogger(BookDisplayBacking.class.getName());
+
+  @Inject
+  BookJpaController bkcon;
+  List<Book> bk;
+
+  @Inject
+  ClientJpaController clientJpaController;
+  List<Client> clients;
+
+  List<Integer> status;
 //    private String message;
 //
 //    public String getMessage() {
@@ -55,70 +62,97 @@ public class ManagementBacking implements Serializable {
 //        context.addMessage(null, new FacesMessage("Second Message", "Additional Message Detail"));
 //    }
 
-    public List<Book> getBk() {
-        return bk;
+  public List<Client> getClients() {
+    if (clients == null) {
+      clients = clientJpaController.findClientEntities();
+    }
+    return clients;
+  }
+
+  public void setClients(List<Client> clients) {
+    this.clients = clients;
+  }
+
+  public List<Book> getBk() {
+    return bk;
+  }
+
+  public void setBk(List<Book> bk) {
+    this.bk = bk;
+  }
+
+  @PostConstruct
+  public void init() {
+    bk = bkcon.findBookEntities();
+    clients = clientJpaController.findClientEntities();
+    status = new ArrayList<Integer>();
+    status.add(0);
+    status.add(1);
+  }
+
+  public void onRowAdd(RowEditEvent event) throws Exception {
+    Book newBook = (Book) event.getObject();
+    bkcon.create(newBook);
+    FacesMessage msg = new FacesMessage("Book Created", String.valueOf(newBook));
+    FacesContext.getCurrentInstance().addMessage(null, msg);
+  }
+
+  public void onRowEdit(RowEditEvent event) throws Exception {
+
+    if (event.getObject() instanceof Client) {
+      editClient((Client) event.getObject());
+    } else if (event.getObject() instanceof Book) {
+      Book editedBook = (Book) event.getObject();
+      bkcon.edit(editedBook);
+      FacesMessage msg = new FacesMessage("Book Edited", String.valueOf(editedBook));
+      FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
-    public void setBk(List<Book> bk) {
-        this.bk = bk;
+  }
+
+  public void onRowRemove(RowEditEvent event) {
+
+  }
+
+  public void onRowCancel(RowEditEvent event) {
+    FacesMessage msg = new FacesMessage("Edit Cancelled", ((Book) event.getObject()).getIsbn());
+    FacesContext.getCurrentInstance().addMessage(null, msg);
+  }
+
+  public void onCellEdit(CellEditEvent event) {
+    Object oldValue = event.getOldValue();
+    Object newValue = event.getNewValue();
+
+    if (newValue != null && !newValue.equals(oldValue)) {
+
+    }
+  }
+
+  public void newLine(ActionEvent actionEvent) {
+    this.bk.add(new Book());
+    logger.log(Level.WARNING, "<<Book Inventory List: >>" + bk.get(bk.size() - 1));
+  }
+
+  public List<Integer> getStatus() {
+    return status;
+  }
+
+  public String checkStat(Integer stat) {
+    if (stat.equals(1)) {
+      return "Unavailable";
     }
 
-    @PostConstruct
-    public void init() {
-        bk = bkcon.findBookEntities();
-        status = new ArrayList<Integer>();
-        status.add(0);
-        status.add(1);
-    }
+    return "Available";
+  }
 
-    public void onRowAdd(RowEditEvent event) throws Exception {
-        Book newBook = (Book) event.getObject();
-        bkcon.create(newBook);
-         FacesMessage msg = new FacesMessage("Book Created", String.valueOf(newBook));
-        FacesContext.getCurrentInstance().addMessage(null, msg);       
-    }
-
+  /**
+   * client management
+   */
+  private void editClient(Client c)throws Exception {
     
-    public void onRowEdit(RowEditEvent event) throws Exception {
-        Book editedBook = (Book) event.getObject();
-        bkcon.edit(editedBook);
-        FacesMessage msg = new FacesMessage("Book Edited", String.valueOf(editedBook));
-        FacesContext.getCurrentInstance().addMessage(null, msg);
+      clientJpaController.edit(c);
+      FacesMessage msg = new FacesMessage("Client Edited", String.valueOf(c));
+      FacesContext.getCurrentInstance().addMessage(null, msg);
+  }
 
-    }
-
-    public void onRowRemove(RowEditEvent event) {
-
-    }
-
-    public void onRowCancel(RowEditEvent event) {
-        FacesMessage msg = new FacesMessage("Edit Cancelled", ((Book) event.getObject()).getIsbn());
-        FacesContext.getCurrentInstance().addMessage(null, msg);
-    }
-
-    public void onCellEdit(CellEditEvent event) {
-        Object oldValue = event.getOldValue();
-        Object newValue = event.getNewValue();
-
-        if (newValue != null && !newValue.equals(oldValue)) {
-
-        }
-    }
-    
-    public void newLine(ActionEvent actionEvent){
-        this.bk.add(new Book());
-        logger.log(Level.WARNING, "<<Book Inventory List: >>"+bk.get(bk.size()-1));
-    }
-    
-    public List<Integer> getStatus(){
-        return status;
-    }
-    
-    public String checkStat(Integer stat){
-        if(stat.equals(1)){
-            return "Unavailable";
-        }
-        
-        return "Available";
-    }
 }
