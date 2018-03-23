@@ -71,8 +71,12 @@ public class CartBackingBean implements Serializable {
 
     public void addToCart(String isbn) {
         HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-
+        
         cart = (List<Book>) session.getAttribute("cartItems");
+        if (cart == null){
+          session.setAttribute("cartItems", new ArrayList<Book>());
+          cart = (List<Book>) session.getAttribute("cartItems");
+        }
         Book book = bookJpaController.findBook(isbn);
         Boolean bookAlreadyInCart = false;
 
@@ -142,11 +146,11 @@ public class CartBackingBean implements Serializable {
     }
 
     public String validateCreditCardInformation(Client id, Timestamp dateSale, BigDecimal net, BigDecimal gross,
-                                                                                  List<Book> books, String country) throws Exception {
+                  List<Book> books, String country) throws Exception {
 
         //insert invoice to database
         Invoice inv = new Invoice();
-
+        
         inv.setClientId(id);
         inv.setDateOfSale(new Date());
         inv.setGrossValue(gross);
@@ -221,9 +225,17 @@ public class CartBackingBean implements Serializable {
         return Double.valueOf(String.format("%.2f", (generateTotal() * hstRate)));
     }
     
-    public String emptyCartIntoCartVar() {
+    public String emptyCartIntoCartVar() throws Exception {
         
         HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+        Client user = (Client) session.getAttribute("current_user");
+        if (user == null){
+          return "login?faces-redirect=true";
+        }
+        
+        InvoicePageBackingBean i = new InvoicePageBackingBean();
+        i.perform();
+        
         List<Book> sCart = (List<Book>) session.getAttribute("cartItems");        
         
         this.cart = sCart;
