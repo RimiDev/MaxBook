@@ -9,67 +9,55 @@
     <ui:define name="content">
         <h:form>
             <div class="container">
-
                 <table id="cart" class="table table-hover table-condensed">
                     <thead>
                         <tr>
-                            <th style="width:50%">Cart</th>
-                            <th style="width:10%">Price</th>
-
-                            <th style="width:40%" class="text-center">Subtotal</th>
-
+                            <th style="width:50%">#{msgs.cart}</th>
+                            <th style="width:10%">#{msgs.price}</th>
+                            <th style="width:40%" class="text-center">#{msgs.subTotal}</th>
                         </tr>
                     </thead>
-
-
                     <ui:repeat var="b" value="#{sessionScope['cartItems']}" varStatus="index">
                         <tbody>
-
                             <tr>
-                                <td data-th="Product">
+                                <td data-th="#{msgs.product}">
                                     <div class="row">
                                         <div class="col-sm-2 hidden-xs">
                                             <b:image library="images" name="/books/#{b.isbn}.jpg" tooltip="#{book.genre}" style="width:80px;height:80px;"/>
                                         </div>
-                                                     <div class="col-sm-10">
-                                                    <h4 class="nomargin"></h4>
-                                                    <h:outputText value="#{b.title}" /> 
-
-                                                </div>
+                                        <div class="col-sm-10">
+                                            <h4 class="nomargin"></h4>
+                                            <h:outputText value="#{b.title}" /> 
                                         </div>
+                                    </div>
                                 </td>
-                                <td data-th="Price" value="">
+                                <td data-th="#{msgs.price}">
                                     <div class="col-sm-10">
                                         <h4 class="nomargin"></h4>
                                         <h:outputText value="#{b.salePrice}" /> 
 
                                     </div>
                                 </td>
-
-                                <td data-th="Subtotal" class="text-center"></td>
+                                <td data-th="#{msgs.subTotal}" class="text-center"></td>
                                 <td class="actions" data-th="">
                                     <b:commandButton  
-                                        action="#{cartBackingBean.removeFromCart(b.isbn)}" value="Remove" ajax="false" />
-
+                                        action="#{cartBackingBean.removeFromCart(b.isbn)}" value="#{msgs.remove}" ajax="false" />
                                 </td>
-
                             </tr>
                         </tbody>
-
                     </ui:repeat>
                     <tfoot>
                         <tr class="visible-xs">
                             <td class="text-center"><strong>#{cartbackingBean.generateTotal()}</strong></td>
                         </tr>
                         <tr>
-                            <td><a href="javascript:history.back()" class="btn btn-warning"><i class="fa fa-angle-left"></i> Continue Shopping</a></td>
+                            <td><a href="javascript:history.back()" class="btn btn-warning"><i class="fa fa-angle-left"></i>#{msgs.continueShopping}</a></td>
                             <td colspan="2" class="hidden-xs"></td>
-                            <td class="hidden-xs text-center"><p><strong>Total: $#{cartBackingBean.generateTotal()}</strong></p></td>
+                            <td class="hidden-xs text-center"><p><strong>#{msgs.total} $#{cartBackingBean.generateTotal()}</strong></p></td>
                             <td>
                                 <b:commandButton
                                     class="btn btn-success btn-block"
-                                    action="#{cartBackingBean.emptyCartIntoCartVar}" value="Checkout" ></b:commandButton>
-
+                                    action="#{cartBackingBean.emptyCartIntoCartVar}" value="#{msgs.checkout}" ></b:commandButton>
                             </td>
                         </tr>
                     </tfoot>
@@ -77,7 +65,4 @@
             </div>
         </h:form>    
     </ui:define>
-
-
-
 </ui:composition>
