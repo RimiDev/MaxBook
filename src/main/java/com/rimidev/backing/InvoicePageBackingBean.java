@@ -57,7 +57,15 @@ public class InvoicePageBackingBean implements Serializable{
     private InvoiceDetailsJpaController invoiceDetailsController;
     @Inject
     private ClientJpaController clientController;
-    
+    private String markup;
+
+  public String getMarkup() {
+    return markup;
+  }
+
+  public void setMarkup(String markup) {
+    this.markup = markup;
+  }
     private Invoice invoice;
     private InvoiceDetails details;
     // These must be updated to your email accounts
@@ -128,9 +136,10 @@ public class InvoicePageBackingBean implements Serializable{
     /**
      * This method is where the different uses of Jodd are exercised
      */
-    public void perform() throws Exception {
+    public String perform() throws Exception {
         // Send an ordinary text message
-        sendWithEmbeddedAndAttachment();
+         log.info("MARKUP>>>>>>>>" + markup);
+        sendWithEmbeddedAndAttachment(markup);
 
         try {
             Thread.sleep(2000);
@@ -140,6 +149,7 @@ public class InvoicePageBackingBean implements Serializable{
         }
         // Receive all email
         receiveEmail();
+        return "home?faces-redirect=true";
     }
 
     /**
@@ -208,7 +218,7 @@ public class InvoicePageBackingBean implements Serializable{
      *
      * @throws Exception In case we don't find the file to attach/embed
      */
-    public void sendWithEmbeddedAndAttachment() throws Exception {
+    public void sendWithEmbeddedAndAttachment(String page) throws Exception {
 
         // Create am SMTP server object
         SmtpServer<SmtpSslServer> smtpServer = SmtpSslServer
@@ -220,10 +230,10 @@ public class InvoicePageBackingBean implements Serializable{
         // Using the fluent style of coding create an html message
         Email email = Email.create().from(emailSend)
                 .to(emailReceive)
-                .subject("Test With Attachments")
-                .addText("Plain text Hello for Email clients that only handle "
-                        + "plain text!")
-                .addHtml(convertHtmlToString());
+                
+                .subject("Invoice")
+                .addText("Invoice")
+                .addHtml(markup);
                 
 
         // A session is the object responsible for communicating with the server
