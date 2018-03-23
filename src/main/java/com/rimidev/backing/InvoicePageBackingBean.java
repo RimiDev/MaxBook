@@ -63,9 +63,9 @@ public class InvoicePageBackingBean implements Serializable{
     private final String smtpServerName = "smtp.gmail.com";
     private final String imapServerName = "imap.gmail.com";
     private final String emailSend = "hues.business@gmail.com";
-    private final String emailSendPwd = "#Gmailpassword992";
+    private final String emailSendPwd = "somepassword";
     private final String emailReceive = "hues.business@gmail.com";
-    private final String emailReceivePwd = "#Gmailpassword992";
+    private final String emailReceivePwd = "somepassword";
     
 
     // You will need a folder with this name or change it to another
