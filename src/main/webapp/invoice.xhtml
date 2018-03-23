@@ -6,16 +6,18 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
-  <ui:define name="content">
+  <ui:define name="content" >
 
     <p style="text-align:center;font-size:30px;"> #{msgs.thanksOrder} </p>            
     <p style="text-align:center;font-size:30px;"> #{msgs.invoiceForwarded}</p>
     <p style="text-align:center;font-size:15px;"> #{sessionScope['current_user'].email} </p>
-    <h:form>
+<!--    <h:form>
+      
+      
       <b:commandButton value="Email Invoice" class="btn btn-warning" style="width: 100%;margin-top: 10px"
                        action="#{invoiceBacking.perform}">
       </b:commandButton>
-    </h:form>
+    </h:form>-->
     <b:panel>
       <b:container>
         <b:row>
@@ -189,6 +191,23 @@
         </b:row>
       </h:form>
     </b:panel>
+    
+    <h:form id="markupFormId">
+    
+   
+    <script >
+      function getMarkup(){
+        
+        var markup = document.getElementById('content').outerHTML.toString();
+        document.getElementById("markupFormId:hiddenInputInvoice").value = markup;
+        
+      }
+      </script>
+       <h:inputHidden id="hiddenInputInvoice" value="#{invoiceBacking.markup}" />
+    <h:commandButton value="submit" 
+                     onclick="getMarkup()" action="#{invoiceBacking.perform}" />
+</h:form>
+    
   </ui:define>
 
 </ui:composition>
