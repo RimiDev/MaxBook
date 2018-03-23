@@ -25,7 +25,7 @@
             <div>
                 <div class="ui-g">
                     <div class="ui-g-4"></div>
-                    <div class="ui-g-4"><h3 style="text-align: center;">Top Selling Books</h3></div>
+                    <div class="ui-g-4"><h3 style="text-align: center;"><h:outputText value="#{msgs.bestSellingBook}"/></h3></div>
                     <div class="ui-g-4"></div>
                 </div>
                 <p:ring id="topBooks" value="#{homeBackingBean.topSellingBooks}" var="book" styleClass="image-ring" easing="easeInOutBack" style="width: 50%">
@@ -52,7 +52,7 @@
             <div>
                 <div class="ui-g">
                     <div class="ui-g-4"></div>
-                    <div class="ui-g-4"><h3 style="text-align: center;">Recently Sold Books</h3></div>
+                    <div class="ui-g-4"><h3 style="text-align: center;"><h:outputText value="#{msgs.recentSoldBook}"/></h3></div>
                     <div class="ui-g-4"></div>
                 </div>
                 <p:ring id="recentBooks" value="#{homeBackingBean.recentSoldBooks}" var="book" styleClass="image-ring" easing="easeInOutBack" style="width: 50%">
