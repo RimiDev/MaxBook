@@ -18,10 +18,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.File;
 import java.util.List;
-
 import javax.mail.Flags;
-
-
 import jodd.mail.Email;
 import jodd.mail.EmailAddress;
 import jodd.mail.EmailAttachment;
@@ -33,8 +30,6 @@ import jodd.mail.ReceivedEmail;
 import jodd.mail.SendMailSession;
 import jodd.mail.SmtpServer;
 import jodd.mail.SmtpSslServer;
-
-
 
 /**
  *

@@ -4,145 +4,82 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:b="http://bootsfaces.net/ui"
                 xmlns:p="http://primefaces.org/ui"
-                xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
-
-    <ui:define name="content">            
-
-        <!--MAIN HOME PAGE-->
-
-        <div class="container-fluid">
-            <div class="col-sm-2">
-
-                <h:form>
-
-
-
-                    <ui:repeat value="#{adsJpaController.allAds}" var="adv">
-
-                        <b:column col-md="12">
-
-                            <b:thumbnail>
-
-                                <a href="#{adv.siteLink}">
-                                    <b:image style="margin-left:0;" library="images" name="ads/#{adv.imageName}"/>
-                                </a>
-
-                            </b:thumbnail>
-
-                        </b:column>
-
-
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets">    
+    <ui:define name="title">Home</ui:define>
+    <ui:define name="css">
+    </ui:define>
+    <ui:define name="content">
+        <h:form id="form">
+            <div>
+                <div class="ui-g">
+                    <div class="ui-g-3"></div>
+                    <ui:repeat value="#{adsJpaController.getFrontAds()}" var="adv">
+                        <div class="ui-g-4">
+                            <a href="#{adv.siteLink}">
+                                <b:image library="images" name="ads/#{adv.imageName}" styleClass="adImage"/>
+                            </a>
+                        </div>
                     </ui:repeat>
-
-
-
-                </h:form>  
-
-
-
+                </div>
             </div>
-            <div class="col-sm-8">
-
-                <!--Top selling books-->
-
-                <h:form>
-
-                    <b:panel>
-
-                        <h2 style="text-align:center">#{msgs.bestSellingBook} </h2>
-                        <br/>
-
-                        <ui:repeat value="#{homeBackingBean.topSellingBooks}" var="book">
-
-                            <b:column col-md="3">                           
-
-                                <b:thumbnail style="height:400px;">
-
-
-                                    <f:facet name="caption">
-                                        <h:commandLink value="#{books.title}" action="#{bookDisplayBacking.showDetails}" >
-                                            <b:image tooltip="#{book.genre}" style="height:250px;width:200px;" library="images" name="/books/#{book.isbn}.jpg"/>
-
-                                            <h:outputText value="#{book.title}"/>
-
-                                            <f:param name="isbn" value="#{book.isbn}"/>
-                                        </h:commandLink>  
-
-                                        <br/>
-
-                                        <h:outputText  value="$#{book.listPrice}"/>
-                                        <br/>
-                                        <ui:repeat value="#{searchBackingBean.getFullName(book)}" var="authors">
-                                            <h:outputText value="#{authors}"/>
-                                            <br/>
-                                        </ui:repeat>
-                                    </f:facet>
-
-                                </b:thumbnail>
-
-                            </b:column>
-
-                        </ui:repeat>
-
-                    </b:panel>
-
-                </h:form>
-
-
-                <br/>
-                <br/>
-
-
-                <!--Top selling books-->
-
-                <h:form>
-
-                    <b:panel>
-
-                        <h2 style="text-align:center"> #{msgs.recentSoldBook} </h2>
-                        <br/>
-
-                        <ui:repeat value="#{homeBackingBean.recentSoldBooks}" var="book">
-
-                            <b:column col-md="3">                           
-
-                                <b:thumbnail style="height:400px;">
-
-                                    <f:facet name="caption">
-                                        <h:commandLink value="#{books.title}" action="#{bookDisplayBacking.showDetails}" >
-                                            <b:image tooltip="#{book.genre}" style="height:200px;width:200px;" library="images" name="/books/#{book.isbn}.jpg"/>
-
-                                            <h:outputText value="#{book.title}"/>
-                                            <f:param name="isbn" value="#{book.isbn}"/>
-
-
-                                        </h:commandLink>
-
-                                        <br/>
-
-                                        <h:outputText  value="$#{book.listPrice}"/>
-                                        <br/>
-                                        <ui:repeat value="#{searchBackingBean.getFullName(book)}" var="authors">
-                                            <h:outputText value="#{authors}"/>
-                                            <br/>
-                                        </ui:repeat>
-                                    </f:facet>
-
-                                </b:thumbnail>
-
-                            </b:column>
-
-                        </ui:repeat>
-
-                    </b:panel>
-
-                </h:form>
-
+            <div>
+                <div class="ui-g">
+                    <div class="ui-g-4"></div>
+                    <div class="ui-g-4"><h3 style="text-align: center;">Top Selling Books</h3></div>
+                    <div class="ui-g-4"></div>
+                </div>
+                <p:ring id="topBooks" value="#{homeBackingBean.topSellingBooks}" var="book" styleClass="image-ring" easing="easeInOutBack" style="width: 50%">
+                    <p:graphicImage id="img" library="images" name="/books/#{book.isbn}.jpg" styleClass="ringimg"/>
+                    <h:commandLink value="#{books.title}" action="#{bookDisplayBacking.showDetails}" >
+                        <p:button icon="ui-icon-search"/>
+                        <f:param name="isbn" value="#{book.isbn}"/>
+                    </h:commandLink>
+                </p:ring>
             </div>
-
-
-
-            <div class="col-sm-2">
+            <br/><br/><br/><br/><br/><br/><br/><br/>
+            <div>
+                <div class="ui-g">
+                    <div class="ui-g-2"></div>
+                    <ui:repeat value="#{adsJpaController.getBackAds()}" var="adv">
+                        <div class="ui-g-3">
+                            <a href="#{adv.siteLink}">
+                                <b:image library="images" name="ads/#{adv.imageName}" styleClass="adImage"/>
+                            </a>
+                        </div>
+                    </ui:repeat>
+                </div>
+            </div>
+            <div>
+                <div class="ui-g">
+                    <div class="ui-g-4"></div>
+                    <div class="ui-g-4"><h3 style="text-align: center;">Recently Sold Books</h3></div>
+                    <div class="ui-g-4"></div>
+                </div>
+                <p:ring id="recentBooks" value="#{homeBackingBean.recentSoldBooks}" var="book" styleClass="image-ring" easing="easeInOutBack" style="width: 50%">
+                    <p:graphicImage id="img" library="images" name="/books/#{book.isbn}.jpg" styleClass="ringimg"/>
+                    <h:commandLink value="#{books.title}" action="#{bookDisplayBacking.showDetails}" >
+                        <p:button icon="ui-icon-search"/>
+                        <f:param name="isbn" value="#{book.isbn}"/>
+                    </h:commandLink>
+                </p:ring>
+            </div>
+        </h:form>
+        <br/><br/><br/><br/><br/><br/><br/><br/>
+        <div class="ui-g">
+            <div class="ui-g-4"></div>
+            <div class="ui-g-4">
+                <p:scrollPanel style="width:100%;height:300px;">
+                    <p:feedReader value="http://rss.cbc.ca/lineup/topstories.xml" var="feed" size="5">
+                        <h:outputText value="#{feed.title}" style="font-weight: bold;display:block"/>
+                        <h:outputText value="#{feed.description.value}" escape="false"/>
+                        <p:separator />
+                    </p:feedReader>
+                </p:scrollPanel>
+            </div>
+            <div class="ui-g-4"></div>
+        </div>
+        <b:row>
+            <b:panel col-sm="4" offset="4" style="text-align: center">
                 <h:form id="surveyForm"> 
                     <b:label value="#{surveyBacking.survey.question}" />
                     <b:radiobutton value="#{surveyBacking.answer}" required="true">
@@ -155,9 +92,7 @@
                         <f:ajax execute="@form" render=":surveyForm"/>
                     </b:commandButton>
                 </h:form>
-            </div>
-        </div>
-
+            </b:panel>
+        </b:row>
     </ui:define>
-
 </ui:composition>
