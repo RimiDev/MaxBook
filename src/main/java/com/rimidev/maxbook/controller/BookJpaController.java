@@ -13,6 +13,7 @@ import javax.persistence.criteria.Root;
 import com.rimidev.maxbook.entities.Publisher;
 import com.rimidev.maxbook.entities.Author;
 import com.rimidev.maxbook.entities.Book;
+import com.rimidev.maxbook.entities.Book_Sale;
 import java.util.ArrayList;
 import java.util.List;
 import com.rimidev.maxbook.entities.InvoiceDetails;
@@ -396,7 +397,6 @@ public class BookJpaController implements Serializable {
 
         return authBooks.getResultList();
     }
-    
 
     /**
      * Find all books by title
@@ -426,7 +426,7 @@ public class BookJpaController implements Serializable {
 //        query.setParameter("genre", genre);
 
         List<Book> books = query.getResultList();
-        
+
         logger.log(Level.INFO, "Genre Books>> " + books);
 
         return books;
@@ -456,5 +456,14 @@ public class BookJpaController implements Serializable {
 
     }
 
+    public List<Book_Sale> getTotalSold(String isbn) {
+//        logger.log(Level.INFO,"");
+        String query = "Select bk,COUNT(inv.isbn) from Book bk INNER JOIN invoiceDetails inv WHERE "
+                + "inv.isbn=:luIsbn GROUP BY inv.isbn";
+        TypedQuery<Book_Sale> totalSold = em.createQuery(query, Book_Sale.class);
+        totalSold.setParameter("luIsbn", isbn);
+
+        return totalSold.getResultList();
+    }
 
 }
