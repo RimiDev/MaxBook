@@ -12,203 +12,203 @@
         <title>#{msgs.signUpTitle}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     </h:head>
-    
-    
-    
+
+
+
     <h:body>
-        
-                <!---//START OF MENUS//-->
-        
+
+        <!---//START OF MENUS//-->
+
         <!--MENU BAR-->
-        
-       <h:form id="menuBar">
-        
-        <p:menubar>
-            <p:menuitem value="MaxBook" url="/home.xhtml"/>
+
+        <h:form id="menuBar">
+
+            <p:menubar>
+                <p:menuitem value="MaxBook" url="/home.xhtml"/>
                 <p:submenu label="Bookstore" icon="ui-icon-document">
                     <p:menuitem value="All books" url="/all_books.xhtml" />
-                      <p:separator />
-                        <p:submenu label="Genre" icon="ui-icon-contact">
+                    <p:separator />
+                    <p:submenu label="Genre" icon="ui-icon-contact">
                         <p:menuitem value="Adventure" url="#" />
                         <p:menuitem value="Science Fiction" url="#" />
                         <p:menuitem value="Romance" url="#" />
                         <p:menuitem value="Other" url="#" />
                     </p:submenu>
-                        <p:submenu label="Year" icon="ui-icon-contact">
+                    <p:submenu label="Year" icon="ui-icon-contact">
                         <p:menuitem value="2017" url="#" />
                         <p:menuitem value="2016" url="#" />
-                        </p:submenu>
+                    </p:submenu>
                 </p:submenu>
-            <p:menuitem value="Search" url="/search.xhtml"/>
+                <p:menuitem value="Search" url="/search.xhtml"/>
 
-        <f:facet name="options">
-            <p:outputLabel value="Welcome #{user.username}!" style="margin-right:10px"/>
-            <p:inputText style="margin-right:10px" placeholder="Search" id="userSearch" value="#{user.searched}"/>
-            <p:commandButton type="Submit" value="Search" icon="/resources/images/search.png" action="search" ajax="false"/>
-            <p:commandButton type="Submit" value="Login" icon="ui-icon-extlink" action="login" ajax="false"/>
-            <p:commandButton type="button" value="Logout" icon="ui-icon-extlink" />
-        </f:facet>
-        </p:menubar>
-            
-       </h:form>
-           
+                <f:facet name="options">
+                    <p:outputLabel value="Welcome #{user.username}!" style="margin-right:10px"/>
+                    <p:inputText style="margin-right:10px" placeholder="Search" id="userSearch" value="#{user.searched}"/>
+                    <p:commandButton type="Submit" value="Search" icon="/resources/images/search.png" action="search" ajax="false"/>
+                    <p:commandButton type="Submit" value="Login" icon="ui-icon-extlink" action="login" ajax="false"/>
+                    <p:commandButton type="button" value="Logout" icon="ui-icon-extlink" />
+                </f:facet>
+            </p:menubar>
+
+        </h:form>
+
         <!-- STACK MENU -->
-                
+
         <p:stack icon="/resources/images/stack.png" expanded="true">
-    <p:menuitem value="Home"  icon="/resources/images/home.png" url="./home.xhtml"/>
-    <p:menuitem value="Cart" icon="/resources/images/shoppingCart.png" url="./cart.xhtml"/>
-    <p:menuitem value="Search" icon="/resources/images/search.png" url="./advancedSearch.xhtml"/>
-</p:stack>
-        
-       <!--//END OF MENUS//-->
+            <p:menuitem value="Home"  icon="/resources/images/home.png" url="./home.xhtml"/>
+            <p:menuitem value="Cart" icon="/resources/images/shoppingCart.png" url="./cart.xhtml"/>
+            <p:menuitem value="Search" icon="/resources/images/search.png" url="./advancedSearch.xhtml"/>
+        </p:stack>
 
-        
-       <h:form>    
-       
-        <div class="inputData"> 
-            
-            <p:panel id="signUpPanel">
-            
-            <div>Welcome to the sign up page, stranger.</div>
-            <br/>
-
-                <!--This will show ALL validation required on TOP of the page-->
-<!--                            <p:messages styleClass="error" />-->
+        <!--//END OF MENUS//-->
 
 
-            
-            <p:outputLabel value="#{msgs.firstNameLabel}"
-                                     for="firstName"/>
-            <p:inputText id="firstName" value="#{client.firstName}" 
-                                                            label="#{msgs.firstNameLabel}"
-                                                            required="true"
-                                                            requiredMessage="#{msgs.firstNameRequired}"/>
-            <p:message for="firstName" styleClass="error" />
-        <br/>
-            <p:outputLabel value="#{msgs.lastNameLabel}"
-                                     for="lastName"/>
-            <p:inputText id="lastName" value="#{client.lastName}"
-                                                          label="#{msgs.lastNameLabel}"
-                                                          required="true"
-                                                          requiredMessage="#{msgs.lastNameRequired}"/>
-            <p:message for="lastName" styleClass="error" />
-        <br/>
-            <p:outputLabel value="#{msgs.titleLabel}"/>
-            <p:inputText id="title" value="#{client.title}"/>
-        <br/>
-            <p:outputLabel value="#{msgs.companyLabel}"/>
-            <p:inputText id="company" value="#{client.company}"/>
-        <br/>
-            <p:outputLabel value="#{msgs.emailLabel}"
-                                     for="email"/>
-            <p:inputText id="email" value="#{client.email}"
-                                                    label="#{msgs.emailLabel}"
-                                                    required="true"
-                                                    requiredMessage="#{msgs.emailRequired}"
-                                                    validatorMessage="Invalid e-mail">
-            <f:validateRegex
-		pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$"
-                             />
-            </p:inputText>
-            <p:message for="email" styleClass="error" />
+        <h:form>    
 
-        <br/>
-           <p:outputLabel value="#{msgs.cellPhoneLabel}"
-                                    for="cellPhone"/>
-            <p:inputText id="cellPhone" value="#{client.cellPhone}" 
-                                                           label="#{msgs.cellPhoneLabel}"
-                                                           required="true"
-                                                           requiredMessage="#{msgs.cellPhoneRequired}"
-                                                           validatorMessage="Invalid format, try ###-###-####">
-                <f:validateRegex
-                pattern="^[2-9]\d{2}-\d{3}-\d{4}$"/>
-            </p:inputText>
-            <p:message for="cellPhone" styleClass="error" />
-        <br/>
-            <p:outputLabel value="#{msgs.homePhoneLabel}"/>
-            <p:inputText id="homePhone"  value="#{client.homePhone}"/>
-        <br/>
-            <p:outputLabel value="#{msgs.postalCodeLabel}"
-                                     for="postalCode"/>
-            <p:inputText id="postalCode" value="#{client.postalCode}" 
-                                                             label="#{msgs.postalCodeLabel}"
-                                                             required="true"
-                                                             requiredMessage="#{msgs.postalCodeRequired}"
-                                                             validatorMessage="Invalid postal code, ex: X1X1X1">
-                <f:validateRegex
-                    pattern="^(?!.*[DFIOQU])[A-VXY][0-9][A-Z]?[0-9][A-Z][0-9]$"/>
-            </p:inputText>
-            <p:message for="postalCode" styleClass="error"/>
-        <br/>
-                
-            
-            <p:outputLabel value="#{msgs.cityLabel}"
-                                     for="city"/>
-            <p:inputText id="city" value="#{client.city}" 
-                                                   label="#{msgs.cityLabel}"
-                                                  required="true"
-                                                  requiredMessage="#{msgs.cityRequired}"/>
-            <p:message for="city" styleClass="error" />
+            <div class="inputData"> 
 
-        <br/>
-        
-        <p:outputLabel value="#{msgs.countryLabel}"
-                                      for="country"/>
-            <p:selectOneMenu value="#{client.country}" 
-                                          id="country"
-                                          label="#{msgs.countryLabel}"
-                                          class="inputDataSelect"
-                                          style="width:18%;">
-                
-                <!--The list of countries generated in the managed bean-->
-                <f:selectItems value="#{client.countryOptions}"/>
-                
-            </p:selectOneMenu>
-        <br/>
-        <p:outputLabel value="#{msgs.provinceLabel}"
-                                 for="province"/>
-        <p:selectOneMenu value="#{client.province}"
-                                      id="province"
-                                      class="inputDataSelect"
-                                      style="width:18%;">
-             <f:selectItem itemValue="Alberta" itemLabel="Alberta" />     
-             <f:selectItem itemValue="British Columbia" itemLabel="British Columbia" />
-             <f:selectItem itemValue="Manitoba" itemLabel="Manitoba" />
-             <f:selectItem itemValue="New Brunswick" itemLabel="New Brunswick" />
-             <f:selectItem itemValue="Newfoundland" itemLabel="Newfoundland" />
-             <f:selectItem itemValue="Northwest Territories" itemLabel="Northwest Territories" />
-             <f:selectItem itemValue="Nova Scotia" itemLabel="Nova Scotia" />
-             <f:selectItem itemValue="Nunavut" itemLabel="Nunavut" />
-             <f:selectItem itemValue="Ontario" itemLabel="Ontario" />
-             <f:selectItem itemValue="Prince Edward Island" itemLabel="Prince Edward Island" />
-             <f:selectItem itemValue="Quebec" itemLabel="Quebec" />
-             <f:selectItem itemValue="Saskatchewan" itemLabel="Saskatchewan" />
-             <f:selectItem itemValue="Yukon" itemLabel="Yukon" />
+                <p:panel id="signUpPanel">
 
-        </p:selectOneMenu>
-                
-        <br/>
-            <p:outputLabel value="#{msgs.addressLabel}"
-                                     for="address"/>
-            <p:inputText id="address" value="#{client.address}" 
-                                                        label="#{msgs.addressLabel}"
-                                                        required="true"
-                                                        requiredMessage="#{addressRequired}"/>
-            <p:message for="address" styleClass="error" />
+                    <div>Welcome to the sign up page, stranger.</div>
+                    <br/>
 
-        <br/>
-            <p:outputLabel value="#{msgs.address2Label}"/>
-            <p:inputText id="address2" value="#{client.address2}"/>
-        <br/>
-        <br/>
-            <p:commandButton value="Submit" action="signedUp" ajax="false" />
-                     
-            
-            </p:panel>
-            
-        </div>
-        
-     </h:form>
+                    <!--This will show ALL validation required on TOP of the page-->
+                    <!--                            <p:messages styleClass="error" />-->
+
+
+
+                    <p:outputLabel value="#{msgs.firstNameLabel}"
+                                   for="firstName"/>
+                    <p:inputText id="firstName" value="#{client.firstName}" 
+                                 label="#{msgs.firstNameLabel}"
+                                 required="true"
+                                 requiredMessage="#{msgs.firstNameRequired}"/>
+                    <p:message for="firstName" styleClass="error" />
+                    <br/>
+                    <p:outputLabel value="#{msgs.lastNameLabel}"
+                                   for="lastName"/>
+                    <p:inputText id="lastName" value="#{client.lastName}"
+                                 label="#{msgs.lastNameLabel}"
+                                 required="true"
+                                 requiredMessage="#{msgs.lastNameRequired}"/>
+                    <p:message for="lastName" styleClass="error" />
+                    <br/>
+                    <p:outputLabel value="#{msgs.titleLabel}"/>
+                    <p:inputText id="title" value="#{client.title}"/>
+                    <br/>
+                    <p:outputLabel value="#{msgs.companyLabel}"/>
+                    <p:inputText id="company" value="#{client.company}"/>
+                    <br/>
+                    <p:outputLabel value="#{msgs.emailLabel}"
+                                   for="email"/>
+                    <p:inputText id="email" value="#{client.email}"
+                                 label="#{msgs.emailLabel}"
+                                 required="true"
+                                 requiredMessage="#{msgs.emailRequired}"
+                                 validatorMessage="Invalid e-mail">
+                        <f:validateRegex
+                            pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$"
+                            />
+                    </p:inputText>
+                    <p:message for="email" styleClass="error" />
+
+                    <br/>
+                    <p:outputLabel value="#{msgs.cellPhoneLabel}"
+                                   for="cellPhone"/>
+                    <p:inputText id="cellPhone" value="#{client.cellPhone}" 
+                                 label="#{msgs.cellPhoneLabel}"
+                                 required="true"
+                                 requiredMessage="#{msgs.cellPhoneRequired}"
+                                 validatorMessage="Invalid format, try ###-###-####">
+                        <f:validateRegex
+                            pattern="^[2-9]\d{2}-\d{3}-\d{4}$"/>
+                    </p:inputText>
+                    <p:message for="cellPhone" styleClass="error" />
+                    <br/>
+                    <p:outputLabel value="#{msgs.homePhoneLabel}"/>
+                    <p:inputText id="homePhone"  value="#{client.homePhone}"/>
+                    <br/>
+                    <p:outputLabel value="#{msgs.postalCodeLabel}"
+                                   for="postalCode"/>
+                    <p:inputText id="postalCode" value="#{client.postalCode}" 
+                                 label="#{msgs.postalCodeLabel}"
+                                 required="true"
+                                 requiredMessage="#{msgs.postalCodeRequired}"
+                                 validatorMessage="Invalid postal code, ex: X1X1X1">
+                        <f:validateRegex
+                            pattern="^(?!.*[DFIOQU])[A-VXY][0-9][A-Z]?[0-9][A-Z][0-9]$"/>
+                    </p:inputText>
+                    <p:message for="postalCode" styleClass="error"/>
+                    <br/>
+
+
+                    <p:outputLabel value="#{msgs.cityLabel}"
+                                   for="city"/>
+                    <p:inputText id="city" value="#{client.city}" 
+                                 label="#{msgs.cityLabel}"
+                                 required="true"
+                                 requiredMessage="#{msgs.cityRequired}"/>
+                    <p:message for="city" styleClass="error" />
+
+                    <br/>
+
+                    <p:outputLabel value="#{msgs.countryLabel}"
+                                   for="country"/>
+                    <p:selectOneMenu value="#{client.country}" 
+                                     id="country"
+                                     label="#{msgs.countryLabel}"
+                                     class="inputDataSelect"
+                                     style="width:18%;">
+
+                        <!--The list of countries generated in the managed bean-->
+                        <f:selectItems value="#{client.countryOptions}"/>
+
+                    </p:selectOneMenu>
+                    <br/>
+                    <p:outputLabel value="#{msgs.provinceLabel}"
+                                   for="province"/>
+                    <p:selectOneMenu value="#{client.province}"
+                                     id="province"
+                                     class="inputDataSelect"
+                                     style="width:18%;">
+                        <f:selectItem itemValue="Alberta" itemLabel="#{msgs.Alberta}" />     
+                        <f:selectItem itemValue="British Columbia" itemLabel="#{msgs.BritishColumbia}" />
+                        <f:selectItem itemValue="Manitoba" itemLabel="#{msgs.Manitoba}" />
+                        <f:selectItem itemValue="New Brunswick" itemLabel="#{msgs.NewBrunswick}" />
+                        <f:selectItem itemValue="Newfoundland" itemLabel="#{msgs.NewfoundlandandLabrador}" />
+                        <f:selectItem itemValue="Northwest Territories" itemLabel="#{msgs.NorthWestTerritories}" />
+                        <f:selectItem itemValue="Nova Scotia" itemLabel="#{msgs.NovaScotia}" />
+                        <f:selectItem itemValue="Nunavut" itemLabel="#{msgs.Nunavut}" />
+                        <f:selectItem itemValue="Ontario" itemLabel="#{msgs.Ontario}" />
+                        <f:selectItem itemValue="Prince Edward Island" itemLabel="#{msgs.PrinceEdwardIsland}" />
+                        <f:selectItem itemValue="Quebec" itemLabel="#{msgs.Quebec}" />
+                        <f:selectItem itemValue="Saskatchewan" itemLabel="#{msgs.Saskatchewan}" />
+                        <f:selectItem itemValue="Yukon" itemLabel="#{msgs.Yukon}" />
+
+                    </p:selectOneMenu>
+
+                    <br/>
+                    <p:outputLabel value="#{msgs.addressLabel}"
+                                   for="address"/>
+                    <p:inputText id="address" value="#{client.address}" 
+                                 label="#{msgs.addressLabel}"
+                                 required="true"
+                                 requiredMessage="#{addressRequired}"/>
+                    <p:message for="address" styleClass="error" />
+
+                    <br/>
+                    <p:outputLabel value="#{msgs.address2Label}"/>
+                    <p:inputText id="address2" value="#{client.address2}"/>
+                    <br/>
+                    <br/>
+                    <p:commandButton value="Submit" action="signedUp" ajax="false" />
+
+
+                </p:panel>
+
+            </div>
+
+        </h:form>
 
     </h:body>
 </html>
