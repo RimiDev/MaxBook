@@ -39,12 +39,12 @@ and open the template in the editor.
                     <p:growl id="msgs" showDetail="true"/>
 
                     <p:dataTable id="books" var="book" value="#{managementBacking.bk}" editable="true" style="margin-bottom:20px"
-                                 rowKey="book.isbn" selection="#{managementBacking.selected}" selectionMode="single">
+                                 >
                         <f:facet name="header">
                             Row Editing
                         </f:facet>
 
-                        <p:ajax event="rowEdit" listener="#{managementBacking.onRowEdit}" update=":form:msgs" />
+                        <p:ajax event="rowEdit" listener="#{managementBacking.onBookRowEdit}" update=":form:msgs" />
                         <p:ajax event="rowEditCancel" listener="#{managementBacking.onRowCancel}" update=":form:msgs" />
 
                         <p:column headerText="Isbn">
@@ -110,9 +110,7 @@ and open the template in the editor.
                                         <f:convertDateTime pattern="d-M-yyyy" />          
                                     </h:outputText>
                                 </f:facet>
-                                <f:facet name="input"><p:inputText id="modelInputEnterDate" type="date" value="#{book.enteredDate}" style="width:100%">
-                                        <!--                                        <f:convertDateTime  pattern="dd-mm-yyyy"/>-->
-                                    </p:inputText>
+                                <f:facet name="input"><p:inputText id="modelInputEnterDate" type="date" value="#{book.enteredDate}" style="width:100%"/>
                                 </f:facet>
                             </p:cellEditor>
                         </p:column>
@@ -158,7 +156,7 @@ and open the template in the editor.
                         </f:facet>
 
                         <p:ajax event="rowEdit" listener="#{managementBacking.onReviewRowEdit}" update=":form2:msgs2" />
-                        <p:ajax event="rowEditCancel" listener="#{managementBacking.onReviewRowCancel}" update=":form2:msgs2" />
+                        <p:ajax event="rowEditCancel" listener="#{managementBacking.onRowCancel}" update=":form2:msgs2" />
 
                         <p:column headerText="Review #">
                             <h:outputText value="#{review.id}" />
@@ -207,8 +205,7 @@ and open the template in the editor.
                 <h:form id="form3">
                     <p:growl id="msgs3" showDetail="true"/>
 
-                    <p:dataTable id="books" var="book" value="#{managementBacking.bk}" editable="true" style="margin-bottom:20px"
-                                 rowKey="book.isbn" selection="#{managementBacking.selected}" selectionMode="single">
+                    <p:dataTable id="invoices" var="invoice" value="#{managementBacking.inv}" editable="true" style="margin-bottom:20px">
                         <f:facet name="header">
                             Row Editing
                         </f:facet>
@@ -216,101 +213,112 @@ and open the template in the editor.
                         <p:ajax event="rowEdit" listener="#{managementBacking.onRowEdit}" update=":form3:msgs3" />
                         <p:ajax event="rowEditCancel" listener="#{managementBacking.onRowCancel}" update=":form3:msgs3" />
 
-                        <p:column headerText="Isbn">
-                            <p:cellEditor>
-                                <f:facet name="output"><h:outputText value="#{book.isbn}" /></f:facet>
-                                <f:facet name="input"><p:inputText id="modelInput" value="#{book.isbn}" style="width:100%"/></f:facet>
-                            </p:cellEditor>
+                        <p:column style="width:30px;">
+                            <p:rowToggler/>
                         </p:column>
 
-                        <p:column headerText="Title">
+                        <p:column headerText="Id">
+                            <h:outputText value="#{invoice.id}" />
+                        </p:column>
+
+                        <p:column headerText="Client">
                             <p:cellEditor>
-                                <f:facet name="output"><h:outputText value="#{book.title}" /></f:facet>
-                                <f:facet name="input"><p:inputText value="#{book.title}" style="width:100%" label="Title"/></f:facet>
+                                <f:facet name="output"><h:outputText value="#{invoice.clientId.id}" /></f:facet>
+                                <f:facet name="input"><p:inputText value="#{invoice.clientId.id}" style="width:100%" label="Client"/></f:facet>
                             </p:cellEditor>
                         </p:column>
-                        <p:column headerText="Publish Date">
+                        <p:column headerText="Sale Date">
                             <p:cellEditor>
                                 <f:facet name="output">
-                                    <h:outputText value="#{book.publishDate}">
+                                    <h:outputText value="#{invoice.dateOfSale}">
                                         <f:convertDateTime pattern="d-M-yyyy" />          
                                     </h:outputText>
                                 </f:facet>
-                                <f:facet name="input"><p:inputText id="modelInputPubDate" value="#{book.publishDate}" style="width:100%">
+                                <f:facet name="input"><p:inputText id="modelInputSaleDate" value="#{invoice.dateOfSale}" style="width:100%">
                                         <f:convertDateTime pattern="dd-mm-yyyy"/>
                                     </p:inputText>
                                 </f:facet>
                             </p:cellEditor>
                         </p:column>
-                        <p:column headerText="Pages">
+                        <p:column headerText="Net Value">
                             <p:cellEditor>
-                                <f:facet name="output"><h:outputText value="#{book.pages}"/></f:facet>
-                                <f:facet name="input"><p:inputText id="modelInputPages" value="#{book.pages}" style="width:100%"/></f:facet>
+                                <f:facet name="output"><h:outputText value="#{invoice.netValue}"/></f:facet>
+                                <f:facet name="input"><p:inputText id="modelInputNet" value="#{invoice.netValue}" style="width:100%"/></f:facet>
                             </p:cellEditor>
                         </p:column>
-                        <p:column headerText="Genre">
+                        <p:column headerText="Gross Value">
                             <p:cellEditor>
-                                <f:facet name="output"><h:outputText value="#{book.genre}"/></f:facet>
-                                <f:facet name="input"><p:inputText id="modelInputGenre" value="#{book.genre}" style="width:100%"/></f:facet>
-                            </p:cellEditor>
-                        </p:column>
-                        <p:column headerText="List Price">
-                            <p:cellEditor>
-                                <f:facet name="output"><h:outputText value="#{book.listPrice}"/></f:facet>
-                                <f:facet name="input"><p:inputText id="modelInputLstPrice" value="#{book.listPrice}" style="width:100%"/></f:facet>
-                            </p:cellEditor>
-                        </p:column>
-                        <p:column headerText="Sale Price">
-                            <p:cellEditor>
-                                <f:facet name="output"><h:outputText value="#{book.salePrice}"/></f:facet>
-                                <f:facet name="input"><p:inputText id="modelInputSlPrice" value="#{book.salePrice}" style="width:100%"/></f:facet>
-                            </p:cellEditor>
-                        </p:column>
-                        <p:column headerText="Wholesale Price">
-                            <p:cellEditor>
-                                <f:facet name="output"><h:outputText value="#{book.wholesalePrice}"/></f:facet>
-                                <f:facet name="input"><p:inputText id="modelInputWhlsaleprice" value="#{book.wholesalePrice}" style="width:100%"/></f:facet>
-                            </p:cellEditor>
-                        </p:column>
-                        <p:column headerText="Date Entered">
-                            <p:cellEditor >
-                                <f:facet name="output">
-                                    <h:outputText value="#{book.enteredDate}">
-                                        <f:convertDateTime pattern="d-M-yyyy" />          
-                                    </h:outputText>
-                                </f:facet>
-                                <f:facet name="input"><p:inputText id="modelInputEnterDate" type="date" value="#{book.enteredDate}" style="width:100%">
-                                        <!--                                        <f:convertDateTime  pattern="dd-mm-yyyy"/>-->
-                                    </p:inputText>
-                                </f:facet>
-                            </p:cellEditor>
-                        </p:column>
-                        <p:column headerText="Total Sold" >
-                            <h:outputText value="#{bookJpaController.getTotalSold(book.isbn)}"/>
-                        </p:column>
-                        <p:column headerText="Removal Status" >
-                            <p:cellEditor>
-                                <f:facet name="output"><h:outputText value="#{book.removalStatus}"/></f:facet>
-                                <f:facet name="input">
-<!--                                    <h:selectOneMenu value="#{book.removalStatus}" style="width:100%">
-                                        <f:selectItems value="#{managementBacking.status}" var="man" itemLabel="#{managementBacking.checkStat(man)}" itemValue="#{man}" />
-                                    </h:selectOneMenu>-->
-                                    <p:inputText id="modelInputStatus" value ="#{book.removalStatus}"  style="width:100%"/>
-                                </f:facet>
+                                <f:facet name="output"><h:outputText value="#{invoice.grossValue}"/></f:facet>
+                                <f:facet name="input"><p:inputText id="modelInputGross" value="#{invoice.grossValue}" style="width:100%"/></f:facet>
                             </p:cellEditor>
                         </p:column>
                         <p:column style="">
                             <p:rowEditor>
-                                <p:commandButton update="books" value="Delete" action="#{managementBacking.onRowRemove(book.isbn)}" />
+                                <!--<p:commandButton update="invoices" value="Delete" action="#{managementBacking.onRowRemove(book.isbn)}" />-->
                             </p:rowEditor>
                         </p:column>
+
+                        <p:rowExpansion>
+                            <p:panelGrid columns="1" columnClasses="label">
+                                <h:form id="form3b">
+
+                                    <p:dataTable id="invoiceDetails" var="invDetail" value="#{invoice.invoiceDetailsList}" editable="true" style="margin-bottom:20px">
+                                        <f:facet name="header">
+                                            <h:outputText value="Invoice ##{invoice.id}"/>
+                                        </f:facet>
+
+                                        <p:ajax event="rowEdit" listener="#{managementBacking.onInvDetailRowEdit}" update=":form3:msgs3" />
+                                        <p:ajax event="rowEditCancel" listener="#{managementBacking.onRowCancel}" update=":form3:msgs3" />
+
+                                        <p:column headerText="Item #">
+                                            <h:outputText value="#{invDetail.id}"/>
+                                        </p:column>
+                                        <p:column headerText="Invoice #">
+                                            <h:outputText value="#{invDetail.invoiceId.id}"/>
+                                        </p:column>
+                                        <p:column headerText="Isbn">
+                                            <p:cellEditor>
+                                                <f:facet name="output"><h:outputText value="#{invDetail.isbn.isbn}"/></f:facet>
+                                                <f:facet name="input"><p:inputText id="modelInputInvIsbn" value="#{invDetail.isbn.isbn}" style="width:100%"/></f:facet>
+                                            </p:cellEditor>
+                                        </p:column>
+                                        <p:column headerText="Book Price">
+                                            <p:cellEditor>
+                                                <f:facet name="output"><h:outputText value="#{invDetail.bookPrice}"/></f:facet>
+                                                <f:facet name="input"><p:inputText id="modelInputBkPrice" value="#{invDetail.bookPrice}" style="width:100%"/></f:facet>
+                                            </p:cellEditor>
+                                        </p:column>
+                                        <p:column headerText="PST Rate">
+                                            <p:cellEditor>
+                                                <f:facet name="output"><h:outputText value="#{invDetail.PSTrate}"/></f:facet>
+                                                <f:facet name="input"><p:inputText id="modelInputPST" value="#{invDetail.PSTrate}" style="width:100%"/></f:facet>
+                                            </p:cellEditor>
+                                        </p:column>
+                                        <p:column headerText="GST Rate">
+                                            <p:cellEditor>
+                                                <f:facet name="output"><h:outputText value="#{invDetail.GSTrate}"/></f:facet>
+                                                <f:facet name="input"><p:inputText id="modelInputGST" value="#{invDetail.GSTrate}" style="width:100%"/></f:facet>
+                                            </p:cellEditor>
+                                        </p:column>
+                                        <p:column headerText="HST Rate">
+                                            <p:cellEditor>
+                                                <f:facet name="output"><h:outputText value="#{invDetail.HSTrate}"/></f:facet>
+                                                <f:facet name="input"><p:inputText id="modelInputHST" value="#{invDetail.HSTrate}" style="width:100%"/></f:facet>
+                                            </p:cellEditor>
+                                        </p:column>
+                                        <p:column style="">
+                                            <p:rowEditor>
+                                                <!--<p:commandButton update="invoices" value="Delete" action="#{managementBacking.onRowRemove(book.isbn)}" />-->
+                                            </p:rowEditor>
+                                        </p:column>
+                                    </p:dataTable>
+                                </h:form>
+                            </p:panelGrid>
+                        </p:rowExpansion>
                     </p:dataTable>
-                    <p:commandButton actionListener="#{managementBacking.newLine}"
+    <!--                    <p:commandButton actionListener="#{managementBacking.newLine}"
                                      value="New" update="books" oncomplete="addRowOnComplete()"
-                                     ajax="true" />
-                    <p:commandButton actionListener="#{managementBacking.onRowAdd}"
-                                     value="Add" update="books" oncomplete="addRowOnComplete()"
-                                     ajax="true" />                    
+                                     ajax="true" />         -->
 
                 </h:form>
             </b:panelGrid>

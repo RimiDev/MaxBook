@@ -6,10 +6,14 @@
 package com.rimidev.backing;
 
 import com.rimidev.maxbook.controller.BookJpaController;
+import com.rimidev.maxbook.controller.InvoiceDetailsJpaController;
+import com.rimidev.maxbook.controller.InvoiceJpaController;
 import com.rimidev.maxbook.controller.ReviewJpaController;
 import com.rimidev.maxbook.controller.exceptions.NonexistentEntityException;
 import com.rimidev.maxbook.controller.exceptions.RollbackFailureException;
 import com.rimidev.maxbook.entities.Book;
+import com.rimidev.maxbook.entities.Invoice;
+import com.rimidev.maxbook.entities.InvoiceDetails;
 import com.rimidev.maxbook.entities.Review;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -34,14 +38,20 @@ import org.primefaces.event.RowEditEvent;
 @SessionScoped
 public class ManagementBacking implements Serializable {
 
-     private Logger logger = Logger.getLogger(BookDisplayBacking.class.getName());
-    
+    private Logger logger = Logger.getLogger(BookDisplayBacking.class.getName());
+
     @Inject
     BookJpaController bkcon;
     @Inject
     ReviewJpaController revcon;
+    @Inject
+    InvoiceJpaController invcon;
+    @Inject
+    InvoiceDetailsJpaController invDetailsCon;
+
     private List<Book> bk;
-    private List<Review>rev;
+    private List<Review> rev;
+    private List<Invoice> inv;
     private List<Integer> status;
     private List<String> revStatuses;
     private Object selected;
@@ -74,11 +84,12 @@ public class ManagementBacking implements Serializable {
     public void init() {
         bk = bkcon.findBookEntities();
         rev = revcon.findReviewEntities();
-        
+        inv = invcon.findInvoiceEntities();
+
         revStatuses = new ArrayList<String>();
         revStatuses.add("Pending");
         revStatuses.add("Approved");
-        
+
         status = new ArrayList<Integer>();
         status.add(0);
         status.add(1);
@@ -96,11 +107,31 @@ public class ManagementBacking implements Serializable {
         Book newBook = (Book) event.getObject();
         bkcon.create(newBook);
         FacesMessage msg = new FacesMessage("new Book");
-        FacesContext.getCurrentInstance().addMessage(null, msg);       
+        FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
-    
     public void onRowEdit(RowEditEvent event) throws Exception {
+        String item = "";
+        if(event.getObject() instanceof Book){
+            onBookRowEdit(event);
+            item =  "Book " +((Book) event.getObject()).getIsbn();
+        } else if(event.getObject() instanceof Review){
+            onReviewRowEdit(event);
+            item =  "Review #" +((Review) event.getObject()).getId().toString();
+        }else if(event.getObject() instanceof Invoice){
+            onInvoiceRowEdit(event);
+            item =  "Invoice #" +((Invoice)event.getObject()).getId();
+        }else if(event.getObject() instanceof InvoiceDetails){
+            onInvDetailRowEdit(event);
+            item = "Invoice Detail #"+((InvoiceDetails)event.getObject()).getId();
+        }
+        
+        FacesMessage msg = new FacesMessage("Book Edited", String.valueOf(editedBook));
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+
+    }
+    
+     public void onBookRowEdit(RowEditEvent event) throws Exception {
         Book editedBook = (Book) event.getObject();
         bkcon.edit(editedBook);
         FacesMessage msg = new FacesMessage("Book Edited", String.valueOf(editedBook));
@@ -108,10 +139,18 @@ public class ManagementBacking implements Serializable {
 
     }
     
-     public void onReviewRowEdit(RowEditEvent event) throws Exception {
+    public void onInvDetailRowEdit(RowEditEvent event) throws Exception {
+        InvoiceDetails editedBook = (InvoiceDetails) event.getObject();
+        invDetailsCon.edit(editedBook);
+        FacesMessage msg = new FacesMessage("Invoice Detail Editted", String.valueOf(editedBook));
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+
+    }
+
+    public void onReviewRowEdit(RowEditEvent event) throws Exception {
         Review approvedReview = (Review) event.getObject();
         revcon.edit(approvedReview);
-        FacesMessage msg = new FacesMessage("Review Edited", "Review #"+((Review) event.getObject()).getId());
+        FacesMessage msg = new FacesMessage("Review Edited", "Review #" + ((Review) event.getObject()).getId());
         FacesContext.getCurrentInstance().addMessage(null, msg);
 
     }
@@ -122,12 +161,18 @@ public class ManagementBacking implements Serializable {
     }
 
     public void onRowCancel(RowEditEvent event) {
-        FacesMessage msg = new FacesMessage("Edit Cancelled", ((Book) event.getObject()).getIsbn());
-        FacesContext.getCurrentInstance().addMessage(null, msg);
-    }
-    
-      public void onReviewRowCancel(RowEditEvent event) {
-        FacesMessage msg = new FacesMessage("Edit Cancelled", "Review #"+((Review) event.getObject()).getId());
+        String item = "";
+        if(event.getObject() instanceof Book){
+            item =  "Book " +((Book) event.getObject()).getIsbn();
+        } else if(event.getObject() instanceof Review){
+            item =  "Review #" +((Review) event.getObject()).getId().toString();
+        }else if(event.getObject() instanceof Invoice){
+            item =  "Invoice #" +((Invoice)event.getObject()).getId();
+        }else if(event.getObject() instanceof InvoiceDetails){
+            item = "Invoice Detail #"+((InvoiceDetails)event.getObject()).getId();
+        }
+        
+        FacesMessage msg = new FacesMessage("Edit Cancelled", item);
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
@@ -139,19 +184,27 @@ public class ManagementBacking implements Serializable {
 
         }
     }
-    
-    public void newLine(ActionEvent actionEvent){
+
+    public void newLine(ActionEvent actionEvent) {
         this.bk.add(new Book());
-        logger.log(Level.WARNING, "<<Book Inventory List: >>"+bk.get(bk.size()-1));
+        logger.log(Level.WARNING, "<<Book Inventory List: >>" + bk.get(bk.size() - 1));
     }
-    
-    public List<Integer> getStatus(){
+
+    public List<Integer> getStatus() {
         return status;
     }
-    
-     public List<String> getRevStatuses() {
+
+    public List<String> getRevStatuses() {
         logger.log(Level.SEVERE, "Loading status options");
         return revStatuses;
+    }
+
+    public List<Invoice> getInv() {
+        return inv;
+    }
+
+    public void setInv(List<Invoice> inv) {
+        this.inv = inv;
     }
 
     public Object getSelected() {
@@ -161,19 +214,18 @@ public class ManagementBacking implements Serializable {
     public void setSelected(Object selected) {
         this.selected = selected;
     }
-     
+
     public void deleteItem() throws Exception {
-        bkcon.destroy(((Book)selected).getIsbn());
+        bkcon.destroy(((Book) selected).getIsbn());
         selected = null;
     }
-    
-    public String checkStat(Integer stat){
-        if(stat.equals(1)){
+
+    public String checkStat(Integer stat) {
+        if (stat.equals(1)) {
             return "Unavailable";
         }
-        
+
         return "Available";
     }
-    
-    
+
 }

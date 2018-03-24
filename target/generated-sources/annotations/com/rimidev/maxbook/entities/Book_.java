@@ -11,7 +11,7 @@ import javax.persistence.metamodel.ListAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-@Generated(value="EclipseLink-2.7.1.v20171221-rNA", date="2018-03-23T13:42:03")
+@Generated(value="EclipseLink-2.7.1.v20171221-rNA", date="2018-03-23T21:03:35")
 @StaticMetamodel(Book.class)
 public class Book_ { 
 
