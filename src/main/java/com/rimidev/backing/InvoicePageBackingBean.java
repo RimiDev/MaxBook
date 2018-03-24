@@ -6,6 +6,7 @@ import com.rimidev.maxbook.controller.InvoiceJpaController;
 import com.rimidev.maxbook.entities.Client;
 import com.rimidev.maxbook.entities.Invoice;
 import com.rimidev.maxbook.entities.InvoiceDetails;
+import java.io.BufferedReader;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Date;
@@ -17,6 +18,11 @@ import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.List;
 import javax.mail.Flags;
 import jodd.mail.Email;
@@ -30,6 +36,7 @@ import jodd.mail.ReceivedEmail;
 import jodd.mail.SendMailSession;
 import jodd.mail.SmtpServer;
 import jodd.mail.SmtpSslServer;
+import org.jsoup.Jsoup;
 
 /**
  *
@@ -45,22 +52,29 @@ public class InvoicePageBackingBean implements Serializable{
     private InvoiceDetailsJpaController invoiceDetailsController;
     @Inject
     private ClientJpaController clientController;
-    
+    private String markup;
+
+  public String getMarkup() {
+    return markup;
+  }
+
+  public void setMarkup(String markup) {
+    this.markup = markup;
+  }
     private Invoice invoice;
     private InvoiceDetails details;
     // These must be updated to your email accounts
     private final String smtpServerName = "smtp.gmail.com";
     private final String imapServerName = "imap.gmail.com";
-    private final String emailSend = "cst.send@gmail.com";
-    private final String emailSendPwd = "CatsLikeFood";
-    private final String emailReceive = "cst.receive@gmail.com";
-    private final String emailReceivePwd = "CatsLikeFood";
-    private final String emailCC1 = "";
-    private final String emailCC2 = "";
+    private final String emailSend = "twinmuscleworkout117.com";
+    private final String emailSendPwd = "somepassword";
+    private final String emailReceive = "hues.business@gmail.com";
+    private final String emailReceivePwd = "somepassword";
+    
 
     // You will need a folder with this name or change it to another
     // existing folder
-    private final String attachmentFolder = "C:\\Temp\\Attach\\";
+    
     private static final Logger log = Logger.getLogger(InvoicePageBackingBean.class.getName());
     
     public Invoice getInvoice() throws Exception{
@@ -75,6 +89,7 @@ public class InvoicePageBackingBean implements Serializable{
             details = invoiceDetailsController.findInvoiceDetails(1);
         }
         return this.invoice;
+        
     }
     
     public InvoiceDetails getDetails(){
@@ -116,49 +131,27 @@ public class InvoicePageBackingBean implements Serializable{
     /**
      * This method is where the different uses of Jodd are exercised
      */
-    public void perform() {
+    public String perform() throws Exception {
         // Send an ordinary text message
-        sendEmail();
+         log.info("MARKUP>>>>>>>>" + markup);
+        sendWithEmbeddedAndAttachment(markup);
 
         try {
-            Thread.sleep(5000);
+            Thread.sleep(2000);
         } catch (InterruptedException e) {
             
             System.exit(1);
         }
         // Receive all email
         receiveEmail();
+        return "home?faces-redirect=true";
     }
 
     /**
      * Standard send routine using Jodd. Jodd knows about GMail so no need to
      * include port information
      */
-    public void sendEmail() {
-
-        // Create am SMTP server object
-        SmtpServer<SmtpSslServer> smtpServer = SmtpSslServer
-                .create(smtpServerName)
-                .authenticateWith(emailSend, emailSendPwd);
-
-        // Display Java Mail debug conversation with the server
-        smtpServer.debug(true);
-
-        // Using the fluent style of coding create a plain text message
-        Email email = Email.create().from(emailSend)
-                .to(emailReceive)
-                .subject("Jodd Test").addText("Hello from plain text email");
-
-        // A session is the object responsible for communicating with the server
-        SendMailSession session = smtpServer.createSession();
-
-        // Like a file we open the session, send the message and close the
-        // session
-        session.open();
-        session.sendMail(email);
-        session.close();
-
-    }
+    
 
 
     /**
@@ -207,19 +200,8 @@ public class InvoicePageBackingBean implements Serializable{
                     log.info(msg.getContent());
                 }
 
-                // There may be multiple arrays so they are stored in an array
-                List<EmailAttachment> attachments = email.getAttachments();
-                if (attachments != null) {
-                    log.info("+++++");
-                    for (EmailAttachment attachment : attachments) {
-                        log.info("name: " + attachment.getName());
-                        log.info("cid: " + attachment.getContentId());
-                        log.info("size: " + attachment.getSize());
-                        // Write the file to disk
-                        // Location hard coded in this example
-                        attachment.writeToFile(new File(attachmentFolder, attachment.getName()));
-                    }
-                }
+                
+                
             }
         }
         session.close();
@@ -231,7 +213,7 @@ public class InvoicePageBackingBean implements Serializable{
      *
      * @throws Exception In case we don't find the file to attach/embed
      */
-    public void sendWithEmbeddedAndAttachment() throws Exception {
+    public void sendWithEmbeddedAndAttachment(String page) throws Exception {
 
         // Create am SMTP server object
         SmtpServer<SmtpSslServer> smtpServer = SmtpSslServer
@@ -243,17 +225,11 @@ public class InvoicePageBackingBean implements Serializable{
         // Using the fluent style of coding create an html message
         Email email = Email.create().from(emailSend)
                 .to(emailReceive)
-                .subject("Test With Attachments")
-                .addText("Plain text Hello for Email clients that only handle "
-                        + "plain text!")
-                .addHtml("<html><META http-equiv=Content-Type "
-                        + "content=\"text/html; charset=utf-8\">"
-                        + "<body><h1>Here is my photograph embedded in "
-                        + "this email.</h1><img src='cid:FreeFall.jpg'>"
-                        + "<h2>I'm flying!</h2></body></html>")
-                .embed(EmailAttachment.attachment()
-                        .bytes(new File("FreeFall.jpg")))
-                .attach(EmailAttachment.attachment().file("WindsorKen180.jpg"));
+                
+                .subject("Invoice")
+                .addText("Invoice")
+                .addHtml(markup);
+                
 
         // A session is the object responsible for communicating with the server
         SendMailSession session = smtpServer.createSession();
@@ -265,15 +241,31 @@ public class InvoicePageBackingBean implements Serializable{
         session.close();
     }
     
+    public String convertHtmlToString() throws MalformedURLException, IOException{
+      
+      URL website = new URL("http://localhost:8080/MaxBook/invoice.xhtml");
+        URLConnection connection = website.openConnection();
+        BufferedReader in = new BufferedReader(
+                                new InputStreamReader(
+                                    connection.getInputStream()));
+
+        StringBuilder response = new StringBuilder();
+        String inputLine;
+
+        while ((inputLine = in.readLine()) != null) 
+            response.append(inputLine);
+
+        in.close();
+
+        return response.toString();
+
+//        return Jsoup.connect("http://localhost:8080/MaxBook/invoice.xhtml").get().toString();
+      
+      
+    }
+    
 }
 
-
-
-
-/**
- * Here is your documentation on Jodd
- * https://jodd.org/util/email.html
- */
 
 /**
  * This is a demo of the code necessary to carry out the following tasks: 1)
