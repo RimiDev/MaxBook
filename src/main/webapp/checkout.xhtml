@@ -6,173 +6,128 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
-    <ui:define name="content">
-        
+    <ui:define name="title">#{msgs.checkout}</ui:define>
+    <ui:define name="content">    
         <div class="container">
-
-        <div class="" style="margin-left: 15px;">
-
-            <div class="row panel-default">
-                <h:form>
-
-                    <div class="row ">
-                    <div class="col-sm-8 panel panel-default" style="min-height:273px;" >
-
-                        <div class="row">
-                            <h3 style="margin-left: 15px;">#{msgs.reviewOrder}</h3>
-                            <div class="col-sm-4">
-
-                                <label>#{msgs.shippingDetails}</label>
-                                <br/>
-                                <h:outputText value="#{sessionScope['current_user'].firstName}  #{sessionScope['current_user'].lastName}"/>
-                                <p>#{sessionScope['current_user'].address1}</p>
-                                <p>#{sessionScope['current_user'].city}, #{sessionScope['current_user'].country}</p>
-                                <p>#{sessionScope['current_user'].postalCode}</p>
-                                <p>#{sessionScope['current_user'].province.province}</p>
-
+            <div class="" style="margin-left: 15px;">
+                <div class="row panel-default">
+                    <h:form>
+                        <div class="row ">
+                            <div class="col-sm-8 panel panel-default" style="min-height:273px;" >
+                                <div class="row">
+                                    <h3 style="margin-left: 15px;">#{msgs.reviewOrder}</h3>
+                                    <div class="col-sm-4">
+                                        <label>#{msgs.shippingDetails}</label>
+                                        <br/>
+                                        <h:outputText value="#{sessionScope['current_user'].firstName} #{sessionScope['current_user'].lastName}"/>
+                                        <p>#{sessionScope['current_user'].address1}</p>
+                                        <p>#{sessionScope['current_user'].city}, #{sessionScope['current_user'].country}</p>
+                                        <p>#{sessionScope['current_user'].postalCode}</p>
+                                        <p>#{sessionScope['current_user'].province.province}</p>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <div class="col-sm-4"><label class="">#{msgs.cardHolderName}</label></div>
+                                        <div class="col-sm-8"> 
+                                            <b:inputText 
+                                                value="#{cartBackingBean.creditcardBean.name}" placeholder="#{msgs.cardHolderName}" 
+                                                class="" required="true"
+                                                accesskey="" requiredMessage="#{msgs.requiredCardHolder}">
+                                            </b:inputText>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <label class="">#{msgs.cardNumber}</label>
+                                        </div>
+                                        <div class="col-sm-8"> 
+                                            <b:inputText placeholder="#{msgs.cardNumber}" class="form-control input-md" required="true"
+                                                         requiredMessage="#{msgs.requiredCardNumber}"
+                                                         value="#{cartBackingBean.creditcardBean.number}"></b:inputText>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <label class="">#{msgs.expiry}</label>
+                                        </div>
+                                        <div class="col-sm-3"> 
+                                            <b:inputText placeholder="#{msgs.expiry}" class="form-control input-md" required="true"
+                                                         requiredMessage="#{msgs.requiredCardNumber}"
+                                                         value="#{cartBackingBean.creditcardBean.exp}"></b:inputText>
+                                        </div>
+                                        <div class="col-sm-1">
+                                            <label class="">#{msgs.cvCode}</label>
+                                        </div>
+                                        <div class="col-sm-3"> 
+                                            <b:inputText placeholder="#{msgs.cvCode}" class="form-control input-md" required="true"
+                                                         requiredMessage="#{msgs.requiredCardNumber}"></b:inputText>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-sm-8">
-
-                                <div class="col-sm-4"><label class="">#{msgs.cardHolderName}</label></div>
-                                <div class="col-sm-8"> 
-                                    <b:inputText 
-                                        value="#{cartBackingBean.creditcardBean.name}" placeholder="#{msgs.cardHolderName}" class="" required="true"
-                                                         requiredMessage="Need card holder name to place order"
-                                                         >
-                                    </b:inputText>
+                            <div class="col-sm-4 panel panel-default" >
+                                <b:commandButton value="#{msgs.submitOrder}" class="btn btn-warning" style="width: 100%;margin-top: 10px"
+                                                 action="#{cartBackingBean.validateCreditCardInformation
+                                                           (sessionScope['current_user'],
+                                                           Timestamp.valueOf(invoiceBacking.dateOfSale),
+                                                           cartBackingBean.generateTotal(),
+                                                           cartBackingBean.generateTotalTaxedSale(),
+                                                           cartBackingBean.cart,
+                                                           sessionScope['current_user'].province.province)}">
+                                </b:commandButton>
+                                <h:messages style="color:red;margin:8px;"/>
+                                <label>#{msgs.orderSummary}</label>
+                                <p>#{msgs.items} <span>(#{cartBackingBean.cart.size()})</span></p>
+                                <p>#{msgs.pstRate} <span>#{sessionScope['current_user'].province.PSTrate}</span></p>
+                                <p>#{msgs.gstRate} <span>#{sessionScope['current_user'].province.GSTrate}</span></p>
+                                <p>#{msgs.totalBeforeTax} $<span>#{cartBackingBean.generateTotal()}</span></p>
+                                <p></p>
+                                <p>#{msgs.taxes} $<span>#{cartBackingBean.generateTaxTotal()}</span></p>
+                                <div style="color: #d9534f ; font-size: 30px">
+                                    <p>#{msgs.orderTotal} <span>$#{cartBackingBean.generateTotalTaxedSale()}</span></p>
                                 </div>
-
-                                <div class="col-sm-4">
-                                    <label class="">#{msgs.cardNumber}</label>
-                                </div>
-                                <div class="col-sm-8"> 
-                                    <b:inputText placeholder="#{msgs.cardNumber}" class="form-control input-md" required="true"
-                                                 requiredMessage="Need card number to place order"
-                                                 value="#{cartBackingBean.creditcardBean.number}"></b:inputText>
-                                </div>
-
-
-                                  <div class="col-sm-4">
-                                    <label class="">#{msgs.expiry}</label>
-                                </div>
-                                <div class="col-sm-3"> 
-                                    <b:inputText placeholder="#{msgs.expiry}" class="form-control input-md" required="true"
-                                                 requiredMessage="Need card number to place order"
-                                                 value="#{cartBackingBean.creditcardBean.exp}"></b:inputText>
-                                </div>
-                                <div class="col-sm-1">
-                                    <label class="">#{msgs.cvCode}</label>
-                                </div>
-                                <div class="col-sm-3"> 
-                                    <b:inputText placeholder="#{msgs.cvCode}" class="form-control input-md" required="true"
-                                                 requiredMessage="Need card number to place order"></b:inputText>
-                                </div>
-
-
-
                             </div>
-
                         </div>
-
-
-
-                    </div>
-                    
-                    <div class="col-sm-4 panel panel-default" >
-
-                        <b:commandButton value="#{msgs.submitOrder}" class="btn btn-warning" style="width: 100%;margin-top: 10px"
-                                         action="#{cartBackingBean.validateCreditCardInformation
-                                                   (sessionScope['current_user'],
-                                                   Timestamp.valueOf(invoiceBacking.dateOfSale),
-                                                   cartBackingBean.generateTotal(),
-                                                   cartBackingBean.generateTotalTaxedSale(),
-                                                        cartBackingBean.cart,
-                                                        sessionScope['current_user'].province.province)}">
-                        </b:commandButton>
-
-                        <h:messages style="color:red;margin:8px;"/>
-
-                        <label>#{msgs.orderSummary}</label>
-                        <p>#{msgs.items} <span>(#{cartBackingBean.cart.size()})</span></p>
-                        <p>#{msgs.pstRate} <span>#{sessionScope['current_user'].province.PSTrate}</span></p>
-                        <p>#{msgs.gstRate} <span>#{sessionScope['current_user'].province.GSTrate}</span></p>
-                        <p>#{msgs.totalBeforeTax} $<span>#{cartBackingBean.generateTotal()}</span></p>
-                        <p></p>
-                        <p>#{msgs.taxes} $<span>#{cartBackingBean.generateTaxTotal()}</span></p>
-
-                        <div style="color: #d9534f ; font-size: 30px">
-                            <p>#{msgs.orderTotal} <span>$#{cartBackingBean.generateTotalTaxedSale()}</span></p>
-                        </div>
-
-                    </div>
-
-                    
-                    </div>
-                    <!--start of cart-->
-                    <div class="col-sm-12 panel panel-default" style="margin-bottom:0px;" >
-                       
-                        <!--end of review order payment and shipping details<-->
-
-                        <table id="table" class="table">
-                            <thead>
-                                <tr>
-                                    <th style="width:80%">#{msgs.title}</th>
-                                    <th style="width:10%">#{msgs.price}</th>
-                                    <th style="width:10%"></th>
-                                </tr>
-                            </thead>
-
-                            <ui:repeat var="b" value="#{cartBackingBean.cart}" varStatus="index">
-                                <tbody>
-
+                        <!--start of cart-->
+                        <div class="col-sm-12 panel panel-default" style="margin-bottom:0px;" >
+                            <!--end of review order payment and shipping details<-->
+                            <table id="table" class="table">
+                                <thead>
                                     <tr>
-                                        <td data-th="Product">
-                                            <div class="row">
-                                                <div class="col-sm-2 hidden-xs">
-                                                    <b:image library="images" name="/books/#{b.isbn}.jpg" tooltip="#{book.genre}"
-                                                             style="height:80px;width:80px;"/>
-
+                                        <th style="width:80%">#{msgs.title}</th>
+                                        <th style="width:10%">#{msgs.price}</th>
+                                        <th style="width:10%"></th>
+                                    </tr>
+                                </thead>
+                                <ui:repeat var="b" value="#{cartBackingBean.cart}" varStatus="index">
+                                    <tbody>
+                                        <tr>
+                                            <td data-th="#{msgs.product}">
+                                                <div class="row">
+                                                    <div class="col-sm-2 hidden-xs">
+                                                        <b:image library="images" name="/books/#{b.isbn}.jpg" tooltip="#{book.genre}"
+                                                                 style="height:80px;width:80px;"/>
+                                                    </div>
+                                                    <div class="col-sm-10">
+                                                        <h4 class="nomargin"></h4>
+                                                        <h:outputText value="#{b.title}" /> 
+                                                    </div>
                                                 </div>
+                                            </td>
+                                            <td data-th="#{msgs.price}" value="">
                                                 <div class="col-sm-10">
                                                     <h4 class="nomargin"></h4>
-                                                    <h:outputText value="#{b.title}" /> 
-
+                                                    <h:outputText value="$#{b.salePrice}" /> 
                                                 </div>
-                                            </div>
-                                        </td>
-                                        <td data-th="Price" value="">
-                                            <div class="col-sm-10">
-                                                <h4 class="nomargin"></h4>
-                                                <h:outputText value="$#{b.salePrice}" /> 
-
-                                            </div>
-                                        </td>
-
-                                        <td data-th="Subtotal" class="text-center"></td>
-                                        <td class="actions" data-th="">
-
-
-
-
-                                        </td>
-
-                                    </tr>
-                                </tbody>
-
-                            </ui:repeat>
-                            <tfoot>
-                            </tfoot>
-                        </table>
-
-                    </div>
-                    
-                </h:form>
-
+                                            </td>
+                                            <td data-th="#{msgs.subTotal}" class="text-center"></td>
+                                            <td class="actions" data-th="">
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </ui:repeat>
+                                <tfoot>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </h:form>
+                </div>
             </div>
-
         </div>
-            
-            </div>
-
     </ui:define>
 </ui:composition>

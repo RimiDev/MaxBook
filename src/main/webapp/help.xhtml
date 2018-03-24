@@ -5,6 +5,8 @@
                 xmlns:b="http://bootsfaces.net/ui"
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    
+    <ui:define name="title">#{msgs.help}</ui:define>
     <ui:define name="content">
         <b:accordion>
             <b:panel title="#{msgs.helpAdvanceLabel}">
@@ -35,6 +37,7 @@
                 <h:outputText value="#{msgs.helpRegistrationText}"/>
             </b:panel>
         </b:accordion>
+        <br/><br/><br/><br/><br/>
     </ui:define>
 </ui:composition>
 

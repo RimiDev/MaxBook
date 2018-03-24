@@ -8,206 +8,185 @@
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
 
-  <ui:define name="content">
+    <ui:define name="title">#{msgs.accountDetails}</ui:define>
+    <ui:define name="content">
 
-    <div class="col-md-12 profile-dashboard">
-      <div class="row">
-        <div class="container">
-          
-          <b:form class="form-horizontal">
-            <b:tabView contentStyle="border-right: 1px solid #ddd;border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding:10px">
-              <b:tab title="Account Details" class="">
-                
-                
-                <!--email-->
-                <h:message id="emailError" for="account-details-email" style="color: red"/>
+        <div class="col-md-12 profile-dashboard">
+            <div class="row">
+                <div class="container">
 
-                <div style="margin-bottom: 25px" class="input-group">
+                    <b:form class="form-horizontal">
+                        <b:tabView contentStyle="border-right: 1px solid #ddd;border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding:10px">
+                            <b:tab title="#{msgs.accountDetails}" class="">
 
-                  <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                  <h:inputText id="account-details-email" value="#{sessionScope['current_user'].email}" 
-                               validator="#{loginBackingBean.validateEmail}"
-                               a:placeholder="#{msgs.emailLabel}"
-                               class="form-control"
 
-                               >
-                    <f:ajax event="blur" render="emailError"/>
-                  </h:inputText>
+                                <!--email-->
+                                <h:message id="emailError" for="account-details-email" style="color: red"/>
+
+                                <div style="margin-bottom: 25px" class="input-group">
+
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                    <h:inputText id="account-details-email" value="#{sessionScope['current_user'].email}" 
+                                                 validator="#{loginBackingBean.validateEmail}"
+                                                 a:placeholder="#{msgs.emailLabel}"
+                                                 class="form-control">
+                                        <f:ajax event="blur" render="emailError"/>
+                                    </h:inputText>
+                                </div>
+
+                                <!--first name-->
+                                <h:message id="firstNameError" for="account-details-firstName" style="color: red"/>
+
+                                <div style="margin-bottom: 25px" class="input-group">
+
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                    <h:inputText id="account-details-firstName" value="#{sessionScope['current_user'].firstName }" 
+                                                 validator="#{accountDetailsBacking.checkAddresses}"
+                                                 a:placeholder="#{msgs.firstNameLabel}"
+                                                 class="form-control" >
+                                        <f:ajax event="blur" render="firstNameError"/>
+                                    </h:inputText>
+                                </div>
+
+                                <!--lastName-->
+                                <h:message id="lastNameError" for="account-details-lastName" style="color: red"/>
+
+                                <div style="margin-bottom: 25px" class="input-group">
+
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                    <h:inputText id="account-details-lastName" value="#{sessionScope['current_user'].lastName}" 
+                                                 validator="#{accountDetailsBacking.checkAddresses}"
+                                                 a:placeholder="#{msgs.lastNameLabel}"
+                                                 class="form-control">
+                                        <f:ajax event="blur" render="lastNameError"/>
+                                    </h:inputText>
+                                </div>
+
+                                <!--phone-->
+                                <div style="margin-bottom: 25px" class="input-group">
+
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-phone"></i></span>
+                                    <h:inputText id="account-details-phoneNumber" value="#{sessionScope['current_user'].phoneNumber}" 
+                                                 a:placeholder="#{msgs.phoneNumberLabel}"
+                                                 class="form-control">
+
+                                    </h:inputText>
+                                </div>
+
+
+                            </b:tab>
+                            <b:tab title="#{msgs.shippingDetails}">
+                                <!--address1-->
+                                <h:message id="address1Error" for="account-details-address1" style="color: red"/>
+
+                                <div style="margin-bottom: 25px" class="input-group">
+
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
+                                    <h:inputText id="account-details-address1" value="#{sessionScope['current_user'].address1}" 
+                                                 validator="#{accountDetailsBacking.checkAddresses}"
+                                                 a:placeholder="#{msgs.addressLabel}"
+                                                 class="form-control"
+
+                                                 >
+                                        <f:ajax event="blur" render="address1Error"/>
+                                    </h:inputText>
+                                </div>
+
+                                <!--address2-->
+                                <h:message id="address2Error" for="account-details-address2" style="color: red"/>
+
+                                <div style="margin-bottom: 25px" class="input-group">
+
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
+                                    <h:inputText id="account-details-address2" value="#{sessionScope['current_user'].address2}" 
+                                                 validator="#{accountDetailsBacking.checkAddresses}"
+                                                 a:placeholder="#{msgs.address2Label}"
+                                                 class="form-control"
+
+                                                 >
+                                        <f:ajax event="blur" render="address2Error"/>
+                                    </h:inputText>
+                                </div>
+
+                                <!--City<-->
+                                <h:message id="cityError" for="account-details-firstName" style="color: red"/>
+
+                                <div style="margin-bottom: 25px" class="input-group">
+
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-map-marker"></i></span>
+                                    <h:inputText id="account-details-city" value="#{sessionScope['current_user'].city}" 
+                                                 validator="#{accountDetailsBacking.checkAddresses}"
+                                                 a:placeholder="#{msgs.cityLabel}"
+                                                 class="form-control"
+
+                                                 >
+                                        <f:ajax event="blur" render="cityError"/>
+                                    </h:inputText>
+                                </div>
+
+
+
+                                <!--Province<-->
+                                <h:message id="provinceError" for="account-details-provinceComboxBox" style="color: red"/>
+
+                                <div style="margin-bottom: 25px" class="input-group">
+
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-map-marker"></i></span>
+                                    <h:selectOneMenu id="account-details-provinceComboxBox" value="#{sessionScope['current_user'].city}"
+                                                     class="dropdown">
+                                        <f:selectItem itemValue="Alberta" itemLabel="#{msgs.Alberta}" />
+                                        <f:selectItem itemValue="British Comlumbia" itemLabel="#{msgs.BritishColumbia}" />
+                                        <f:selectItem itemValue="Manitoba" itemLabel="#{msgs.Manitoba}" />
+                                        <f:selectItem itemValue="New Brunswick" itemLabel="#{msgs.NewBrunswick}" />
+                                        <f:selectItem itemValue="Newfoundland and Labrador" itemLabel="#{msgs.NewfoundlandandLabrador}" /> 
+                                        <f:selectItem itemValue="North West Territories" itemLabel="#{msgs.NorthWestTerritories}" /> 
+                                        <f:selectItem itemValue="Nova Scotia" itemLabel="#{msgs.NovaScotia}" /> 
+                                        <f:selectItem itemValue="Nunavut" itemLabel="#{msgs.Nunavut}" /> 
+                                        <f:selectItem itemValue="Ontario" itemLabel="#{msgs.Ontario}" />
+                                        <f:selectItem itemValue="Prince Edward Island" itemLabel="#{msgs.PrinceEdwardIsland}" />
+                                        <f:selectItem itemValue="Quebec" itemLabel="#{msgs.Quebec}" />
+                                        <f:selectItem itemValue="Saskatchewan" itemLabel="#{msgs.Saskatchewan}" />
+                                        <f:selectItem itemValue="Yukon" itemLabel="#{msgs.Yukon}" />
+
+
+                                    </h:selectOneMenu>
+
+
+                                </div>
+
+                                <!--postalcode<-->
+                                <h:message id="postalCodeError" for="account-details-postalcode" style="color: red"/>
+
+                                <div style="margin-bottom: 25px" class="input-group">
+
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-road"></i></span>
+                                    <h:inputText id="account-details-postalcode" value="#{sessionScope['current_user'].postalCode}" 
+                                                 validator="#{accountDetailsBacking.checkPostalCode}"
+                                                 a:placeholder="#{msgs.postalCodeLabel}"
+                                                 class="form-control">
+                                        <f:ajax event="blur" render="postalCodeError"/>
+                                    </h:inputText>
+                                </div>
+
+                                <!--Country<-->
+                                <h:message id="countryError" for="account-details-country" style="color: red"/>
+
+                                <div style="margin-bottom: 25px" class="input-group">
+
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-flag"></i></span>
+                                    <h:inputText id="account-details-country" value="#{sessionScope['current_user'].country}"        
+                                                 a:placeholder="#{msgs.countryLabel}"
+                                                 readonly="true"
+                                                 class="form-control">
+                                        <f:ajax event="blur" render="countryError"/>
+                                    </h:inputText>
+                                </div>
+                            </b:tab>
+                        </b:tabView>
+                    </b:form>
+                    <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
                 </div>
-                
-                 <!--first name-->
-                <h:message id="firstNameError" for="account-details-firstName" style="color: red"/>
-
-                <div style="margin-bottom: 25px" class="input-group">
-
-                  <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                  <h:inputText id="account-details-firstName" value="#{sessionScope['current_user'].firstName }" 
-                               validator="#{accountDetailsBacking.checkAddresses}"
-                               a:placeholder="#{msgs.firstNameLabel}"
-                               class="form-control"
-
-                               >
-                    <f:ajax event="blur" render="firstNameError"/>
-                  </h:inputText>
-                </div>
-                
-                 <!--lastName-->
-                <h:message id="lastNameError" for="account-details-lastName" style="color: red"/>
-
-                <div style="margin-bottom: 25px" class="input-group">
-
-                  <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                  <h:inputText id="account-details-lastName" value="#{sessionScope['current_user'].lastName}" 
-                               validator="#{accountDetailsBacking.checkAddresses}"
-                               a:placeholder="#{msgs.lastNameLabel}"
-                               class="form-control"
-
-                               >
-                    <f:ajax event="blur" render="lastNameError"/>
-                  </h:inputText>
-                </div>
-                
-                 <!--phone-->
-                <div style="margin-bottom: 25px" class="input-group">
-
-                  <span class="input-group-addon"><i class="glyphicon glyphicon-phone"></i></span>
-                  <h:inputText id="account-details-phoneNumber" value="#{sessionScope['current_user'].phoneNumber}" 
-                               a:placeholder="#{msgs.phoneNumberLabel}"
-                               class="form-control">
-                    
-                  </h:inputText>
-                </div>
-                
-
-              </b:tab>
-              <b:tab title="Shipping Details">
-                <!--address1-->
-                <h:message id="address1Error" for="account-details-address1" style="color: red"/>
-
-                <div style="margin-bottom: 25px" class="input-group">
-
-                  <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
-                  <h:inputText id="account-details-address1" value="#{sessionScope['current_user'].address1}" 
-                               validator="#{accountDetailsBacking.checkAddresses}"
-                               a:placeholder="#{msgs.addressLabel}"
-                               class="form-control"
-
-                               >
-                    <f:ajax event="blur" render="address1Error"/>
-                  </h:inputText>
-                </div>
-
-                <!--address2-->
-                <h:message id="address2Error" for="account-details-address2" style="color: red"/>
-
-                <div style="margin-bottom: 25px" class="input-group">
-
-                  <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
-                  <h:inputText id="account-details-address2" value="#{sessionScope['current_user'].address2}" 
-                               validator="#{accountDetailsBacking.checkAddresses}"
-                               a:placeholder="#{msgs.address2Label}"
-                               class="form-control"
-
-                               >
-                    <f:ajax event="blur" render="address2Error"/>
-                  </h:inputText>
-                </div>
-
-                <!--City<-->
-                <h:message id="cityError" for="account-details-firstName" style="color: red"/>
-
-                <div style="margin-bottom: 25px" class="input-group">
-
-                  <span class="input-group-addon"><i class="glyphicon glyphicon-map-marker"></i></span>
-                  <h:inputText id="account-details-city" value="#{sessionScope['current_user'].city}" 
-                               validator="#{accountDetailsBacking.checkAddresses}"
-                               a:placeholder="#{msgs.cityLabel}"
-                               class="form-control"
-
-                               >
-                    <f:ajax event="blur" render="cityError"/>
-                  </h:inputText>
-                </div>
-
-                
-
-                <!--Province<-->
-                <h:message id="provinceError" for="account-details-provinceComboxBox" style="color: red"/>
-
-                <div style="margin-bottom: 25px" class="input-group">
-
-                  <span class="input-group-addon"><i class="glyphicon glyphicon-map-marker"></i></span>
-                  <h:selectOneMenu id="account-details-provinceComboxBox" value="#{sessionScope['current_user'].city}"
-                                   class="dropdown">
-                    <f:selectItem itemValue="Alberta" itemLabel="#{msgs.Alberta}" />
-                    <f:selectItem itemValue="British Comlumbia" itemLabel="#{msgs.BritishColumbia}" />
-                    <f:selectItem itemValue="Manitoba" itemLabel="#{msgs.Manitoba}" />
-                    <f:selectItem itemValue="New Brunswick" itemLabel="#{msgs.NewBrunswick}" />
-                    <f:selectItem itemValue="Newfoundland and Labrador" itemLabel="#{msgs.NewfoundlandandLabrador}" /> 
-                    <f:selectItem itemValue="North West Territories" itemLabel="#{msgs.NorthWestTerritories}" /> 
-                    <f:selectItem itemValue="Nova Scotia" itemLabel="#{msgs.NovaScotia}" /> 
-                    <f:selectItem itemValue="Nunavut" itemLabel="#{msgs.Nunavut}" /> 
-                    <f:selectItem itemValue="Ontario" itemLabel="#{msgs.Ontario}" />
-                    <f:selectItem itemValue="Prince Edward Island" itemLabel="#{msgs.PrinceEdwardIsland}" />
-                    <f:selectItem itemValue="Quebec" itemLabel="#{msgs.Quebec}" />
-                    <f:selectItem itemValue="Saskatchewan" itemLabel="#{msgs.Saskatchewan}" />
-                    <f:selectItem itemValue="Yukon" itemLabel="#{msgs.Yukon}" />
-                    
-                    
-                  </h:selectOneMenu>
-
-                  
-                </div>
-                
-                <!--postalcode<-->
-                <h:message id="postalCodeError" for="account-details-postalcode" style="color: red"/>
-
-                <div style="margin-bottom: 25px" class="input-group">
-
-                  <span class="input-group-addon"><i class="glyphicon glyphicon-road"></i></span>
-                  <h:inputText id="account-details-postalcode" value="#{sessionScope['current_user'].postalCode}" 
-                               validator="#{accountDetailsBacking.checkPostalCode}"
-                               a:placeholder="#{msgs.postalCodeLabel}"
-                               class="form-control"
-
-                               >
-                    <f:ajax event="blur" render="postalCodeError"/>
-                  </h:inputText>
-                </div>
-                
-                <!--Country<-->
-                <h:message id="countryError" for="account-details-country" style="color: red"/>
-
-                <div style="margin-bottom: 25px" class="input-group">
-
-                  <span class="input-group-addon"><i class="glyphicon glyphicon-flag"></i></span>
-                  <h:inputText id="account-details-country" value="#{sessionScope['current_user'].country}" 
-                               
-                               a:placeholder="#{msgs.countryLabel}"
-                               readonly="true"
-                               class="form-control"
-
-                               >
-                    <f:ajax event="blur" render="countryError"/>
-                  </h:inputText>
-                </div>
-                
-                
-
-              </b:tab>
-
-
-            </b:tabView>
-
-
-
-          </b:form>
+            </div>
         </div>
-
-      </div>
-    </div>
-
-  </ui:define>
-
-
+    </ui:define>
 </ui:composition>

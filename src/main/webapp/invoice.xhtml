@@ -5,13 +5,14 @@
                 xmlns:b="http://bootsfaces.net/ui"
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
-    
+
+    <ui:define name="title">#{msgs.invoiceHead}</ui:define>
     <ui:define name="content">
-                    <p style="text-align:center;font-size:30px;"> #{msgs.thanksOrder} </p>            
-            <p style="text-align:center;font-size:30px;"> #{msgs.invoiceForwarded}</p>
-            <p style="text-align:center;font-size:15px;"> #{sessionScope['current_user'].email} </p>
-                        <b:panel>
-        <b:container>
+        <p style="text-align:center;font-size:30px;"> #{msgs.thanksOrder} </p>            
+        <p style="text-align:center;font-size:30px;"> #{msgs.invoiceForwarded}</p>
+        <p style="text-align:center;font-size:15px;"> #{sessionScope['current_user'].email} </p>
+        <b:panel>
+            <b:container>
                 <b:row>
                     <b:column span="3">
                         <h:graphicImage value="resources/images/citrus.png" height="75"/>
@@ -100,10 +101,10 @@
                         <h:outputText value="#{msgs.hstRate} #{invoiceBacking.details.HSTrate}" />
                     </b:column> 
                 </b:row>
-        </b:container>
-        <br></br>
-        <br></br>
-        <h:form>
+            </b:container>
+            <br></br>
+            <br></br>
+            <h:form>
                 <b:row>
                     <b:column span="1">                           
                         <h:outputText value="#{msgs.itemNum}"/>
@@ -118,7 +119,7 @@
                         <h:outputText value="#{msgs.priceHeader}"/>
                     </b:column>
                 </b:row>
-            <ui:repeat value="#{cartBackingBean.cart}" var="cartBooks">
+                <ui:repeat value="#{cartBackingBean.cart}" var="cartBooks">
                     <b:row>
                         <b:column span="1">                           
                         </b:column>
@@ -181,9 +182,9 @@
                         <p> $#{cartBackingBean.generateTotalTaxedSale()}</p>
                     </b:column>
                 </b:row>
-        </h:form>
-                        </b:panel>
+            </h:form>
+        </b:panel>
     </ui:define>
-        
+
 </ui:composition>
 
