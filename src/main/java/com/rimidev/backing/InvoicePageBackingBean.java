@@ -71,7 +71,7 @@ public class InvoicePageBackingBean implements Serializable{
     // These must be updated to your email accounts
     private final String smtpServerName = "smtp.gmail.com";
     private final String imapServerName = "imap.gmail.com";
-    private final String emailSend = "hues.business@gmail.com";
+    private final String emailSend = "twinmuscleworkout117.com";
     private final String emailSendPwd = "somepassword";
     private final String emailReceive = "hues.business@gmail.com";
     private final String emailReceivePwd = "somepassword";

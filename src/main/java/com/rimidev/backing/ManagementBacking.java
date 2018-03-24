@@ -11,7 +11,10 @@ import com.rimidev.maxbook.controller.exceptions.NonexistentEntityException;
 import com.rimidev.maxbook.controller.exceptions.RollbackFailureException;
 import com.rimidev.maxbook.entities.Book;
 import com.rimidev.maxbook.entities.Client;
+import com.rimidev.maxbook.entities.Invoice;
+import com.rimidev.maxbook.entities.InvoiceDetails;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -148,11 +151,26 @@ public class ManagementBacking implements Serializable {
   /**
    * client management
    */
-  private void editClient(Client c)throws Exception {
+  private void editClient(Client c) throws Exception {
+
+    clientJpaController.edit(c);
+    FacesMessage msg = new FacesMessage("Client Edited", String.valueOf(c));
+    FacesContext.getCurrentInstance().addMessage(null, msg);
+  }
+
+  public BigDecimal getTotalValueOfAllPurchases(Client c) {
     
-      clientJpaController.edit(c);
-      FacesMessage msg = new FacesMessage("Client Edited", String.valueOf(c));
-      FacesContext.getCurrentInstance().addMessage(null, msg);
+    
+    double t = 0;
+    for (Invoice invoice : c.getInvoiceList()) {
+      logger.log(Level.WARNING, invoice.getGrossValue().toString());
+        t += invoice.getGrossValue().doubleValue();
+        
+    }
+    
+    
+    t = Math.ceil(t);
+    return new BigDecimal(t);
   }
 
 }

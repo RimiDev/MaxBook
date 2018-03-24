@@ -147,11 +147,13 @@ and open the template in the editor.
         <p:panel header="Client Inventory" toggleable="true" toggleOrientation="vertical" collapsed="false">
             <b:panelGrid columns="1">
                 <h:form >
+                  
                     <p:growl id="msgs" showDetail="true"/>
-
+                    
                     <p:dataTable id="clientDataTable" var="client" value="#{managementBacking.clients}" editable="true" style="margin-bottom:20px" >
                         <f:facet name="header">
                             Client Editing
+                             
                         </f:facet>
 
                         <p:ajax event="rowEdit" listener="#{managementBacking.onRowEdit}" update=":form:msgs" />
@@ -244,6 +246,14 @@ and open the template in the editor.
                             <p:cellEditor>
                               <f:facet name="output"><h:outputText value="#{client.country}"/></f:facet>
                               <f:facet name="input"><p:inputText  value="#{client.country}" style="width:100%"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        
+                        <!--total purchases<-->
+                        <p:column headerText="total purchases">
+                            <p:cellEditor>
+                              <f:facet name="output"><h:outputText value="#{managementBacking.getTotalValueOfAllPurchases(client)}"/></f:facet>
+                              <f:facet name="input"><p:inputText  value="#{managementBacking.getTotalValueOfAllPurchases(client)}" style="width:100%"/></f:facet>
                             </p:cellEditor>
                         </p:column>
                         
