@@ -25,13 +25,16 @@
                                         <p>#{sessionScope['current_user'].postalCode}</p>
                                         <p>#{sessionScope['current_user'].province.province}</p>
                                     </div>
+                                    <!-- Credit Card Info-->
                                     <div class="col-sm-8">
-                                        <div class="col-sm-4"><label class="">#{msgs.cardHolderName}</label></div>
+                                        <div class="col-sm-4">
+                                            <label class="">#{msgs.cardHolderName}</label>
+                                        </div>
                                         <div class="col-sm-8"> 
                                             <b:inputText 
                                                 value="#{cartBackingBean.creditcardBean.name}" placeholder="#{msgs.cardHolderName}" 
-                                                class="" required="true"
-                                                accesskey="" requiredMessage="#{msgs.requiredCardHolder}">
+                                                class="" required="true" accesskey="" 
+                                                requiredMessage="#{msgs.requiredCardHolder}">
                                             </b:inputText>
                                         </div>
                                         <div class="col-sm-4">
@@ -40,7 +43,10 @@
                                         <div class="col-sm-8"> 
                                             <b:inputText placeholder="#{msgs.cardNumber}" class="form-control input-md" required="true"
                                                          requiredMessage="#{msgs.requiredCardNumber}"
-                                                         value="#{cartBackingBean.creditcardBean.number}"></b:inputText>
+                                                         value="#{cartBackingBean.creditcardBean.number}"
+                                                         validatorMessage="#{msgs.invalidCardNumber}">
+                                                <f:validateRegex pattern="^(?:4[0-9]{12}(?:[0-9]{3})?|[25][1-7][0-9]{14}|6(?:011|5[0-9][0-9])[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35\d{3})\d{11})$"/>
+                                            </b:inputText>
                                         </div>
                                         <div class="col-sm-4">
                                             <label class="">#{msgs.expiry}</label>
@@ -48,14 +54,21 @@
                                         <div class="col-sm-3"> 
                                             <b:inputText placeholder="#{msgs.expiry}" class="form-control input-md" required="true"
                                                          requiredMessage="#{msgs.requiredCardNumber}"
-                                                         value="#{cartBackingBean.creditcardBean.exp}"></b:inputText>
+                                                         value="#{cartBackingBean.creditcardBean.exp}"
+                                                         validatorMessage="#{msgs.invalidCardExpiry}">
+                                                <f:validateRegex pattern="^(\d\d\/\d\d)$"/>
+                                            </b:inputText>
                                         </div>
                                         <div class="col-sm-1">
                                             <label class="">#{msgs.cvCode}</label>
                                         </div>
                                         <div class="col-sm-3"> 
                                             <b:inputText placeholder="#{msgs.cvCode}" class="form-control input-md" required="true"
-                                                         requiredMessage="#{msgs.requiredCardNumber}"></b:inputText>
+                                                         requiredMessage="#{msgs.requiredCardNumber}"
+                                                         value="#{cartBackingBean.creditcardBean.cv}"
+                                                         validatorMessage="#{msgs.invalidCardCSV}">
+                                                <f:validateRegex pattern="^(\d\d\d)$"/>
+                                            </b:inputText>
                                         </div>
                                     </div>
                                 </div>
