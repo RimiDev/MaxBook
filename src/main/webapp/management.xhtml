@@ -357,7 +357,73 @@
         </p:panel>
 
       </b:tab>
-      <b:tab title="Reports" class=""></b:tab>
+      <b:tab title="Reports" class="">
+
+        <p:panel id="TotalSalesReport" header="Total Sales Report" toggleable="true" toggleOrientation="vertical" collapsed="true">
+
+          <h:form>
+            <p:dataTable id="totalSalesTable" var="client" value="#{managementBacking.clients}" editable="true" style="margin-bottom:20px" >
+
+            </p:dataTable>
+          </h:form>
+        </p:panel>
+
+        <p:panel id="salesByClientPanel" header="Sales by Client Report" toggleable="true" toggleOrientation="vertical" collapsed="true">
+
+          <h:form>
+            <p:dataTable id="salesByClientDataTable" var="client" value="#{managementBacking.clients}" editable="true" style="margin-bottom:20px" >
+
+            </p:dataTable>
+          </h:form>
+        </p:panel>
+
+        <p:panel id="salesByPublisherPanel" header="Sales by Publisher Report" toggleable="true" toggleOrientation="vertical" collapsed="true">
+
+          <h:form>
+            <p:dataTable id="salesByPublisherDataTable" var="client" value="#{managementBacking.clients}" editable="true" style="margin-bottom:20px" >
+
+            </p:dataTable>
+          </h:form>
+        </p:panel>
+
+        <p:panel id="topSellersPanel" header="Top Sellers Report" toggleable="true" toggleOrientation="vertical" collapsed="true">
+
+          <h:form>
+            <p:dataTable id="topSellersDataTable" var="client" value="#{managementBacking.clients}" editable="true" style="margin-bottom:20px" >
+
+            </p:dataTable>
+          </h:form>
+        </p:panel>
+
+        <p:panel id="topClientsPanel" header="Top Clients Report" toggleable="true" toggleOrientation="vertical" collapsed="true">
+
+          <h:form>
+            <p:dataTable id="topClientsDataTable" var="client" value="#{managementBacking.clients}" editable="true" style="margin-bottom:20px" >
+
+            </p:dataTable>
+          </h:form>
+        </p:panel>
+
+        <p:panel id="zeroSalesPanel" header="Zero Sales Report" toggleable="true" toggleOrientation="vertical" collapsed="true">
+
+          <h:form>
+            <p:dataTable id="zeroSalesDataTable" var="client" value="#{managementBacking.clients}" editable="true" style="margin-bottom:20px" >
+
+            </p:dataTable>
+          </h:form>
+        </p:panel>
+        
+        <p:panel id="stockReportPanel" header="Stock Report" toggleable="true" toggleOrientation="vertical" collapsed="true">
+
+          <h:form>
+            <p:dataTable id="stockReportDataTable" var="client" value="#{managementBacking.clients}" editable="true" style="margin-bottom:20px" >
+
+            </p:dataTable>
+          </h:form>
+        </p:panel>
+
+
+      </b:tab>
     </b:tabView>
 
 
