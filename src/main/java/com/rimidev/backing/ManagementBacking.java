@@ -7,12 +7,14 @@ package com.rimidev.backing;
 
 import com.rimidev.maxbook.controller.BookJpaController;
 import com.rimidev.maxbook.controller.ClientJpaController;
+import com.rimidev.maxbook.controller.SurveyJpaController;
 import com.rimidev.maxbook.controller.exceptions.NonexistentEntityException;
 import com.rimidev.maxbook.controller.exceptions.RollbackFailureException;
 import com.rimidev.maxbook.entities.Book;
 import com.rimidev.maxbook.entities.Client;
 import com.rimidev.maxbook.entities.Invoice;
 import com.rimidev.maxbook.entities.InvoiceDetails;
+import com.rimidev.maxbook.entities.Survey;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -46,8 +48,14 @@ public class ManagementBacking implements Serializable {
   @Inject
   ClientJpaController clientJpaController;
   List<Client> clients;
+  
+  @Inject
+  SurveyJpaController surveyJpaController;
+  List<Survey> surveys;
 
   List<Integer> status;
+  
+  Survey newSurvey;
 //    private String message;
 //
 //    public String getMessage() {
@@ -83,12 +91,26 @@ public class ManagementBacking implements Serializable {
   public void setBk(List<Book> bk) {
     this.bk = bk;
   }
+  
+  public List<Survey> getSurveys(){
+      return surveys;
+  }
+  
+  public void setSurveys(List<Survey> surveys){
+      this.surveys = surveys;
+  }
+  
+  public Survey getNewSurvey(){
+      return this.newSurvey;
+  }
 
   @PostConstruct
   public void init() {
     bk = bkcon.findBookEntities();
     clients = clientJpaController.findClientEntities();
+    surveys = surveyJpaController.findSurveyEntities();
     status = new ArrayList<Integer>();
+    newSurvey = new Survey();
     status.add(0);
     status.add(1);
   }
@@ -109,6 +131,8 @@ public class ManagementBacking implements Serializable {
       bkcon.edit(editedBook);
       FacesMessage msg = new FacesMessage("Book Edited", String.valueOf(editedBook));
       FacesContext.getCurrentInstance().addMessage(null, msg);
+    } else if (event.getObject() instanceof Survey){
+        editSurvey((Survey) event.getObject());
     }
 
   }
@@ -118,7 +142,7 @@ public class ManagementBacking implements Serializable {
   }
 
   public void onRowCancel(RowEditEvent event) {
-    FacesMessage msg = new FacesMessage("Edit Cancelled", ((Book) event.getObject()).getIsbn());
+    FacesMessage msg = new FacesMessage("Edit Cancelled", event.getObject().toString());
     FacesContext.getCurrentInstance().addMessage(null, msg);
   }
 
@@ -173,4 +197,29 @@ public class ManagementBacking implements Serializable {
     return new BigDecimal(t);
   }
 
+  /**
+   * Edit of a Survey entry in the database
+   * 
+   * @param survey
+   * @throws Exception 
+   */
+  public void editSurvey(Survey survey) throws Exception{
+      surveyJpaController.edit(survey);
+      FacesMessage msg = new FacesMessage("Survey Edited", Integer.toString(survey.getId()));
+      FacesContext.getCurrentInstance().addMessage(null, msg);
+  }
+  
+  public void addSurvey() throws Exception{
+      logger.info(newSurvey.getQuestion());
+      logger.info(newSurvey.getOption1());
+      logger.info(newSurvey.getOption2());
+      logger.info(newSurvey.getOption3());
+      logger.info(newSurvey.getOption4());
+      surveyJpaController.create(newSurvey);
+      logger.info("New Survey Added");
+  }
+ 
+  public void deleteSurvey() throws Exception{
+      logger.info("Test Delete Survey");
+  }
 }

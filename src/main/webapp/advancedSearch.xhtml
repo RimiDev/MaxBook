@@ -1,4 +1,3 @@
-
 <ui:composition template="/pageTemplates/master_template.xhtml"
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:f="http://java.sun.com/jsf/core"
@@ -10,18 +9,14 @@
 
     <ui:define name="title">#{msgs.advancedSearch}</ui:define>
     <ui:define name="content">
-        <!--SEARCH PANEL-->
         <h2>#{msgs.advancedSearch}</h2>
-
         <div class="col-md-12 profile-dashboard">
             <div class="row">
                 <div class="container">
                     <b:form class="form-horizontal">
                         <b:tabView contentStyle="border-right: 1px solid #ddd;border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding:10px">
-
                             #{msgs.searchByTitle}
                             <b:tab title="#{msgs.byTitle}" style="">
-
                                 <div class="add_listing_info">
                                     <h2 class="form-title">#{msgs.searchTitle}</h2>
                                     <br/>
@@ -32,18 +27,11 @@
                                                           class="form-control input-md"></b:inputText>
                                         </div>
                                     </div>
-
                                     <b:commandButton class="btn btn-success" value="#{msgs.search}" action="#{searchBackingBean.getBookByTitle}"/>
-
                                 </div>
-
                             </b:tab>
-
-
                             #{msgs.searchByGenre}
-
                             <b:tab title="#{msgs.byGenre}">
-
                                 <div class="add_listing_info">
                                     <h2 class="form-title">#{msgs.searchGenre}</h2>
                                     <br/>
@@ -54,17 +42,11 @@
                                                           class="form-control input-md"></b:inputText>
                                         </div>
                                     </div>
-
                                     <b:commandButton class="btn btn-success" value="#{msgs.search}" action="#{searchBackingBean.getBookByGenre}"/>                                    
-
                                 </div>
-
                             </b:tab>
-
                             #{msgs.searchByAuthor}
-
                             <b:tab title="#{msgs.byAuthor}" style="">
-
                                 <div class="add_listing_info">
                                     <h2 class="form-title">#{msgs.searchAuthors}</h2>
                                     <br/>
@@ -77,7 +59,6 @@
                                         <div class="col-md-2 col-xs-2">
                                             <b:commandButton class="btn btn-success" value="#{msgs.search}" action="#{searchBackingBean.getBookByFirstName}"/>                                    
                                         </div>
-
                                         <div class="form-group">
                                             <label class="col-md-4 col-xs-4 control-label" for="LastName">#{msgs.lastName}</label>
                                             <div class="col-md-5 col-xs-6">
@@ -87,20 +68,12 @@
                                             <div class="col-md-2 col-xs-2">
                                                 <b:commandButton class="btn btn-success" value="#{msgs.search}" action="#{searchBackingBean.getBookByLastName}"/>                                    
                                             </div>                                       
-
-
-
                                         </div>
                                     </div>
-
                                 </div>
-
                             </b:tab>
-
                             #{msgs.searchByIsbn}
-
                             <b:tab title="#{msgs.byIsbn}">
-
                                 <div class="add_listing_info">
                                     <h2 class="form-title">#{msgs.searchIsbn}</h2>
                                     <br/>
@@ -111,48 +84,27 @@
                                                           class="form-control input-md"></b:inputText>
                                         </div>
                                     </div>
-
                                     <b:commandButton class="btn btn-success" value="#{msgs.search}" action="#{searchBackingBean.getBookByIsbn}"/>                                    
-
                                 </div>
-
                             </b:tab>
-
                         </b:tabView>
-
-
                     </b:form>
-
                 </div>
-
             </div>
-
         </div>
-
-
         <div class="col-md-12">
             <h:form>
-
                 <b:panel>
-
-
                     <h2 style="text-align:center"> #{msgs.searchResult} </h2>
-
                     <br/>
-
                     <ui:repeat value="#{searchBackingBean.searchedBooks}" var="book">
-
-
                         <b:column col-md="3">                           
-
                             <b:thumbnail style="height:400px;">
                                 <f:facet name="caption">
                                     <h:commandLink action="#{bookDisplayBacking.showDetails}">
-
                                         <b:image style="height:300px;width:200px;" library="images" name="/books/#{book.isbn}.jpg" tooltip="#{book.genre}"/>
                                         <h:outputText value="#{bookDisplayBacking.displayTitle(book.title)}"/>
                                         <f:param name="isbn" value="#{book.isbn}"/>
-
                                     </h:commandLink>
                                     <br/>
                                     <h:outputText  value="$#{book.listPrice}"/>
