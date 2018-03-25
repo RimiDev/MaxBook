@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.rimidev.backing;
 
 import com.rimidev.maxbook.beans.CreditCardBean;
@@ -232,10 +227,11 @@ public class CartBackingBean implements Serializable {
     if (user == null) {
       return "login?faces-redirect=true";
     } else {
-
-      if (user.getAddress1().length() == 0 || user.getAddress2().length() == 0
-              || user.getFirstName().length() == 0 || user.getLastName().length() == 0
-              || user.getPostalCode().length() == 0) {
+      if (user.getAddress1() == null || user.getAddress2() == null
+              || user.getFirstName() == null || user.getLastName() == null
+              || user.getPostalCode() == null || user.getPhoneNumber() == null
+              || user.getCity() == null || user.getProvince() == null 
+              || user.getCountry() == null) {
         return "account-details?faces-redirect=true";
       }
     }
