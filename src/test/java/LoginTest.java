@@ -28,13 +28,14 @@ public class LoginTest {
 //        WebDriver driver = new ChromeDriver();
 //        driver.manage().window().maximize();
 //        driver.get("http://localhost:8080/MaxBook/login.xhtml");
-//        Thread.sleep(1000);
+//        Thread.sleep(2000);
 //        WebElement loginBox = driver.findElement(By.id("loginform:login-username"));
 //        loginBox.sendKeys("test@test.com");
+//        
 //
 //        //register-password
 //        Thread.sleep(1000); 
-//        WebElement passwordBox = driver.findElement(By.id("loginform:login-password"));
+//        WebElement passwordBox = driver.findElement(By.id("loginform:passwordBox"));
 //        passwordBox.sendKeys("password");
 //
 //        Robot robot = new Robot();
