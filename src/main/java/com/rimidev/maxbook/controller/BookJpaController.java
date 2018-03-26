@@ -446,6 +446,19 @@ public class BookJpaController implements Serializable {
 
         String quer = "select distinct bk from Book bk inner join bk.authorList bkl inner join bk.publisherId bkp where bk.isbn LIKE :crit OR bk.title LIKE :crit OR bkl.firstName LIKE :crit "
                 + "OR bkl.lastName LIKE :crit OR bkp.name LIKE :crit";
+  }
+  
+  public List<Book> getBookByIsbn(String isbn){
+      
+      TypedQuery<Book> query = em.createNamedQuery("Book.findByIsbn", Book.class);
+      query.setParameter("isbn", isbn);
+
+      List<Book> books = query.getResultList();
+      
+      return (List<Book>) books;
+  }
+  
+  public List<Book> getEmptyList() {
 
         TypedQuery<Book> searchedBooks = em.createQuery(quer, Book.class);
         searchedBooks.setParameter("crit", "%" + criteria + "%");

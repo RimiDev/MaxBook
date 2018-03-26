@@ -1,326 +1,343 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+  <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.rimidev</groupId>
-    <artifactId>MaxBook</artifactId>
-    <version>1.0-SNAPSHOT</version>
-    <packaging>war</packaging>
+  <groupId>com.rimidev</groupId>
+  <artifactId>MaxBook</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <packaging>war</packaging>
     
-    <repositories>
-        <repository>
-            <id>prime-repo</id>
-            <name>PrimeFaces Maven Repository</name>
-            <url>http://repository.primefaces.org</url>
-            <layout>default</layout>
-        </repository>
-    </repositories>
+  <repositories>
+    <repository>
+      <id>prime-repo</id>
+      <name>PrimeFaces Maven Repository</name>
+      <url>http://repository.primefaces.org</url>
+      <layout>default</layout>
+    </repository>
+  </repositories>
 
-    <name>${project.artifactId}</name>
+  <name>${project.artifactId}</name>
 
-    <description>Display the records from a database using JPA, CDI and JSF</description>
+  <description>Display the records from a database using JPA, CDI and JSF</description>
     
-    <developers>
-        <developer>
-            <id>1537681</id>
-            <name>Maxime Lacasse</name>
-            <email>MaximeLacasseDeveloper@gmail.com</email>
-        </developer>
-    </developers>
+  <developers>
+    <developer>
+      <id>1537681</id>
+      <name>Maxime Lacasse</name>
+      <email>MaximeLacasseDeveloper@gmail.com</email>
+    </developer>
+  </developers>
     
-    <organization>
-        <name>Dawson College</name>
-    </organization>
+  <organization>
+    <name>Dawson College</name>
+  </organization>
 
 
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-    </properties>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+  </properties>
     
     
-    <!-- Dependencies listed here are usually bom or bill of materials-->
-    <!-- The bom lists all the child dependencies that could be used and -->
-    <!-- lists the current version number for each -->
-    <dependencyManagement>
-        <dependencies>
-            
-            <dependency>
-                <groupId>org.jboss.arquillian</groupId>
-                <artifactId>arquillian-bom</artifactId>
-                <version>1.2.0.Final</version>
-                <scope>import</scope>
-                <type>pom</type>
-            </dependency>
-
-            <dependency>
-                <groupId>org.jboss.shrinkwrap.resolver</groupId>
-                <artifactId>shrinkwrap-resolver-bom</artifactId>
-                <version>3.1.2</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-
-        </dependencies>
-    </dependencyManagement>
-
-    <!-- Dependencies are libraries that either must be included in the -->
-    <!-- jar/war file or are expected to be found in the container such as -->
-    <!-- GlassFish -->
+  <!-- Dependencies listed here are usually bom or bill of materials-->
+  <!-- The bom lists all the child dependencies that could be used and -->
+  <!-- lists the current version number for each -->
+  <dependencyManagement>
     <dependencies>
-        <!-- These dependencies are required to run the project on the server -->
+            
+      <dependency>
+        <groupId>org.jboss.arquillian</groupId>
+        <artifactId>arquillian-bom</artifactId>
+        <version>1.2.0.Final</version>
+        <scope>import</scope>
+        <type>pom</type>
+      </dependency>
 
-        <!-- Java EE 7.0 Web profile dependency -->
+      <dependency>
+        <groupId>org.jboss.shrinkwrap.resolver</groupId>
+        <artifactId>shrinkwrap-resolver-bom</artifactId>
+        <version>3.1.2</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+
+    </dependencies>
+  </dependencyManagement>
+
+  <!-- Dependencies are libraries that either must be included in the -->
+  <!-- jar/war file or are expected to be found in the container such as -->
+  <!-- GlassFish -->
+  <dependencies>
+    <!-- These dependencies are required to run the project on the server -->
+
+    <!-- Java EE 7.0 Web profile dependency -->
       
-        <dependency>
-            <groupId>javax</groupId>
-            <artifactId>javaee-web-api</artifactId>
-            <version>7.0</version>
-            <scope>provided</scope>
-        </dependency>
+    <dependency>
+      <groupId>javax</groupId>
+      <artifactId>javaee-web-api</artifactId>
+      <version>7.0</version>
+      <scope>provided</scope>
+    </dependency>
 
-        <!-- MySQL dependency -->
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.45</version>
-            <scope>provided</scope>
-        </dependency>
+    <!-- MySQL dependency -->
+    <dependency>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+      <version>5.1.45</version>
+      <scope>provided</scope>
+    </dependency>
 
-        <!-- PrimeFaces dependency -->
-        <dependency>
-            <groupId>org.primefaces</groupId>
-            <artifactId>primefaces</artifactId>
-            <version>6.1</version>
-        </dependency>
+    <!-- PrimeFaces dependency -->
+    <dependency>
+      <groupId>org.primefaces</groupId>
+      <artifactId>primefaces</artifactId>
+      <version>6.1</version>
+    </dependency>
         
-        <!-- Bootstrap dependency -->
-        <dependency>
-            <groupId>org.webjars</groupId>
-            <artifactId>bootstrap</artifactId>
-            <version>3.3.7-1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.webjars</groupId>
-            <artifactId>jquery</artifactId>
-            <version>3.1.1-1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.webjars</groupId>
-            <artifactId>font-awesome</artifactId>
-            <version>4.7.0</version>
-        </dependency>
+    <!-- Bootstrap dependency -->
+    <dependency>
+      <groupId>org.webjars</groupId>
+      <artifactId>bootstrap</artifactId>
+      <version>3.3.7-1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.webjars</groupId>
+      <artifactId>jquery</artifactId>
+      <version>3.1.1-1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.webjars</groupId>
+      <artifactId>font-awesome</artifactId>
+      <version>4.7.0</version>
+    </dependency>
 
 
-        <!-- EclipseLink dependency for the static metamodel generator -->
-        <dependency>
-            <groupId>org.eclipse.persistence</groupId>
-            <artifactId>org.eclipse.persistence.jpa.modelgen.processor</artifactId>
-            <version>2.7.1</version>
-            <scope>provided</scope>
-        </dependency>
+    <!-- EclipseLink dependency for the static metamodel generator -->
+    <dependency>
+      <groupId>org.eclipse.persistence</groupId>
+      <artifactId>org.eclipse.persistence.jpa.modelgen.processor</artifactId>
+      <version>2.7.1</version>
+      <scope>provided</scope>
+    </dependency>
 
-        <!-- These dependencies are required for testing only -->
+    <!-- These dependencies are required for testing only -->
 
-        <!-- Arquillian dependency for running tests on a remote GlassFish server -->
-        <dependency>
-            <groupId>org.jboss.arquillian.container</groupId>
-            <artifactId>arquillian-glassfish-remote-3.1</artifactId>
-            <version>1.0.2</version>
-            <scope>test</scope>
-        </dependency>
+    <!-- Arquillian dependency for running tests on a remote GlassFish server -->
+    <dependency>
+      <groupId>org.jboss.arquillian.container</groupId>
+      <artifactId>arquillian-glassfish-remote-3.1</artifactId>
+      <version>1.0.2</version>
+      <scope>test</scope>
+    </dependency>
 
-        <!-- Resolves dependencies from the pom.xml when explicitly referred to
-        in the Arquillian deploy method -->
-        <dependency>
-            <groupId>org.jboss.shrinkwrap.resolver</groupId>
-            <artifactId>shrinkwrap-resolver-depchain</artifactId>
-            <type>pom</type>
-            <scope>test</scope>
-        </dependency>
+    <!-- Resolves dependencies from the pom.xml when explicitly referred to
+    in the Arquillian deploy method -->
+    <dependency>
+      <groupId>org.jboss.shrinkwrap.resolver</groupId>
+      <artifactId>shrinkwrap-resolver-depchain</artifactId>
+      <type>pom</type>
+      <scope>test</scope>
+    </dependency>
 
-        <!-- Connects Arquillian to JUnit -->
-        <dependency>
-            <groupId>org.jboss.arquillian.junit</groupId>
-            <artifactId>arquillian-junit-container</artifactId>
-            <scope>test</scope>
-        </dependency>
+    <!-- Connects Arquillian to JUnit -->
+    <dependency>
+      <groupId>org.jboss.arquillian.junit</groupId>
+      <artifactId>arquillian-junit-container</artifactId>
+      <scope>test</scope>
+    </dependency>
 
-        <!-- JUnit dependency -->
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.12</version>
-            <scope>test</scope>
-        </dependency>
+    <!-- JUnit dependency -->
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.12</version>
+      <scope>test</scope>
+    </dependency>
 
-        <!-- Selenium dependencies -->
-        <dependency>
-            <groupId>org.seleniumhq.selenium</groupId>
-            <artifactId>htmlunit-driver</artifactId>
-            <version>2.29.0</version>
-            <scope>test</scope>
-        </dependency>
+    <!-- Selenium dependencies -->
+    <dependency>
+      <groupId>org.seleniumhq.selenium</groupId>
+      <artifactId>htmlunit-driver</artifactId>
+      <version>2.29.0</version>
+      <scope>test</scope>
+    </dependency>
 
-        <!-- You will need a driver dependency for every browser you use in
-        testing. You can find the maven dependencies at
-        https://mvnrepository.com/artifact/org.seleniumhq.selenium -->
-        <dependency>
-            <groupId>org.seleniumhq.selenium</groupId>
-            <artifactId>selenium-chrome-driver</artifactId>
-            <version>3.8.1</version>
-            <scope>test</scope>
-        </dependency>
-
-        <!-- Normally you must download an exe for each browser. This library
-        will retrieve the the necessary file and place it in the classpath for
-        selenium to use -->
-        <dependency>
-            <groupId>io.github.bonigarcia</groupId>
-            <artifactId>webdrivermanager</artifactId>
-            <version>2.1.0</version>
-            <scope>test</scope>
-        </dependency>
-
-        <!-- January 2018 Discovered that there is a guava conflict that 
-        prevents Selenium from functioning unless this explicit dependency is 
-        included for testing -->
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>23.6-jre</version>
-            <scope>test</scope>
-        </dependency>
-
-        <!-- A better way to write assertions -->
-        <dependency>
-            <groupId>org.assertj</groupId>
-            <artifactId>assertj-core</artifactId>
-            <version>3.9.0</version>
-            <scope>test</scope>
-        </dependency>
-
-        <!-- Selenium uses SLF4J and log4j so these dependencies are needed
-        but just for test scope -->
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>1.7.25</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-slf4j-impl</artifactId>
-            <version>2.10.0</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-api</artifactId>
-            <version>2.10.0</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-core</artifactId>
-            <version>2.10.0</version>
-            <scope>test</scope>
-        </dependency>
+    <!-- You will need a driver dependency for every browser you use in
+    testing. You can find the maven dependencies at
+    https://mvnrepository.com/artifact/org.seleniumhq.selenium -->
+    <dependency>
+      <groupId>org.seleniumhq.selenium</groupId>
+      <artifactId>selenium-chrome-driver</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
         
-        <!--FOR ALL THE PRIMEFACES FREE THEMES, CHANGE THEME IN THE WEB.XML-->
+    <!-- https://mvnrepository.com/artifact/org.jsoup/jsoup -->
+    <dependency>
+      <groupId>org.jsoup</groupId>
+      <artifactId>jsoup</artifactId>
+      <version>1.8.3</version>
+    </dependency>
+
+
+    <!-- Normally you must download an exe for each browser. This library
+    will retrieve the the necessary file and place it in the classpath for
+    selenium to use -->
+    <dependency>
+      <groupId>io.github.bonigarcia</groupId>
+      <artifactId>webdrivermanager</artifactId>
+      <version>2.1.0</version>
+      <scope>test</scope>
+    </dependency>
+
+    <!-- January 2018 Discovered that there is a guava conflict that 
+    prevents Selenium from functioning unless this explicit dependency is 
+    included for testing -->
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+      <version>23.6-jre</version>
+      <scope>test</scope>
+    </dependency>
+
+    <!-- A better way to write assertions -->
+    <dependency>
+      <groupId>org.assertj</groupId>
+      <artifactId>assertj-core</artifactId>
+      <version>3.9.0</version>
+      <scope>test</scope>
+    </dependency>
+
+    <!-- Selenium uses SLF4J and log4j so these dependencies are needed
+    but just for test scope -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>1.7.25</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-slf4j-impl</artifactId>
+      <version>2.10.0</version>
+      <scope>test</scope>
+    </dependency>
         
-        <dependency>
-            <groupId>org.primefaces.themes</groupId>
-            <artifactId>all-themes</artifactId>
-            <version>1.0.10</version>
-        </dependency>
+    <!-- Jodd Mail Dependency -->
+    <dependency>
+      <groupId>org.jodd</groupId>
+      <artifactId>jodd-mail</artifactId>
+      <version>3.9.1</version>
+    </dependency>
+
         
-        <!--FOR RRS FEED-->
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-api</artifactId>
+      <version>2.10.0</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-core</artifactId>
+      <version>2.10.0</version>
+      <scope>test</scope>
+    </dependency>
+        
+    <!--FOR ALL THE PRIMEFACES FREE THEMES, CHANGE THEME IN THE WEB.XML-->
+        
+    <dependency>
+      <groupId>org.primefaces.themes</groupId>
+      <artifactId>all-themes</artifactId>
+      <version>1.0.10</version>
+    </dependency>
+        
+    <!--FOR RRS FEED-->
                 
-        <dependency>
-            <groupId>net.java.dev.rome</groupId>
-            <artifactId>rome</artifactId>
-            <version>1.0.0</version>
-        </dependency>
+    <dependency>
+      <groupId>net.java.dev.rome</groupId>
+      <artifactId>rome</artifactId>
+      <version>1.0.0</version>
+    </dependency>
         
-        <dependency>
-            <groupId>org.jdom</groupId>
-            <artifactId>jdom2</artifactId>
-            <version>2.0.6</version>
-        </dependency>
-        
-        
-        <dependency>
-            <groupId>org.webjars</groupId>
-            <artifactId>bootstrap</artifactId>
-            <version>3.3.7-1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.webjars</groupId>
-            <artifactId>jquery</artifactId>
-            <version>3.1.1-1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.webjars</groupId>
-            <artifactId>font-awesome</artifactId>
-            <version>4.7.0</version>
-        </dependency>
+    <dependency>
+      <groupId>org.jdom</groupId>
+      <artifactId>jdom2</artifactId>
+      <version>2.0.6</version>
+    </dependency>
         
         
-        <dependency>
-            <groupId>net.bootsfaces</groupId>
-            <artifactId>bootsfaces</artifactId>
-            <version>1.2.0</version>
-            <scope>compile</scope>
-        </dependency>
+    <dependency>
+      <groupId>org.webjars</groupId>
+      <artifactId>bootstrap</artifactId>
+      <version>3.3.7-1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.webjars</groupId>
+      <artifactId>jquery</artifactId>
+      <version>3.1.1-1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.webjars</groupId>
+      <artifactId>font-awesome</artifactId>
+      <version>4.7.0</version>
+    </dependency>
+        
+        
+    <dependency>
+      <groupId>net.bootsfaces</groupId>
+      <artifactId>bootsfaces</artifactId>
+      <version>1.2.0</version>
+      <scope>compile</scope>
+    </dependency>
                  
 
 
-    </dependencies>
+  </dependencies>
 
-    <!-- Information for compiling, testing and packaging are define here -->
-    <build>
-        <!-- Folders in the project required during testing -->
-        <testResources>
-            <!-- although a default maven location, this declaration is required by Arquillian -->
-            <testResource>
-                <directory>src/test/resources</directory>
-            </testResource>
-            <!-- location of the arquillian config file for connectiong to the server -->
-            <testResource>
-                <directory>src/test/resources-glassfish-remote</directory>
-            </testResource>
-        </testResources>
+  <!-- Information for compiling, testing and packaging are define here -->
+  <build>
+    <!-- Folders in the project required during testing -->
+    <testResources>
+      <!-- although a default maven location, this declaration is required by Arquillian -->
+      <testResource>
+        <directory>src/test/resources</directory>
+      </testResource>
+      <!-- location of the arquillian config file for connectiong to the server -->
+      <testResource>
+        <directory>src/test/resources-glassfish-remote</directory>
+      </testResource>
+    </testResources>
 
-        <!-- This allows you to configure a plugin that children of this pom will use
-        In this case we are configuring the default war plugin that maven uses
-        to version 3.0.0 to eliminate a warning message generated by the slightly
-        older version -->
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-war-plugin</artifactId>
-                    <version>3.2.0</version>
-                </plugin>
-            </plugins>
-        </pluginManagement>
-        <!-- Plugins are components that Maven uses for specific purposes beyond
-        the basic tasks -->
-        <plugins>
-            <plugin>
-                <!-- Executes JUnit tests and writes the results as an xml and
-                txt file Test classes must include one of the following in their
-                name: Test* *Test *TestCase -->
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.20.1</version>
-                <configuration>
-                    <argLine>-Dfile.encoding=${project.build.sourceEncoding}</argLine>
-                </configuration>
-            </plugin>
+    <!-- This allows you to configure a plugin that children of this pom will use
+    In this case we are configuring the default war plugin that maven uses
+    to version 3.0.0 to eliminate a warning message generated by the slightly
+    older version -->
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-war-plugin</artifactId>
+          <version>3.2.0</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+    <!-- Plugins are components that Maven uses for specific purposes beyond
+    the basic tasks -->
+    <plugins>
+      <plugin>
+        <!-- Executes JUnit tests and writes the results as an xml and
+        txt file Test classes must include one of the following in their
+        name: Test* *Test *TestCase -->
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.20.1</version>
+        <configuration>
+          <argLine>-Dfile.encoding=${project.build.sourceEncoding}</argLine>
+        </configuration>
+      </plugin>
 
-        </plugins>
-    </build>
+    </plugins>
+  </build>
 </project>

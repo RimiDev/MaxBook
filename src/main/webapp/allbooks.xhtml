@@ -10,9 +10,8 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
-    <ui:define name="title">
-        <title>#{msgs.allBooksTitle}</title>
-    </ui:define>
+    
+    <ui:define name="title">#{msgs.allBooksTitle}</ui:define>
     <ui:define name="content">
         <h:form>
             <b:panel>
@@ -29,6 +28,7 @@
                     </b:column>
                 </ui:repeat>
             </b:panel>
+            <br/>
             <b:panel>
                 <b:commandButton value="#{msgs.prev}" action="#{allBooks.prev()}" col-sm="1" offset-sm="4"></b:commandButton>
                 <b:label value="Page: #{allBooks.currentPageIndex} / #{allBooks.totalPages}" severity="primary" col-sm="2"></b:label>

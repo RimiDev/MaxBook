@@ -150,6 +150,16 @@ public class SearchBackingBean implements Serializable{
         this.genre = genre;
     }
 
+    public String getIsbn() {
+        return isbn;
+    }
+
+    public void setIsbn(String isbn) {
+        this.isbn = isbn;
+    }
+    
+    
+
     public List<Author> getsearchedAuthors() {
         return searchedAuthors;
     }

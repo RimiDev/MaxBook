@@ -131,4 +131,12 @@ public class BookDisplayBacking implements Serializable {
         }
 
     }
+    
+    public String displayTitle(String title){
+        
+        if (title.length()>50){
+            return title.substring(0,50) + "...";
+        }
+       return title;
+    }
 }
