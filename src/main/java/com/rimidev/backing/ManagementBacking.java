@@ -138,7 +138,7 @@ public class ManagementBacking implements Serializable {
   }
 
   public void onRowRemove(RowEditEvent event) {
-
+      logger.info("DELETE");
   }
 
   public void onRowCancel(RowEditEvent event) {
@@ -219,7 +219,12 @@ public class ManagementBacking implements Serializable {
       logger.info("New Survey Added");
   }
  
-  public void deleteSurvey() throws Exception{
+  public void deleteSurvey() {
       logger.info("Test Delete Survey");
+  }
+  
+  public void updateBook(Book b) throws Exception{
+      bkcon.edit(b);
+      logger.info("UPDATED BOOK");
   }
 }
