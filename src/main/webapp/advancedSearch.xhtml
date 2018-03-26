@@ -10,10 +10,10 @@
     <ui:define name="title">#{msgs.advancedSearch}</ui:define>
     <ui:define name="content">
         <h2>#{msgs.advancedSearch}</h2>
-        <div class="col-md-12 profile-dashboard">
-            <div class="row">
+        
+            
                 <div class="container">
-                    <b:form class="form-horizontal">
+                    <b:form class="">
                         <b:tabView contentStyle="border-right: 1px solid #ddd;border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding:10px">
                             #{msgs.searchByTitle}
                             <b:tab title="#{msgs.byTitle}" style="">
@@ -90,9 +90,8 @@
                         </b:tabView>
                     </b:form>
                 </div>
-            </div>
-        </div>
-        <div class="col-md-12">
+            
+        <div class="">
             <h:form>
                 <b:panel>
                     <h2 style="text-align:center"> #{msgs.searchResult} </h2>
