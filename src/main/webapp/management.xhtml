@@ -60,9 +60,12 @@
                 <p:column headerText="Publish Date">
                   <p:cellEditor>
                     <f:facet name="output">
-                      <h:outputText value="#{book.publishDate}">
+<!--                      <h:outputText value="#{book.publishDate}">
                         <f:convertDateTime pattern="d-M-yyyy" />          
-                      </h:outputText>
+                      </h:outputText>-->
+                        <p:calendar value="#{book.publishDate}" pattern="MM/dd/yyyy HH:mm:ss">
+                            <p:ajax event="dateSelect" listener="#{managementBacking.updateBook(book)}"/>
+                        </p:calendar>
                     </f:facet>
                     <f:facet name="input"><p:inputText id="modelInputPubDate" value="#{book.publishDate}" style="width:100%">
                         <f:convertDateTime pattern="dd-mm-yyyy"/>
@@ -103,9 +106,12 @@
                 <p:column headerText="Date Entered">
                   <p:cellEditor>
                     <f:facet name="output">
-                      <h:outputText value="#{book.enteredDate}">
+<!--                      <h:outputText value="#{book.enteredDate}">
                         <f:convertDateTime pattern="d-M-yyyy" />          
-                      </h:outputText>
+                      </h:outputText>-->
+                        <p:calendar value="#{book.enteredDate}" pattern="MM/dd/yyyy HH:mm:ss">
+                            <p:ajax event="dateSelect" listener="#{managementBacking.updateBook(book)}"/>
+                        </p:calendar>
                     </f:facet>
                     <f:facet name="input"><p:inputText id="modelInputEnterDate" value="#{book.enteredDate}" style="width:100%">
                         <f:convertDateTime  pattern="dd-mm-yyyy"/>
