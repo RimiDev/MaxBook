@@ -130,7 +130,7 @@ and open the template in the editor.
                         </p:column>
                         <p:column style="">
                             <p:rowEditor>
-                                <p:commandButton update="books" value="Delete" action="#{managementBacking.onRowRemove(book.isbn)}" />
+                                <p:commandButton update="books" value="Delete" action="#{managementBacking.onBookRowRemove(book.isbn)}" />
                             </p:rowEditor>
                         </p:column>
                     </p:dataTable>
@@ -254,13 +254,14 @@ and open the template in the editor.
                         </p:column>
                         <p:column style="">
                             <p:rowEditor>
-                                <!--<p:commandButton update="invoices" value="Delete" action="#{managementBacking.onRowRemove(book.isbn)}" />-->
+                                <!--<p:commandButton update="invoices" value="Delete" action="#{managementBacking.onBookRowRemove(book.isbn)}" />-->
                             </p:rowEditor>
+                            <p:commandButton update="invoices" value="Delete" action="#{managementBacking.onInvoiceRowRemove(invoice.id)}" />
                         </p:column>
 
                         <p:rowExpansion>
                             <p:panelGrid columns="1" columnClasses="label">
-                                <h:form id="form3b">
+                                <h:form id="subForm">
 
                                     <p:dataTable id="invoiceDetails" var="invDetail" value="#{invoice.invoiceDetailsList}" editable="true" style="margin-bottom:20px">
                                         <f:facet name="header">
@@ -307,9 +308,10 @@ and open the template in the editor.
                                             </p:cellEditor>
                                         </p:column>
                                         <p:column style="">
-                                            <p:rowEditor>
-                                                <!--<p:commandButton update="invoices" value="Delete" action="#{managementBacking.onRowRemove(book.isbn)}" />-->
-                                            </p:rowEditor>
+                                            <p:rowEditor></p:rowEditor>
+                                            <p:commandButton process="@form" update="@form @parent" value="Delete" action="#{managementBacking.onInvoiceDetailRowRemove(invDetail.invoiceId.id,invDetail.id)}">
+                                                <f:ajax execute="@form" render="@form"/>
+                                            </p:commandButton>
                                         </p:column>
                                     </p:dataTable>
                                 </h:form>

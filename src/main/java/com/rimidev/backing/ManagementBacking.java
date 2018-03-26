@@ -16,6 +16,7 @@ import com.rimidev.maxbook.entities.Invoice;
 import com.rimidev.maxbook.entities.InvoiceDetails;
 import com.rimidev.maxbook.entities.Review;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -112,66 +113,99 @@ public class ManagementBacking implements Serializable {
 
     public void onRowEdit(RowEditEvent event) throws Exception {
         String item = "";
-        if(event.getObject() instanceof Book){
+        String editType = "";
+        if (event.getObject() instanceof Book) {
             onBookRowEdit(event);
-            item =  "Book " +((Book) event.getObject()).getIsbn();
-        } else if(event.getObject() instanceof Review){
+            item = "Book " + ((Book) event.getObject()).getIsbn();
+            editType = "Book Edit";
+        } else if (event.getObject() instanceof Review) {
             onReviewRowEdit(event);
-            item =  "Review #" +((Review) event.getObject()).getId().toString();
-        }else if(event.getObject() instanceof Invoice){
+            item = "Review #" + ((Review) event.getObject()).getId().toString();
+            editType = "Review Edit";
+        }else if (event.getObject() instanceof Invoice) {
             onInvoiceRowEdit(event);
-            item =  "Invoice #" +((Invoice)event.getObject()).getId();
-        }else if(event.getObject() instanceof InvoiceDetails){
+            item = "Invoice #" + ((Invoice) event.getObject()).getId();
+            editType = "Invoice Edit";
+        }else if (event.getObject() instanceof InvoiceDetails) {
             onInvDetailRowEdit(event);
-            item = "Invoice Detail #"+((InvoiceDetails)event.getObject()).getId();
+            item = "Invoice Detail #" + ((InvoiceDetails) event.getObject()).getId();
+            editType = "Invoice Details Edit";
         }
         
-        FacesMessage msg = new FacesMessage("Book Edited", String.valueOf(editedBook));
-        FacesContext.getCurrentInstance().addMessage(null, msg);
-
-    }
-    
-     public void onBookRowEdit(RowEditEvent event) throws Exception {
-        Book editedBook = (Book) event.getObject();
-        bkcon.edit(editedBook);
-        FacesMessage msg = new FacesMessage("Book Edited", String.valueOf(editedBook));
-        FacesContext.getCurrentInstance().addMessage(null, msg);
-
-    }
-    
-    public void onInvDetailRowEdit(RowEditEvent event) throws Exception {
-        InvoiceDetails editedBook = (InvoiceDetails) event.getObject();
-        invDetailsCon.edit(editedBook);
-        FacesMessage msg = new FacesMessage("Invoice Detail Editted", String.valueOf(editedBook));
+        FacesMessage msg = new FacesMessage(editType, item);
         FacesContext.getCurrentInstance().addMessage(null, msg);
 
     }
 
-    public void onReviewRowEdit(RowEditEvent event) throws Exception {
+    private void onBookRowEdit(RowEditEvent event) throws Exception {
+        Book editedItem = (Book) event.getObject();
+        bkcon.edit(editedItem);
+    }
+
+    private void onInvoiceRowEdit(RowEditEvent event) throws Exception {
+        Invoice editedItem  = (Invoice) event.getObject();
+        invcon.edit(editedItem);
+    }
+
+    private void onInvDetailRowEdit(RowEditEvent event) throws Exception {
+        InvoiceDetails editedItem = (InvoiceDetails) event.getObject();
+        invDetailsCon.edit(editedItem);
+    }
+
+    private void onReviewRowEdit(RowEditEvent event) throws Exception {
         Review approvedReview = (Review) event.getObject();
         revcon.edit(approvedReview);
-        FacesMessage msg = new FacesMessage("Review Edited", "Review #" + ((Review) event.getObject()).getId());
-        FacesContext.getCurrentInstance().addMessage(null, msg);
-
     }
 
-    public void onRowRemove(String isbn) throws Exception {
+    public void onBookRowRemove(String isbn) throws Exception {
         bkcon.destroy(isbn);
         bk = bkcon.findBookEntities();
     }
+    
+    public void onInvoiceRowRemove(Integer id) throws Exception {
+        Invoice invoice = invcon.findInvoice(id);
+        for(InvoiceDetails i:invoice.getInvoiceDetailsList()){
+            invDetailsCon.destroy(i.getId());
+        }
+        invcon.destroy(id);
+        inv = invcon.findInvoiceEntities();
+    }
+    
+    public void onInvoiceDetailRowRemove(Integer id,Integer det) throws Exception {
+        logger.log(Level.INFO,"Deleting invoice detail");
+        Invoice i = invcon.findInvoice(id);
+        logger.log(Level.INFO,"Invoice before"+i.getInvoiceDetailsList());
+        invDetailsCon.destroy(det);
+        BigDecimal newNet = new BigDecimal(0);
+        BigDecimal newGross= new BigDecimal(0);
+        
+        for(InvoiceDetails invDet:i.getInvoiceDetailsList()){
+            newNet.add(invDet.getBookPrice());
+            Double d = invDet.getHSTrate().doubleValue();
+            newGross = new BigDecimal(newNet.doubleValue()/(1-d));
+        }
+        i.setNetValue(newGross);
+        i.setGrossValue(newGross);
+        invcon.edit(i);
+        inv = invcon.findInvoiceEntities();
+        logger.log(Level.INFO,"Invoice after"+i.getInvoiceDetailsList());
+         
+    }
+    
+    
 
     public void onRowCancel(RowEditEvent event) {
         String item = "";
-        if(event.getObject() instanceof Book){
-            item =  "Book " +((Book) event.getObject()).getIsbn();
-        } else if(event.getObject() instanceof Review){
-            item =  "Review #" +((Review) event.getObject()).getId().toString();
-        }else if(event.getObject() instanceof Invoice){
-            item =  "Invoice #" +((Invoice)event.getObject()).getId();
-        }else if(event.getObject() instanceof InvoiceDetails){
-            item = "Invoice Detail #"+((InvoiceDetails)event.getObject()).getId();
+        if (event.getObject() instanceof Book) {
+            item = "Book " + ((Book) event.getObject()).getIsbn();
+        } else if (event.getObject() instanceof Review) {
+            item = "Review #" + ((Review) event.getObject()).getId().toString();
+        } else if (event.getObject() instanceof Invoice) {
+            item = "Invoice #" + ((Invoice) event.getObject()).getId();
+        } else if (event.getObject() instanceof InvoiceDetails) {
+            item = "Invoice Detail #" + ((InvoiceDetails) event.getObject()).getId();
         }
-        
+
         FacesMessage msg = new FacesMessage("Edit Cancelled", item);
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
