@@ -480,7 +480,7 @@ CREATE TABLE Review (
 INSERT INTO Review (isbn, client_id, rating, review_message, approval_status, review_date) VALUES 
 ('978-1449474256', 1, 4, 'It was aight.', 'Pending', '2018-01-01 22:22:22');
 INSERT INTO Review (isbn, client_id, rating, review_message, approval_status, review_date) VALUES 
-('978-1449474256', 1, 3, 'This is a test', 'Accepted', '2018-02-02 22:22:22');
+('978-1449474256', 1, 3, 'This is a test', 'Approved', '2018-02-02 22:22:22');
 
 CREATE TABLE Invoice (
     id int PRIMARY KEY auto_increment,

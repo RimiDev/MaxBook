@@ -152,6 +152,6 @@ public class BookDisplayBacking implements Serializable {
     
     public List<Review> showPermittedReviews(List<Review> allReviews){
         logger.info("booyaka");
-        return allReviews.stream().filter(r -> r.getApprovalStatus().equalsIgnoreCase("accepted")).collect(Collectors.toList());
+        return allReviews.stream().filter(r -> r.getApprovalStatus().equalsIgnoreCase("approved")).collect(Collectors.toList());
     }
 }
