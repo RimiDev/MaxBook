@@ -523,7 +523,7 @@ CREATE TABLE Survey (
     count4 int NOT NULL DEFAULT 0,
     removal_status boolean NOT NULL DEFAULT false
 );
-INSERT INTO Survey(question, option1, option2, option3, option4, count1, count2, count3, count4) VALUES 
+INSERT INTO Survey(question, option1, option2, option3, option4, count1, count2, count3, count4, removal_status) VALUES 
 ("Do you like Horror?", "Very Much", "Yes", "No", "I hate it", 0, 0, 0, 0,true);
 
 DROP TABLE IF EXISTS Ads;

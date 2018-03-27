@@ -31,28 +31,32 @@
         <b:tabView contentStyle="border-right: 1px solid #ddd;border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding:10px">
             <b:tab title="Management" class="">
 
-                
+
                 <p:panel id="bkInv" header="Book Inventory" toggleable="true" toggleOrientation="vertical" collapsed="true">
                     <b:panelGrid columns="1">
                         <h:form id="form">
-                            
-                            <p:dataTable id="books" var="book" value="#{managementBacking.bk}" editable="true" style="margin-bottom:20px">
+
+                            <p:dataTable id="books" var="book" value="#{managementBacking.bk}" widgetVar="booksTable" editable="true" style="margin-bottom:20px"
+                                         rowKey="#{book.isbn}" selection="#{managementBacking.selectedBook}" selectionMode="single">
 
                                 <f:facet name="header">
                                     Row Editing
+                                    <p:commandButton action="#{managementBacking.newLine}"
+                                                     value="New" update="books"/>
                                 </f:facet>
 
                                 <p:ajax event="rowEdit" listener="#{managementBacking.onRowEdit}" update="bkGrowl" />
                                 <p:ajax event="rowEditCancel" listener="#{managementBacking.onRowCancel}" update="bkGrowl" />
 
-                                <p:column headerText="Isbn">
+                                <p:column headerText="Isbn" filterBy="#{book.isbn}" filterMatchMode="contains">
+
                                     <p:cellEditor>
                                         <f:facet name="output"><h:outputText value="#{book.isbn}" /></f:facet>
                                         <f:facet name="input"><p:inputText id="modelInput" value="#{book.isbn}" style="width:100%"/></f:facet>
                                     </p:cellEditor>
                                 </p:column>
 
-                                <p:column headerText="Title">
+                                <p:column headerText="Title" filterBy="#{book.title}" filterMatchMode="contains">
                                     <p:cellEditor>
                                         <f:facet name="output"><h:outputText value="#{book.title}" /></f:facet>
                                         <f:facet name="input"><p:inputText value="#{book.title}" style="width:100%" label="Title"/></f:facet>
@@ -116,7 +120,18 @@
                                         </f:facet>
                                     </p:cellEditor>
                                 </p:column>
-                                <p:column headerText="Removal Status">
+                                <p:column headerText="Total Sold">
+                                    <h:outputText value="#{bookJpaController.getTotalSold(book.isbn)}" />
+                                </p:column>
+                                <p:column headerText="Removal Status" filterBy="#{book.removalStatusBoolean}" filterMatchMode="equals">
+                                    <f:facet name="filter">
+                                        <p:selectOneButton onchange="PF('booksTable').filter()" >
+                                            <f:converter converterId="javax.faces.Boolean" />
+                                            <f:selectItem itemLabel="All" itemValue="" />
+                                            <f:selectItem itemLabel="Removed" itemValue="true" />
+                                            <f:selectItem itemLabel="Available" itemValue="false" />
+                                        </p:selectOneButton>
+                                    </f:facet>
                                     <p:cellEditor>
                                         <f:facet name="output"> <h:outputText value="#{book.removalStatusBoolean}"></h:outputText></f:facet>
                                         <f:facet name="input">
@@ -132,13 +147,38 @@
                                     </p:rowEditor>
                                 </p:column>
                             </p:dataTable>
-                            <p:commandButton actionListener="#{managementBacking.newLine}"
-                                             value="New" update="books" oncomplete="addRowOnComplete()"
-                                             ajax="true" />
-                            <p:commandButton actionListener="#{managementBacking.onRowAdd}"
-                                             value="Add" update="books" oncomplete="addRowOnComplete()"
-                                             ajax="true" />                    
 
+                            <p:contextMenu for="books">
+                                <p:menuitem value="View" update="bookDetail" icon="ui-icon-search" oncomplete="PF('bookDialog').show()"/>
+                            </p:contextMenu>
+
+                            <p:dialog header="Book Info" widgetVar="bookDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                                <p:outputPanel id="bookDetail" style="text-align:center;">
+                                    <p:panelGrid  columns="2" rendered="#{not empty managementBacking.selectedBook}" >
+                                        <f:facet name="header">
+                                            <h:graphicImage value="resources/images/books/#{managementBacking.selectedBook.isbn}.jpg"/> 
+                                        </f:facet>
+
+                                        <h:outputText value="Isbn:" />
+                                        <h:outputText value="#{managementBacking.selectedBook.isbn}" />
+
+                                        <h:outputText value="Title" />
+                                        <h:outputText value="#{managementBacking.selectedBook.title}" />
+                                        <h:form enctype="multipart/form-data">
+     
+                                            <p:fileUpload value="#{uploadPage.file}" mode="simple" skinSimple="true"/>
+
+                                            <p:commandButton id="uploadItem" value="Submit" ajax="false" actionListener="#{uploadPage.upload(managementBacking.selectedBook.isbn)}" disabled="true" />
+                                        </h:form>
+
+                                        <!--                                        <h:outputText value="Color:" />
+                                                                                <h:outputText value="#{dtContextMenuView.selectedCar.color}" style="color:#{dtContextMenuView.selectedCar.color}"/>
+                                        
+                                                                                <h:outputText value="Price" />
+                                                                                <h:outputText value="$#{dtContextMenuView.selectedCar.price}" />-->
+                                    </p:panelGrid>
+                                </p:outputPanel>
+                            </p:dialog>
                         </h:form>
                     </b:panelGrid>
                 </p:panel>

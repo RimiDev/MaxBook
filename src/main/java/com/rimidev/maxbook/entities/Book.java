@@ -159,7 +159,7 @@ public class Book implements Serializable {
   }
 
   public String getTitle() {
-          if (title.length()>50){
+          if (title != null && title.length()>50){
             return title.substring(0,50) + "...";
         }
        return title;
@@ -234,7 +234,9 @@ public class Book implements Serializable {
   }
 
   public boolean getRemovalStatusBoolean() {
-    return removalStatus.charValue() != '0';
+      if(removalStatus != null)
+        return removalStatus.charValue() != '0';
+      return false;
   }
  
 

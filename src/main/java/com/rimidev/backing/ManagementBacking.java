@@ -64,7 +64,7 @@ public class ManagementBacking implements Serializable {
   private List<Invoice> inv;
   private List<Integer> approvalStatus;
   private List<String> revStatuses;
-  private Object selected;
+  private Book selectedBook;
   private boolean statusBool;
 
   @Inject
@@ -280,7 +280,7 @@ public class ManagementBacking implements Serializable {
 
   }
 
-  public void newLine(ActionEvent actionEvent) {
+  public void newLine() {
     this.bk.add(new Book());
     logger.log(Level.WARNING, "<<Book Inventory List: >>" + bk.get(bk.size() - 1));
   }
@@ -302,17 +302,17 @@ public class ManagementBacking implements Serializable {
     this.inv = inv;
   }
 
-  public Object getSelected() {
-    return selected;
+  public Book getSelectedBook() {
+    return selectedBook;
   }
 
-  public void setSelected(Object selected) {
-    this.selected = selected;
+  public void setSelectedBook(Book selected) {
+    this.selectedBook = selected;
   }
 
   public void deleteItem() throws Exception {
-    bkcon.destroy(((Book) selected).getIsbn());
-    selected = null;
+    bkcon.destroy(((Book) selectedBook).getIsbn());
+    selectedBook = null;
   }
 
   public String checkStat(Integer stat) {
