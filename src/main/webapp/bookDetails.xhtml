@@ -99,7 +99,7 @@
                 <b:panel>
                     <h2>#{msgs.reviews}</h2>
                     <br/>
-                    <ui:repeat var="rev" value="#{bookie.reviewList}">
+                    <ui:repeat var="rev" value="#{bookDisplayBacking.showPermittedReviews(bookie.reviewList)}">
                         <b:row style="margin-bottom: 3%">
                             <p:rating value="#{rev.rating}" readonly="true"/>
                             <h:outputText value="#{rev.reviewMessage}"/>
