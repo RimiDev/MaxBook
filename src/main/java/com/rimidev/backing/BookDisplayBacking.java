@@ -92,6 +92,10 @@ public class BookDisplayBacking implements Serializable {
             recBooks = recBooks.subList(0, recBooks.size());
         }
         logger.log(Level.INFO, "AUTHOR Four recs: " + recBooks);
+        
+        if(recBooks.size() > 3){
+            return recBooks.subList(0, 2);
+        }
 
         return recBooks;
     }
@@ -108,6 +112,10 @@ public class BookDisplayBacking implements Serializable {
         }
         logger.log(Level.INFO, "GENRE Four recs: " + recBooks);
 
+        if(recBooks.size() > 3){
+            return recBooks.subList(0, 2);
+        }
+        
         return recBooks;
 
     }
@@ -139,4 +147,5 @@ public class BookDisplayBacking implements Serializable {
         }
        return title;
     }
+    
 }

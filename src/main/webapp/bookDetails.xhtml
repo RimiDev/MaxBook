@@ -11,9 +11,7 @@
     <ui:define name="content">
         <f:view>
             <f:event type="preRenderView" listener="#{bookDisplayBacking.checkBookExist}"/>
-
             <ui:param  name="bookie" value="#{bookJpaController.findBook(bookDisplayBacking.isbn)}" />
-
             <!--start of book details<-->
             <br/><br/>
             <h:form>
@@ -21,14 +19,10 @@
                     <div class="card">
                         <div class="container-fliud">
                             <div class="wrapper row">
-
                                 <div class="preview col-md-6">
-
                                     <div class="preview-pic tab-content">
                                         <div class="tab-pane active" id="pic-1"><b:image class="detailsImg" library="images" name="/books/#{bookie.isbn}.jpg"/></div>
                                     </div>
-
-
                                 </div>
                                 <div class="details col-md-6">
                                     <h3 class="product-title">#{bookie.title}</h3>
@@ -41,11 +35,8 @@
                                     <p class="product-description">#{bookie.description}</p>
                                     <!--create method in bookdisplayback bean to check saleprice -->
                                     <h4 class="price">current price: <span>$#{bookie.salePrice}</span></h4>
-
                                     <div class="action">
                                         <b:commandButton icon="shopping-cart" action="#{cartBackingBean.addToCart(bookie.isbn)}" value="Add to cart" />
-
-
                                     </div>
                                 </div>
                             </div>
@@ -53,85 +44,60 @@
                     </div>
                 </div>
             </h:form>
-
-
             <!--end of book details<-->
-
             <h:form style="margin-top: 3%">
-
-                <b:panel>
-
-                    <h2 style="text-align:center"> Recommendations</h2>
+                <h2 style="text-align:center">#{msgs.recommendations}</h2>
+                <b:container>
+                    <b:row>
+                        <h3>#{msgs.authorLabel}</h3>
+                    </b:row>
                     <br/>
-                    
-                    <div style="display: block">
-                    <h3>Author: </h3>
-                    <ui:repeat value="#{bookDisplayBacking.getRecommendationsByAuthor(bookie.authorList)}" var="book" >
-
-                        <b:column col-md="3">
-
-                            <b:thumbnail>
-
-                                <f:facet name="caption">
-                                    <h:commandLink action="#{bookDisplayBacking.showDetails(book.isbn)}">
-
-                                        <b:image library="images" name="/books/#{book.isbn}.jpg" tooltip="#{book.genre}"/>
-                                        <h:outputText value="#{book.title}"/>
-                                        <h:outputText value="#{book.isbn}"/>
-
-                                    </h:commandLink>
-
-                                    <br/>
-
-                                    <h:outputText  value="$#{book.listPrice}"/>
-                                </f:facet>
-
-                            </b:thumbnail>
-
-                        </b:column>
-
-                    </ui:repeat>
-                    </div>
-
-                    <br/>
-
-                    <div style="display: block">
-                        <h3>Genre: </h3>
-                        <ui:repeat value="#{bookDisplayBacking.getRecommendationsByGenre(bookie.genre)}" var="book"  >
-
-                            <b:column col-md="3">
-
+                    <b:row>
+                        <ui:repeat value="#{bookDisplayBacking.getRecommendationsByAuthor(bookie.authorList)}" var="book" >
+                            <b:column col-sm="4">
                                 <b:thumbnail>
-
                                     <f:facet name="caption">
                                         <h:commandLink action="#{bookDisplayBacking.showDetails(book.isbn)}">
-
                                             <b:image library="images" name="/books/#{book.isbn}.jpg" tooltip="#{book.genre}"/>
                                             <h:outputText value="#{book.title}"/>
                                             <h:outputText value="#{book.isbn}"/>
-
                                         </h:commandLink>
-
                                         <br/>
-
                                         <h:outputText  value="$#{book.listPrice}"/>
                                     </f:facet>
-
                                 </b:thumbnail>
-
                             </b:column>
-
                         </ui:repeat>
-                    </div>
-
-                </b:panel>
+                    </b:row>
+                </b:container>
+                <br/>
+                <b:container>
+                    <b:row>
+                        <h3>#{msgs.genreLabel}</h3>
+                    </b:row>
+                    <b:row>
+                        <ui:repeat value="#{bookDisplayBacking.getRecommendationsByGenre(bookie.genre)}" var="book"  >
+                            <b:column col-sm="4">
+                                <b:thumbnail>
+                                    <f:facet name="caption">
+                                        <h:commandLink action="#{bookDisplayBacking.showDetails(book.isbn)}">
+                                            <b:image library="images" name="/books/#{book.isbn}.jpg" tooltip="#{book.genre}"/>
+                                            <h:outputText value="#{book.title}"/>
+                                            <h:outputText value="#{book.isbn}"/>
+                                        </h:commandLink>
+                                        <br/>
+                                        <h:outputText  value="$#{book.listPrice}"/>
+                                    </f:facet>
+                                </b:thumbnail>
+                            </b:column>
+                        </ui:repeat>
+                    </b:row>
+                </b:container>
             </h:form>
-
             <!--END OF RECOMMENDATIONS-->
-
             <h:form style="margin-top: 3%">
                 <b:panel>
-                    <h2> Reviews</h2>
+                    <h2>#{msgs.reviews}</h2>
                     <br/>
                     <ui:repeat var="rev" value="#{bookie.reviewList}">
                         <b:row style="margin-bottom: 3%">
