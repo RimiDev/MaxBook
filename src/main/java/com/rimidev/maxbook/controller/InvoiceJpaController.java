@@ -17,7 +17,7 @@ import javax.persistence.criteria.Root;
 import com.rimidev.maxbook.entities.Client;
 import com.rimidev.maxbook.entities.Invoice;
 import com.rimidev.maxbook.entities.InvoiceDetails;
-import com.rimidev.maxbook.entities.Invoice_;
+import com.rimidev.maxbook.entities.Invoice;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -213,15 +213,15 @@ public class InvoiceJpaController implements Serializable {
     }
 
     private List<Invoice> findInvoiceEntities(boolean all, int maxResults, int firstResult) {
-        CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-        cq.select(cq.from(Invoice.class));
-        Query q = em.createQuery(cq);
-        if (!all) {
-            q.setMaxResults(maxResults);
-            q.setFirstResult(firstResult);
-        }
-        return q.getResultList();
-    }
+            CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
+            cq.select(cq.from(Invoice.class));
+            Query q = em.createQuery(cq);
+            if (!all) {
+                q.setMaxResults(maxResults);
+                q.setFirstResult(firstResult);
+            }
+            return q.getResultList();    
+    } 
 
     public Invoice findInvoice(Integer id) {
         return em.find(Invoice.class, id);

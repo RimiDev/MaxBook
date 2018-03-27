@@ -2,78 +2,27 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
-    <h:head>
-        <link type="text/css" rel="stylesheet" href="/project/faces/javax.faces.resource/theme.css?ln=primefaces-glass-x" />
-        <h:outputStylesheet library="css" name="styles.css" />
-        <title>#{msgs.homeTitle}</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    </h:head>
-    
-    
-    
-    <h:body>
-        
-        <!---//START OF MENUS//-->
-        
-        <!--MENU BAR-->
-        
-       <h:form id="menuBar">
-        
-        <p:menubar>
-            <p:menuitem value="MaxBook" url="/home.xhtml"/>
-                <p:submenu label="Bookstore" icon="ui-icon-document">
-                    <p:menuitem value="All books" url="/all_books.xhtml" />
-                      <p:separator />
-                        <p:submenu label="Genre" icon="ui-icon-contact">
-                        <p:menuitem value="Adventure" url="#" />
-                        <p:menuitem value="Science Fiction" url="#" />
-                        <p:menuitem value="Romance" url="#" />
-                        <p:menuitem value="Other" url="#" />
-                    </p:submenu>
-                        <p:submenu label="Year" icon="ui-icon-contact">
-                        <p:menuitem value="2017" url="#" />
-                        <p:menuitem value="2016" url="#" />
-                        </p:submenu>
-                </p:submenu>
-            <p:menuitem value="Search" url="/search.xhtml"/>
-
-        <f:facet name="options">
-            <p:outputLabel value="Welcome #{user.username}!" style="margin-right:10px"/>
-            <p:inputText style="margin-right:10px" placeholder="Search" id="userSearch" value="#{user.searched}"/>
-            <p:commandButton type="Submit" value="Search" icon="/resources/images/search.png" action="search" ajax="false"/>
-            <p:commandButton type="Submit" value="Login" icon="ui-icon-extlink" action="login" ajax="false"/>
-            <p:commandButton type="button" value="Logout" icon="ui-icon-extlink" />
-        </f:facet>
-        </p:menubar>
-            
-            </h:form>
-        
-        <!-- STACK MENU -->
-                
-        <p:stack icon="/resources/images/stack.png" expanded="true">
-    <p:menuitem value="Home"  icon="/resources/images/home.png" url="./home.xhtml"/>
-    <p:menuitem value="Cart" icon="/resources/images/shoppingCart.png" url="./cart.xhtml"/>
-    <p:menuitem value="Search" icon="/resources/images/search.png" url="./advancedSearch.xhtml"/>
-</p:stack>
-        
-       <!--//END OF MENUS//-->
+<ui:composition template="/pageTemplates/master_template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:b="http://bootsfaces.net/ui"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
        
+    <ui:define name="content">
         <div>Welcome #{user.username} to the search page!</div>
-        <h4>You searched for:  #{search.searchQuery}</h4>
+        <h4>You searched for:  #{searchBackingBean.searchCriteria}</h4>
         <br/>
-        <h4>TYPE: #{search.searchType}</h4>
-        <div> RESULT FOUND OR NOT FOUND </div>
+        <p:commandLink value="Log Books" action="#{searchBackingBean.searchQuery()}"></p:commandLink>
         <br/>
         <a href="advancedSearch.xhtml">Advanced Search</a>
+        <ui:repeat value="#{searchBackingBean.searchedBooks}" var="books">
+
+                <h:outputText value="#{books.title}"/>
+     
+        </ui:repeat>
         <br/>    
+    </ui:define>
  
-        
-        
-    </h:body>
-    
-    
-</html>
+</ui:composition>

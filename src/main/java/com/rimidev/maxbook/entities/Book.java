@@ -5,10 +5,13 @@
  */
 package com.rimidev.maxbook.entities;
 
+import com.rimidev.backing.BookDisplayBacking;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -55,6 +58,7 @@ import javax.xml.bind.annotation.XmlTransient;
   , @NamedQuery(name = "Book.findNoBooks", query = "SELECT b FROM Book b WHERE b.isbn = '978-1449474256' ")})
 public class Book implements Serializable {
 
+ 
   private static final long serialVersionUID = 1L;
   @Id
   @Basic(optional = false)
@@ -148,6 +152,7 @@ public class Book implements Serializable {
   public String getIsbn() {
     return isbn;
   }
+  
 
   public void setIsbn(String isbn) {
     this.isbn = isbn;
@@ -228,12 +233,17 @@ public class Book implements Serializable {
     this.enteredDate = enteredDate;
   }
 
-  public Character getRemovalStatus() {
-    return removalStatus;
+  public boolean getRemovalStatusBoolean() {
+    return removalStatus.charValue() != '0';
   }
+ 
 
-  public void setRemovalStatus(Character removalStatus) {
-    this.removalStatus = removalStatus;
+  public void setRemovalStatusBoolean(boolean removalStatus) {
+    if (removalStatus == true)
+      this.removalStatus = '1';
+    else
+       this.removalStatus = '0';
+    
   }
 
   public String getDescription() {

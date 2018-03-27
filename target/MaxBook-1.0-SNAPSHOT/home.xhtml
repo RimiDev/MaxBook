@@ -31,7 +31,7 @@
                 </div>
                 <p:ring id="topBooks" value="#{homeBackingBean.topSellingBooks}" var="book" styleClass="image-ring" easing="easeInOutBack" style="width: 50%">
                     <p:graphicImage id="img" library="images" name="/books/#{book.isbn}.jpg" styleClass="ringimg"/>
-                    <h:commandLink value="#{books.title}" action="#{bookDisplayBacking.showDetails}" >
+                    <h:commandLink value="#{books.title}" action="#{bookDisplayBacking.showDetails(book.isbn)}" >
                         <p:button icon="ui-icon-search"/>
                         <f:param name="isbn" value="#{book.isbn}"/>
                     </h:commandLink>
@@ -58,7 +58,7 @@
                 </div>
                 <p:ring id="recentBooks" value="#{homeBackingBean.recentSoldBooks}" var="book" styleClass="image-ring" easing="easeInOutBack" style="width: 50%">
                     <p:graphicImage id="img" library="images" name="/books/#{book.isbn}.jpg" styleClass="ringimg"/>
-                    <h:commandLink value="#{books.title}" action="#{bookDisplayBacking.showDetails}" >
+                    <h:commandLink value="#{books.title}" action="#{bookDisplayBacking.showDetails(book.isbn)}" >
                         <p:button icon="ui-icon-search"/>
                         <f:param name="isbn" value="#{book.isbn}"/>
                     </h:commandLink>
@@ -96,4 +96,5 @@
             </b:panel>
         </b:row>
     </ui:define>
+    >>>>>>> beta
 </ui:composition>
