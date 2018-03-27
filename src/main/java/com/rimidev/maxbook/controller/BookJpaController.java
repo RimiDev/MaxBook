@@ -442,10 +442,17 @@ public class BookJpaController implements Serializable {
     }
 
     public List<Book> searchBooks(String criteria) {
-        logger.log(Level.INFO, "Search Criteria >>> " + criteria);
+          logger.log(Level.INFO, "Search Criteria >>> " + criteria);
 
         String quer = "select distinct bk from Book bk inner join bk.authorList bkl inner join bk.publisherId bkp where bk.isbn LIKE :crit OR bk.title LIKE :crit OR bkl.firstName LIKE :crit "
                 + "OR bkl.lastName LIKE :crit OR bkp.name LIKE :crit";
+
+        TypedQuery<Book> searchedBooks = em.createQuery(quer, Book.class);
+        searchedBooks.setParameter("crit", "%" + criteria + "%");
+
+        logger.log(Level.INFO, "Books by search criteria>> " + searchedBooks.getResultList());
+        return searchedBooks.getResultList();
+
   }
   
   public List<Book> getBookByIsbn(String isbn){
@@ -458,15 +465,15 @@ public class BookJpaController implements Serializable {
       return (List<Book>) books;
   }
   
-  public List<Book> getEmptyList() {
-
-        TypedQuery<Book> searchedBooks = em.createQuery(quer, Book.class);
-        searchedBooks.setParameter("crit", "%" + criteria + "%");
-
-        logger.log(Level.INFO, "Books by search criteria>> " + searchedBooks.getResultList());
-        return searchedBooks.getResultList();
-
-    }
+//  public List<Book> getEmptyList() {
+//
+//        TypedQuery<Book> searchedBooks = em.createQuery(quer, Book.class);
+//        searchedBooks.setParameter("crit", "%" + criteria + "%");
+//
+//        logger.log(Level.INFO, "Books by search criteria>> " + searchedBooks.getResultList());
+//        return searchedBooks.getResultList();
+//
+//    }
 
     public Long getTotalSold(String isbn) {
         logger.log(Level.INFO," IN Total sold "+isbn);

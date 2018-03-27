@@ -34,8 +34,6 @@ public class SearchBackingBean implements Serializable{
     private BookJpaController bookJPA;
     @Inject
     private AuthorJpaController authorJPA;
-//    @Inject
-//    private BookDisplayBacking bookDisplay;
 
     private Logger logger = Logger.getLogger(ClientJpaController.class.getName());
 
@@ -150,13 +148,7 @@ public class SearchBackingBean implements Serializable{
         this.genre = genre;
     }
 
-    public String getIsbn() {
-        return isbn;
-    }
 
-    public void setIsbn(String isbn) {
-        this.isbn = isbn;
-    }
     
     
 
