@@ -213,15 +213,15 @@ public class InvoiceJpaController implements Serializable {
     }
 
     private List<Invoice> findInvoiceEntities(boolean all, int maxResults, int firstResult) {
-        CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-        cq.select(cq.from(Invoice.class));
-        Query q = em.createQuery(cq);
-        if (!all) {
-            q.setMaxResults(maxResults);
-            q.setFirstResult(firstResult);
-        }
-        return q.getResultList();
-    }
+            CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
+            cq.select(cq.from(Invoice.class));
+            Query q = em.createQuery(cq);
+            if (!all) {
+                q.setMaxResults(maxResults);
+                q.setFirstResult(firstResult);
+            }
+            return q.getResultList();    
+    } 
 
     public Invoice findInvoice(Integer id) {
         return em.find(Invoice.class, id);

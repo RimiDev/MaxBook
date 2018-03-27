@@ -484,6 +484,7 @@ CREATE TABLE Invoice (
     date_of_sale timestamp NOT NULL,
     net_value numeric(6,2) NOT NULL,
     gross_value numeric(6,2) NOT NULL,
+    removal_status boolean NOT NULL DEFAULT false,
     FOREIGN KEY (client_id) REFERENCES Client(id)
 );
 
@@ -498,6 +499,7 @@ CREATE TABLE Invoice_Details (
     PST_rate numeric(4,2) NOT NULL,
     GST_rate numeric(4,2) NOT NULL,
     HST_rate numeric(4,2) NOT NULL,
+    removal_status boolean NOT NULL DEFAULT false,
     FOREIGN KEY (invoice_id) REFERENCES Invoice(id),
     FOREIGN KEY (isbn) REFERENCES Book(isbn)
 );
