@@ -30,7 +30,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Ads.findAll", query = "SELECT a FROM Ads a")
     , @NamedQuery(name = "Ads.findById", query = "SELECT a FROM Ads a WHERE a.id = :id")
-    , @NamedQuery(name = "Ads.findByImageName", query = "SELECT a FROM Ads a WHERE a.imageName = :imageName")})
+    , @NamedQuery(name = "Ads.findByImageName", query = "SELECT a FROM Ads a WHERE a.imageName = :imageName")
+    , @NamedQuery(name = "Ads.findByActive", query = "SELECT a FROM Ads a WHERE a.active = :active")})
 public class Ads implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -49,6 +50,11 @@ public class Ads implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "siteLink")
     private String siteLink;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 255)
+    @Column(name = "active")
+    private String active;
 
     public Ads() {
     }
@@ -85,6 +91,15 @@ public class Ads implements Serializable {
     public void setSiteLink(String siteLink){
         this.siteLink = siteLink;
     }
+
+    public String getActive() {
+        return active;
+    }
+
+    public void setActive(String active) {
+        this.active = active;
+    }
+    
     
     
 

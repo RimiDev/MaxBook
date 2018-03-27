@@ -5,44 +5,79 @@
                  xmlns:p="http://primefaces.org/ui"
                  xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <h:form>
-        <p:menubar>
+        <p:menubar style="background-color:black !important;background:red;max-height:60px;">
+
+            <!--Citrus logo-->
+
             <p:menuitem>
                 <h:link outcome="/home.xhmtl">
-                   <h:graphicImage value="resources/images/citrus.png" height="40"/>
+                    <h:graphicImage value="resources/images/citrus_menu_logo.png" height="40"/>
                 </h:link>
             </p:menuitem>
-            <p:submenu label="Bookstore" icon="fa-search">
-                <p:menuitem value="All books" url="/allbooks.xhtml" />
-                <p:separator />
-                <p:submenu label="Genre" style="margin-right: 80%;">
-                    <p:menuitem value="Adventure" url="#" />
-                    <p:menuitem value="Science Fiction" url="#" />
-                    <p:menuitem value="Romance" url="#" />
-                    <p:menuitem value="Other" url="#" />
-                </p:submenu>
-                <p:submenu label="Year" icon="ui-icon-contact">
-                    <p:menuitem value="2017" url="#" />
-                    <p:menuitem value="2016" url="#" />
-                    <p:menuitem value="testdownloads" url="downloads.xhtml" />
-                    <p:menuitem value="testconfirmation" url="confirmation.xhtml" />
-                </p:submenu>
+
+            <!-- Language select -->
+
+            <p:submenu  label="#{localeBean.language}" style="font-size:20px;color:white;">
+                <p:menuitem value="#{msgs.english}" 
+                            action="#{localeBean.setLanguage('en', 'CA')}" ajax="false"/>
+
+                <p:menuitem value="#{msgs.french}" 
+                            action="#{localeBean.setLanguage('fr', 'CA')}" ajax="false"/>
             </p:submenu>
+
+
+            <!--RRS FEED-->
+            <p:menuitem>              
+                <h:form id="RSSButton">
+                    <b:modal id="amodal2" title="#{msgs.rssFeed}" style="text-align:center" styleClass="modalPseudoClass2"
+                             close-on-escape="true" backdrop="false">
+
+                        <p:scrollPanel>
+                            <p:feedReader value="http://rss.cbc.ca/lineup/topstories.xml" var="feed" size="5">
+                                <h:outputText value="#{feed.title}" style="font-weight: bold;display:block"/>
+                                <h:outputText value="#{feed.description.value}" escape="false"/>
+                                <p:separator />
+                            </p:feedReader>
+                        </p:scrollPanel>
+
+                        <f:facet name="footer">
+                            <b:button value="#{msgs.close}" look="primary" dismiss="modal" />
+                        </f:facet>
+                    </b:modal>
+                </h:form>
+
+                <b:row>
+                    <b:column span="3">
+                        <h:graphicImage value="resources/images/rss_image.png"  onclick="$('.modalPseudoClass2').modal()"
+                                        style="margin-bottom:2%;height:35px;"/>
+                    </b:column>
+                </b:row>
+
+            </p:menuitem> 
+
             <f:facet name="options">
-                <h:commandLink action="#{localeBean.setLanguage('fr', 'CA')}">
-                    <h:graphicImage library="images" name="ca_flag.gif"
-                                    style="border: 0px; margin-right: 1em;"/>
-                </h:commandLink>
-                <h:commandLink action="#{localeBean.setLanguage('en', 'CA')}">
-                    <h:graphicImage library="images"
-                                    name="en_flag.gif" style="border: 0px; margin-right: 1em"/>
-                </h:commandLink>
-                <p:outputLabel value="#{msgs.welcome} #{sessionScope['current_user'].firstName}!" style="margin-right:10px"/>
-                <p:inputText style="margin-right:10px; box-shadow: none" placeholder="Search" id="userSearch" value="#{user.searched}"/>
-                <b:commandButton type="Submit" value="Search" class="btn btn-success" iconAwesome="fa-search" action="search" ajax="false"/>                
-                <b:commandButton look="info" value="Cart" action="#{cartBackingBean.resetCreditCardValues()}" icon-awesome="fa-shopping-cart" />               
+               
+
+
+
+                <!--Account settings-->
+                                <b:iconAwesome name="cog" tooltip="Account settings" style="color:white;margin-right:1em;" size="2x" />
+
+
+
+                <p:outputLabel value="#{msgs.welcome} #{sessionScope['current_user'].firstName}!" style="margin-right:10px;color:white"/>
+
+                <!--Search-->
+                <p:inputText style="margin-right:10px; box-shadow: none" placeholder="#{msgs.search}" id="userSearch" value="#{user.searched}"/>
+                <b:commandButton type="Submit" value="#{msgs.search}" class="btn btn-success" iconAwesome="fa-search" action="search" ajax="false"/>
+                <!--Cart-->
+                <b:commandButton look="info" value="#{msgs.cart}" action="#{cartBackingBean.resetCreditCardValues()}" icon-awesome="fa-shopping-cart" />               
+                <!--Login/logout-->
                 <b:commandButton type="Submit" class="btn btn-warning" value="#{loginBackingBean.styling}"
-                                 action="#{loginBackingBean.onLogout}" ajax="false"/>
+                                 action="#{loginBackingBean.onLogout}" ajax="false" />
             </f:facet>
         </p:menubar>
     </h:form>
+
+
 </ui:composition>

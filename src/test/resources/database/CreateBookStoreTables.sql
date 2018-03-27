@@ -528,15 +528,16 @@ DROP TABLE IF EXISTS Ads;
 CREATE TABLE Ads (
 id int PRIMARY KEY auto_increment,
 imageName varchar(255) NOT NULL,
-siteLink varchar(255) NOT NULL);
+siteLink varchar(255) NOT NULL,
+active varchar(1) NOT NULL);
 
-INSERT INTO Ads (imageName,siteLink) VALUES
-("gillette.jpg", "https://gillette.ca");
-INSERT INTO Ads (imageName,siteLink) VALUES
-("gusta.png", "http://gustafoods.com");
-INSERT INTO Ads (imageName,siteLink) VALUES
-("mountainDew.jpg", "http://www.mountaindew.com");
-INSERT INTO Ads (imageName,siteLink) VALUES
-("museumFineArts.jpg", "https://www.mbam.qc.ca/en/");
-INSERT INTO Ads (imageName,siteLink) VALUES
-("macbook.jpg", "https://www.apple.com/ca/macbook/");
+INSERT INTO Ads (imageName,siteLink, active) VALUES
+("gillette.jpg", "https://gillette.ca", "1");
+INSERT INTO Ads (imageName,siteLink, active) VALUES
+("gusta.png", "http://gustafoods.com", "2");
+INSERT INTO Ads (imageName,siteLink, active) VALUES
+("mountainDew.jpg", "http://www.mountaindew.com", "3");
+INSERT INTO Ads (imageName,siteLink, active) VALUES
+("museumFineArts.jpg", "https://www.mbam.qc.ca/en/", "4");
+INSERT INTO Ads (imageName,siteLink, active) VALUES
+("macbook.jpg", "https://www.apple.com/ca/macbook/", "0");

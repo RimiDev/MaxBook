@@ -178,6 +178,8 @@ public class LoginBackingBean implements Serializable {
   public String onSignUp() {
 
     logger.log(Level.INFO, "onSignUp >>> ");
+    HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+    session.setAttribute("cartItems", new ArrayList<Book>());
     return "register";
 
   }

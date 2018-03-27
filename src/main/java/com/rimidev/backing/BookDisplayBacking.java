@@ -60,6 +60,7 @@ public class BookDisplayBacking implements Serializable {
         if(isbn == null || isbn.isEmpty()){
             return "404";
         }
+        
        
         
         return "bookDetails?faces-redirect=true";
