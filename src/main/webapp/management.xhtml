@@ -172,11 +172,11 @@
 
                     <h:outputText value="Title" />
                     <h:outputText value="#{managementBacking.selectedBook.title}" />
-                     <h:form enctype="multipart/form-data"  prependId="false">
-                    <h:outputText value="File: "></h:outputText>
-                    <h:inputFile value="#{uploadPage.uploadedFile}"  />
-                    <h:commandButton value="Save" type="submit" action="#{uploadPage.saveFile}" style="color: red;"></h:commandButton>
-                  </h:form>
+                    <h:form enctype="multipart/form-data"  prependId="false">
+                      <h:outputText value="File: "></h:outputText>
+                      <h:inputFile value="#{uploadPage.uploadedFile}"  />
+                      <h:commandButton value="Save" type="submit" action="#{uploadPage.saveFile}" style="color: red;"></h:commandButton>
+                    </h:form>
                   </p:panelGrid>
                 </p:outputPanel>
               </p:dialog>
@@ -579,9 +579,48 @@
       <b:tab title="Reports" class="">
 
         <p:panel id="TotalSalesReport" header="Total Sales Report" toggleable="true" toggleOrientation="vertical" collapsed="true">
+          
 
           <h:form>
-            <p:dataTable id="totalSalesTable" var="client" value="#{managementBacking.clients}" editable="true" style="margin-bottom:20px" >
+            <span>From</span> 
+          <p:calendar value="#{reportsBackingBean.fromDate}" pattern="MM/dd/yyyy HH:mm:ss">
+              <p:ajax event="dateSelect" listener="#{reportsBackingBean.updateFromDate(reportsBackingBean.fromDate)}"/>
+            </p:calendar>
+            
+             <span>To</span> 
+             <p:calendar value="#{reportsBackingBean.toDate}" pattern="MM/dd/yyyy HH:mm:ss">
+              <p:ajax event="dateSelect" listener="#{reportsBackingBean.updateFromDate(reportsBackingBean.toDate)}"/>
+            </p:calendar>
+
+             <span>Total sales for all items : #{reportsBackingBea.totalSales}</span>
+            <p:dataTable id="totalSalesTable" var="invDetail" value="#{reportsBackingBean.totalSalesList}" editable="true" style="margin-bottom:20px">
+              <f:facet name="header">
+                <h:outputText value="Invoice ##{invoice.id}"/>
+              </f:facet>
+
+              <p:ajax event="rowEdit" listener="#{managementBacking.onRowEdit}" update="bkGrowl" />
+              <p:ajax event="rowEditCancel" listener="#{managementBacking.onRowCancel}" update="bkGrowl" />
+
+              <p:column headerText="Item #">
+                <h:outputText value="#{invDetail.id}"/>
+              </p:column>
+              <p:column headerText="Invoice #">
+                <h:outputText value="#{invDetail.invoiceId.id}"/>
+              </p:column>
+              <p:column headerText="Isbn">
+                <p:cellEditor>
+                  <f:facet name="output"><h:outputText value="#{invDetail.isbn.isbn}"/></f:facet>
+                  <f:facet name="input"><p:inputText id="modelInputInvIsbn" value="#{invDetail.isbn.isbn}" style="width:100%"/></f:facet>
+                </p:cellEditor>
+              </p:column>
+              <p:column headerText="Book Price">
+                <p:cellEditor>
+                  <f:facet name="output"><h:outputText value="#{invDetail.bookPrice}"/></f:facet>
+                  <f:facet name="input"><p:inputText id="modelInputBkPrice" value="#{invDetail.bookPrice}" style="width:100%"/></f:facet>
+                </p:cellEditor>
+              </p:column>
+
+
 
             </p:dataTable>
           </h:form>
