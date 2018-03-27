@@ -211,7 +211,7 @@ public class InvoiceJpaController implements Serializable {
                 q.setFirstResult(firstResult);
             }
             return q.getResultList();    
-    }
+    } 
 
     public Invoice findInvoice(Integer id) {
             return em.find(Invoice.class, id);     

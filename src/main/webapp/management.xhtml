@@ -155,7 +155,7 @@ and open the template in the editor.
                             Row Editing
                         </f:facet>
 
-                        <p:ajax event="rowEdit" listener="#{managementBacking.onReviewRowEdit}" update=":form2:msgs2" />
+                        <p:ajax event="rowEdit" listener="#{managementBacking.onRowEdit}" update=":form2:msgs2" />
                         <p:ajax event="rowEditCancel" listener="#{managementBacking.onRowCancel}" update=":form2:msgs2" />
 
                         <p:column headerText="Review #">
@@ -252,14 +252,19 @@ and open the template in the editor.
                                 <f:facet name="input"><p:inputText id="modelInputGross" value="#{invoice.grossValue}" style="width:100%"/></f:facet>
                             </p:cellEditor>
                         </p:column>
+                        <p:column headerText="Removal Status">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{invoice.removalStatus}"/></f:facet>
+                                <f:facet name="input"><p:selectBooleanCheckbox id="modelInputInvStatus" value="#{invoice.removalStatus}" style="width:100%"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
                         <p:column style="">
                             <p:rowEditor>
                                 <!--<p:commandButton update="invoices" value="Delete" action="#{managementBacking.onBookRowRemove(book.isbn)}" />-->
                             </p:rowEditor>
-                            <p:commandButton update="invoices" value="Delete" action="#{managementBacking.onInvoiceRowRemove(invoice.id)}" />
                         </p:column>
 
-                        <p:rowExpansion>
+                        <p:rowExpansion id="subInvoice">
                             <p:panelGrid columns="1" columnClasses="label">
                                 <h:form id="subForm">
 
@@ -268,7 +273,7 @@ and open the template in the editor.
                                             <h:outputText value="Invoice ##{invoice.id}"/>
                                         </f:facet>
 
-                                        <p:ajax event="rowEdit" listener="#{managementBacking.onInvDetailRowEdit}" update=":form3:msgs3" />
+                                        <p:ajax event="rowEdit" listener="#{managementBacking.onRowEdit}" update=":form3:msgs3" />
                                         <p:ajax event="rowEditCancel" listener="#{managementBacking.onRowCancel}" update=":form3:msgs3" />
 
                                         <p:column headerText="Item #">
@@ -307,11 +312,14 @@ and open the template in the editor.
                                                 <f:facet name="input"><p:inputText id="modelInputHST" value="#{invDetail.HSTrate}" style="width:100%"/></f:facet>
                                             </p:cellEditor>
                                         </p:column>
+                                        <p:column headerText="Removal Status">
+                                            <p:cellEditor>
+                                                <f:facet name="output"><h:outputText value="#{invDetail.removalStatus}"/></f:facet>
+                                                <f:facet name="input"><p:selectBooleanCheckbox id="modelInputDetStatus" value="#{invDetail.removalStatus}" style="width:100%"/></f:facet>
+                                            </p:cellEditor>
+                                        </p:column>
                                         <p:column style="">
                                             <p:rowEditor></p:rowEditor>
-                                            <p:commandButton process="@form" update="@form @parent" value="Delete" action="#{managementBacking.onInvoiceDetailRowRemove(invDetail.invoiceId.id,invDetail.id)}">
-                                                <f:ajax execute="@form" render="@form"/>
-                                            </p:commandButton>
                                         </p:column>
                                     </p:dataTable>
                                 </h:form>

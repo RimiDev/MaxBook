@@ -14,6 +14,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import java.util.zip.ZipOutputStream;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
@@ -57,12 +58,15 @@ public class DownloadsBackingBean implements Serializable{
         if(this.model == null){
             logger.info("DownloadsBackingBean -> model was null");
             Client c = clientController.findClient(clientId);
-            List<Invoice> invoices = c.getInvoiceList();
+            List<Invoice> invoices = c.getInvoiceList().stream().filter( i -> i.getRemovalStatus() == false).collect(Collectors.toList());
+            
             logger.info("Number of Associated Invoices: " +invoices.size());
             List<InvoiceDetails> details = new ArrayList();
             List<Book> books = new ArrayList();
             for(Invoice i : invoices){
-                details.addAll(i.getInvoiceDetailsList());
+               
+                details.addAll(i.getInvoiceDetailsList().stream().filter(d -> d.getRemovalStatus() == false).collect(Collectors.toList()));
+                logger.info("Number of : " +invoices.size());
             }
             for(InvoiceDetails d : details){
                 logger.info(d.getIsbn().getIsbn());
