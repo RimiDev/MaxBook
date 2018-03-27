@@ -93,6 +93,7 @@ public class ManagementBacking implements Serializable {
     bk = bkcon.findBookEntities();
     clients = clientJpaController.findClientEntities();
     surveys = surveyJpaController.findSurveyEntities();
+    rev = revcon.findReviewEntities();
     inv = invcon.findInvoiceEntities();
     revStatuses = new ArrayList<String>();
     revStatuses.add("Pending");
