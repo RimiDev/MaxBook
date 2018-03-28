@@ -618,6 +618,22 @@
                                     <p:rowEditor />
                                 </p:column>
                             </p:dataTable>
+                            
+                            <!--Need to finish new dialog. MIGHT NEED A VIEWSCOPED CLASS-->
+
+<!--                            <p:dialog header="News Addition" widgetVar="newsDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                                <p:outputPanel id="newsDetail" style="text-align:center;">
+                                    <p:panelGrid  columns="2" rendered="#{not empty managementBacking.selectedItem}" >
+                                        <h:inputText value=”#{managementBacking.newsAdd.readerLink}”>
+
+                                            <h:selectOneMenu value="#{managementBacking.newsAdd.activeStatus}" style="width:100%">
+                                                <f:selectItems value="#{managementBacking.newsStatus}" var="status" itemLabel="#{status}" itemValue="#{status}" />
+                                            </h:selectOneMenu>
+                                    </p:panelGrid>
+                                </p:outputPanel>
+                            </p:dialog>-->
+
+
                         </h:form>
                     </b:panelGrid>
                 </p:panel>
