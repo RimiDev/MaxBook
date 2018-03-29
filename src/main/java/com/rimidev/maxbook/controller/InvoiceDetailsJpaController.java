@@ -259,12 +259,28 @@ public class InvoiceDetailsJpaController implements Serializable {
   public List<Object[]> getTotalSalesByClient(Date date, Date date0) {
     
     TypedQuery<Object[]> query = em.createQuery("SELECT i.dateOfSale, c.email, c.firstName, c.lastName, ivd FROM InvoiceDetails ivd "
-            + "inner join ivd.invoiceId i inner join i.clientId c order by i.dateOfSale asc", Object[].class);
+            + "inner join ivd.invoiceId i inner join i.clientId c order by i.dateOfSale desc", Object[].class);
     
     logger.log(Level.WARNING, "get total sales query>>>>>>>>>>");
     Collection<Object[]> sales = query.getResultList();
     
     return (List<Object[]>) sales;
+  }
+
+  public List<Object[]> getTotalSalesByAuthor(Date date, Date date0) {
+    
+    TypedQuery<Object[]> query = em.createQuery("SELECT i.dateOfSale, author, ivd FROM InvoiceDetails ivd "
+            + "inner join ivd.invoiceId i inner join ivd.isbn b inner join b.authorList author order by i.dateOfSale desc", Object[].class);
+    
+    
+    Collection<Object[]> sales = query.getResultList();
+    
+    return (List<Object[]>) sales;
+  }
+    
+
+  public List<Object[]> getTotalSalesByPublisher(Date date, Date date0) {
+    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
   }
   
 }

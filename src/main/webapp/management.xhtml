@@ -710,8 +710,6 @@
             </p:calendar>
 
             <span>Total sales for all items : 10$</span>
-
-
             <p:dataTable  var="sale" value="#{reportsBackingBean.getSalesByClient()}" 
                           widgetVar="clientsTable" editable="true" style="margin-bottom:20px" 
                           emptyMessage="no clients found with that criteria" filteredValue="#{reportsBackingBean.filteredClients}"
@@ -765,10 +763,72 @@
           </h:form>
         </p:panel>
 
-        <p:panel id="salesByPublisherPanel" header="Sales by Publisher Report" toggleable="true" toggleOrientation="vertical" collapsed="true">
+        <!--sales by author <-->
+        <p:panel id="salesByAuthor" header="Sales by Author Report" toggleable="true" toggleOrientation="vertical" collapsed="false">
 
           <h:form>
-            <p:dataTable id="salesByPublisherDataTable" var="client" value="#{managementBacking.clients}" editable="true" style="margin-bottom:20px" >
+
+            <p:calendar value="#{reportsBackingBean.fromDate}" pattern="MM/dd/yyyy HH:mm:ss">
+              <p:ajax event="dateSelect" listener="#{reportsBackingBean.updateFromDate(reportsBackingBean.fromDate)}"/>
+            </p:calendar>
+
+            <span>To</span> 
+            <p:calendar value="#{reportsBackingBean.toDate}" pattern="MM/dd/yyyy HH:mm:ss">
+              <p:ajax event="dateSelect" listener="#{reportsBackingBean.updateFromDate(reportsBackingBean.toDate)}"/>
+            </p:calendar>
+
+            <span>Total sales for all items : 10$</span>
+            <p:dataTable  var="sale" value="#{reportsBackingBean.getSalesByAuthor()}" 
+                          widgetVar="clientsTable" editable="true" style="margin-bottom:20px" 
+                          emptyMessage="no clients found with that criteria" filteredValue="#{reportsBackingBean.filteredAuthors}"
+                         >
+
+              <f:facet name="header">
+                <p:outputPanel>
+                  <h:outputText value="Search all fields:" />
+                  <!--                  <p:inputText id="clientFilter" onkeyup="PF('clientsTable').filter()" style="width:150px; " placeholder="client"/>-->
+                </p:outputPanel>
+              </f:facet>
+
+              <p:column filterBy="#{sale[0]}" headerText="Author Lastname"  >
+
+                <h:outputText value="#{sale[0]}"/>
+
+
+              </p:column>
+
+
+              <p:column filterBy="#{sale[1].firstName}" headerText="">
+
+                <h:outputText value="#{sale[1].firstName}"/>
+
+
+              </p:column>
+              
+              <p:column filterBy="#{sale[1].lastName}" headerText="Author Lastname">
+
+                <h:outputText value="#{sale[1].lastName}"/>
+
+
+              </p:column>
+              
+             <p:column filterBy="#{sale[2].isbn.isbn}" headerText="Isbn">
+
+                <h:outputText value="#{sale[2].isbn.isbn}"/>
+
+
+              </p:column>
+              
+               <p:column filterBy="#{sale[2].bookPrice}" headerText="Invoice Book Price">
+
+                <h:outputText value="#{sale[2].bookPrice}"/>
+
+
+              </p:column>
+
+              
+
+              
 
             </p:dataTable>
           </h:form>

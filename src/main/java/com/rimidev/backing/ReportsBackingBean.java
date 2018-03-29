@@ -51,8 +51,8 @@ public class ReportsBackingBean implements Serializable {
   private Date fromDate;
   private double totalSales;
   private List<Object[]> clients;
-  private List<InvoiceDetails> authors;
-  private List<InvoiceDetails> publishers;
+  private List<Object[]> authors;
+  private List<Object[]> publishers;
   private List<InvoiceDetails> inventory;
 
   private List<Object[]> filteredClients;
@@ -98,16 +98,20 @@ public class ReportsBackingBean implements Serializable {
     return totalSalesList;
   }
 
-  public List<InvoiceDetails> getSalesByAuthor(String client) {
-    return null;
-  }
-
-  public List<InvoiceDetails> getSalesByPublisher() {
-    return null;
-  }
-
   public List<Object[]> getSalesByClient() {
     return clients = invoiceDetailsJpaController.getTotalSalesByClient(new Date(), new Date());
+  }
+
+  public List<Object[]> getSalesByAuthor() {
+    return authors = invoiceDetailsJpaController.getTotalSalesByAuthor(new Date(), new Date());
+  }
+
+  /**
+   *
+   * @return
+   */
+  public List<Object[]> getSalesByPublisher() {
+    return clients = invoiceDetailsJpaController.getTotalSalesByPublisher(new Date(), new Date());
   }
 
   public void setTotalSalesList(List<InvoiceDetails> totalSales) {
@@ -126,19 +130,19 @@ public class ReportsBackingBean implements Serializable {
     this.clients = clients;
   }
 
-  public List<InvoiceDetails> getAuthors() {
+  public List<Object[]> getAuthors() {
     return authors;
   }
 
-  public void setAuthors(List<InvoiceDetails> authors) {
+  public void setAuthors(List<Object[]> authors) {
     this.authors = authors;
   }
 
-  public List<InvoiceDetails> getPublishers() {
+  public List<Object[]> getPublishers() {
     return publishers;
   }
 
-  public void setPublishers(List<InvoiceDetails> publishers) {
+  public void setPublishers(List<Object[]> publishers) {
     this.publishers = publishers;
   }
 
