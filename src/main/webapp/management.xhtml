@@ -644,111 +644,175 @@
                 <p:panel id="TotalSalesReport" header="Total Sales Report" toggleable="true" toggleOrientation="vertical" collapsed="true">
 
 
-                    <h:form>
-                        <span>From</span> 
-                        <p:calendar value="#{reportsBackingBean.fromDate}" pattern="MM/dd/yyyy HH:mm:ss">
-                            <p:ajax event="dateSelect" listener="#{reportsBackingBean.updateFromDate(reportsBackingBean.fromDate)}"/>
-                        </p:calendar>
+          <h:form>
+            <span>From</span> 
+            <p:calendar value="#{reportsBackingBean.fromDate}" pattern="MM/dd/yyyy HH:mm:ss">
+              <p:ajax event="dateSelect" listener="#{reportsBackingBean.updateFromDate(reportsBackingBean.fromDate)}"/>
+            </p:calendar>
 
-                        <span>To</span> 
-                        <p:calendar value="#{reportsBackingBean.toDate}" pattern="MM/dd/yyyy HH:mm:ss">
-                            <p:ajax event="dateSelect" listener="#{reportsBackingBean.updateFromDate(reportsBackingBean.toDate)}"/>
-                        </p:calendar>
+            <span>To</span> 
+            <p:calendar value="#{reportsBackingBean.toDate}" pattern="MM/dd/yyyy HH:mm:ss">
+              <p:ajax event="dateSelect" listener="#{reportsBackingBean.updateFromDate(reportsBackingBean.toDate)}"/>
+            </p:calendar>
 
-                        <span>Total sales for all items : #{reportsBackingBea.totalSales}</span>
-                        <p:dataTable id="totalSalesTable" var="invDetail" value="#{reportsBackingBean.totalSalesList}" editable="true" style="margin-bottom:20px">
-                            <f:facet name="header">
-                                <h:outputText value="Invoice ##{invoice.id}"/>
-                            </f:facet>
-
-                            <p:ajax event="rowEdit" listener="#{managementBacking.onRowEdit}" update="bkGrowl" />
-                            <p:ajax event="rowEditCancel" listener="#{managementBacking.onRowCancel}" update="bkGrowl" />
-
-                            <p:column headerText="Item #">
-                                <h:outputText value="#{invDetail.id}"/>
-                            </p:column>
-                            <p:column headerText="Invoice #">
-                                <h:outputText value="#{invDetail.invoiceId.id}"/>
-                            </p:column>
-                            <p:column headerText="Isbn">
-                                <p:cellEditor>
-                                    <f:facet name="output"><h:outputText value="#{invDetail.isbn.isbn}"/></f:facet>
-                                    <f:facet name="input"><p:inputText id="modelInputInvIsbn" value="#{invDetail.isbn.isbn}" style="width:100%"/></f:facet>
-                                </p:cellEditor>
-                            </p:column>
-                            <p:column headerText="Book Price">
-                                <p:cellEditor>
-                                    <f:facet name="output"><h:outputText value="#{invDetail.bookPrice}"/></f:facet>
-                                    <f:facet name="input"><p:inputText id="modelInputBkPrice" value="#{invDetail.bookPrice}" style="width:100%"/></f:facet>
-                                </p:cellEditor>
-                            </p:column>
+            <span>Total sales for all items : #{reportsBackingBea.totalSales}</span>
+            <p:dataTable id="totalSalesTable" var="invDetail" value="#{reportsBackingBean.totalSalesList}" editable="true" style="margin-bottom:20px">
+              <f:facet name="header">
+                <h:outputText value="Invoice ##{invoice.id}"/>
+              </f:facet>
 
 
 
-                        </p:dataTable>
-                    </h:form>
-                </p:panel>
+              <p:column headerText="Item #">
+                <h:outputText value="#{invDetail.id}"/>
+              </p:column>
+              <p:column headerText="Invoice #">
+                <h:outputText value="#{invDetail.invoiceId.id}"/>
+              </p:column>
+              <p:column headerText="Isbn">
 
-                <p:panel id="salesByClientPanel" header="Sales by Client Report" toggleable="true" toggleOrientation="vertical" collapsed="true">
-
-                    <h:form>
-                        <p:dataTable id="salesByClientDataTable" var="client" value="#{managementBacking.clients}" editable="true" style="margin-bottom:20px" >
-
-                        </p:dataTable>
-                    </h:form>
-                </p:panel>
-
-                <p:panel id="salesByPublisherPanel" header="Sales by Publisher Report" toggleable="true" toggleOrientation="vertical" collapsed="true">
-
-                    <h:form>
-                        <p:dataTable id="salesByPublisherDataTable" var="client" value="#{managementBacking.clients}" editable="true" style="margin-bottom:20px" >
-
-                        </p:dataTable>
-                    </h:form>
-                </p:panel>
-
-                <p:panel id="topSellersPanel" header="Top Sellers Report" toggleable="true" toggleOrientation="vertical" collapsed="true">
-
-                    <h:form>
-                        <p:dataTable id="topSellersDataTable" var="client" value="#{managementBacking.clients}" editable="true" style="margin-bottom:20px" >
-
-                        </p:dataTable>
-                    </h:form>
-                </p:panel>
-
-                <p:panel id="topClientsPanel" header="Top Clients Report" toggleable="true" toggleOrientation="vertical" collapsed="true">
-
-                    <h:form>
-                        <p:dataTable id="topClientsDataTable" var="client" value="#{managementBacking.clients}" editable="true" style="margin-bottom:20px" >
-
-                        </p:dataTable>
-                    </h:form>
-                </p:panel>
-
-                <p:panel id="zeroSalesPanel" header="Zero Sales Report" toggleable="true" toggleOrientation="vertical" collapsed="true">
-
-                    <h:form>
-                        <p:dataTable id="zeroSalesDataTable" var="client" value="#{managementBacking.clients}" editable="true" style="margin-bottom:20px" >
-
-                        </p:dataTable>
-                    </h:form>
-                </p:panel>
-
-                <p:panel id="stockReportPanel" header="Stock Report" toggleable="true" toggleOrientation="vertical" collapsed="true">
-
-                    <h:form>
-                        <p:dataTable id="stockReportDataTable" var="client" value="#{managementBacking.clients}" editable="true" style="margin-bottom:20px" >
-
-                        </p:dataTable>
-                    </h:form>
-                </p:panel>
+                <h:outputText value="#{invDetail.isbn.isbn}"/>
 
 
-            </b:tab>
-        </b:tabView>
+              </p:column>
+              <p:column headerText="Book Price">
+
+                <h:outputText value="#{invDetail.bookPrice}"/>
+
+
+              </p:column>
+
+              <p:column headerText="Total sales">
+
+                <h:outputText value="#{bookJpaController.getTotalSold(invDetail.isbn.isbn) * invDetail.bookPrice}"/>
+
+
+              </p:column>
 
 
 
+            </p:dataTable>
+          </h:form>
+        </p:panel>
+
+      <!--sales by client <-->
+        <p:panel id="salesByClientPanel" header="Sales by Client Report" toggleable="true" toggleOrientation="vertical" collapsed="false">
+
+          <h:form>
+
+            <p:calendar value="#{reportsBackingBean.fromDate}" pattern="MM/dd/yyyy HH:mm:ss">
+              <p:ajax event="dateSelect" listener="#{reportsBackingBean.updateFromDate(reportsBackingBean.fromDate)}"/>
+            </p:calendar>
+
+            <span>To</span> 
+            <p:calendar value="#{reportsBackingBean.toDate}" pattern="MM/dd/yyyy HH:mm:ss">
+              <p:ajax event="dateSelect" listener="#{reportsBackingBean.updateFromDate(reportsBackingBean.toDate)}"/>
+            </p:calendar>
+
+            <span>Total sales for all items : 10$</span>
+
+
+            <p:dataTable  var="sale" value="#{reportsBackingBean.getSalesByClient()}" 
+                          widgetVar="clientsTable" editable="true" style="margin-bottom:20px" 
+                          emptyMessage="no clients found with that criteria" filteredValue="#{reportsBackingBean.filteredClients}"
+                         >
+
+              <f:facet name="header">
+                <p:outputPanel>
+                  <h:outputText value="Search all fields:" />
+                  <!--                  <p:inputText id="clientFilter" onkeyup="PF('clientsTable').filter()" style="width:150px; " placeholder="client"/>-->
+                </p:outputPanel>
+              </f:facet>
+
+              <p:column filterBy="#{sale[0]}" headerText="date of sale"  >
+
+                <h:outputText value="#{sale[0]}"/>
+
+
+              </p:column>
+
+
+              <p:column filterBy="#{sale[0]}" headerText="email">
+
+                <h:outputText value="#{sale[1]}"/>
+
+
+              </p:column>
+
+              <p:column filterBy="#{sale[2]}" headerText="first name">
+
+                <h:outputText value="#{sale[2]}"/>
+
+
+              </p:column>
+
+              <p:column filterBy="#{sale[3]}" headerText="last name">
+
+                <h:outputText value="#{sale[3]}"/>
+
+
+              </p:column>
+
+
+              <p:column filterBy="#{sale[4]}" headerText="isbn">
+
+                <h:outputText value="#{sale[4].isbn.isbn}"/>
+
+
+              </p:column>
+
+            </p:dataTable>
+          </h:form>
+        </p:panel>
+
+        <p:panel id="salesByPublisherPanel" header="Sales by Publisher Report" toggleable="true" toggleOrientation="vertical" collapsed="true">
+
+          <h:form>
+            <p:dataTable id="salesByPublisherDataTable" var="client" value="#{managementBacking.clients}" editable="true" style="margin-bottom:20px" >
+
+            </p:dataTable>
+          </h:form>
+        </p:panel>
+
+        <p:panel id="topSellersPanel" header="Top Sellers Report" toggleable="true" toggleOrientation="vertical" collapsed="true">
+
+          <h:form>
+            <p:dataTable id="topSellersDataTable" var="client" value="#{managementBacking.clients}" editable="true" style="margin-bottom:20px" >
+
+            </p:dataTable>
+          </h:form>
+        </p:panel>
+
+        <p:panel id="topClientsPanel" header="Top Clients Report" toggleable="true" toggleOrientation="vertical" collapsed="true">
+
+          <h:form>
+            <p:dataTable id="topClientsDataTable" var="client" value="#{managementBacking.clients}" editable="true" style="margin-bottom:20px" >
+
+            </p:dataTable>
+          </h:form>
+        </p:panel>
+
+        <p:panel id="zeroSalesPanel" header="Zero Sales Report" toggleable="true" toggleOrientation="vertical" collapsed="true">
+
+          <h:form>
+            <p:dataTable id="zeroSalesDataTable" var="client" value="#{managementBacking.clients}" editable="true" style="margin-bottom:20px" >
+
+            </p:dataTable>
+          </h:form>
+        </p:panel>
+
+        <p:panel id="stockReportPanel" header="Stock Report" toggleable="true" toggleOrientation="vertical" collapsed="true">
+
+          <h:form>
+            <p:dataTable id="stockReportDataTable" var="client" value="#{managementBacking.clients}" editable="true" style="margin-bottom:20px" >
+
+            </p:dataTable>
+          </h:form>
+        </p:panel>
+
+
+      </b:tab>
+    </b:tabView>
 
 
 
@@ -757,5 +821,8 @@
 
 
 
-    </ui:define>
+
+
+
+  </ui:define>
 </ui:composition>

@@ -7,8 +7,12 @@ package com.rimidev.backing;
 
 import com.rimidev.maxbook.controller.InvoiceDetailsJpaController;
 import com.rimidev.maxbook.controller.InvoiceJpaController;
+import com.rimidev.maxbook.entities.Author;
+import com.rimidev.maxbook.entities.Book;
+import com.rimidev.maxbook.entities.Client;
 import com.rimidev.maxbook.entities.Invoice;
 import com.rimidev.maxbook.entities.InvoiceDetails;
+import com.rimidev.maxbook.entities.Publisher;
 import com.rimidev.maxbook.entities.Survey;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -36,13 +40,22 @@ import javax.inject.Named;
 @Named
 @SessionScoped
 public class ReportsBackingBean implements Serializable {
-private Logger logger = Logger.getLogger(ReportsBackingBean.class.getName());
+
+  private Logger logger = Logger.getLogger(ReportsBackingBean.class.getName());
   @Inject
   InvoiceJpaController invcon;
 
+  @Inject
+  InvoiceDetailsJpaController invoiceDetailsJpaController;
   private List<InvoiceDetails> totalSalesList;
   private Date fromDate;
   private double totalSales;
+  private List<Object[]> clients;
+  private List<InvoiceDetails> authors;
+  private List<InvoiceDetails> publishers;
+  private List<InvoiceDetails> inventory;
+
+  private List<Object[]> filteredClients;
 
   public double getTotalSales() {
     if (totalSalesList != null) {
@@ -72,18 +85,29 @@ private Logger logger = Logger.getLogger(ReportsBackingBean.class.getName());
   @PostConstruct
   public void init() {
     totalSalesList = new ArrayList();
+    clients = new ArrayList();
+    authors = new ArrayList();
+    publishers = new ArrayList();
     fromDate = new Date();
+    filteredClients = new ArrayList();
   }
 
   public List<InvoiceDetails> getTotalSalesList() {
-    List<Invoice> list = invcon.findInvoiceEntities();
-    if (list != null) {
-      for (Invoice invoice : list) {
-        totalSalesList.addAll(invoice.getInvoiceDetailsList());
-      }
-    }
+    totalSalesList = invoiceDetailsJpaController.getTotalSales(new Date(), new Date());
 
-    return totalSalesList.stream().distinct().collect(Collectors.toList());
+    return totalSalesList;
+  }
+
+  public List<InvoiceDetails> getSalesByAuthor(String client) {
+    return null;
+  }
+
+  public List<InvoiceDetails> getSalesByPublisher() {
+    return null;
+  }
+
+  public List<Object[]> getSalesByClient() {
+    return clients = invoiceDetailsJpaController.getTotalSalesByClient(new Date(), new Date());
   }
 
   public void setTotalSalesList(List<InvoiceDetails> totalSales) {
@@ -92,5 +116,37 @@ private Logger logger = Logger.getLogger(ReportsBackingBean.class.getName());
 
   public void updateFromDate(Date d) {
     this.fromDate = d;
+  }
+
+  public List<Object[]> getClients() {
+    return clients;
+  }
+
+  public void setClients(List<Object[]> clients) {
+    this.clients = clients;
+  }
+
+  public List<InvoiceDetails> getAuthors() {
+    return authors;
+  }
+
+  public void setAuthors(List<InvoiceDetails> authors) {
+    this.authors = authors;
+  }
+
+  public List<InvoiceDetails> getPublishers() {
+    return publishers;
+  }
+
+  public void setPublishers(List<InvoiceDetails> publishers) {
+    this.publishers = publishers;
+  }
+
+  public List<Object[]> getFilteredClients() {
+    return filteredClients;
+  }
+
+  public void setFilteredClients(List<Object[]> filteredList) {
+    this.filteredClients = filteredList;
   }
 }
