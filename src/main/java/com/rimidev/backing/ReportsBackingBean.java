@@ -56,6 +56,10 @@ public class ReportsBackingBean implements Serializable {
   private List<InvoiceDetails> inventory;
 
   private List<Object[]> filteredClients;
+  private List<Object[]> filteredAuthors;
+
+
+  private List<Object[]> filteredPublihsers;
 
   public double getTotalSales() {
     if (totalSalesList != null) {
@@ -90,6 +94,8 @@ public class ReportsBackingBean implements Serializable {
     publishers = new ArrayList();
     fromDate = new Date();
     filteredClients = new ArrayList();
+    filteredAuthors = new ArrayList();
+    filteredPublihsers = new ArrayList();
   }
 
   public List<InvoiceDetails> getTotalSalesList() {
@@ -152,5 +158,21 @@ public class ReportsBackingBean implements Serializable {
 
   public void setFilteredClients(List<Object[]> filteredList) {
     this.filteredClients = filteredList;
+  }
+  
+   public List<Object[]> getFilteredAuthors() {
+    return filteredAuthors;
+  }
+
+  public void setFilteredAuthors(List<Object[]> filteredAuthors) {
+    this.filteredAuthors = filteredAuthors;
+  }
+
+  public List<Object[]> getFilteredPublihsers() {
+    return filteredPublihsers;
+  }
+
+  public void setFilteredPublihsers(List<Object[]> filteredPublihsers) {
+    this.filteredPublihsers = filteredPublihsers;
   }
 }
