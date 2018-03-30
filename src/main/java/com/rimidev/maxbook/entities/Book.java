@@ -315,5 +315,4 @@ public class Book implements Serializable {
   public String toString() {
     return "com.rimidev.maxbook.entities.Book[ isbn=" + isbn + " ]";
   }
-
 }

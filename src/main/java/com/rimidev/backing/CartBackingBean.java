@@ -10,6 +10,8 @@ import com.rimidev.maxbook.entities.Invoice;
 import com.rimidev.maxbook.entities.InvoiceDetails;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -93,7 +95,6 @@ public class CartBackingBean implements Serializable {
 
   public String removeFromCart(String isbn) {
     HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-
     cart = (List<Book>) session.getAttribute("cartItems");
 
     for (Iterator<Book> iterator = cart.iterator(); iterator.hasNext();) {
@@ -117,7 +118,7 @@ public class CartBackingBean implements Serializable {
     double total = 0.0;
 
     for (int i = 0; i < cart.size(); i++) {
-      total += cart.get(i).getSalePrice().doubleValue();
+      total += bookJpaController.isOnSale(cart.get(i)).doubleValue();
     }
 
     return Double.valueOf(String.format("%.2f", total));
@@ -241,5 +242,17 @@ public class CartBackingBean implements Serializable {
 
     return "checkout?faces-redirect=true";
   }
-
+  
+//  public void addToTotal(Book book){
+//      logger.info("ADDING TO TOTAL");
+//      if(cartTotal == null){
+//          cartTotal = 0.0;
+//      }
+//      cartTotal += bookJpaController.isOnSale(book).doubleValue();
+//      logger.info("TOTAL NOW: " +cartTotal.toString());
+//  }
+//  
+//  public BigDecimal getTotal(){
+//      return new BigDecimal(this.cartTotal).setScale(2, RoundingMode.DOWN);
+//  }
 }
