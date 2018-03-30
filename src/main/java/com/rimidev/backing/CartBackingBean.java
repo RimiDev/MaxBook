@@ -241,5 +241,4 @@ public class CartBackingBean implements Serializable {
 
     return "checkout?faces-redirect=true";
   }
-
 }
