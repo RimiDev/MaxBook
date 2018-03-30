@@ -28,6 +28,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TemporalType;
 import javax.persistence.Tuple;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -45,13 +46,13 @@ import javax.transaction.UserTransaction;
 @Named
 @RequestScoped
 public class InvoiceDetailsJpaController implements Serializable {
-  
+
   @Resource
   private UserTransaction utx;
-  
+
   @PersistenceContext(unitName = "MaxBookPU")
   private EntityManager em;
-  
+
   private static final Logger logger = Logger.getLogger(InvoiceDetailsJpaController.class.getName());
 
   public List<InvoiceDetails> getAll() {
@@ -67,12 +68,12 @@ public class InvoiceDetailsJpaController implements Serializable {
     // TypedQuery<Fish> query =  entityManager.createNamedQuery("Fish.findAll", Fish.class);
     // Execute the query
     List<InvoiceDetails> fishies = query.getResultList();
-    
+
     return fishies;
   }
-  
+
   public void create(InvoiceDetails invoiceDetails) throws RollbackFailureException, Exception {
-    
+
     try {
       utx.begin();
       Invoice invoiceId = invoiceDetails.getInvoiceId();
@@ -104,9 +105,9 @@ public class InvoiceDetailsJpaController implements Serializable {
       throw ex;
     }
   }
-  
+
   public void edit(InvoiceDetails invoiceDetails) throws NonexistentEntityException, RollbackFailureException, Exception {
-    
+
     try {
       utx.begin();
       InvoiceDetails persistentInvoiceDetails = em.find(InvoiceDetails.class, invoiceDetails.getId());
@@ -156,9 +157,9 @@ public class InvoiceDetailsJpaController implements Serializable {
       throw ex;
     }
   }
-  
+
   public void destroy(Integer id) throws NonexistentEntityException, RollbackFailureException, Exception {
-    
+
     try {
       utx.begin();
       InvoiceDetails invoiceDetails;
@@ -189,15 +190,15 @@ public class InvoiceDetailsJpaController implements Serializable {
       throw ex;
     }
   }
-  
+
   public List<InvoiceDetails> findInvoiceDetailsEntities() {
     return findInvoiceDetailsEntities(true, -1, -1);
   }
-  
+
   public List<InvoiceDetails> findInvoiceDetailsEntities(int maxResults, int firstResult) {
     return findInvoiceDetailsEntities(false, maxResults, firstResult);
   }
-  
+
   private List<InvoiceDetails> findInvoiceDetailsEntities(boolean all, int maxResults, int firstResult) {
     CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
     cq.select(cq.from(InvoiceDetails.class));
@@ -208,13 +209,13 @@ public class InvoiceDetailsJpaController implements Serializable {
     }
     return q.getResultList();
   }
-  
+
   public InvoiceDetails findInvoiceDetails(Integer id) {
-    
+
     return em.find(InvoiceDetails.class, id);
-    
+
   }
-  
+
   public int getInvoiceDetailsCount() {
     CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
     Root<InvoiceDetails> rt = cq.from(InvoiceDetails.class);
@@ -225,70 +226,85 @@ public class InvoiceDetailsJpaController implements Serializable {
 
   //Custom queries---------------------------------------------
   public List<Book> getTopSellingBooks() {
-    
+
     TypedQuery<Book> query = em.createQuery("SELECT ivd.isbn FROM InvoiceDetails ivd GROUP BY ivd.isbn ORDER BY COUNT(ivd) DESC", Book.class);
-    
+
     Collection<Book> Invoices = query.getResultList();
     return (List<Book>) Invoices;
   }
-  
+
   public List<Book> getRecentSoldBook() {
-    
+
     TypedQuery<Book> query = em.createQuery("SELECT DISTINCT ivd.isbn FROM InvoiceDetails ivd ORDER BY ivd.id DESC", Book.class);
     //SELECT isbn FROM Invoice_Details ORDER BY id DESC LIMIT 5;
-    
+
     Collection<Book> Invoices = query.setMaxResults(5).getResultList();
-    
+
     return (List<Book>) Invoices;
-    
+
   }
   
-  public List<Object[]> getTotalInvoiceDetailSales(Date from, Date to) {
-    
-    TypedQuery<Object[]> query = em.createQuery("SELECT i, ivd FROM InvoiceDetails ivd inner join ivd.invoiceId i"
-            + " group by ivd.isbn", Object[].class);
-    //SELECT isbn FROM Invoice_Details ORDER BY id DESC LIMIT 5;
+  public List<Invoice> getTotalInvoiceSales(Date from, Date to) {
+    logger.log(Level.WARNING, "incoming from date " + from.toString());
+    logger.log(Level.WARNING, "incoming to date " + to.toString());
+    TypedQuery<Invoice> query = em.createQuery("SELECT i FROM Invoice i "
+            + "where i.dateOfSale BETWEEN :from AND :to order by i.dateOfSale desc", Invoice.class);
+    query.setParameter("from", from);
+    query.setParameter("to", to);
     logger.log(Level.WARNING, "get total sales query>>>>>>>>>>");
-    Collection<Object[]> sales = query.getResultList();
-    for (Object[] sale : sales) {
-      //logger.log(Level.WARNING, "sale >>>>>>>>>>" + sale.getIsbn());
-    }
-    return (List<Object[]>) sales;
+    Collection<Invoice> sales = query.getResultList();
     
+    return (List<Invoice>) sales;
   }
-  
+
+  public List<InvoiceDetails> getTotalInvoiceDetailSales(Date from, Date to) {
+
+    logger.log(Level.WARNING, "incoming from date " + from.toString());
+    logger.log(Level.WARNING, "incoming to date " + to.toString());
+    TypedQuery<InvoiceDetails> query = em.createQuery("SELECT ivd FROM InvoiceDetails ivd "
+            + "where ivd.invoiceId.dateOfSale BETWEEN :from AND :to order by ivd.invoiceId.dateOfSale desc", InvoiceDetails.class);
+    query.setParameter("from", from);
+    query.setParameter("to", to);
+    logger.log(Level.WARNING, "get total sales query>>>>>>>>>>");
+    Collection<InvoiceDetails> sales = query.getResultList();
+    for (InvoiceDetails sale : sales) {
+      logger.log(Level.WARNING, "sale >>>>>>>>>>" + sale.getIsbn());
+    }
+    return (List<InvoiceDetails>) sales;
+
+  }
+
   public List<Object[]> getTotalSalesByClient(Date date, Date date0) {
-    
+
     TypedQuery<Object[]> query = em.createQuery("SELECT i.dateOfSale, c.email, c.firstName, c.lastName, ivd FROM InvoiceDetails ivd "
             + "inner join ivd.invoiceId i inner join i.clientId c order by i.dateOfSale desc", Object[].class);
-    
+
     logger.log(Level.WARNING, "get total sales query>>>>>>>>>>");
     Collection<Object[]> sales = query.getResultList();
-    
+
     return (List<Object[]>) sales;
   }
 
   public List<Object[]> getTotalSalesByAuthor(Date date, Date date0) {
-    
+
     TypedQuery<Object[]> query = em.createQuery("SELECT i.dateOfSale, author, ivd FROM InvoiceDetails ivd "
             + "inner join ivd.invoiceId i inner join ivd.isbn b inner join b.authorList author order by i.dateOfSale desc", Object[].class);
-    
-    
+
     Collection<Object[]> sales = query.getResultList();
-    
+
     return (List<Object[]>) sales;
   }
-    
 
   public List<Object[]> getTotalSalesByPublisher(Date date, Date date0) {
-    
+
     TypedQuery<Object[]> query = em.createQuery("SELECT i.dateOfSale, publisher, ivd FROM InvoiceDetails ivd "
             + "inner join ivd.invoiceId i inner join ivd.isbn b inner join b.publisherId publisher order by i.dateOfSale desc", Object[].class);
-    
-    
+
     Collection<Object[]> sales = query.getResultList();
-    
+
     return (List<Object[]>) sales;
   }
+  
 }
+
   
