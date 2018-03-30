@@ -47,17 +47,16 @@ public class ReportsBackingBean implements Serializable {
 
   @Inject
   InvoiceDetailsJpaController invoiceDetailsJpaController;
-  private List<InvoiceDetails> totalSalesList;
+  
   private Date fromDate;
   private double totalSales;
   private List<Object[]> clients;
   private List<Object[]> authors;
   private List<Object[]> publishers;
   private List<InvoiceDetails> inventory;
-
+  private List<Object[]> totalSalesList;
   private List<Object[]> filteredClients;
   private List<Object[]> filteredAuthors;
-
 
   private List<Object[]> filteredPublishers;
 
@@ -98,7 +97,7 @@ public class ReportsBackingBean implements Serializable {
     filteredPublishers = new ArrayList();
   }
 
-  public List<InvoiceDetails> getTotalSalesList() {
+  public List<Object[]> getTotalSalesList() {
     totalSalesList = invoiceDetailsJpaController.getTotalSales(new Date(), new Date());
 
     return totalSalesList;
@@ -120,7 +119,7 @@ public class ReportsBackingBean implements Serializable {
     return clients = invoiceDetailsJpaController.getTotalSalesByPublisher(new Date(), new Date());
   }
 
-  public void setTotalSalesList(List<InvoiceDetails> totalSales) {
+  public void setTotalSalesList(List<Object[]> totalSales) {
     this.totalSalesList = totalSales;
   }
 
@@ -159,8 +158,8 @@ public class ReportsBackingBean implements Serializable {
   public void setFilteredClients(List<Object[]> filteredList) {
     this.filteredClients = filteredList;
   }
-  
-   public List<Object[]> getFilteredAuthors() {
+
+  public List<Object[]> getFilteredAuthors() {
     return filteredAuthors;
   }
 

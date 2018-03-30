@@ -641,7 +641,7 @@
       </b:tab>
       <b:tab title="Reports" class="">
 
-        <p:panel id="TotalSalesReport" header="Total Sales Report" toggleable="true" toggleOrientation="vertical" collapsed="true">
+        <p:panel id="TotalSalesReport" header="Total Sales Report" toggleable="true" toggleOrientation="vertical" collapsed="false">
 
 
           <h:form>
@@ -656,43 +656,68 @@
             </p:calendar>
 
             <span>Total sales for all items : #{reportsBackingBea.totalSales}</span>
-            <p:dataTable id="totalSalesTable" var="invDetail" 
-                         value="#{reportsBackingBean.totalSalesList}" editable="true" style="margin-bottom:20px">
-              <f:facet name="header">
-                <h:outputText value="Invoice ##{invoice.id}"/>
-              </f:facet>
+            <b:tabView contentStyle="border-right: 1px solid #ddd;border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding:10px">
+              <b:tab title="Total Invoice Sales" class="">
+                <p:dataTable id="totalInvoicesTable" var="sale" 
+                             value="#{reportsBackingBean.totalSalesList}" editable="true" style="margin-bottom:20px">
+                  <f:facet name="header">
+                    <h:outputText value="Invoice ##{sale[0]}"/>
+                  </f:facet>
 
 
 
-              <p:column headerText="Item #">
-                <h:outputText value="#{invDetail.id}"/>
-              </p:column>
-              <p:column headerText="Invoice #">
-                <h:outputText value="#{invDetail.invoiceId.id}"/>
-              </p:column>
-              <p:column headerText="Isbn">
+                  <p:column headerText="Item #">
+                    <h:outputText value="#{sale[0].dateOfSale}"/>
+                  </p:column>
+                  <p:column headerText="Invoice #">
+                    <h:outputText value="#{sale[0].id}"/>
+                  </p:column>
+                  <p:column headerText="Gross Value">
 
-                <h:outputText value="#{invDetail.isbn.isbn}"/>
-
-
-              </p:column>
-              <p:column headerText="Book Price">
-
-                <h:outputText value="#{invDetail.bookPrice}"/>
+                    <h:outputText value="#{sale[0].grossValue}"/>
 
 
-              </p:column>
-
-              <p:column headerText="Total sales">
-
-                <h:outputText value="#{bookJpaController.getTotalSold(invDetail.isbn.isbn) * invDetail.bookPrice}"/>
-
-
-              </p:column>
+                  </p:column>
+                </p:dataTable>
+              </b:tab>
+              <b:tab title="Total Invoice Detail Sales" class="">
+                 <p:dataTable id="totalInvoiceDetailsTable" var="sale" 
+                             value="#{reportsBackingBean.totalSalesList}" editable="true" style="margin-bottom:20px">
+                  <f:facet name="header">
+                    <h:outputText value="Invoice ##{sale[0]}"/>
+                  </f:facet>
 
 
 
-            </p:dataTable>
+                  <p:column headerText="Item #">
+                    <h:outputText value="#{sale[0].dateOfSale}"/>
+                  </p:column>
+                  <p:column headerText="Invoice #">
+                    <h:outputText value="#{sale[0].id}"/>
+                  </p:column>
+                  <p:column headerText="Isbn">
+
+                    <h:outputText value="#{sale[1].isbn.isbn}"/>
+
+
+                  </p:column>
+                  <p:column headerText="Book Price">
+
+                    <h:outputText value="#{sale[1].bookPrice}"/>
+
+
+                  </p:column>
+
+                  <p:column headerText="Total sales">
+
+                <h:outputText value="#{bookJpaController.getTotalSold(sale[1].isbn.isbn) * sale[1].bookPrice}"/>
+
+
+                  </p:column>
+                </p:dataTable>
+                
+              </b:tab>
+            </b:tabView>
           </h:form>
         </p:panel>
 
@@ -724,28 +749,28 @@
               </f:facet>
 
 
-              <p:column filterBy="#{sale[0]}"   headerText="date of sale" filterMatchMode="contains" >
-                
-                  <h:outputText value="#{sale[0]}" />
-               
+              <p:column filterBy="#{sale[0]}"   headerText="#{msgs.datePurchase}" filterMatchMode="contains" >
+
+                <h:outputText value="#{sale[0]}" />
+
 
               </p:column>
 
 
-              <p:column filterBy="#{sale[1]}" headerText="email" filterMatchMode="contains">
+              <p:column filterBy="#{sale[1]}" headerText="#{msgs.emailLabel}" filterMatchMode="contains">
 
                 <h:outputText value="#{sale[1]}"/>
 
               </p:column>
 
-              <p:column filterBy="#{sale[2]}" headerText="first name" filterMatchMode="contains">
+              <p:column filterBy="#{sale[2]}" headerText="#{msgs.firstNameLabel}" filterMatchMode="contains">
 
                 <h:outputText value="#{sale[2]}"/>
 
 
               </p:column>
 
-              <p:column filterBy="#{sale[3]}" headerText="last name" filterMatchMode="contains">
+              <p:column filterBy="#{sale[3]}" headerText="#{msgs.lastNameLabel}" filterMatchMode="contains">
 
                 <h:outputText value="#{sale[3]}"/>
 
@@ -753,8 +778,8 @@
               </p:column>
 
 
-              <p:column filterBy="#{sale[4].isbn.isbn}" headerText="isbn" filterMatchMode="contains">
-                
+              <p:column filterBy="#{sale[4].isbn.isbn}" headerText="#{msgs.isbnHeader}" filterMatchMode="contains">
+
                 <h:outputText value="#{sale[4].isbn.isbn}"/>
 
 
@@ -765,119 +790,119 @@
         </p:panel>
 
         <!--sales by author <-->
-                <p:panel id="salesByAuthor" header="Sales by Author Report" toggleable="true" toggleOrientation="vertical" collapsed="false">
-        
-                  <h:form>
-        
-                    <p:calendar value="#{reportsBackingBean.fromDate}" pattern="MM/dd/yyyy HH:mm:ss">
-                      <p:ajax event="dateSelect" listener="#{reportsBackingBean.updateFromDate(reportsBackingBean.fromDate)}"/>
-                    </p:calendar>
-        
-                    <span>To</span> 
-                    <p:calendar value="#{reportsBackingBean.toDate}" pattern="MM/dd/yyyy HH:mm:ss">
-                      <p:ajax event="dateSelect" listener="#{reportsBackingBean.updateFromDate(reportsBackingBean.toDate)}"/>
-                    </p:calendar>
-        
-                    <span>Total sales for all items : 10$</span>
-                    <p:dataTable id="authorT" var="sale" value="#{reportsBackingBean.getSalesByAuthor()}" 
-                                  widgetVar="authorsTable" editable="true" style="margin-bottom:20px" 
-                                  emptyMessage="no clients found with that criteria" filteredValue="#{reportsBackingBean.filteredAuthors}"
-                                 >
-        
-                      <f:facet name="header">
-                        <p:outputPanel>
-                          <h:outputText value="Search all fields:" />
-                                            <p:inputText id="clientFilter" onkeyup="PF('clientsTable').filter()" style="width:150px; " placeholder="client"/>
-                        </p:outputPanel>
-                      </f:facet>
-        
-                      <p:column filterBy="#{sale[0]}" headerText="Date of sale" filterMatchMode="contains" >
-        
-                        <h:outputText value="#{sale[0]}"/>
-        
-        
-                      </p:column>
-        
-        
-                      <p:column filterBy="#{sale[1].firstName}" headerText="Author first name" filterMatchMode="contains">
-        
-                        <h:outputText value="#{sale[1].firstName}"/>
-        
-        
-                      </p:column>
-                      
-                      <p:column filterBy="#{sale[1].lastName}" headerText="Author Lastname" filterMatchMode="contains">
-        
-                        <h:outputText value="#{sale[1].lastName}"/>
-        
-        
-                      </p:column>
-                      
-                     <p:column filterBy="#{sale[2].isbn.isbn}" headerText="Isbn" filterMatchMode="contains">
-        
-                        <h:outputText value="#{sale[2].isbn.isbn}"/>
-        
-        
-                      </p:column>
-                      
-                       <p:column filterBy="#{sale[2].bookPrice}" headerText="Invoice Book Price" filterMatchMode="contains">
-        
-                        <h:outputText value="#{sale[2].bookPrice}"/>
-        
-        
-                      </p:column>
-        
-                    </p:dataTable>
-                  </h:form>
-                </p:panel>
+        <p:panel id="salesByAuthor" header="Sales by Author Report" toggleable="true" toggleOrientation="vertical" collapsed="false">
+
+          <h:form>
+
+            <p:calendar value="#{reportsBackingBean.fromDate}" pattern="MM/dd/yyyy HH:mm:ss">
+              <p:ajax event="dateSelect" listener="#{reportsBackingBean.updateFromDate(reportsBackingBean.fromDate)}"/>
+            </p:calendar>
+
+            <span>To</span> 
+            <p:calendar value="#{reportsBackingBean.toDate}" pattern="MM/dd/yyyy HH:mm:ss">
+              <p:ajax event="dateSelect" listener="#{reportsBackingBean.updateFromDate(reportsBackingBean.toDate)}"/>
+            </p:calendar>
+
+            <span>Total sales for all items : 10$</span>
+            <p:dataTable id="authorT" var="sale" value="#{reportsBackingBean.getSalesByAuthor()}" 
+                         widgetVar="authorsTable" editable="true" style="margin-bottom:20px" 
+                         emptyMessage="no clients found with that criteria" filteredValue="#{reportsBackingBean.filteredAuthors}"
+                         >
+
+              <f:facet name="header">
+                <p:outputPanel>
+                  <h:outputText value="Search all fields:" />
+                  <p:inputText id="clientFilter" onkeyup="PF('clientsTable').filter()" style="width:150px; " placeholder="client"/>
+                </p:outputPanel>
+              </f:facet>
+
+              <p:column filterBy="#{sale[0]}" headerText="Date of sale" filterMatchMode="contains" >
+
+                <h:outputText value="#{sale[0]}"/>
+
+
+              </p:column>
+
+
+              <p:column filterBy="#{sale[1].firstName}" headerText="Author first name" filterMatchMode="contains">
+
+                <h:outputText value="#{sale[1].firstName}"/>
+
+
+              </p:column>
+
+              <p:column filterBy="#{sale[1].lastName}" headerText="Author Lastname" filterMatchMode="contains">
+
+                <h:outputText value="#{sale[1].lastName}"/>
+
+
+              </p:column>
+
+              <p:column filterBy="#{sale[2].isbn.isbn}" headerText="Isbn" filterMatchMode="contains">
+
+                <h:outputText value="#{sale[2].isbn.isbn}"/>
+
+
+              </p:column>
+
+              <p:column filterBy="#{sale[2].bookPrice}" headerText="Invoice Book Price" filterMatchMode="contains">
+
+                <h:outputText value="#{sale[2].bookPrice}"/>
+
+
+              </p:column>
+
+            </p:dataTable>
+          </h:form>
+        </p:panel>
 
 
         <!--sales by publisher<-->
 
-                <p:panel id="salesByPublisher" header="Sales by Publisher Report" toggleable="true" toggleOrientation="vertical" collapsed="false">
-        
-                  <h:form>
-        
-                    <p:calendar value="#{reportsBackingBean.fromDate}" pattern="MM/dd/yyyy HH:mm:ss">
-                      <p:ajax event="dateSelect" listener="#{reportsBackingBean.updateFromDate(reportsBackingBean.fromDate)}"/>
-                    </p:calendar>
-        
-                    <span>To</span> 
-                    <p:calendar value="#{reportsBackingBean.toDate}" pattern="MM/dd/yyyy HH:mm:ss">
-                      <p:ajax event="dateSelect" listener="#{reportsBackingBean.updateFromDate(reportsBackingBean.toDate)}"/>
-                    </p:calendar>
-        
-                    <span>Total sales for all items : 10$</span>
-                    <p:dataTable  id="publisherT" var="sale" value="#{reportsBackingBean.getSalesByPublisher()}" 
-                                  widgetVar="publisherTable" editable="true" style="margin-bottom:20px" 
-                                  emptyMessage="no clients found with that criteria" filteredValue="#{reportsBackingBean.filteredPublishers}"
-                                 >
-        
-                      <f:facet name="header">
-                        <p:outputPanel>
-                          <h:outputText value="Search all fields:" />
-                        </p:outputPanel>
-                      </f:facet>
-        
-                      <p:column filterBy="#{sale[0]}" headerText="date of sale"  filterMatchMode="contains">
-        
-                        <h:outputText value="#{sale[0]}"/>
-        
-        
-                      </p:column>
-        
-        
-                      <p:column filterBy="#{sale[1].name}" headerText="publisher name" filterMatchMode="contains">
-        
-                        <h:outputText value="#{sale[1].name}"/>
-        
-        
-                      </p:column>
+        <p:panel id="salesByPublisher" header="Sales by Publisher Report" toggleable="true" toggleOrientation="vertical" collapsed="false">
 
-                    </p:dataTable>
-                  </h:form>
-                </p:panel>
-        <p:panel id="topSellersPanel" header="Top Sellers Report" toggleable="true" toggleOrientation="vertical" collapsed="true">
+          <h:form>
+
+            <p:calendar value="#{reportsBackingBean.fromDate}" pattern="MM/dd/yyyy HH:mm:ss">
+              <p:ajax event="dateSelect" listener="#{reportsBackingBean.updateFromDate(reportsBackingBean.fromDate)}"/>
+            </p:calendar>
+
+            <span>To</span> 
+            <p:calendar value="#{reportsBackingBean.toDate}" pattern="MM/dd/yyyy HH:mm:ss">
+              <p:ajax event="dateSelect" listener="#{reportsBackingBean.updateFromDate(reportsBackingBean.toDate)}"/>
+            </p:calendar>
+
+            <span>Total sales for all items : 10$</span>
+            <p:dataTable  id="publisherT" var="sale" value="#{reportsBackingBean.getSalesByPublisher()}" 
+                          widgetVar="publisherTable" editable="true" style="margin-bottom:20px" 
+                          emptyMessage="#{msgs.notFound}" filteredValue="#{reportsBackingBean.filteredPublishers}"
+                          >
+
+              <f:facet name="header">
+                <p:outputPanel>
+                  <h:outputText value="Search all fields:" />
+                </p:outputPanel>
+              </f:facet>
+
+              <p:column filterBy="#{sale[0]}" headerText="#{msgs.datePurchase}"  filterMatchMode="contains">
+
+                <h:outputText value="#{sale[0]}"/>
+
+
+              </p:column>
+
+
+              <p:column filterBy="#{sale[1].name}" headerText="#{msgs.publisherLabel}" filterMatchMode="contains">
+
+                <h:outputText value="#{sale[1].name}"/>
+
+
+              </p:column>
+
+            </p:dataTable>
+          </h:form>
+        </p:panel>
+        <p:panel id="topSellersPanel" header="#{msgs.topSellers}" toggleable="true" toggleOrientation="vertical" collapsed="true">
 
           <h:form>
             <p:dataTable id="topSellersDataTable" var="client" value="#{managementBacking.clients}" editable="true" style="margin-bottom:20px" >

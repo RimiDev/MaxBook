@@ -243,16 +243,17 @@ public class InvoiceDetailsJpaController implements Serializable {
     
   }
   
-  public List<InvoiceDetails> getTotalSales(Date from, Date to) {
+  public List<Object[]> getTotalSales(Date from, Date to) {
     
-    TypedQuery<InvoiceDetails> query = em.createQuery("SELECT  ivd FROM InvoiceDetails ivd group by ivd.isbn", InvoiceDetails.class);
+    TypedQuery<Object[]> query = em.createQuery("SELECT i, ivd FROM InvoiceDetails ivd inner join ivd.invoiceId i"
+            + " group by ivd.isbn", Object[].class);
     //SELECT isbn FROM Invoice_Details ORDER BY id DESC LIMIT 5;
     logger.log(Level.WARNING, "get total sales query>>>>>>>>>>");
-    Collection<InvoiceDetails> sales = query.getResultList();
-    for (InvoiceDetails sale : sales) {
+    Collection<Object[]> sales = query.getResultList();
+    for (Object[] sale : sales) {
       //logger.log(Level.WARNING, "sale >>>>>>>>>>" + sale.getIsbn());
     }
-    return (List<InvoiceDetails>) sales;
+    return (List<Object[]>) sales;
     
   }
   
