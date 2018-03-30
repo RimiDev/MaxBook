@@ -660,10 +660,10 @@
               <b:tab title="Total Invoice Sales" class="">
                 <p:dataTable id="totalInvoicesTable" var="sale" 
                              value="#{invoiceJpaController.findInvoiceEntities()}" editable="true" style="margin-bottom:20px">
-                  <f:facet name="header">
+                 
+                  <p:column headerText="Date Of Sale" sortBy="#{sale.dateOfSale}">
                     <h:outputText value="#{sale.dateOfSale}"/>
-                  </f:facet>
-
+                  </p:column>
                   <p:column headerText="Invoice #">
                     <h:outputText value="#{sale.id}"/>
                   </p:column>
@@ -690,7 +690,7 @@
 
 
 
-                  <p:column headerText="Item #">
+                  <p:column headerText="Date of Purchase"  sortBy="#{sale[0].dateOfSale}">
                     <h:outputText value="#{sale[0].dateOfSale}"/>
                   </p:column>
                   <p:column headerText="Invoice #">

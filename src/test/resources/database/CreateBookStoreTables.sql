@@ -493,7 +493,9 @@ CREATE TABLE Invoice (
 );
 
 INSERT INTO Invoice (client_id, date_of_sale, net_value, gross_value) VALUES
-(1, '2017-1-12 12:12:12', 59.96, 75.00);
+(1, '2017-1-12 12:12:12', 50.96, 59.96),
+(1, '2018-1-12 12:12:12', 12.74, 14.99),
+(1, '2016-1-12 12:12:12', 12.74, 14.99);
 
 CREATE TABLE Invoice_Details (
     id int PRIMARY KEY auto_increment,
@@ -513,7 +515,8 @@ INSERT INTO Invoice_Details (invoice_id, isbn, book_price, PST_rate, GST_rate, H
 (1, '978-0762447695', 14.99, 0.10, 0.05, 0.15),
 (1, '978-0545795661', 14.99, 0.10, 0.05, 0.15),
 (1, '978-1408711392', 14.99, 0.10, 0.05, 0.15),
-(1, '978-1408711392', 14.99, 0.10, 0.05, 0.15);
+(2, '978-1408711392', 14.99, 0.10, 0.05, 0.15),
+(3, '978-1408711392', 14.99, 0.10, 0.05, 0.15);
 
 CREATE TABLE Survey (
     id int PRIMARY KEY auto_increment,
