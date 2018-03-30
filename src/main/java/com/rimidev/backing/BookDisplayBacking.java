@@ -4,6 +4,7 @@ import com.rimidev.maxbook.controller.BookJpaController;
 import com.rimidev.maxbook.entities.Author;
 import com.rimidev.maxbook.entities.Book;
 import com.rimidev.maxbook.entities.Client;
+import com.rimidev.maxbook.entities.Review;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -11,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.ConfigurableNavigationHandler;
 import javax.faces.context.FacesContext;
@@ -92,6 +94,10 @@ public class BookDisplayBacking implements Serializable {
             recBooks = recBooks.subList(0, recBooks.size());
         }
         logger.log(Level.INFO, "AUTHOR Four recs: " + recBooks);
+        
+        if(recBooks.size() > 3){
+            return recBooks.subList(0, 2);
+        }
 
         return recBooks;
     }
@@ -108,6 +114,10 @@ public class BookDisplayBacking implements Serializable {
         }
         logger.log(Level.INFO, "GENRE Four recs: " + recBooks);
 
+        if(recBooks.size() > 3){
+            return recBooks.subList(0, 2);
+        }
+        
         return recBooks;
 
     }
@@ -138,5 +148,10 @@ public class BookDisplayBacking implements Serializable {
             return title.substring(0,50) + "...";
         }
        return title;
+    }
+    
+    public List<Review> showPermittedReviews(List<Review> allReviews){
+        logger.info("booyaka");
+        return allReviews.stream().filter(r -> r.getApprovalStatus().equalsIgnoreCase("approved")).collect(Collectors.toList());
     }
 }

@@ -17,11 +17,11 @@
             <b:panel>
                 <ui:repeat value="#{allBooks.model}" var="book">
                     <b:column col-sm="2">                           
-                        <h:commandLink value="#{books.title}" action="#{bookDisplayBacking.showDetails}" >
+                        <h:commandLink value="#{books.title}" action="#{bookDisplayBacking.showDetails(book.isbn)}" >
                             <b:image library="images" name="/books/#{book.isbn}.jpg" height="200px" width="150px"/>
                             <br/><br/>
                             <h:outputText value="#{book.title}"/>
-                            <f:param name="isbn" value="#{book.isbn}"/>
+<!--                            <f:param name="isbn" value="#{book.isbn}"/>-->
                         </h:commandLink>  
                         <br/>
                         <h:outputText  value="$#{book.listPrice}"/>
