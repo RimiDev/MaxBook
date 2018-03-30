@@ -47,27 +47,31 @@ public class ReportsBackingBean implements Serializable {
 
   @Inject
   InvoiceDetailsJpaController invoiceDetailsJpaController;
-  private List<InvoiceDetails> totalSalesList;
+  
   private Date fromDate;
-  private double totalSales;
+  //private double totalSalesValue;
   private List<Object[]> clients;
   private List<Object[]> authors;
   private List<Object[]> publishers;
-  private List<InvoiceDetails> inventory;
+  private List<Invoice> invoicesList;
 
+  private List<Object[]> totalSalesList;
   private List<Object[]> filteredClients;
   private List<Object[]> filteredAuthors;
 
-
   private List<Object[]> filteredPublishers;
 
-  public double getTotalSales() {
-    if (totalSalesList != null) {
-      totalSales = totalSalesList.stream().map(InvoiceDetails::getBookPrice).reduce(BigDecimal.ZERO, BigDecimal::add).doubleValue();
-      logger.log(Level.SEVERE, "total sales" + totalSales);
-    }
-    return totalSales;
-  }
+//  public double getTotalSales() {
+//    double totalSalesValue=0;
+//    if (invoicesList != null) {
+//      for (Invoice sale : invoicesList) {
+//
+//        totalSalesValue += sale.getGrossValue().doubleValue();
+//      }
+//      logger.log(Level.SEVERE, "total sales" + totalSalesValue);
+//    }
+//    return totalSalesValue;
+//  }
 
   public Date getFromDate() {
     return fromDate;
@@ -98,10 +102,24 @@ public class ReportsBackingBean implements Serializable {
     filteredPublishers = new ArrayList();
   }
 
-  public List<InvoiceDetails> getTotalSalesList() {
-    totalSalesList = invoiceDetailsJpaController.getTotalSales(new Date(), new Date());
+  public List<Object[]> getTotalInvoiceDetailSales() {
+    totalSalesList = invoiceDetailsJpaController.getTotalInvoiceDetailSales(new Date(), new Date());
 
     return totalSalesList;
+  }
+  
+  public double getTotalSalesValue(){
+    double totalSalesValue=0;
+    invoicesList =  invcon.findInvoiceEntities();
+    if (invoicesList != null) {
+      for (Invoice sale : invoicesList) {
+
+        totalSalesValue += sale.getGrossValue().doubleValue();
+      }
+      logger.log(Level.SEVERE, "total invoice sales value" + totalSalesValue);
+    }
+    return totalSalesValue;
+   
   }
 
   public List<Object[]> getSalesByClient() {
@@ -120,7 +138,7 @@ public class ReportsBackingBean implements Serializable {
     return clients = invoiceDetailsJpaController.getTotalSalesByPublisher(new Date(), new Date());
   }
 
-  public void setTotalSalesList(List<InvoiceDetails> totalSales) {
+  public void setTotalSalesList(List<Object[]> totalSales) {
     this.totalSalesList = totalSales;
   }
 
@@ -159,8 +177,8 @@ public class ReportsBackingBean implements Serializable {
   public void setFilteredClients(List<Object[]> filteredList) {
     this.filteredClients = filteredList;
   }
-  
-   public List<Object[]> getFilteredAuthors() {
+
+  public List<Object[]> getFilteredAuthors() {
     return filteredAuthors;
   }
 
@@ -174,5 +192,13 @@ public class ReportsBackingBean implements Serializable {
 
   public void setFilteredPublishers(List<Object[]> filteredPublihsers) {
     this.filteredPublishers = filteredPublihsers;
+  }
+  
+   public List<Invoice> getInvoicesList() {
+    return invoicesList;
+  }
+
+  public void setInvoicesList(List<Invoice> invoicesList) {
+    this.invoicesList = invoicesList;
   }
 }
