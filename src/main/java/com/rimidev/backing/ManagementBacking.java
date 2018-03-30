@@ -30,6 +30,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -51,6 +52,8 @@ import org.primefaces.event.RowEditEvent;
 public class ManagementBacking implements Serializable {
 
     private Logger logger = Logger.getLogger(BookDisplayBacking.class.getName());
+    private FacesContext context;
+    private ResourceBundle bundle;
 
     @Inject
     BookJpaController bkcon;
@@ -103,9 +106,11 @@ public class ManagementBacking implements Serializable {
         inv = invcon.findInvoiceEntities();
         news = newsCon.findNewsEntities();
         revStatuses = new ArrayList<String>();
-        revStatuses.add("Pending");
-        revStatuses.add("Approved");
-        
+//        revStatuses.add(bundle.getString("pend"));
+//        revStatuses.add(bundle.getString("approve"));
+        revStatuses.add("pend");
+        revStatuses.add("approve");
+
         newsStatus = new ArrayList<Boolean>();
         newsStatus.add(true);
         newsStatus.add(false);
@@ -114,6 +119,9 @@ public class ManagementBacking implements Serializable {
         newSurvey = new Survey();
         approvalStatus.add(0);
         approvalStatus.add(1);
+
+//        context = FacesContext.getCurrentInstance();
+//        bundle = context.getApplication().getResourceBundle(context, "msg");
     }
 
     public List<Review> getRev() {
@@ -131,41 +139,43 @@ public class ManagementBacking implements Serializable {
 //    FacesContext.getCurrentInstance().addMessage(null, msg);
 //  }
     public void onRowEdit(RowEditEvent event) throws Exception {
+        context = FacesContext.getCurrentInstance();
+        bundle = context.getApplication().getResourceBundle(context, "msgs");
         String item = "";
         String editType = "";
         if (event.getObject() instanceof Book) {
             onBookRowEdit(event);
-            item = "Book " + ((Book) event.getObject()).getIsbn();
-            editType = "Book Edit";
+            item = bundle.getString("Book") + " " + ((Book) event.getObject()).getIsbn();
+            editType = bundle.getString("editBk");
         } else if (event.getObject() instanceof Review) {
             onReviewRowEdit(event);
-            item = "Review #" + ((Review) event.getObject()).getId().toString();
-            editType = "Review Edit";
+            item = bundle.getString("review") + " #" + ((Review) event.getObject()).getId().toString();
+            editType = bundle.getString("editRev");
         } else if (event.getObject() instanceof Invoice) {
             onInvoiceRowEdit(event);
-            item = "Invoice #" + ((Invoice) event.getObject()).getId();
-            editType = "Invoice Edit";
+            item = bundle.getString("invoice") + ((Invoice) event.getObject()).getId();
+            editType = bundle.getString("editInv");
         } else if (event.getObject() instanceof InvoiceDetails) {
             onInvDetailRowEdit(event);
-            item = "Invoice Detail #" + ((InvoiceDetails) event.getObject()).getId();
-            editType = "Invoice Details Edit";
+            item = bundle.getString("invoiceDetail") + " #" + ((InvoiceDetails) event.getObject()).getId();
+            editType = bundle.getString("editInvDetails");
 
         } else if (event.getObject() instanceof Client) {
             editClient((Client) event.getObject());
-            item = "Client Id" + ((Client) event.getObject()).getId();
-            editType = "Client Edit";
+            item = bundle.getString("clnt") + " " + bundle.getString("id") + ((Client) event.getObject()).getId();
+            editType = bundle.getString("editClnt");;
         } else if (event.getObject() instanceof Survey) {
             editSurvey((Survey) event.getObject());
-////      item = "Survey Id" + ((Survey) event.getObject()).getId();
-            editType = "Survey Edit";
+            item = bundle.getString("survey") + " " + bundle.getString("id") + ((Survey) event.getObject()).getId();
+            editType = bundle.getString("editSurvey");
         } else if (event.getObject() instanceof News) {
             onNewsRowEdit(event);
-            item = "News Id" + ((News) event.getObject()).getId();
-            editType = "News Edit";
+            item = bundle.getString("news") + " " + bundle.getString("id") + ((News) event.getObject()).getId();
+            editType = bundle.getString("editNews");
         }
 
         FacesMessage msg = new FacesMessage(editType, item);
-        FacesContext.getCurrentInstance().addMessage(null, msg);
+        context.getCurrentInstance().addMessage(null, msg);
     }
 
     public List<Book> getBk() {
@@ -210,7 +220,6 @@ public class ManagementBacking implements Serializable {
     public void setNewsStatus(List<Boolean> newsStatus) {
         this.newsStatus = newsStatus;
     }
-    
 
     public void onRowAdd(RowEditEvent event) throws Exception {
         Book newBook = (Book) event.getObject();
@@ -239,31 +248,33 @@ public class ManagementBacking implements Serializable {
         revcon.edit(approvedReview);
     }
 
-    private void onNewsRowEdit(RowEditEvent event) throws Exception{
+    private void onNewsRowEdit(RowEditEvent event) throws Exception {
         News newsLink = (News) event.getObject();
         newsCon.edit(newsLink);
     }
 
     public void onRowCancel(RowEditEvent event) throws Exception {
+        context = FacesContext.getCurrentInstance();
+        bundle = context.getApplication().getResourceBundle(context, "msgs");
         String item = "";
         if (event.getObject() instanceof Book) {
-            item = "Book " + ((Book) event.getObject()).getIsbn();
+            item = bundle.getString("book") + " " + ((Book) event.getObject()).getIsbn();
         } else if (event.getObject() instanceof Review) {
-            item = "Review #" + ((Review) event.getObject()).getId().toString();
+            item = bundle.getString("review") + " #" + ((Review) event.getObject()).getId().toString();
         } else if (event.getObject() instanceof Invoice) {
-            item = "Invoice #" + ((Invoice) event.getObject()).getId();
+            item = bundle.getString("invoice") + ((Invoice) event.getObject()).getId();
         } else if (event.getObject() instanceof InvoiceDetails) {
-            item = "Invoice Detail #" + ((InvoiceDetails) event.getObject()).getId();
+            item = bundle.getString("invoiceDetail") + " #" + ((InvoiceDetails) event.getObject()).getId();
         } else if (event.getObject() instanceof Client) {
-            item = "Client Id" + ((Client) event.getObject()).getId();
+            item = bundle.getString("clnt") + " " + bundle.getString("id") + ((Client) event.getObject()).getId();
         } else if (event.getObject() instanceof Survey) {
-            item = "Survey Id" + ((Survey) event.getObject()).getId();
-        }else if (event.getObject() instanceof News) {
-            item = "News Id" + ((News) event.getObject()).getId();
+            item = bundle.getString("survey") + " " + bundle.getString("id") + ((Survey) event.getObject()).getId();
+        } else if (event.getObject() instanceof News) {
+            item = bundle.getString("news") + " " + bundle.getString("id") + ((News) event.getObject()).getId();
         }
 
-        FacesMessage msg = new FacesMessage("Edit Cancelled", item);
-        FacesContext.getCurrentInstance().addMessage(null, msg);
+        FacesMessage msg = new FacesMessage(bundle.getString("editCancel"), item);
+        context.getCurrentInstance().addMessage(null, msg);
     }
 
     public void onCellEdit(CellEditEvent event) {
@@ -313,10 +324,10 @@ public class ManagementBacking implements Serializable {
 
     public String checkStat(Integer stat) {
         if (stat.equals(1)) {
-            return "Available";
+            return bundle.getString("avail");
         }
 
-        return "UnAvailable";
+        return bundle.getString("unavail");
     }
 
     /**
@@ -325,8 +336,6 @@ public class ManagementBacking implements Serializable {
     private void editClient(Client c) throws Exception {
 
         clientJpaController.edit(c);
-        FacesMessage msg = new FacesMessage("Client Edited", String.valueOf(c));
-        FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
     public BigDecimal getTotalValueOfAllPurchases(Client c) {
@@ -371,15 +380,15 @@ public class ManagementBacking implements Serializable {
         bkcon.edit(b);
         logger.info("UPDATED BOOK");
     }
-    
-    public void resetActive(Integer id) throws Exception{
-        for(News ns: news){
-            if(!ns.getId().equals(id)){
+
+    public void resetActive(Integer id) throws Exception {
+        for (News ns : news) {
+            if (!ns.getId().equals(id)) {
                 ns.setActiveStatus(false);
                 newsCon.edit(ns);
             }
         }
         news = newsCon.findNewsEntities();
     }
-    
+
 }
