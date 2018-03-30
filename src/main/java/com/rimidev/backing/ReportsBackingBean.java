@@ -59,7 +59,7 @@ public class ReportsBackingBean implements Serializable {
   private List<Object[]> filteredAuthors;
 
 
-  private List<Object[]> filteredPublihsers;
+  private List<Object[]> filteredPublishers;
 
   public double getTotalSales() {
     if (totalSalesList != null) {
@@ -95,7 +95,7 @@ public class ReportsBackingBean implements Serializable {
     fromDate = new Date();
     filteredClients = new ArrayList();
     filteredAuthors = new ArrayList();
-    filteredPublihsers = new ArrayList();
+    filteredPublishers = new ArrayList();
   }
 
   public List<InvoiceDetails> getTotalSalesList() {
@@ -168,11 +168,11 @@ public class ReportsBackingBean implements Serializable {
     this.filteredAuthors = filteredAuthors;
   }
 
-  public List<Object[]> getFilteredPublihsers() {
-    return filteredPublihsers;
+  public List<Object[]> getFilteredPublishers() {
+    return filteredPublishers;
   }
 
-  public void setFilteredPublihsers(List<Object[]> filteredPublihsers) {
-    this.filteredPublihsers = filteredPublihsers;
+  public void setFilteredPublishers(List<Object[]> filteredPublihsers) {
+    this.filteredPublishers = filteredPublihsers;
   }
 }

@@ -827,10 +827,6 @@
         
                       </p:column>
         
-                      
-        
-                      
-        
                     </p:dataTable>
                   </h:form>
                 </p:panel>
@@ -838,7 +834,7 @@
 
         <!--sales by publisher<-->
 
-        <!--        <p:panel id="salesByPublisher" header="Sales by Publisher Report" toggleable="true" toggleOrientation="vertical" collapsed="false">
+                <p:panel id="salesByPublisher" header="Sales by Publisher Report" toggleable="true" toggleOrientation="vertical" collapsed="false">
         
                   <h:form>
         
@@ -860,11 +856,10 @@
                       <f:facet name="header">
                         <p:outputPanel>
                           <h:outputText value="Search all fields:" />
-                                            <p:inputText id="clientFilter" onkeyup="PF('clientsTable').filter()" style="width:150px; " placeholder="client"/>
                         </p:outputPanel>
                       </f:facet>
         
-                      <p:column filterBy="#{sale[0]}" headerText="date of sale"  >
+                      <p:column filterBy="#{sale[0]}" headerText="date of sale"  filterMatchMode="contains">
         
                         <h:outputText value="#{sale[0]}"/>
         
@@ -872,22 +867,16 @@
                       </p:column>
         
         
-                      <p:column filterBy="#{sale[1].name}" headerText="publisher name">
+                      <p:column filterBy="#{sale[1].name}" headerText="publisher name" filterMatchMode="contains">
         
                         <h:outputText value="#{sale[1].name}"/>
         
         
                       </p:column>
-                      
-                      
-        
-                      
-        
-                      
-        
+
                     </p:dataTable>
                   </h:form>
-                </p:panel>-->
+                </p:panel>
         <p:panel id="topSellersPanel" header="Top Sellers Report" toggleable="true" toggleOrientation="vertical" collapsed="true">
 
           <h:form>
