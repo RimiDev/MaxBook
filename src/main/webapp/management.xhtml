@@ -651,8 +651,21 @@
             <b:tabView contentStyle="border-right: 1px solid #ddd;border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding:10px">
               <b:tab title="Total Invoice Sales" class="">
                 <p:dataTable id="totalInvoicesTable" var="sale" 
-                             value="#{invoiceJpaController.findInvoiceEntities()}" editable="true" style="margin-bottom:20px">
+                             value="#{reportsBackingBean.getTotalInvoiceSales()}" editable="true" style="margin-bottom:20px">
 
+                   <f:facet name="header">
+                    <span>From</span> 
+                    <p:calendar value="#{reportsBackingBean.fromDate}" pattern="MM/dd/yyyy HH:mm:ss">
+                      <p:ajax event="dateSelect" listener="#{reportsBackingBean.updateTotalInvoicesTable}" update="totalInvoicesTable"  
+                              />
+                    </p:calendar>
+
+                    <span>To</span> 
+                    <p:calendar value="#{reportsBackingBean.toDate}" pattern="MM/dd/yyyy HH:mm:ss">
+                      <p:ajax event="dateSelect" listener="#{reportsBackingBean.updateTotalInvoicesTable}"  update="totalInvoicesTable" 
+                              />
+                    </p:calendar>
+                  </f:facet>
                   <p:column headerText="Date Of Sale" sortBy="#{sale.dateOfSale}">
                     <h:outputText value="#{sale.dateOfSale}"/>
                   </p:column>
@@ -679,14 +692,14 @@
                   <f:facet name="header">
                     <span>From</span> 
                     <p:calendar value="#{reportsBackingBean.fromDate}" pattern="MM/dd/yyyy HH:mm:ss">
-                      <p:ajax event="dateSelect" listener="#{reportsBackingBean.updateFromDate}" update="totalInvoiceDetailsTable"  
-                              oncomplete="PF('totalInvoiceDetailsTable').filter()"/>
+                      <p:ajax event="dateSelect" listener="#{reportsBackingBean.updateTotalInvoiceDetailsTable}" update="totalInvoiceDetailsTable"  
+                              />
                     </p:calendar>
 
                     <span>To</span> 
                     <p:calendar value="#{reportsBackingBean.toDate}" pattern="MM/dd/yyyy HH:mm:ss">
-                      <p:ajax event="dateSelect" listener="#{reportsBackingBean.updateFromDate}"  update="totalInvoiceDetailsTable" 
-                              oncomplete="PF('totalInvoiceDetailsTable').filter()"/>
+                      <p:ajax event="dateSelect" listener="#{reportsBackingBean.updateTotalInvoiceDetailsTable}"  update="totalInvoiceDetailsTable" 
+                              />
                     </p:calendar>
                   </f:facet>
 

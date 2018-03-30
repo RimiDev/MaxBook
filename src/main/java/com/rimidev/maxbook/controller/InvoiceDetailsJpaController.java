@@ -243,6 +243,19 @@ public class InvoiceDetailsJpaController implements Serializable {
     return (List<Book>) Invoices;
 
   }
+  
+  public List<Invoice> getTotalInvoiceSales(Date from, Date to) {
+    logger.log(Level.WARNING, "incoming from date " + from.toString());
+    logger.log(Level.WARNING, "incoming to date " + to.toString());
+    TypedQuery<Invoice> query = em.createQuery("SELECT i FROM Invoice i "
+            + "where i.dateOfSale BETWEEN :from AND :to order by i.dateOfSale desc", Invoice.class);
+    query.setParameter("from", from);
+    query.setParameter("to", to);
+    logger.log(Level.WARNING, "get total sales query>>>>>>>>>>");
+    Collection<Invoice> sales = query.getResultList();
+    
+    return (List<Invoice>) sales;
+  }
 
   public List<InvoiceDetails> getTotalInvoiceDetailSales(Date from, Date to) {
 
@@ -291,4 +304,7 @@ public class InvoiceDetailsJpaController implements Serializable {
 
     return (List<Object[]>) sales;
   }
+  
 }
+
+  

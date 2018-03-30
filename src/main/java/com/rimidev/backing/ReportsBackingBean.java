@@ -57,7 +57,7 @@ public class ReportsBackingBean implements Serializable {
   private List<Object[]> clients;
   private List<Object[]> authors;
   private List<Object[]> publishers;
-  private List<Invoice> invoicesList;
+  private List<Invoice> totalInvoiceSales;
 
   private List<InvoiceDetails> totalSalesList;
   private List<Object[]> filteredClients;
@@ -109,6 +109,12 @@ public class ReportsBackingBean implements Serializable {
     filteredAuthors = new ArrayList();
     filteredPublishers = new ArrayList();
   }
+  
+  public List<Invoice> getTotalInvoiceSales() {
+    totalInvoiceSales = invoiceDetailsJpaController.getTotalInvoiceSales(fromDate, toDate);
+
+    return totalInvoiceSales;
+  }
 
   public List<InvoiceDetails> getTotalInvoiceDetailSales() {
     totalSalesList = invoiceDetailsJpaController.getTotalInvoiceDetailSales(fromDate, toDate);
@@ -118,9 +124,9 @@ public class ReportsBackingBean implements Serializable {
 
   public double getTotalSalesValue() {
     double totalSalesValue = 0;
-    invoicesList = invcon.findInvoiceEntities();
-    if (invoicesList != null) {
-      for (Invoice sale : invoicesList) {
+    totalInvoiceSales = invcon.findInvoiceEntities();
+    if (totalInvoiceSales != null) {
+      for (Invoice sale : totalInvoiceSales) {
 
         totalSalesValue += sale.getGrossValue().doubleValue();
       }
@@ -150,8 +156,12 @@ public class ReportsBackingBean implements Serializable {
     this.totalSalesList = totalSales;
   }
 
-  public void updateFromDate(SelectEvent event) {
+  public void updateTotalInvoiceDetailsTable(SelectEvent event) {
     this.getTotalInvoiceDetailSales();
+  }
+  
+  public void updateTotalInvoicesTable(SelectEvent event) {
+    this.getTotalInvoiceSales();
   }
 
   public List<Object[]> getClients() {
@@ -203,10 +213,10 @@ public class ReportsBackingBean implements Serializable {
   }
 
   public List<Invoice> getInvoicesList() {
-    return invoicesList;
+    return totalInvoiceSales;
   }
 
   public void setInvoicesList(List<Invoice> invoicesList) {
-    this.invoicesList = invoicesList;
+    this.totalInvoiceSales = invoicesList;
   }
 }
