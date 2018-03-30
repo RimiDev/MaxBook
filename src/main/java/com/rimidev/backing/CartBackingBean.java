@@ -10,6 +10,8 @@ import com.rimidev.maxbook.entities.Invoice;
 import com.rimidev.maxbook.entities.InvoiceDetails;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -44,6 +46,7 @@ public class CartBackingBean implements Serializable {
   private InvoiceDetailsJpaController invoiceDetailsController;
 
   private CreditCardBean creditcard;
+  private Double cartTotal;
 
   public CreditCardBean getCreditcardBean() {
     if (creditcard == null) {
@@ -240,5 +243,18 @@ public class CartBackingBean implements Serializable {
     this.cart = sCart;
 
     return "checkout?faces-redirect=true";
+  }
+  
+  public void addToTotal(Book book){
+      logger.info("ADDING TO TOTAL");
+      if(cartTotal == null){
+          cartTotal = 0.0;
+      }
+      cartTotal += bookJpaController.isOnSale(book).doubleValue();
+      logger.info("TOTAL NOW: " +cartTotal.toString());
+  }
+  
+  public BigDecimal getTotal(){
+      return new BigDecimal(this.cartTotal).setScale(2, RoundingMode.DOWN);
   }
 }
