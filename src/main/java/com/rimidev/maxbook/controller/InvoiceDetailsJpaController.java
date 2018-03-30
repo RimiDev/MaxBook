@@ -243,7 +243,7 @@ public class InvoiceDetailsJpaController implements Serializable {
     
   }
   
-  public List<Object[]> getTotalSales(Date from, Date to) {
+  public List<Object[]> getTotalInvoiceDetailSales(Date from, Date to) {
     
     TypedQuery<Object[]> query = em.createQuery("SELECT i, ivd FROM InvoiceDetails ivd inner join ivd.invoiceId i"
             + " group by ivd.isbn", Object[].class);
@@ -290,5 +290,5 @@ public class InvoiceDetailsJpaController implements Serializable {
     
     return (List<Object[]>) sales;
   }
-  
 }
+  
