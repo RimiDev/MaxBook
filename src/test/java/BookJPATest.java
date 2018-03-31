@@ -1,16 +1,7 @@
-/*
- * A sample test class using Arquillian
- */
-
-
-import com.rimidev.backing.AllAuthorsForBook;
 import com.rimidev.maxbook.controller.AuthorJpaController;
-
 import com.rimidev.maxbook.controller.exceptions.RollbackFailureException;
 import com.rimidev.maxbook.entities.Author;
-import com.rimidev.backing.AllAuthorsForBook;
 import com.rimidev.maxbook.controller.InvoiceDetailsJpaController;
-import com.rimidev.maxbook.entities.InvoiceDetails;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
@@ -19,28 +10,20 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.shrinkwrap.resolver.api.maven.Maven;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
 import javax.annotation.Resource;
 import javax.inject.Inject;
 import javax.sql.DataSource;
 import java.io.*;
 import java.sql.SQLException;
-import java.util.Collection;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.persistence.TypedQuery;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertTrue;
 import org.junit.Ignore;
-
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertTrue;
 
-
-
+/**
+ * 
+ * @author Philippe Langlois-Pedroso
+ */
 @Ignore
 @RunWith(Arquillian.class)
 public class BookJPATest {
@@ -49,7 +32,6 @@ public class BookJPATest {
 
     @Deployment
     public static WebArchive deploy() {
-
         // Use an alternative to the JUnit assert library called AssertJ
         // Need to reference MySQL driver as it is not part of either
         // embedded or remote
@@ -59,7 +41,6 @@ public class BookJPATest {
                 .resolve("mysql:mysql-connector-java",
                         "org.assertj:assertj-core").withoutTransitivity()
                 .asFile();
-
         // The webArchive is the special packaging of your project
         // so that only the test cases run on the server or embedded
         // container
@@ -73,7 +54,6 @@ public class BookJPATest {
                 .addAsResource(new File("src/main/resources/META-INF/persistence.xml"), "META-INF/persistence.xml")
                 .addAsResource("CreateBookStoreTables.sql")
                 .addAsLibraries(dependencies);
-
         return webArchive;
     }
 
@@ -89,18 +69,8 @@ public class BookJPATest {
      */
     @Test
     public void should_find_authors_from_isbn() throws SQLException {
-        
         logger.log(Level.SEVERE, ">>>>>>>> list size");
-        assertThat(true);
-        
-        
-        
+        assertThat(true);   
     }
-
-    public void try_me(){
-      
-    }
-
- 
 }
 

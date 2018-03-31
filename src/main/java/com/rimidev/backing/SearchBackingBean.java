@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.rimidev.backing;
 
 import com.rimidev.maxbook.controller.AuthorJpaController;
@@ -13,17 +8,15 @@ import com.rimidev.maxbook.entities.Book;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import javax.enterprise.context.SessionScoped;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.enterprise.context.RequestScoped;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 /**
- *
+ * Backing Bean for the search to help manage data.
+ * 
  * @author maximelacasse
  */
 @Named
@@ -147,11 +140,7 @@ public class SearchBackingBean implements Serializable{
     public void setGenre(String genre) {
         this.genre = genre;
     }
-
-
     
-    
-
     public List<Author> getsearchedAuthors() {
         return searchedAuthors;
     }

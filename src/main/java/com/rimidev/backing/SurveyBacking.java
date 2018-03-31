@@ -6,13 +6,13 @@ import com.rimidev.maxbook.entities.Survey;
 import java.io.Serializable;
 import java.util.logging.Logger;
 import javax.enterprise.context.RequestScoped;
-import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import javax.inject.Inject;
 
 /**
- *
- * @author plang
+ * Backing Bean for the survey section to help manage data.
+ * 
+ * @author Philippe Langlois-Pedroso
  */
 @Named("surveyBacking")
 @RequestScoped
