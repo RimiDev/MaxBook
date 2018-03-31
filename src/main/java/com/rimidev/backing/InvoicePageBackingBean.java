@@ -17,6 +17,8 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.math.MathContext;
+import java.math.RoundingMode;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -64,6 +66,10 @@ public class InvoicePageBackingBean implements Serializable {
     private final String emailReceivePwd = "somepassword";
     private HttpSession session;
     private BigDecimal subTotal;
+    private BigDecimal total;
+    private BigDecimal pst;
+    private BigDecimal gst;
+    private BigDecimal hst;
 
     // You will need a folder with this name or change it to another
     // existing folder
@@ -91,9 +97,10 @@ public class InvoicePageBackingBean implements Serializable {
      */
     public Invoice getInvoice() throws Exception {
         log.info("getInvoice()");
-        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-        invoice = (Invoice) session.getAttribute("clientInvoice");
-        return this.invoice;
+        if(invoice == null){
+            invoice = (Invoice) session.getAttribute("clientInvoice");
+        }
+        return invoice;
     }
 
     public InvoiceDetails getDetails() {
@@ -255,26 +262,66 @@ public class InvoicePageBackingBean implements Serializable {
 //        return Jsoup.connect("http://localhost:8080/MaxBook/invoice.xhtml").get().toString();
     }
 
+    /**
+     * Calculate the invoice subtotal.
+     * 
+     * @return 
+     */
     public BigDecimal generateSubTotal() {
         log.info("GENERATING SUB TOTAL");
-//        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-        
         this.subTotal = new BigDecimal(0.0);
         double count = 0.00;
-        
         log.info("INVOICE DETAILS LIST SIZE: " +invoice.getInvoiceDetailsList().size());
         for (InvoiceDetails d : invoiceDetailsController.findInvoiceDetailsEntities()
                 .stream()
                 .filter(i -> i.getInvoiceId().getId().intValue() == invoice.getId().intValue()).collect(Collectors.toList())) {
             count += d.getBookPrice().doubleValue();
         }
-        subTotal = new BigDecimal(count);
+        subTotal = new BigDecimal(count).setScale(2, RoundingMode.CEILING);
         return subTotal;
     }
     
+    /**
+     * Calculate the HST of the invoice
+     * 
+     * @return 
+     */
     public BigDecimal getHst(){
         log.info("Fetch Invoice HST");
-        return new BigDecimal(invoice.getClientId().getProvince().getHSTrate().doubleValue() * subTotal.doubleValue());
+        hst = new BigDecimal(invoice.getClientId().getProvince().getHSTrate().doubleValue() * subTotal.doubleValue()).setScale(2, RoundingMode.CEILING);
+        return hst;
     }
-
+    
+    /**
+     * Calculate the PST of the invoice
+     * 
+     * @return 
+     */
+    public BigDecimal getPst(){
+        log.info("Fetch Invoice PST");
+        pst = new BigDecimal(invoice.getClientId().getProvince().getPSTrate().doubleValue() * subTotal.doubleValue()).setScale(2, RoundingMode.CEILING);
+        return pst;
+    }
+    
+    /**
+     * Calculate the GST of the invoice
+     * 
+     * @return 
+     */
+    public BigDecimal getGst(){
+        log.info("Fetch Invoice GST");
+        gst = new BigDecimal(invoice.getClientId().getProvince().getGSTrate().doubleValue() * subTotal.doubleValue()).setScale(2, RoundingMode.CEILING);
+        return gst;
+    }
+    
+    /**
+     * Calculate the total of the invoice
+     * 
+     * @return 
+     */
+    public BigDecimal getTotal(){
+        log.info("Calculating total");
+        total = new BigDecimal(hst.doubleValue() + subTotal.doubleValue()).setScale(2, RoundingMode.CEILING);
+        return total;
+    }
 }
