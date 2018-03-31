@@ -498,6 +498,12 @@ public class BookJpaController implements Serializable {
       }else{
         return book.getSalePrice();
       }
-  }
+    }
+    
+    public List<Book> getBooksInStock(){
+        TypedQuery<Book> stock = em.createNamedQuery("Book.findByRemovalStatus", Book.class);
+        stock.setParameter("removalStatus", '0');
+        return stock.getResultList();
+    }
 
 }
