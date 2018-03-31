@@ -505,5 +505,13 @@ public class BookJpaController implements Serializable {
         stock.setParameter("removalStatus", '0');
         return stock.getResultList();
     }
+    
+    public List<Author> getAuthors(String isbn) {
+        TypedQuery<Author> query = 
+                em.createQuery("SELECT a FROM Book b JOIN b.authorList a where b.isbn = :isbn", Author.class);
+        List<Author> list = query.getResultList();
+        return list;
+
+    }
 
 }

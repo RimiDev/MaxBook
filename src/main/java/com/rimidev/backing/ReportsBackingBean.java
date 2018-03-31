@@ -3,24 +3,16 @@ package com.rimidev.backing;
 import com.rimidev.maxbook.controller.BookJpaController;
 import com.rimidev.maxbook.controller.InvoiceDetailsJpaController;
 import com.rimidev.maxbook.controller.InvoiceJpaController;
-import com.rimidev.maxbook.entities.Author;
 import com.rimidev.maxbook.entities.Book;
-import com.rimidev.maxbook.entities.Client;
 import com.rimidev.maxbook.entities.Invoice;
 import com.rimidev.maxbook.entities.InvoiceDetails;
-import com.rimidev.maxbook.entities.Publisher;
-import com.rimidev.maxbook.entities.Survey;
 import java.io.Serializable;
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
@@ -36,6 +28,8 @@ import org.primefaces.event.SelectEvent;
  *
  *
  * @author eric
+ * @author Philippe Langlois-Pedroso
+ * @author Rhai Hinds
  */
 @Named
 @SessionScoped

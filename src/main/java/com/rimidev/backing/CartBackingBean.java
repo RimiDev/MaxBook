@@ -10,15 +10,11 @@ import com.rimidev.maxbook.entities.Invoice;
 import com.rimidev.maxbook.entities.InvoiceDetails;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.math.MathContext;
-import java.math.RoundingMode;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -27,7 +23,8 @@ import javax.inject.Named;
 import javax.servlet.http.HttpSession;
 
 /**
- *
+ * Backing Bean for the cart page to help manage data.
+ * 
  * @author ehugh
  * @author maxime Lacasse
  */
@@ -66,6 +63,11 @@ public class CartBackingBean implements Serializable {
     this.cart = cart;
   }
 
+  /**
+   * Adds a book based on it's isbn to the cart's Booklist.
+   * 
+   * @param isbn 
+   */
   public void addToCart(String isbn) {
     HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
 
@@ -93,6 +95,12 @@ public class CartBackingBean implements Serializable {
 
   }
 
+  /**
+   * Removes the selected book from the session's cart book list.
+   * 
+   * @param isbn
+   * @return 
+   */
   public String removeFromCart(String isbn) {
     HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
     cart = (List<Book>) session.getAttribute("cartItems");
@@ -110,6 +118,11 @@ public class CartBackingBean implements Serializable {
 
   }
 
+  /**
+   * Generate the total cost to the client of the books in the cart.
+   * 
+   * @return 
+   */
   public double generateTotal() {
 
     HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
@@ -125,6 +138,11 @@ public class CartBackingBean implements Serializable {
 
   }
 
+  /**
+   * Returns the total tax of the cart.
+   * 
+   * @return 
+   */
   public Double generateTaxTotal() {
 
     HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
@@ -136,11 +154,27 @@ public class CartBackingBean implements Serializable {
 
   }
 
+  /**
+   * Returns the total cost including the taxex on the cart.
+   * 
+   * @return 
+   */
   public Double generateTotalTaxedSale() {
-
     return Double.valueOf(String.format("%.2f", (generateTotal() + generateTaxTotal())));
   }
 
+  /**
+   * 
+   * 
+   * @param id
+   * @param dateSale
+   * @param net
+   * @param gross
+   * @param books
+   * @param country
+   * @return
+   * @throws Exception 
+   */
   public String validateCreditCardInformation(Client id, Timestamp dateSale, BigDecimal net, BigDecimal gross,
           List<Book> books, String country) throws Exception {
 
@@ -182,6 +216,11 @@ public class CartBackingBean implements Serializable {
     return "invoice?faces-redirect=true";
   }
 
+  /**
+   * Reset the credit card values
+   * 
+   * @return 
+   */
   public String resetCreditCardValues() {
 
     if (creditcard != null) {
@@ -194,6 +233,11 @@ public class CartBackingBean implements Serializable {
     return "cart?faces-redirect=true";
   }
 
+  /**
+   * Return the client's PST rate
+   * 
+   * @return 
+   */
   public Double generatePST() {
 
     HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
@@ -203,6 +247,11 @@ public class CartBackingBean implements Serializable {
     return Double.valueOf(String.format("%.2f", (generateTotal() * pstRate)));
   }
 
+  /**
+   * Return the client's GST rate
+   * 
+   * @return 
+   */
   public Double generateGST() {
 
     HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
@@ -212,6 +261,11 @@ public class CartBackingBean implements Serializable {
     return Double.valueOf(String.format("%.2f", (generateTotal() * gstRate)));
   }
 
+  /**
+   * Return the client's HST rate
+   * 
+   * @return 
+   */
   public Double generateHST() {
 
     HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
@@ -221,6 +275,12 @@ public class CartBackingBean implements Serializable {
     return Double.valueOf(String.format("%.2f", (generateTotal() * hstRate)));
   }
 
+  /**
+   * If the session variable for the cart is not created, create it.
+   * 
+   * @return
+   * @throws Exception 
+   */
   public String emptyCartIntoCartVar() throws Exception {
 
     HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
@@ -228,11 +288,10 @@ public class CartBackingBean implements Serializable {
     if (user == null) {
       return "login?faces-redirect=true";
     } else {
-      if (user.getAddress1() == null || user.getAddress2() == null
+      if (user.getAddress1() == null || user.getCountry() == null
               || user.getFirstName() == null || user.getLastName() == null
               || user.getPostalCode() == null || user.getPhoneNumber() == null
-              || user.getCity() == null || user.getProvince() == null 
-              || user.getCountry() == null) {
+              || user.getCity() == null || user.getProvince() == null) {
         return "account-details?faces-redirect=true";
       }
     }
@@ -242,17 +301,5 @@ public class CartBackingBean implements Serializable {
 
     return "checkout?faces-redirect=true";
   }
-  
-//  public void addToTotal(Book book){
-//      logger.info("ADDING TO TOTAL");
-//      if(cartTotal == null){
-//          cartTotal = 0.0;
-//      }
-//      cartTotal += bookJpaController.isOnSale(book).doubleValue();
-//      logger.info("TOTAL NOW: " +cartTotal.toString());
-//  }
-//  
-//  public BigDecimal getTotal(){
-//      return new BigDecimal(this.cartTotal).setScale(2, RoundingMode.DOWN);
-//  }
+
 }

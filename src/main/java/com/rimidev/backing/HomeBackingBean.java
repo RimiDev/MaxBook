@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.rimidev.backing;
 
 import com.rimidev.maxbook.controller.InvoiceDetailsJpaController;
@@ -17,7 +12,8 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 /**
- *
+ * Backing Bean for the home page to help manage data.
+ * 
  * @author maximelacasse
  */
 @Named
@@ -33,6 +29,11 @@ public class HomeBackingBean {
 
     private List<Book> recentSoldBooks;
 
+    /**
+     * Return a list of the top selling books.
+     * 
+     * @return 
+     */
     public List<Book> getTopSellingBooks() {
         if (topSellingBooks == null) {
             topSellingBooks = invoiceDetails.getTopSellingBooks();
@@ -40,6 +41,11 @@ public class HomeBackingBean {
         return topSellingBooks;
     }
 
+    /**
+     * Return a list of recently sold books
+     * 
+     * @return 
+     */
     public List<Book> getRecentSoldBooks() {
         if (recentSoldBooks == null) {
             recentSoldBooks = invoiceDetails.getRecentSoldBook();
@@ -47,6 +53,11 @@ public class HomeBackingBean {
         return recentSoldBooks;
     }
 
+    /**
+     * Return a String if details based on the rss feed.
+     * 
+     * @return 
+     */
     public String getActiveNews() {
         List<News> ns = news.findNewsEntities().stream()
         .filter(i -> i.getActiveStatus() == true).collect(Collectors.toList());
