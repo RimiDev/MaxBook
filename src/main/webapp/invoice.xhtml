@@ -154,7 +154,7 @@
             <h:outputText value="#{msgs.subTotal}"/>
           </b:column>
           <b:column span="2">                           
-            <h:outputText value="$#{cartBackingBean.generateTotal()}"/>
+            <h:outputText value="$#{invoiceBacking.generateSubTotal()}"/>
           </b:column>
         </b:row>
         <b:row>
@@ -178,7 +178,7 @@
             <h:outputText value="#{msgs.hst} "/>
           </b:column>
           <b:column span="2">                           
-            <p> $#{cartBackingBean.generateHST()}</p>
+            <p> $#{invoiceBacking.getHst()}</p>
           </b:column>
         </b:row>
         <b:row>

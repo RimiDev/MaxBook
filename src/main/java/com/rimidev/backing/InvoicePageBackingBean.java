@@ -21,7 +21,11 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.List;
+import java.util.stream.Collectors;
+import javax.annotation.PostConstruct;
+import javax.faces.context.FacesContext;
 import javax.mail.Flags;
+import javax.servlet.http.HttpSession;
 import jodd.mail.Email;
 import jodd.mail.EmailFilter;
 import jodd.mail.EmailMessage;
@@ -58,11 +62,19 @@ public class InvoicePageBackingBean implements Serializable {
     private final String emailSendPwd = "somepassword";
     private final String emailReceive = "hues.business@gmail.com";
     private final String emailReceivePwd = "somepassword";
+    private HttpSession session;
+    private BigDecimal subTotal;
 
     // You will need a folder with this name or change it to another
     // existing folder
     private static final Logger log = Logger.getLogger(InvoicePageBackingBean.class.getName());
-    
+
+    @PostConstruct
+    public void init() {
+        session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+        invoice = (Invoice) session.getAttribute("clientInvoice");
+    }
+
     public String getMarkup() {
         return markup;
     }
@@ -70,26 +82,18 @@ public class InvoicePageBackingBean implements Serializable {
     public void setMarkup(String markup) {
         this.markup = markup;
     }
-  
+
     /**
      * Set the model if the current bean is null.
-     * 
+     *
      * @return
-     * @throws Exception 
+     * @throws Exception
      */
     public Invoice getInvoice() throws Exception {
         log.info("getInvoice()");
-        if (invoice == null) {
-            invoice = new Invoice();
-            invoice.setId(invoiceController.getInvoiceCount() + 1);
-            invoice.setDateOfSale(Date.valueOf(LocalDate.now()));
-            invoice.setClientId(clientController.findClient(1));
-            invoice.setGrossValue(new BigDecimal(1300.00));
-            invoice.setNetValue(new BigDecimal(1500.00));
-            details = invoiceDetailsController.findInvoiceDetails(1);
-        }
+        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+        invoice = (Invoice) session.getAttribute("clientInvoice");
         return this.invoice;
-
     }
 
     public InvoiceDetails getDetails() {
@@ -251,5 +255,26 @@ public class InvoicePageBackingBean implements Serializable {
 //        return Jsoup.connect("http://localhost:8080/MaxBook/invoice.xhtml").get().toString();
     }
 
-}
+    public BigDecimal generateSubTotal() {
+        log.info("GENERATING SUB TOTAL");
+//        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+        
+        this.subTotal = new BigDecimal(0.0);
+        double count = 0.00;
+        
+        log.info("INVOICE DETAILS LIST SIZE: " +invoice.getInvoiceDetailsList().size());
+        for (InvoiceDetails d : invoiceDetailsController.findInvoiceDetailsEntities()
+                .stream()
+                .filter(i -> i.getInvoiceId().getId().intValue() == invoice.getId().intValue()).collect(Collectors.toList())) {
+            count += d.getBookPrice().doubleValue();
+        }
+        subTotal = new BigDecimal(count);
+        return subTotal;
+    }
+    
+    public BigDecimal getHst(){
+        log.info("Fetch Invoice HST");
+        return new BigDecimal(invoice.getClientId().getProvince().getHSTrate().doubleValue() * subTotal.doubleValue());
+    }
 
+}
