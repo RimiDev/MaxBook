@@ -54,12 +54,13 @@ public class ReportsBackingBean implements Serializable {
 
   private Date fromDate;
   //private double totalSalesValue;
-  private List<Object[]> clients;
-  private List<Object[]> authors;
+  private List<Invoice> invoicesByClient;
+  private List<InvoiceDetails> invoiceDetailsByClient;
+  private List<Object[]> invoicesByAuthor;
   private List<Object[]> publishers;
   private List<Invoice> totalInvoiceSales;
 
-  private List<InvoiceDetails> totalSalesList;
+  private List<InvoiceDetails> totalInvoiceDetails;
   private List<Object[]> filteredClients;
   private List<Object[]> filteredAuthors;
 
@@ -101,15 +102,16 @@ public class ReportsBackingBean implements Serializable {
     Date lastYear = cal.getTime();
     fromDate = lastYear;
     toDate = new Date();
-    totalSalesList = new ArrayList();
-    clients = new ArrayList();
-    authors = new ArrayList();
+    totalInvoiceDetails = new ArrayList();
+    invoicesByClient = new ArrayList();
+    invoiceDetailsByClient = new ArrayList();
+    invoicesByAuthor = new ArrayList();
     publishers = new ArrayList();
     filteredClients = new ArrayList();
     filteredAuthors = new ArrayList();
     filteredPublishers = new ArrayList();
   }
-  
+
   public List<Invoice> getTotalInvoiceSales() {
     totalInvoiceSales = invoiceDetailsJpaController.getTotalInvoiceSales(fromDate, toDate);
 
@@ -117,9 +119,9 @@ public class ReportsBackingBean implements Serializable {
   }
 
   public List<InvoiceDetails> getTotalInvoiceDetailSales() {
-    totalSalesList = invoiceDetailsJpaController.getTotalInvoiceDetailSales(fromDate, toDate);
+    totalInvoiceDetails = invoiceDetailsJpaController.getTotalInvoiceDetailSales(fromDate, toDate);
 
-    return totalSalesList;
+    return totalInvoiceDetails;
   }
 
   public double getTotalSalesValue() {
@@ -136,87 +138,41 @@ public class ReportsBackingBean implements Serializable {
 
   }
 
-  public List<Object[]> getSalesByClient() {
-    return clients = invoiceDetailsJpaController.getTotalSalesByClient(new Date(), new Date());
+  public List<Invoice> getTotalInvoicesByClient() {
+    invoicesByClient = invoiceDetailsJpaController.getTotalInvoicesByClient(fromDate, toDate);
+    return invoicesByClient;
   }
 
-  public List<Object[]> getSalesByAuthor() {
-    return authors = invoiceDetailsJpaController.getTotalSalesByAuthor(new Date(), new Date());
+  public List<InvoiceDetails> getTotalInvoiceDetailsByClient() {
+    invoiceDetailsByClient = invoiceDetailsJpaController.getTotalInvoicesDetailsByClient(fromDate, toDate);
+    return invoiceDetailsByClient;
+  }
+  
+  public List<Object[]> getTotalInvoiceDetailsByAuthor() {
+    invoicesByAuthor = invoiceDetailsJpaController.getTotalInvoiceDetailsByAuthor(fromDate, toDate);
+    return invoicesByAuthor;
   }
 
-  /**
-   *
-   * @return
-   */
-  public List<Object[]> getSalesByPublisher() {
-    return clients = invoiceDetailsJpaController.getTotalSalesByPublisher(new Date(), new Date());
-  }
+ 
 
   public void setTotalSalesList(List<InvoiceDetails> totalSales) {
-    this.totalSalesList = totalSales;
+    this.totalInvoiceDetails = totalSales;
+  }
+
+  public void updateTotalInvoicesTable(SelectEvent event) {
+    this.getTotalInvoiceSales();
   }
 
   public void updateTotalInvoiceDetailsTable(SelectEvent event) {
     this.getTotalInvoiceDetailSales();
   }
-  
-  public void updateTotalInvoicesTable(SelectEvent event) {
-    this.getTotalInvoiceSales();
+
+  public void updateTotalSalesByClientTable(SelectEvent event) {
+    this.getTotalInvoicesByClient();
   }
 
-  public List<Object[]> getClients() {
-    return clients;
+  public void updateTotalSalesDetailsTable(SelectEvent event) {
+    this.getTotalInvoiceDetailSales();
   }
 
-  public void setClients(List<Object[]> clients) {
-    this.clients = clients;
-  }
-
-  public List<Object[]> getAuthors() {
-    return authors;
-  }
-
-  public void setAuthors(List<Object[]> authors) {
-    this.authors = authors;
-  }
-
-  public List<Object[]> getPublishers() {
-    return publishers;
-  }
-
-  public void setPublishers(List<Object[]> publishers) {
-    this.publishers = publishers;
-  }
-
-  public List<Object[]> getFilteredClients() {
-    return filteredClients;
-  }
-
-  public void setFilteredClients(List<Object[]> filteredList) {
-    this.filteredClients = filteredList;
-  }
-
-  public List<Object[]> getFilteredAuthors() {
-    return filteredAuthors;
-  }
-
-  public void setFilteredAuthors(List<Object[]> filteredAuthors) {
-    this.filteredAuthors = filteredAuthors;
-  }
-
-  public List<Object[]> getFilteredPublishers() {
-    return filteredPublishers;
-  }
-
-  public void setFilteredPublishers(List<Object[]> filteredPublihsers) {
-    this.filteredPublishers = filteredPublihsers;
-  }
-
-  public List<Invoice> getInvoicesList() {
-    return totalInvoiceSales;
-  }
-
-  public void setInvoicesList(List<Invoice> invoicesList) {
-    this.totalInvoiceSales = invoicesList;
-  }
 }

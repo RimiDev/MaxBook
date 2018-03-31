@@ -117,7 +117,7 @@ public class Book implements Serializable {
   @Size(min = 1, max = 2184)
   @Column(name = "description")
   private String description;
-  @ManyToMany(mappedBy = "bookList", fetch = FetchType.LAZY)
+  @ManyToMany(mappedBy = "bookList", fetch = FetchType.EAGER)
   private List<Author> authorList;
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "isbn", fetch = FetchType.LAZY)
   private List<InvoiceDetails> invoiceDetailsList;

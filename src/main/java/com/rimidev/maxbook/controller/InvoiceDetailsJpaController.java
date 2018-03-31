@@ -243,7 +243,7 @@ public class InvoiceDetailsJpaController implements Serializable {
     return (List<Book>) Invoices;
 
   }
-  
+
   public List<Invoice> getTotalInvoiceSales(Date from, Date to) {
     logger.log(Level.WARNING, "incoming from date " + from.toString());
     logger.log(Level.WARNING, "incoming to date " + to.toString());
@@ -253,7 +253,7 @@ public class InvoiceDetailsJpaController implements Serializable {
     query.setParameter("to", to);
     logger.log(Level.WARNING, "get total sales query>>>>>>>>>>");
     Collection<Invoice> sales = query.getResultList();
-    
+
     return (List<Invoice>) sales;
   }
 
@@ -274,23 +274,46 @@ public class InvoiceDetailsJpaController implements Serializable {
 
   }
 
-  public List<Object[]> getTotalSalesByClient(Date date, Date date0) {
 
-    TypedQuery<Object[]> query = em.createQuery("SELECT i.dateOfSale, c.email, c.firstName, c.lastName, ivd FROM InvoiceDetails ivd "
-            + "inner join ivd.invoiceId i inner join i.clientId c order by i.dateOfSale desc", Object[].class);
-
+  public List<Invoice> getTotalInvoicesByClient(Date from, Date to) {
+    logger.log(Level.WARNING, "incoming from date " + from.toString());
+    logger.log(Level.WARNING, "incoming to date " + to.toString());
+    TypedQuery<Invoice> query = em.createQuery("SELECT i FROM Invoice i "
+            + "where i.dateOfSale BETWEEN :from AND :to order by i.dateOfSale desc", Invoice.class);
+    query.setParameter("from", from);
+    query.setParameter("to", to);
     logger.log(Level.WARNING, "get total sales query>>>>>>>>>>");
-    Collection<Object[]> sales = query.getResultList();
+    Collection<Invoice> sales = query.getResultList();
 
-    return (List<Object[]>) sales;
+    return (List<Invoice>) sales;
   }
 
-  public List<Object[]> getTotalSalesByAuthor(Date date, Date date0) {
+  public List<InvoiceDetails> getTotalInvoicesDetailsByClient(Date from, Date to) {
+    logger.log(Level.WARNING, "incoming from date " + from.toString());
+    logger.log(Level.WARNING, "incoming to date " + to.toString());
+    TypedQuery<InvoiceDetails> query = em.createQuery("SELECT ivd FROM InvoiceDetails ivd "
+            + "where ivd.invoiceId.dateOfSale BETWEEN :from AND :to order by ivd.invoiceId.dateOfSale desc", InvoiceDetails.class);
+    query.setParameter("from", from);
+    query.setParameter("to", to);
+    logger.log(Level.WARNING, "get total invoices details by client  query>>>>>>>>>>");
+    Collection<InvoiceDetails> sales = query.getResultList();
+    for (InvoiceDetails sale : sales) {
+      logger.log(Level.WARNING, "sale >>>>>>>>>>" + sale.getIsbn());
+    }
+    return (List<InvoiceDetails>) sales;
+  }
 
-    TypedQuery<Object[]> query = em.createQuery("SELECT i.dateOfSale, author, ivd FROM InvoiceDetails ivd "
-            + "inner join ivd.invoiceId i inner join ivd.isbn b inner join b.authorList author order by i.dateOfSale desc", Object[].class);
+  public List<Object[]> getTotalInvoiceDetailsByAuthor(Date from, Date to) {
 
+    TypedQuery<Object[]> query = em.createQuery("SELECT i, ivd FROM InvoiceDetails ivd "
+            + "inner join ivd.invoiceId i where i.dateOfSale BETWEEN :from AND :to order by i.dateOfSale desc", Object[].class);
+    query.setParameter("from", from);
+    query.setParameter("to", to);
     Collection<Object[]> sales = query.getResultList();
+     for (Object[] sale : sales) {
+      logger.log(Level.WARNING, "sale at 0 invoice details by author" + sale[0].toString());
+      logger.log(Level.WARNING, "sale >>>>>>>>>>" + sale[1].toString());
+    }
 
     return (List<Object[]>) sales;
   }
@@ -304,7 +327,5 @@ public class InvoiceDetailsJpaController implements Serializable {
 
     return (List<Object[]>) sales;
   }
-  
-}
 
-  
+}
