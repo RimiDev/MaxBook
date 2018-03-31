@@ -1,10 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.rimidev.backing;
 
+import com.rimidev.maxbook.controller.BookJpaController;
 import com.rimidev.maxbook.controller.InvoiceDetailsJpaController;
 import com.rimidev.maxbook.controller.InvoiceJpaController;
 import com.rimidev.maxbook.entities.Author;
@@ -51,12 +47,16 @@ public class ReportsBackingBean implements Serializable {
 
   @Inject
   InvoiceDetailsJpaController invoiceDetailsJpaController;
+  
+  @Inject
+  BookJpaController bookJpaController;
 
   private Date fromDate;
   //private double totalSalesValue;
   private List<Object[]> clients;
   private List<Object[]> authors;
   private List<Object[]> publishers;
+  private List<Object[]> books;
   private List<Invoice> totalInvoiceSales;
 
   private List<InvoiceDetails> totalSalesList;
@@ -64,6 +64,7 @@ public class ReportsBackingBean implements Serializable {
   private List<Object[]> filteredAuthors;
 
   private List<Object[]> filteredPublishers;
+  private List<Object[]> filteredBooks;
 
 //  public double getTotalSales() {
 //    double totalSalesValue=0;
@@ -105,9 +106,11 @@ public class ReportsBackingBean implements Serializable {
     clients = new ArrayList();
     authors = new ArrayList();
     publishers = new ArrayList();
+    books = new ArrayList();
     filteredClients = new ArrayList();
     filteredAuthors = new ArrayList();
     filteredPublishers = new ArrayList();
+    filteredBooks = new ArrayList();
   }
   
   public List<Invoice> getTotalInvoiceSales() {
@@ -151,6 +154,17 @@ public class ReportsBackingBean implements Serializable {
   public List<Object[]> getSalesByPublisher() {
     return clients = invoiceDetailsJpaController.getTotalSalesByPublisher(new Date(), new Date());
   }
+  
+  public List<Book> getZeroSales(){
+      List<Book> allBooks = bookJpaController.getAllBooks();
+      List<InvoiceDetails> details = invoiceDetailsJpaController.getTotalInvoiceDetailSales(fromDate, toDate);
+      for(InvoiceDetails d : details){
+          if(allBooks.contains(d.getIsbn())){
+              allBooks.remove(d.getIsbn());
+          }
+      }
+      return allBooks;
+  }
 
   public void setTotalSalesList(List<InvoiceDetails> totalSales) {
     this.totalSalesList = totalSales;
@@ -187,6 +201,14 @@ public class ReportsBackingBean implements Serializable {
   public void setPublishers(List<Object[]> publishers) {
     this.publishers = publishers;
   }
+  
+  public List<Object[]> getBooks(){
+      return this.books;
+  }
+  
+  public void setBooks(List<Object[]> books){
+      this.books = books;
+  }
 
   public List<Object[]> getFilteredClients() {
     return filteredClients;
@@ -211,6 +233,14 @@ public class ReportsBackingBean implements Serializable {
   public void setFilteredPublishers(List<Object[]> filteredPublihsers) {
     this.filteredPublishers = filteredPublihsers;
   }
+  
+  public List<Object[]> getFilteredBooks(){
+      return filteredBooks;
+  }
+  
+  public void setFilteredBooks(List<Object[]> filteredBooks){
+      this.filteredBooks = filteredBooks;
+  }
 
   public List<Invoice> getInvoicesList() {
     return totalInvoiceSales;
@@ -219,4 +249,15 @@ public class ReportsBackingBean implements Serializable {
   public void setInvoicesList(List<Invoice> invoicesList) {
     this.totalInvoiceSales = invoicesList;
   }
+  
+//  public List<Book> findZeroSales(){
+//      List<Book> allBooks = bookJpaController.getAllBooks();
+//      List<InvoiceDetails> details = invoiceDetailsJpaController.getTotalInvoiceDetailSales(fromDate, toDate);
+//      for(InvoiceDetails d : details){
+//          if(allBooks.contains(d.getIsbn())){
+//              allBooks.remove(d.getIsbn());
+//          }
+//      }
+//      return allBooks;
+//  }
 }
