@@ -17,11 +17,17 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.math.MathContext;
+import java.math.RoundingMode;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.List;
+import java.util.stream.Collectors;
+import javax.annotation.PostConstruct;
+import javax.faces.context.FacesContext;
 import javax.mail.Flags;
+import javax.servlet.http.HttpSession;
 import jodd.mail.Email;
 import jodd.mail.EmailFilter;
 import jodd.mail.EmailMessage;
@@ -58,11 +64,23 @@ public class InvoicePageBackingBean implements Serializable {
     private final String emailSendPwd = "somepassword";
     private final String emailReceive = "hues.business@gmail.com";
     private final String emailReceivePwd = "somepassword";
+    private HttpSession session;
+    private BigDecimal subTotal;
+    private BigDecimal total;
+    private BigDecimal pst;
+    private BigDecimal gst;
+    private BigDecimal hst;
 
     // You will need a folder with this name or change it to another
     // existing folder
     private static final Logger log = Logger.getLogger(InvoicePageBackingBean.class.getName());
-    
+
+    @PostConstruct
+    public void init() {
+        session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+        invoice = (Invoice) session.getAttribute("clientInvoice");
+    }
+
     public String getMarkup() {
         return markup;
     }
@@ -70,26 +88,19 @@ public class InvoicePageBackingBean implements Serializable {
     public void setMarkup(String markup) {
         this.markup = markup;
     }
-  
+
     /**
      * Set the model if the current bean is null.
-     * 
+     *
      * @return
-     * @throws Exception 
+     * @throws Exception
      */
     public Invoice getInvoice() throws Exception {
         log.info("getInvoice()");
-        if (invoice == null) {
-            invoice = new Invoice();
-            invoice.setId(invoiceController.getInvoiceCount() + 1);
-            invoice.setDateOfSale(Date.valueOf(LocalDate.now()));
-            invoice.setClientId(clientController.findClient(1));
-            invoice.setGrossValue(new BigDecimal(1300.00));
-            invoice.setNetValue(new BigDecimal(1500.00));
-            details = invoiceDetailsController.findInvoiceDetails(1);
+        if(invoice == null){
+            invoice = (Invoice) session.getAttribute("clientInvoice");
         }
-        return this.invoice;
-
+        return invoice;
     }
 
     public InvoiceDetails getDetails() {
@@ -251,5 +262,66 @@ public class InvoicePageBackingBean implements Serializable {
 //        return Jsoup.connect("http://localhost:8080/MaxBook/invoice.xhtml").get().toString();
     }
 
+    /**
+     * Calculate the invoice subtotal.
+     * 
+     * @return 
+     */
+    public BigDecimal generateSubTotal() {
+        log.info("GENERATING SUB TOTAL");
+        this.subTotal = new BigDecimal(0.0);
+        double count = 0.00;
+        log.info("INVOICE DETAILS LIST SIZE: " +invoice.getInvoiceDetailsList().size());
+        for (InvoiceDetails d : invoiceDetailsController.findInvoiceDetailsEntities()
+                .stream()
+                .filter(i -> i.getInvoiceId().getId().intValue() == invoice.getId().intValue()).collect(Collectors.toList())) {
+            count += d.getBookPrice().doubleValue();
+        }
+        subTotal = new BigDecimal(count).setScale(2, RoundingMode.CEILING);
+        return subTotal;
+    }
+    
+    /**
+     * Calculate the HST of the invoice
+     * 
+     * @return 
+     */
+    public BigDecimal getHst(){
+        log.info("Fetch Invoice HST");
+        hst = new BigDecimal(invoice.getClientId().getProvince().getHSTrate().doubleValue() * subTotal.doubleValue()).setScale(2, RoundingMode.CEILING);
+        return hst;
+    }
+    
+    /**
+     * Calculate the PST of the invoice
+     * 
+     * @return 
+     */
+    public BigDecimal getPst(){
+        log.info("Fetch Invoice PST");
+        pst = new BigDecimal(invoice.getClientId().getProvince().getPSTrate().doubleValue() * subTotal.doubleValue()).setScale(2, RoundingMode.CEILING);
+        return pst;
+    }
+    
+    /**
+     * Calculate the GST of the invoice
+     * 
+     * @return 
+     */
+    public BigDecimal getGst(){
+        log.info("Fetch Invoice GST");
+        gst = new BigDecimal(invoice.getClientId().getProvince().getGSTrate().doubleValue() * subTotal.doubleValue()).setScale(2, RoundingMode.CEILING);
+        return gst;
+    }
+    
+    /**
+     * Calculate the total of the invoice
+     * 
+     * @return 
+     */
+    public BigDecimal getTotal(){
+        log.info("Calculating total");
+        total = new BigDecimal(hst.doubleValue() + subTotal.doubleValue()).setScale(2, RoundingMode.CEILING);
+        return total;
+    }
 }
-
