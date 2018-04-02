@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.rimidev.maxbook.entities;
 
 import com.rimidev.backing.BookDisplayBacking;
@@ -315,5 +310,4 @@ public class Book implements Serializable {
   public String toString() {
     return "com.rimidev.maxbook.entities.Book[ isbn=" + isbn + " ]";
   }
-
 }

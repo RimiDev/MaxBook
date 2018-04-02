@@ -89,7 +89,7 @@
             <h:outputText value="#{msgs.cardNumber} : #{cartBackingBean.creditcardBean.number}"/>
           </b:column>
           <b:column span="3" offset="3">
-            <h:outputText value="#{msgs.pstRate} #{invoiceBacking.details.PSTrate}" />
+            <h:outputText value="#{msgs.pstRate} #{invoiceBacking.client.province.PSTrate}" />
           </b:column> 
         </b:row>
         <b:row>
@@ -100,12 +100,12 @@
             <h:outputText value="#{msgs.expDate} : #{cartBackingBean.creditcardBean.exp}"/>
           </b:column>
           <b:column span="3" offset="3">
-            <h:outputText value="#{msgs.gstRate} #{invoiceBacking.details.GSTrate}" />
+            <h:outputText value="#{msgs.gstRate} #{invoiceBacking.client.province.GSTrate}" />
           </b:column> 
         </b:row>
         <b:row>
           <b:column span="3" offset="9">
-            <h:outputText value="#{msgs.hstRate} #{invoiceBacking.details.HSTrate}" />
+            <h:outputText value="#{msgs.hstRate} #{invoiceBacking.client.province.HSTrate}" />
           </b:column> 
         </b:row>
       </b:container>
@@ -154,7 +154,7 @@
             <h:outputText value="#{msgs.subTotal}"/>
           </b:column>
           <b:column span="2">                           
-            <h:outputText value="$#{cartBackingBean.generateTotal()}"/>
+            <h:outputText value="$#{invoiceBacking.generateSubTotal()}"/>
           </b:column>
         </b:row>
         <b:row>
@@ -162,7 +162,7 @@
             <h:outputText value="#{msgs.pst} "/>
           </b:column>
           <b:column span="2">                           
-            <p> $#{cartBackingBean.generatePST()}</p>
+            <p> $#{invoiceBacking.getPst()}</p>
           </b:column>
         </b:row>
         <b:row>
@@ -170,7 +170,7 @@
             <h:outputText value="#{msgs.gst} "/>
           </b:column>
           <b:column span="2">                           
-            <p>$#{cartBackingBean.generateGST()}</p>
+            <p>$#{invoiceBacking.getGst()}</p>
           </b:column>
         </b:row>
         <b:row>
@@ -178,7 +178,7 @@
             <h:outputText value="#{msgs.hst} "/>
           </b:column>
           <b:column span="2">                           
-            <p> $#{cartBackingBean.generateHST()}</p>
+            <p> $#{invoiceBacking.getHst()}</p>
           </b:column>
         </b:row>
         <b:row>
@@ -186,7 +186,7 @@
             <h:outputText value="#{msgs.total} "/>
           </b:column>
           <b:column span="2">                           
-            <p> $#{cartBackingBean.generateTotalTaxedSale()}</p>
+            <p> $#{invoiceBacking.getTotal()}</p>
           </b:column>
         </b:row>
       </h:form>
