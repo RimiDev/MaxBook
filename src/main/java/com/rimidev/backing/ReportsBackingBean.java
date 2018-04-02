@@ -5,6 +5,7 @@
  */
 package com.rimidev.backing;
 
+import com.rimidev.maxbook.controller.BookJpaController;
 import com.rimidev.maxbook.controller.InvoiceDetailsJpaController;
 import com.rimidev.maxbook.controller.InvoiceJpaController;
 import com.rimidev.maxbook.entities.Author;
@@ -51,6 +52,9 @@ public class ReportsBackingBean implements Serializable {
 
   @Inject
   InvoiceDetailsJpaController invoiceDetailsJpaController;
+  
+  @Inject
+  BookJpaController bookJpaController;
 
   private Date fromDate;
   //private double totalSalesValue;
@@ -167,5 +171,17 @@ public class ReportsBackingBean implements Serializable {
   public void updateTotalSalesDetailsTable(SelectEvent event) {
     this.getTotalInvoiceDetailSales();
   }
+  
+   public List<Book> getZeroSales(){
+      List<Book> allBooks = bookJpaController.findBookEntities();
+      List<InvoiceDetails> details = invoiceDetailsJpaController.getTotalInvoiceDetailSales(fromDate, toDate);
+      for(InvoiceDetails d : details){
+          if(allBooks.contains(d.getIsbn())){
+              allBooks.remove(d.getIsbn());
+          }
+      }
+      return allBooks;
+  }
+
 
 }
