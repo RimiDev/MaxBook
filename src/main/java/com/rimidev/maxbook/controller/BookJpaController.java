@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import com.rimidev.maxbook.entities.InvoiceDetails;
 import com.rimidev.maxbook.entities.Review;
+import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.logging.Level;
@@ -465,8 +466,6 @@ public class BookJpaController implements Serializable {
       return (List<Book>) books;
   }
   
-}
-  
 //  public List<Book> getEmptyList() {
 //
 //        TypedQuery<Book> searchedBooks = em.createQuery(quer, Book.class);
@@ -476,3 +475,43 @@ public class BookJpaController implements Serializable {
 //        return searchedBooks.getResultList();
 //
 //    }
+
+    public Long getTotalSold(String isbn) {
+        logger.log(Level.INFO," IN Total sold "+isbn);
+        
+        String query = "Select COUNT(inv.isbn) FROM InvoiceDetails inv WHERE inv.isbn.isbn=:luIsbn GROUP BY inv.isbn";
+        TypedQuery<Long> totalSold = em.createQuery(query, Long.class);
+        totalSold.setParameter("luIsbn", isbn);
+        
+        
+        if(totalSold.getResultList() == null || totalSold.getResultList().isEmpty()){
+            logger.log(Level.INFO,"List empty");
+            return (long) 0;
+        }
+        logger.log(Level.INFO,"Total sold "+totalSold.getResultList().get(0));
+        return totalSold.getResultList().get(0);
+    }
+    
+    public BigDecimal isOnSale(Book book){
+      if(book.getSalePrice().doubleValue() < 0.01){
+          return book.getListPrice();
+      }else{
+        return book.getSalePrice();
+      }
+    }
+    
+    public List<Book> getBooksInStock(){
+        TypedQuery<Book> stock = em.createNamedQuery("Book.findByRemovalStatus", Book.class);
+        stock.setParameter("removalStatus", '0');
+        return stock.getResultList();
+    }
+    
+    public List<Author> getAuthors(String isbn) {
+        TypedQuery<Author> query = 
+                em.createQuery("SELECT a FROM Book b JOIN b.authorList a where b.isbn = :isbn", Author.class);
+        List<Author> list = query.getResultList();
+        return list;
+
+    }
+
+}

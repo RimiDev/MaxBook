@@ -28,7 +28,14 @@ public class AccountDetailsBacking implements Serializable{
   @Inject
   private ClientJpaController clientJpaController;
   
-  
+    /**
+   * Validates the address for the client.
+   * 
+   * @param fc
+   * @param c
+   * @param value 
+   */
+
   public void checkAddresses(FacesContext fc, UIComponent c, Object value) {
     String address = (String) value;
     
@@ -42,7 +49,14 @@ public class AccountDetailsBacking implements Serializable{
     }
 
   }
-  
+    /**
+   * Validation method for a client's name.
+   * 
+   * @param fc
+   * @param c
+   * @param value 
+   */
+
    public void checkNames(FacesContext fc, UIComponent c, Object value) {
     String name = (String) value;
     
@@ -58,7 +72,14 @@ public class AccountDetailsBacking implements Serializable{
   }
   
   
-  
+    /**
+   * Validation method for a client's postal code.
+   * 
+   * @param fc
+   * @param c
+   * @param value 
+   */
+
   public void checkPostalCode(FacesContext fc, UIComponent c, Object value) {
     String postalcode = (String) value;
     String pattern = "^[A-Za-z][0-9][A-Za-z][0-9][A-Za-z][0-9]$";
