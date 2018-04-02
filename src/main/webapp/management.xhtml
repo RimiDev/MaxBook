@@ -1007,20 +1007,52 @@
                   <p:column headerText="Invoice #">
                     <h:outputText value="#{sale.id}"/>
                   </p:column>
-                 
+
                   <p:column headerText="Publisher">
 
                     <h:outputText value="#{sale.isbn.publisherId.name}"/>
 
                   </p:column>
-                  
+
                 </p:dataTable>
+
+               
 
               </b:tab>
             </b:tabView>
           </h:form>
         </p:panel>
 
+         <!--Zero Sales Report-->
+                <p:panel id="zeroSalesPanel" header="Zero Sales Report" toggleable="true" toggleOrientation="vertical" collapsed="true">
+                  <h:form>
+                    <span>From</span> 
+                    <p:calendar value="#{reportsBackingBean.fromDate}" pattern="MM/dd/yyyy HH:mm:ss">
+                      <p:ajax event="dateSelect" listener="#{reportsBackingBean.setFromDate(reportsBackingBean.fromDate)}"/>
+                    </p:calendar>
+                    <span>To</span> 
+                    <p:calendar value="#{reportsBackingBean.toDate}" pattern="MM/dd/yyyy HH:mm:ss">
+                      <p:ajax event="dateSelect" listener="#{reportsBackingBean.setToDate(reportsBackingBean.toDate)}"/>
+                    </p:calendar>
+                    <p:dataTable id="zeroSalesDataTable" var="book" value="#{reportsBackingBean.getZeroSales()}" 
+                                 editable="false" style="margin-bottom:20px" 
+                                 emptyMessage="#{msgs.notFound}" filteredValue="#{reportsBackingBean.filteredBooks}">
+                      <p:column>
+                        <h:outputText value="#{book.isbn}"/>
+                      </p:column>
+                    </p:dataTable>
+                  </h:form>
+                </p:panel>
+
+                <p:panel id="stockReportPanel" header="Stock Report" toggleable="true" toggleOrientation="vertical" collapsed="true">
+                  <h:form>
+                    <p:dataTable id="stockReportDataTable" var="book" value="#{bookJpaController.getBooksInStock()}" editable="false" style="margin-bottom:20px" >
+                      <p:column>
+                        <h:outputText value="#{book.isbn}"/>
+                      </p:column>
+                    </p:dataTable>
+                  </h:form>
+                </p:panel>
 
 
       </b:tab>
