@@ -465,6 +465,8 @@ public class BookJpaController implements Serializable {
       return (List<Book>) books;
   }
   
+}
+  
 //  public List<Book> getEmptyList() {
 //
 //        TypedQuery<Book> searchedBooks = em.createQuery(quer, Book.class);
