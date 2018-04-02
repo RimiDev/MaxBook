@@ -1,18 +1,30 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package com.rimidev.backing;
 
-import com.rimidev.maxbook.controller.BookJpaController;
 import com.rimidev.maxbook.controller.InvoiceDetailsJpaController;
 import com.rimidev.maxbook.controller.InvoiceJpaController;
+import com.rimidev.maxbook.entities.Author;
 import com.rimidev.maxbook.entities.Book;
+import com.rimidev.maxbook.entities.Client;
 import com.rimidev.maxbook.entities.Invoice;
 import com.rimidev.maxbook.entities.InvoiceDetails;
+import com.rimidev.maxbook.entities.Publisher;
+import com.rimidev.maxbook.entities.Survey;
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
@@ -28,8 +40,6 @@ import org.primefaces.event.SelectEvent;
  *
  *
  * @author eric
- * @author Philippe Langlois-Pedroso
- * @author Rhai Hinds
  */
 @Named
 @SessionScoped
@@ -41,9 +51,6 @@ public class ReportsBackingBean implements Serializable {
 
   @Inject
   InvoiceDetailsJpaController invoiceDetailsJpaController;
-  
-  @Inject
-  BookJpaController bookJpaController;
 
   private Date fromDate;
   //private double totalSalesValue;
@@ -51,7 +58,6 @@ public class ReportsBackingBean implements Serializable {
   private List<InvoiceDetails> invoiceDetailsByClient;
   private List<Object[]> invoicesByAuthor;
   private List<Object[]> publishers;
-  private List<Object[]> books;
   private List<Invoice> totalInvoiceSales;
 
   private List<InvoiceDetails> totalInvoiceDetails;
@@ -59,7 +65,6 @@ public class ReportsBackingBean implements Serializable {
   private List<Object[]> filteredAuthors;
 
   private List<Object[]> filteredPublishers;
-  private List<Object[]> filteredBooks;
 
   public int getCountOfISBNSold(String isbn) {
     
@@ -95,11 +100,9 @@ public class ReportsBackingBean implements Serializable {
     invoiceDetailsByClient = new ArrayList();
     invoicesByAuthor = new ArrayList();
     publishers = new ArrayList();
-    books = new ArrayList();
     filteredClients = new ArrayList();
     filteredAuthors = new ArrayList();
     filteredPublishers = new ArrayList();
-    filteredBooks = new ArrayList();
   }
 
   public List<Invoice> getTotalInvoiceSales() {
@@ -142,17 +145,6 @@ public class ReportsBackingBean implements Serializable {
     invoicesByAuthor = invoiceDetailsJpaController.getTotalInvoiceDetailsByAuthor(fromDate, toDate);
     return invoicesByAuthor;
   }
-  
-  public List<Book> getZeroSales(){
-      List<Book> allBooks = bookJpaController.getAllBooks();
-      List<InvoiceDetails> details = invoiceDetailsJpaController.getTotalInvoiceDetailSales(fromDate, toDate);
-      for(InvoiceDetails d : details){
-          if(allBooks.contains(d.getIsbn())){
-              allBooks.remove(d.getIsbn());
-          }
-      }
-      return allBooks;
-  }
 
  
 
@@ -164,86 +156,16 @@ public class ReportsBackingBean implements Serializable {
     this.getTotalInvoiceSales();
   }
 
-  public List<Object[]> getClients() {
-    return clients;
-  }
-
-  public void setClients(List<Object[]> clients) {
-    this.clients = clients;
-  }
-
-  public List<Object[]> getAuthors() {
-    return authors;
-  }
-
-  public void setAuthors(List<Object[]> authors) {
-    this.authors = authors;
-  }
-
-  public List<Object[]> getPublishers() {
-    return publishers;
-  }
-
-  public void setPublishers(List<Object[]> publishers) {
-    this.publishers = publishers;
-  }
-  
-  public List<Object[]> getBooks(){
-      return this.books;
-  }
-  
-  public void setBooks(List<Object[]> books){
-      this.books = books;
-  }
-
-  public List<Object[]> getFilteredClients() {
-    return filteredClients;
-  }
-
-  public void setFilteredClients(List<Object[]> filteredList) {
-    this.filteredClients = filteredList;
-  }
-
-  public List<Object[]> getFilteredAuthors() {
-    return filteredAuthors;
-  }
-
-  public void setFilteredAuthors(List<Object[]> filteredAuthors) {
-    this.filteredAuthors = filteredAuthors;
-  }
-
-  public List<Object[]> getFilteredPublishers() {
-    return filteredPublishers;
+  public void updateTotalInvoiceDetailsTable(SelectEvent event) {
+    this.getTotalInvoiceDetailSales();
   }
 
   public void updateTotalSalesByClientTable(SelectEvent event) {
     this.getTotalInvoicesByClient();
-  }
-  
-  public List<Object[]> getFilteredBooks(){
-      return filteredBooks;
-  }
-  
-  public void setFilteredBooks(List<Object[]> filteredBooks){
-      this.filteredBooks = filteredBooks;
   }
 
   public void updateTotalSalesDetailsTable(SelectEvent event) {
     this.getTotalInvoiceDetailSales();
   }
 
-  public void setInvoicesList(List<Invoice> invoicesList) {
-    this.totalInvoiceSales = invoicesList;
-  }
-  
-//  public List<Book> findZeroSales(){
-//      List<Book> allBooks = bookJpaController.getAllBooks();
-//      List<InvoiceDetails> details = invoiceDetailsJpaController.getTotalInvoiceDetailSales(fromDate, toDate);
-//      for(InvoiceDetails d : details){
-//          if(allBooks.contains(d.getIsbn())){
-//              allBooks.remove(d.getIsbn());
-//          }
-//      }
-//      return allBooks;
-//  }
 }

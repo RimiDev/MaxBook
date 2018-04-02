@@ -22,7 +22,6 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -49,8 +48,9 @@ public class InvoiceJpaController implements Serializable {
 
     @PersistenceContext
     private EntityManager em;
+    
+   private static final Logger logger = Logger.getLogger(CartBackingBean.class.getName());
 
-    private static final Logger logger = Logger.getLogger(CartBackingBean.class.getName());
 
     public void create(Invoice invoice) throws RollbackFailureException, Exception {
         if (invoice.getInvoiceDetailsList() == null) {
@@ -213,15 +213,15 @@ public class InvoiceJpaController implements Serializable {
     }
 
     private List<Invoice> findInvoiceEntities(boolean all, int maxResults, int firstResult) {
-        CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-        cq.select(cq.from(Invoice.class));
-        Query q = em.createQuery(cq);
-        if (!all) {
-            q.setMaxResults(maxResults);
-            q.setFirstResult(firstResult);
-        }
-        return q.getResultList();
-    }
+            CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
+            cq.select(cq.from(Invoice.class));
+            Query q = em.createQuery(cq);
+            if (!all) {
+                q.setMaxResults(maxResults);
+                q.setFirstResult(firstResult);
+            }
+            return q.getResultList();    
+    } 
 
     public Invoice findInvoice(Integer id) {
         return em.find(Invoice.class, id);
@@ -235,12 +235,5 @@ public class InvoiceJpaController implements Serializable {
         return ((Long) q.getSingleResult()).intValue();
     }
 
-    public Invoice clientMostRecentInvoice(Client client) {
-        TypedQuery<Invoice> query = em.createQuery("SELECT i FROM Invoice i "
-                + "where i.clientId.id = :id order by i.dateOfSale desc", Invoice.class);
-
-        query.setParameter("id", client.getId());
-        logger.log(Level.WARNING, "Getting client's most recent invoice");
-        return query.setMaxResults(1).getSingleResult();
-    }
+   
 }

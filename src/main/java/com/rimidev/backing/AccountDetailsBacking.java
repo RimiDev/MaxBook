@@ -13,12 +13,12 @@ import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
-
 /**
- * Backing Bean for the account details page to help manage data.
- * 
+ *
  * @author eric
  */
+
+
 
 @Named("accountDetailsBacking")
 @SessionScoped
@@ -28,62 +28,54 @@ public class AccountDetailsBacking implements Serializable{
   @Inject
   private ClientJpaController clientJpaController;
   
-  /**
-   * Validates the address for the client.
-   * 
-   * @param fc
-   * @param c
-   * @param value 
-   */
+  
   public void checkAddresses(FacesContext fc, UIComponent c, Object value) {
-    String address = (String) value;  
+    String address = (String) value;
+    
     FacesContext context = FacesContext.getCurrentInstance();
     ResourceBundle bundle = context.getApplication().getResourceBundle(context, "msgs");
+
     String message = bundle.getString("addressRequired");
     if (address.length() == 0) {
       throw new ValidatorException(new FacesMessage(
               message));
     }
+
   }
   
-  /**
-   * Validation method for a client's name.
-   * 
-   * @param fc
-   * @param c
-   * @param value 
-   */
    public void checkNames(FacesContext fc, UIComponent c, Object value) {
     String name = (String) value;
+    
     FacesContext context = FacesContext.getCurrentInstance();
     ResourceBundle bundle = context.getApplication().getResourceBundle(context, "msgs");
+
     String message = bundle.getString("firstNameRequired");
     if (name.length() == 0) {
       throw new ValidatorException(new FacesMessage(
               message));
     }
+
   }
   
-  /**
-   * Validation method for a client's postal code.
-   * 
-   * @param fc
-   * @param c
-   * @param value 
-   */
+  
+  
   public void checkPostalCode(FacesContext fc, UIComponent c, Object value) {
     String postalcode = (String) value;
     String pattern = "^[A-Za-z][0-9][A-Za-z][0-9][A-Za-z][0-9]$";
+
     // Create a Pattern object
     Pattern r = Pattern.compile(pattern);
+
     // Now create matcher object.
     Matcher m = r.matcher(postalcode);
     FacesContext context = FacesContext.getCurrentInstance();
     ResourceBundle bundle = context.getApplication().getResourceBundle(context, "msgs");
+
     String message = bundle.getString("improperPostalCode");
     if (!m.find()) {
       throw new ValidatorException(new FacesMessage(
               message));
     }
+
   }
 }

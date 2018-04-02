@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -21,8 +22,7 @@ import javax.inject.Named;
 import javax.servlet.http.HttpSession;
 
 /**
- * Backing Bean for the book details page to help manage data.
- * 
+ *
  * @author Rhai Hinds
  */
 @Named
@@ -53,12 +53,6 @@ public class BookDisplayBacking implements Serializable {
         this.isbn = isbn;
     }
 
-    /**
-     * Changes the displayed book details page based on the passed isbn.
-     * 
-     * @param isbn
-     * @return 
-     */
     public String showDetails(String isbn) {
 
         hideReview();
@@ -70,11 +64,6 @@ public class BookDisplayBacking implements Serializable {
         return "bookDetails";
     }
 
-    /**
-     * Checks if the selected book exists.
-     * 
-     * @param event 
-     */
     public void checkBookExist(ComponentSystemEvent event) {
         //need to fix reidrect where i cant go directly to book details page
         logger.log(Level.INFO, "We in checkBookExist");
@@ -89,12 +78,6 @@ public class BookDisplayBacking implements Serializable {
 
     }
 
-    /**
-     * Based on a list of authors, return a list of books written.
-     * 
-     * @param auths
-     * @return 
-     */
     public List<Book> getRecommendationsByAuthor(List<Author> auths) {
 
         List<Integer> authIds = new ArrayList<Integer>();
@@ -119,12 +102,6 @@ public class BookDisplayBacking implements Serializable {
         return recBooks;
     }
 
-    /**
-     * Returns a list of books that are of a passed genre.
-     * 
-     * @param genre
-     * @return 
-     */
     public List<Book> getRecommendationsByGenre(String genre) {
         book = bookjpaControl.findBook(isbn);
         List<Book> recBooks = bookjpaControl.getBookByGenre(book.getGenre());
@@ -145,9 +122,12 @@ public class BookDisplayBacking implements Serializable {
 
     }
 
-    /**
-     * Hides the review on the page if not approved by a manager.
-     */
+
+    public Double checkSales(int salePrice) {
+        
+        return 0.0;
+    }
+
     public void hideReview() {
         HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
         Client curr_user = (Client) session.getAttribute("current_user");
@@ -162,12 +142,6 @@ public class BookDisplayBacking implements Serializable {
 
     }
     
-    /**
-     * Display the title of a book that is shortened to 50 characters.
-     * 
-     * @param title
-     * @return 
-     */
     public String displayTitle(String title){
         
         if (title.length()>50){
@@ -176,12 +150,6 @@ public class BookDisplayBacking implements Serializable {
        return title;
     }
     
-    /**
-     * Returns a list of reviews that have been approved by a manager.
-     * 
-     * @param allReviews
-     * @return 
-     */
     public List<Review> showPermittedReviews(List<Review> allReviews){
         logger.info("booyaka");
         return allReviews.stream().filter(r -> r.getApprovalStatus().equalsIgnoreCase("approved")).collect(Collectors.toList());

@@ -5,13 +5,15 @@ import com.rimidev.maxbook.entities.Book;
 import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.RequestScoped;
+import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 /**
- * Backing Bean for the all books page to help manage data.
- * 
+ *
  * @author Philippe Langlois-Pedroso, 1542705
  */
 @Named("allBooks")
