@@ -34,7 +34,7 @@
                                     </div>
                                     <p class="product-description">#{bookie.description}</p>
                                     <!--create method in bookdisplayback bean to check saleprice -->
-                                    <h4 class="price">current price: <span>$#{bookJpaController.isOnSale(bookie)}</span></h4>
+                                    <h4 class="price">current price: <span>$#{bookie.salePrice}</span></h4>
                                     <div class="action">
                                         <b:commandButton icon="shopping-cart" action="#{cartBackingBean.addToCart(bookie.isbn)}" value="Add to cart" />
                                     </div>

@@ -5,7 +5,10 @@ import com.rimidev.maxbook.entities.Book;
 import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.RequestScoped;
+import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -14,6 +17,7 @@ import javax.inject.Named;
  * 
  * @author Philippe Langlois-Pedroso, 1542705
  */
+
 @Named("allBooks")
 @ApplicationScoped
 public class AllBooksBackingBean implements Serializable {

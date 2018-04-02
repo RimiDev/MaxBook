@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package com.rimidev.backing;
 
 import com.rimidev.maxbook.controller.ReviewJpaController;
@@ -5,8 +10,11 @@ import com.rimidev.maxbook.entities.Book;
 import com.rimidev.maxbook.entities.Client;
 import com.rimidev.maxbook.entities.Review;
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -24,7 +32,8 @@ import javax.servlet.http.HttpSession;
  * Backing Bean for the reviews to help manage data.
  * 
  * @author Rhai Hinds
- */
+ *
+**/
 @Named
 @SessionScoped
 public class ReviewBacking implements Serializable {
