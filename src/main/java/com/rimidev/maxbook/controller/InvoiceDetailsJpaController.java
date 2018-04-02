@@ -274,7 +274,6 @@ public class InvoiceDetailsJpaController implements Serializable {
 
   }
 
-
   public List<Invoice> getTotalInvoicesByClient(Date from, Date to) {
     logger.log(Level.WARNING, "incoming from date " + from.toString());
     logger.log(Level.WARNING, "incoming to date " + to.toString());
@@ -310,7 +309,7 @@ public class InvoiceDetailsJpaController implements Serializable {
     query.setParameter("from", from);
     query.setParameter("to", to);
     Collection<Object[]> sales = query.getResultList();
-     for (Object[] sale : sales) {
+    for (Object[] sale : sales) {
       logger.log(Level.WARNING, "sale at 0 invoice details by author" + sale[0].toString());
       logger.log(Level.WARNING, "sale >>>>>>>>>>" + sale[1].toString());
     }
@@ -326,6 +325,29 @@ public class InvoiceDetailsJpaController implements Serializable {
     Collection<Object[]> sales = query.getResultList();
 
     return (List<Object[]>) sales;
+  }
+
+  public Integer getTotalSold(String isbn, Date from, Date to) {
+    logger.log(Level.INFO, " IN Total sold " + isbn);
+
+    String query = "Select COUNT(inv.isbn) FROM InvoiceDetails inv "
+            + "WHERE inv.isbn.isbn=:luIsbn and "
+            + "inv.invoiceId.dateOfSale BETWEEN :from AND :to "
+            + "GROUP BY inv.isbn";
+
+    TypedQuery<Long> totalSold = em.createQuery(query, Long.class);
+    totalSold.setParameter("from", from);
+    totalSold.setParameter("to", to);
+    totalSold.setParameter("luIsbn", isbn);
+
+    if (totalSold.getResultList() == null || totalSold.getResultList().isEmpty()) {
+      logger.log(Level.INFO, "List empty");
+      return (int) 0;
+    }
+    logger.log(Level.INFO, "Total sold " + totalSold.getResultList().get(0));
+    long l = totalSold.getResultList().get(0);
+    int i = (int) l;
+    return i;
   }
 
 }

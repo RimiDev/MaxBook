@@ -66,17 +66,10 @@ public class ReportsBackingBean implements Serializable {
 
   private List<Object[]> filteredPublishers;
 
-//  public double getTotalSales() {
-//    double totalSalesValue=0;
-//    if (invoicesList != null) {
-//      for (Invoice sale : invoicesList) {
-//
-//        totalSalesValue += sale.getGrossValue().doubleValue();
-//      }
-//      logger.log(Level.SEVERE, "total sales" + totalSalesValue);
-//    }
-//    return totalSalesValue;
-//  }
+  public int getCountOfISBNSold(String isbn) {
+    
+    return invoiceDetailsJpaController.getTotalSold(isbn, fromDate, toDate);
+  }
   public Date getFromDate() {
     return fromDate;
   }

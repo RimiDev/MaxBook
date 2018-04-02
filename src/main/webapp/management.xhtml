@@ -129,7 +129,7 @@
                   </p:cellEditor>
                 </p:column>
                 <p:column headerText="Total Sold">
-                  <h:outputText value="#{bookJpaController.getTotalSold(book.isbn)}" />
+                  <h:outputText value="#{reportsBackingBean.getCountOfISBNSold(book.isbn)}" />
                 </p:column>
                 <p:column headerText="Removal Status" filterBy="#{book.removalStatusBoolean}" filterMatchMode="equals">
                   <f:facet name="filter">
@@ -722,9 +722,9 @@
 
                   </p:column>
 
-                  <p:column headerText="Total sales">
+                  <p:column headerText="Total Sold">
 
-                    <h:outputText value="#{bookJpaController.getTotalSold(sale.isbn.isbn)}"/>
+                    <h:outputText value="#{reportsBackingBean.getCountOfISBNSold(sale.isbn.isbn)}"/>
 
 
                   </p:column>
@@ -817,27 +817,22 @@
                   <p:column headerText="Invoice #">
                     <h:outputText value="#{sale.id}"/>
                   </p:column>
-                  <p:column headerText="Gross Value">
+                  <p:column headerText="Book Price">
 
-                    <h:outputText value="#{sale.invoiceId.grossValue}"/>
-
-                  </p:column>
-                  <p:column headerText="Net Value">
-
-                    <h:outputText value="#{sale.invoiceId.netValue}"/>
+                    <h:outputText value="#{sale.bookPrice}"/>
 
                   </p:column>
-                  <p:column headerText="Client email">
+                  <p:column headerText="Client email" filterBy="#{sale.invoiceId.clientId.email}" filterMatchMode="contains">
 
                     <h:outputText value="#{sale.invoiceId.clientId.email}"/>
 
                   </p:column>
-                  <p:column headerText="Client first name">
+                  <p:column headerText="Client first name" filterBy="#{sale.invoiceId.clientId.firstName}" filterMatchMode="contains">
 
                     <h:outputText value="#{sale.invoiceId.clientId.firstName}"/>
 
-                  </p:column>
-                  <p:column headerText="Client first name">
+                  </p:column >
+                  <p:column headerText="Client last name" filterBy="#{sale.invoiceId.clientId.lastName}" filterMatchMode="contains">
 
                     <h:outputText value="#{sale.invoiceId.clientId.lastName}"/>
 
@@ -852,11 +847,7 @@
         </p:panel>
 
         <p:panel id="SalesByAuthorReport" header="SalesByClientReport" toggleable="true" toggleOrientation="vertical" collapsed="false">
-
-
           <h:form>
-
-
             <!--sales by author<-->
 <!--            <span>Total Sales by clients : #{reportsBackingBean.get()}</span>-->
             <b:tabView contentStyle="border-right: 1px solid #ddd;border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding:10px">
@@ -877,7 +868,7 @@
                               />
                     </p:calendar>
                   </f:facet>
-                  <p:column headerText="Date Of Sale" sortBy="#{sale.dateOfSale}">
+                  <p:column headerText="Date Of Sale" fil="#{sale.dateOfSale}">
                     <h:outputText value="#{sale.dateOfSale}"/>
                   </p:column>
                   <p:column headerText="Invoice #">
@@ -913,7 +904,7 @@
                     </p:calendar>
                   </f:facet>
 
-                  <p:column headerText="Date Of Sale" >
+                  <p:column headerText="Date Of Sale"  filterBy="#{sale[0].dateOfSale}" filterMatchMode="contains">
                     <h:outputText value="#{sale[0].dateOfSale}"/>
                   </p:column>
                   <p:column headerText="Invoice #">
@@ -930,7 +921,7 @@
 
                   </p:column>
 
-                  <p:column headerText="Author first name">
+                  <p:column headerText="Author first name" filterBy="#{author.firstName}" filterMatchMode="contains">
 
                     <ui:repeat value="#{sale[1].isbn.authorList}" var="author" >
                       <h:outputText value="#{author.firstName}"/>
@@ -938,7 +929,7 @@
                     </ui:repeat>
                   </p:column>
 
-                  <p:column headerText="Author Last Name">
+                  <p:column headerText="Author Last Name" filterBy="#{author.lastName}" filterMatchMode="contains">
 
                     <ui:repeat value="#{sale[1].isbn.authorList}" var="author" >
                       <h:outputText value="#{author.lastName}"/>
