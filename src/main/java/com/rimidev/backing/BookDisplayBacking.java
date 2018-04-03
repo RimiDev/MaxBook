@@ -50,7 +50,7 @@ public class BookDisplayBacking implements Serializable {
     public String showDetails() {
         
         hideReview();
-
+        
         FacesContext fc = FacesContext.getCurrentInstance();
         Map<String, String> params = fc.getExternalContext().getRequestParameterMap();
         isbn = params.get("isbn");
