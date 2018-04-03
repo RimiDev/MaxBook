@@ -25,7 +25,11 @@ public class LocaleBean implements Serializable {
     }
 
     public String getLanguage() {
-        return locale.getLanguage();
+        if(locale.getLanguage().equals("en")){
+            return "English";
+        } else {
+            return "Francais";
+        }
     }
 
     public void setLanguage(String a, String b) {

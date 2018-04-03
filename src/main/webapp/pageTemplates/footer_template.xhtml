@@ -5,35 +5,35 @@
                  xmlns:p="http://primefaces.org/ui"
                  xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <h:form>
-        <b:panel style="position:relative;bottom:0;">
+        <b:panel style="position:relative;bottom:0;background-color:black">
             <b:row>    
                 <b:column span="2">
-                    <h:outputText value="#{msgs.contactUs}"/>
+                    <h:outputText value="#{msgs.contactUs}" style="color:white"/>
                 </b:column>
                 <b:column span="2" offset="6">
-                    <b:navLink href="help.xhtml" value="#{msgs.help}"/>
+                    <b:navLink href="help.xhtml" value="#{msgs.help}" style="color:white"/>
                 </b:column>
             </b:row>
             <b:row>
                 <b:column span="2" offset="7">
-                    <b:navLink href="allbooks.xhtml" value="#{msgs.allBooksTitle}" offset="6"/>
+                    <b:navLink href="allbooks.xhtml" value="#{msgs.allBooksTitle}"  style="color:white" offset="6"/>
                 </b:column>
             </b:row>
             <b:row>
                 <b:column span="2">
-                    <h:outputText value="#{msgs.contactEmail}"/>
+                    <h:outputText value="#{msgs.contactEmail}" style="color:white"/>
                 </b:column>
             </b:row>
             <b:row>
                 <b:column span="2">
-                    <h:outputText value="#{msgs.contactPhone}"/>
+                    <h:outputText value="#{msgs.contactPhone}" style="color:white"/>
                 </b:column>
             </b:row>
             <br/>
             <b:row>
                 <b:column span="2">
                     <h:link outcome="/home.xhmtl">
-                        <h:graphicImage value="resources/images/citrus.png" height="40"/>
+                        <h:graphicImage value="resources/images/citrus_menu_logo.png" height="40"/>
                     </h:link>
                 </b:column>
             </b:row>
