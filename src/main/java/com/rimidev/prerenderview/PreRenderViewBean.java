@@ -30,7 +30,15 @@ public class PreRenderViewBean implements Serializable {
 
     // Default logger is java.util.logging
     private static final Logger LOG = Logger.getLogger("PreRenderViewBean.class");
+    
+    private String genre;
 
+    public String getGenre() {
+        LOG.info("GETTING GENRE FROM PRERENDERBEAN: " + genre);
+        return genre;
+    }
+
+ 
     /**
      * Look for a cookie
      */
@@ -56,23 +64,36 @@ public class PreRenderViewBean implements Serializable {
         // Retrieve a specific cookie
         Object my_cookie = context.getExternalContext().getRequestCookieMap().get("recentGenre");
         if (my_cookie != null) {
+            genre = ((Cookie) my_cookie).getValue();
             LOG.info(((Cookie) my_cookie).getName());
             LOG.info(((Cookie) my_cookie).getValue());
         }
-        writeCookie();
+        genre = ((Cookie) my_cookie).getValue();
+//        writeCookie(b);
     }
 
-    public void writeCookie() {
+    public void writeCookie(String b) {
+        
+        if (b == null){
+            genre = "Children";
+        } else {
+            genre = b;
+        }
 
         FacesContext context = FacesContext.getCurrentInstance();
-        context.getExternalContext().addResponseCookie("recentGenre", "children", null);
+        context.getExternalContext().addResponseCookie("recentGenre", genre, null);
         
                 Object my_cookie = context.getExternalContext().getRequestCookieMap().get("recentGenre");
                 
         if (my_cookie != null) {
-            LOG.info(((Cookie) my_cookie).getName());
-            LOG.info(((Cookie) my_cookie).getValue());
+            genre = ((Cookie) my_cookie).getValue();
+            LOG.info("MY COOKIE NAME:" + ((Cookie) my_cookie).getName());
+            LOG.info("MY COOKIE VALUE:" + ((Cookie) my_cookie).getValue());
+            LOG.info("GENRE VALUE: ---- " + genre );
         } else {
+            //If there is no cookie set, i guess we will client track nothing?
+            //Or we can hardcore a certain genre to client track?
+            genre = "Children";
             LOG.info("NULL");
             LOG.info(my_cookie + "");
         }

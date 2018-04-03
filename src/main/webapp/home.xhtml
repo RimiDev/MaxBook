@@ -6,8 +6,8 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">    
-    
-    
+
+
 
     <ui:define name="title">Home</ui:define>
     <ui:define name="css">
@@ -28,6 +28,11 @@
         </div>
         <h:graphicImage value="resources/images/citrus_logo.png" style="width:50%;margin-left:25%;" height="250px"/>
 
+
+        <f:metadata>
+            <f:event type="preRenderView"
+                     listener="#{preRenderViewBean.checkCookies()}" />
+        </f:metadata>
 
         <h:form id="form">
 
@@ -57,6 +62,23 @@
                     </h:commandLink> 
                 </b:carouselItem>
             </b:carousel>
+            
+
+            <!--Client tracking genre caro--> 
+            <h3 style="text-align:center;margin-top:5%;margin-bottom:5%;">  
+                <h:outputText value="#{msgs.recentlyVisitedGenre}" style="align-content:center;color:whitesmoke;font-size:25px;" />
+            </h3> 
+            <div class="carousel-inner" role="listbox" style="">`
+                <b:carousel id="clientTrackedBooks" style="width:100%;" interval="2000">
+                    <c:forEach items="#{homeBackingBean.clientTrackedBooks}" var="books">
+                        <b:carouselItem>
+                            <h:commandLink action="#{bookDisplayBacking.showDetails(books.isbn)}">   
+                                <b:image style="height:600px;width:30%;align-content:center;margin-left:35%;" library="images" name="/books/#{books.isbn}.jpg" tooltip="#{books.genre}"/>
+                            </h:commandLink> 
+                        </b:carouselItem>
+                    </c:forEach>
+                </b:carousel>    
+            </div>
 
 
             <!-- First set of advertisements -->
@@ -84,7 +106,6 @@
                     <b:carouselItem>
                         <h:commandLink action="#{bookDisplayBacking.showDetails(books.isbn)}">   
                             <b:image style="height:35%;width:30%;align-content:center;margin-left:35%;" library="images" name="/books/#{books.isbn}.jpg" tooltip="#{books.genre}"/>
-                   
                         </h:commandLink> 
                     </b:carouselItem>
                 </c:forEach>
@@ -109,9 +130,8 @@
                 <b:carousel id="recentSold" style="width:100%;" interval="2000">
                     <c:forEach items="#{homeBackingBean.recentSoldBooks}" var="book">
                         <b:carouselItem>
-                            <h:commandLink action="#{bookDisplayBacking.showDetails(book.isbn)}">   
-                                <b:image style="height:600px;width:30%;align-content:center;margin-left:35%;" library="images" name="/books/#{book.isbn}.jpg" tooltip="#{books.genre}"/>
-                                 
+                            <h:commandLink action="#{bookDisplayBacking.showDetails(books.isbn)}">   
+                                <b:image style="height:600px;width:30%;align-content:center;margin-left:35%;" library="images" name="/books/#{books.isbn}.jpg" tooltip="#{books.genre}"/>
                             </h:commandLink> 
                         </b:carouselItem>
                     </c:forEach>
@@ -128,12 +148,14 @@
                 </div>
             </div>
 
+
+
         </h:form>
 
-        
-        
+
+
         <!-- Survey -->
-         <b:row style="margin-top:1em;">
+        <b:row style="margin-top:1em;">
             <b:panel col-sm="4" offset="4" style="text-align: center;width:100%;float:right">
                 <h:form id="surveyForm"> 
                     <b:label value="#{surveyBacking.survey.question}" />
@@ -149,11 +171,11 @@
                 </h:form>
             </b:panel>
         </b:row>
-            
-            
-            
-            
-            
+
+
+
+
+
     </ui:define>
 </ui:composition>
 

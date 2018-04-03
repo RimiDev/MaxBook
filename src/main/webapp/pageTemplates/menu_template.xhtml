@@ -68,8 +68,8 @@
                 <p:outputLabel value="#{msgs.welcome} #{sessionScope['current_user'].firstName}!" style="margin-right:10px;color:white"/>
 
                 <!--Search-->
-                <p:inputText style="margin-right:10px; box-shadow: none" placeholder="#{msgs.search}" id="userSearch" value="#{user.searched}"/>
-                <b:commandButton type="Submit" value="#{msgs.search}" class="btn btn-success" iconAwesome="fa-search" action="search" ajax="false"/>
+                <p:inputText style="margin-right:10px; box-shadow: none" placeholder="#{msgs.search}" id="userSearch" value="#{searchBackingBean.searchCriteria}"/>
+                <b:commandButton type="Submit" value="#{msgs.search}" class="btn btn-success" iconAwesome="fa-search" action="#{searchBackingBean.searchBooks()}" ajax="false"/>
                 <!--Cart-->
                 <b:commandButton look="info" value="#{msgs.cart}" action="#{cartBackingBean.resetCreditCardValues()}" icon-awesome="fa-shopping-cart" />               
                 <!--Login/logout-->

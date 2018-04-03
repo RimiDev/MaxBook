@@ -514,9 +514,7 @@ INSERT INTO Invoice_Details (invoice_id, isbn, book_price, PST_rate, GST_rate, H
 (1, '978-1449474256', 14.99, 0.10, 0.05, 0.15),
 (1, '978-0762447695', 14.99, 0.10, 0.05, 0.15),
 (1, '978-0545795661', 14.99, 0.10, 0.05, 0.15),
-(1, '978-1408711392', 14.99, 0.10, 0.05, 0.15),
-(2, '978-1408711392', 14.99, 0.10, 0.05, 0.15),
-(3, '978-1408711392', 14.99, 0.10, 0.05, 0.15);
+(1, '978-1408711392', 14.99, 0.10, 0.05, 0.15);
 
 CREATE TABLE Survey (
     id int PRIMARY KEY auto_increment,
@@ -541,19 +539,6 @@ id int PRIMARY KEY auto_increment,
 imageName varchar(255) NOT NULL,
 siteLink varchar(255) NOT NULL,
 active varchar(1) NOT NULL);
-<<<<<<< HEAD
-
-INSERT INTO Ads (imageName,siteLink, active) VALUES
-("gillette.jpg", "https://gillette.ca", "1");
-INSERT INTO Ads (imageName,siteLink, active) VALUES
-("gusta.png", "http://gustafoods.com", "2");
-INSERT INTO Ads (imageName,siteLink, active) VALUES
-("mountainDew.jpg", "http://www.mountaindew.com", "3");
-INSERT INTO Ads (imageName,siteLink, active) VALUES
-("museumFineArts.jpg", "https://www.mbam.qc.ca/en/", "4");
-INSERT INTO Ads (imageName,siteLink, active) VALUES
-("macbook.jpg", "https://www.apple.com/ca/macbook/", "0");
-=======
 
 INSERT INTO Ads (imageName,siteLink, active) VALUES
 ("gillette.jpg", "https://gillette.ca", "1");
@@ -573,4 +558,3 @@ activeStatus boolean NOT NULL DEFAULT false);
 
 INSERT INTO News (readerLink,activeStatus) VALUES
 ("http://rss.cbc.ca/lineup/topstories.xml",true);
->>>>>>> 334f51c566c674ea95e962500f0e0853f29a0799
