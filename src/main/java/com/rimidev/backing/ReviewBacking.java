@@ -29,9 +29,11 @@ import javax.inject.Named;
 import javax.servlet.http.HttpSession;
 
 /**
- *
+ * Backing Bean for the reviews to help manage data.
+ * 
  * @author Rhai Hinds
- */
+ *
+**/
 @Named
 @SessionScoped
 public class ReviewBacking implements Serializable {

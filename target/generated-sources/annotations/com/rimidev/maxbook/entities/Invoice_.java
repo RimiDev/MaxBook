@@ -9,7 +9,15 @@ import javax.persistence.metamodel.ListAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
+<<<<<<< HEAD
 @Generated(value="EclipseLink-2.7.1.v20171221-rNA", date="2018-03-27T17:20:44")
+=======
+<<<<<<< HEAD
+@Generated(value="EclipseLink-2.7.1.v20171221-rNA", date="2018-03-28T10:38:45")
+=======
+@Generated(value="EclipseLink-2.7.1.v20171221-rNA", date="2018-03-27T15:19:45")
+>>>>>>> b16caab077586dad423b7a90c32b4432baf09d49
+>>>>>>> 334f51c566c674ea95e962500f0e0853f29a0799
 @StaticMetamodel(Invoice.class)
 public class Invoice_ { 
 
@@ -17,6 +25,7 @@ public class Invoice_ {
     public static volatile SingularAttribute<Invoice, Client> clientId;
     public static volatile SingularAttribute<Invoice, BigDecimal> netValue;
     public static volatile SingularAttribute<Invoice, BigDecimal> grossValue;
+    public static volatile SingularAttribute<Invoice, Boolean> removalStatus;
     public static volatile ListAttribute<Invoice, InvoiceDetails> invoiceDetailsList;
     public static volatile SingularAttribute<Invoice, Integer> id;
 

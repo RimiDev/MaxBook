@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author 1513733
  */
 @Entity
-@Table(name = "invoice_details", catalog = "BookStore_DB", schema = "")
+@Table(name = "invoice_details", catalog = "bookstore_db", schema = "")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "InvoiceDetails.findAll", query = "SELECT i FROM InvoiceDetails i")
@@ -35,8 +35,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "InvoiceDetails.findByBookPrice", query = "SELECT i FROM InvoiceDetails i WHERE i.bookPrice = :bookPrice")
     , @NamedQuery(name = "InvoiceDetails.findByPSTrate", query = "SELECT i FROM InvoiceDetails i WHERE i.pSTrate = :pSTrate")
     , @NamedQuery(name = "InvoiceDetails.findByGSTrate", query = "SELECT i FROM InvoiceDetails i WHERE i.gSTrate = :gSTrate")
-    , @NamedQuery(name = "InvoiceDetails.findByHSTrate", query = "SELECT i FROM InvoiceDetails i WHERE i.hSTrate = :hSTrate")})
-
+    , @NamedQuery(name = "InvoiceDetails.findByHSTrate", query = "SELECT i FROM InvoiceDetails i WHERE i.hSTrate = :hSTrate")
+    , @NamedQuery(name = "InvoiceDetails.findByRemovalStatus", query = "SELECT i FROM InvoiceDetails i WHERE i.removalStatus = :removalStatus")})
 public class InvoiceDetails implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -62,6 +62,10 @@ public class InvoiceDetails implements Serializable {
     @NotNull
     @Column(name = "HST_rate")
     private BigDecimal hSTrate;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "removal_status")
+    private boolean removalStatus;
     @JoinColumn(name = "invoice_id", referencedColumnName = "id")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Invoice invoiceId;
@@ -76,12 +80,13 @@ public class InvoiceDetails implements Serializable {
         this.id = id;
     }
 
-    public InvoiceDetails(Integer id, BigDecimal bookPrice, BigDecimal pSTrate, BigDecimal gSTrate, BigDecimal hSTrate) {
+    public InvoiceDetails(Integer id, BigDecimal bookPrice, BigDecimal pSTrate, BigDecimal gSTrate, BigDecimal hSTrate, boolean removalStatus) {
         this.id = id;
         this.bookPrice = bookPrice;
         this.pSTrate = pSTrate;
         this.gSTrate = gSTrate;
         this.hSTrate = hSTrate;
+        this.removalStatus = removalStatus;
     }
 
     public Integer getId() {
@@ -122,6 +127,14 @@ public class InvoiceDetails implements Serializable {
 
     public void setHSTrate(BigDecimal hSTrate) {
         this.hSTrate = hSTrate;
+    }
+
+    public boolean getRemovalStatus() {
+        return removalStatus;
+    }
+
+    public void setRemovalStatus(boolean removalStatus) {
+        this.removalStatus = removalStatus;
     }
 
     public Invoice getInvoiceId() {

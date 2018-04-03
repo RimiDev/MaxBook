@@ -7,13 +7,22 @@ import javax.annotation.Generated;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
+<<<<<<< HEAD
 @Generated(value="EclipseLink-2.7.1.v20171221-rNA", date="2018-03-27T17:20:44")
+=======
+<<<<<<< HEAD
+@Generated(value="EclipseLink-2.7.1.v20171221-rNA", date="2018-03-28T10:38:45")
+=======
+@Generated(value="EclipseLink-2.7.1.v20171221-rNA", date="2018-03-27T15:19:45")
+>>>>>>> b16caab077586dad423b7a90c32b4432baf09d49
+>>>>>>> 334f51c566c674ea95e962500f0e0853f29a0799
 @StaticMetamodel(InvoiceDetails.class)
 public class InvoiceDetails_ { 
 
     public static volatile SingularAttribute<InvoiceDetails, BigDecimal> pSTrate;
     public static volatile SingularAttribute<InvoiceDetails, BigDecimal> gSTrate;
     public static volatile SingularAttribute<InvoiceDetails, BigDecimal> hSTrate;
+    public static volatile SingularAttribute<InvoiceDetails, Boolean> removalStatus;
     public static volatile SingularAttribute<InvoiceDetails, Book> isbn;
     public static volatile SingularAttribute<InvoiceDetails, Invoice> invoiceId;
     public static volatile SingularAttribute<InvoiceDetails, Integer> id;

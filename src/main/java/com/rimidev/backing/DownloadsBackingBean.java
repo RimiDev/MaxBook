@@ -1,9 +1,6 @@
 package com.rimidev.backing;
 
-import com.rimidev.maxbook.controller.BookJpaController;
 import com.rimidev.maxbook.controller.ClientJpaController;
-import com.rimidev.maxbook.controller.InvoiceDetailsJpaController;
-import com.rimidev.maxbook.controller.InvoiceJpaController;
 import com.rimidev.maxbook.entities.Book;
 import com.rimidev.maxbook.entities.Client;
 import com.rimidev.maxbook.entities.Invoice;
@@ -16,18 +13,17 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
-import java.util.zip.ZipOutputStream;
+import java.util.stream.Collectors;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- *
+ * Backing Bean for the downloads to help manage data.
+ * 
  * @author Philippe Langlois-Pedroso, 1542705
  */
 @Named
@@ -45,16 +41,25 @@ public class DownloadsBackingBean implements Serializable {
     private HttpSession session = null;
     private Client client = null;
 
+    /**
+     * Return a list of all owned books of a client
+     * 
+     * @param clientId
+     * @return 
+     */
     public List<Book> getAllOwnedBooks(int clientId) {
         if (this.model == null) {
             logger.info("DownloadsBackingBean -> model was null");
             Client c = clientController.findClient(clientId);
-            List<Invoice> invoices = c.getInvoiceList();
-            logger.info("Number of Associated Invoices: " + invoices.size());
+            List<Invoice> invoices = c.getInvoiceList().stream().filter( i -> i.getRemovalStatus() == false).collect(Collectors.toList());
+            
+            logger.info("Number of Associated Invoices: " +invoices.size());
             List<InvoiceDetails> details = new ArrayList();
             List<Book> books = new ArrayList();
-            for (Invoice i : invoices) {
-                details.addAll(i.getInvoiceDetailsList());
+            for(Invoice i : invoices){
+               
+                details.addAll(i.getInvoiceDetailsList().stream().filter(d -> d.getRemovalStatus() == false).collect(Collectors.toList()));
+                logger.info("Number of : " +invoices.size());
             }
             for (InvoiceDetails d : details) {
                 logger.info(d.getIsbn().getIsbn());
@@ -65,6 +70,12 @@ public class DownloadsBackingBean implements Serializable {
         return this.model;
     }
 
+    /**
+     * If the model for the downloads page is null, instantiate it. Populates
+     * the model for display.
+     * 
+     * @return 
+     */
     public List<Book> getDownloadsModel() {
         logger.info("DownloadsBackingBean -> getModel");
         session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
@@ -81,6 +92,12 @@ public class DownloadsBackingBean implements Serializable {
         return model;
     }
 
+    /**
+     * User will download a pdf of a book within the resources. Every download link
+     * will download the same book.
+     * 
+     * @throws IOException 
+     */
     public void getDownload() throws IOException {
         FacesContext fc = FacesContext.getCurrentInstance();
         ExternalContext ec = fc.getExternalContext();
@@ -89,7 +106,6 @@ public class DownloadsBackingBean implements Serializable {
         ec.responseReset();
         ec.setResponseContentType("application/octet-stream");
         ec.setResponseHeader("Content-Disposition", "attachment; filename=\"" + filename + "\"");
-//        OutputStream output = ec.getResponseOutputStream();
         OutputStream out = ec.getResponseOutputStream();
         try {
             FileInputStream input = new FileInputStream(file);  

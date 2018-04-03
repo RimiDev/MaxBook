@@ -25,8 +25,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author maximelacasse
  */
 @Entity
-@Table(name = "Ads", catalog = "BookStore_DB", schema = "")
-@XmlRootElement
+@Table(name = "ads")
 @NamedQueries({
     @NamedQuery(name = "Ads.findAll", query = "SELECT a FROM Ads a")
     , @NamedQuery(name = "Ads.findById", query = "SELECT a FROM Ads a WHERE a.id = :id")
@@ -130,3 +129,4 @@ public class Ads implements Serializable {
 
     
 }
+

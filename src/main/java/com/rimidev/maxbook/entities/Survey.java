@@ -20,12 +20,23 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author plang
+ * @author 1513733
  */
 @Entity
-@Table(name = "survey")
+@Table(name = "survey", catalog = "bookstore_db", schema = "")
 @NamedQueries({
-    @NamedQuery(name = "Survey.findAll", query = "SELECT s FROM Survey s")})
+    @NamedQuery(name = "Survey.findAll", query = "SELECT s FROM Survey s")
+    , @NamedQuery(name = "Survey.findById", query = "SELECT s FROM Survey s WHERE s.id = :id")
+    , @NamedQuery(name = "Survey.findByQuestion", query = "SELECT s FROM Survey s WHERE s.question = :question")
+    , @NamedQuery(name = "Survey.findByOption1", query = "SELECT s FROM Survey s WHERE s.option1 = :option1")
+    , @NamedQuery(name = "Survey.findByOption2", query = "SELECT s FROM Survey s WHERE s.option2 = :option2")
+    , @NamedQuery(name = "Survey.findByOption3", query = "SELECT s FROM Survey s WHERE s.option3 = :option3")
+    , @NamedQuery(name = "Survey.findByOption4", query = "SELECT s FROM Survey s WHERE s.option4 = :option4")
+    , @NamedQuery(name = "Survey.findByCount1", query = "SELECT s FROM Survey s WHERE s.count1 = :count1")
+    , @NamedQuery(name = "Survey.findByCount2", query = "SELECT s FROM Survey s WHERE s.count2 = :count2")
+    , @NamedQuery(name = "Survey.findByCount3", query = "SELECT s FROM Survey s WHERE s.count3 = :count3")
+    , @NamedQuery(name = "Survey.findByCount4", query = "SELECT s FROM Survey s WHERE s.count4 = :count4")
+    , @NamedQuery(name = "Survey.findByRemovalStatus", query = "SELECT s FROM Survey s WHERE s.removalStatus = :removalStatus")})
 public class Survey implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -36,7 +47,7 @@ public class Survey implements Serializable {
     private Integer id;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 1000)
+    @Size(min = 1, max = 255)
     @Column(name = "question")
     private String question;
     @Basic(optional = false)
@@ -75,6 +86,10 @@ public class Survey implements Serializable {
     @NotNull
     @Column(name = "count4")
     private int count4;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "removal_status")
+    private boolean removalStatus;
 
     public Survey() {
     }
@@ -83,7 +98,7 @@ public class Survey implements Serializable {
         this.id = id;
     }
 
-    public Survey(Integer id, String question, String option1, String option2, String option3, String option4, int count1, int count2, int count3, int count4) {
+    public Survey(Integer id, String question, String option1, String option2, String option3, String option4, int count1, int count2, int count3, int count4, boolean removalStatus) {
         this.id = id;
         this.question = question;
         this.option1 = option1;
@@ -94,6 +109,7 @@ public class Survey implements Serializable {
         this.count2 = count2;
         this.count3 = count3;
         this.count4 = count4;
+        this.removalStatus = removalStatus;
     }
 
     public Integer getId() {
@@ -174,6 +190,14 @@ public class Survey implements Serializable {
 
     public void setCount4(int count4) {
         this.count4 = count4;
+    }
+
+    public boolean getRemovalStatus() {
+        return removalStatus;
+    }
+
+    public void setRemovalStatus(boolean removalStatus) {
+        this.removalStatus = removalStatus;
     }
 
     @Override
