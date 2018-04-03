@@ -17,6 +17,7 @@ import com.rimidev.maxbook.entities.InvoiceDetails;
 import com.rimidev.maxbook.entities.Review;
 import com.rimidev.maxbook.controller.ClientJpaController;
 import com.rimidev.maxbook.controller.NewsJpaController;
+import com.rimidev.maxbook.controller.PublisherJpaController;
 import com.rimidev.maxbook.controller.SurveyJpaController;
 import com.rimidev.maxbook.controller.exceptions.NonexistentEntityException;
 import com.rimidev.maxbook.controller.exceptions.RollbackFailureException;
@@ -25,10 +26,12 @@ import com.rimidev.maxbook.entities.Client;
 import com.rimidev.maxbook.entities.Invoice;
 import com.rimidev.maxbook.entities.InvoiceDetails;
 import com.rimidev.maxbook.entities.News;
+import com.rimidev.maxbook.entities.Publisher;
 import com.rimidev.maxbook.entities.Survey;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -41,6 +44,7 @@ import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.primefaces.event.CellEditEvent;
+import org.primefaces.event.CloseEvent;
 import org.primefaces.event.RowEditEvent;
 
 /**
@@ -65,6 +69,8 @@ public class ManagementBacking implements Serializable {
     InvoiceDetailsJpaController invDetailsCon;
     @Inject
     NewsJpaController newsCon;
+    @Inject
+    PublisherJpaController publisherController;
 
     private List<Book> bk;
     private List<Review> rev;
@@ -73,7 +79,9 @@ public class ManagementBacking implements Serializable {
     private List<Integer> approvalStatus;
     private List<String> revStatuses;
     private List<Boolean> newsStatus;
+    private List<Publisher> pubs;
     private Book selectedBook;
+    private Book newBook;
     private boolean statusBool;
 
     @Inject
@@ -119,6 +127,21 @@ public class ManagementBacking implements Serializable {
         newSurvey = new Survey();
         approvalStatus.add(0);
         approvalStatus.add(1);
+        newBook = new Book();
+        newBook.setTitle("");
+        newBook.setIsbn("");
+        newBook.setDescription("");
+        newBook.setEnteredDate(new Date());
+        newBook.setGenre("");
+        newBook.setPages(0);
+        newBook.setRemovalStatusBoolean(false);
+        newBook.setFormat(".png");
+        newBook.setListPrice(BigDecimal.ZERO);
+        newBook.setWholesalePrice(BigDecimal.ZERO);
+        newBook.setSalePrice(BigDecimal.ZERO);
+        newBook.setPublishDate(null);
+
+        pubs = publisherController.findPublisherEntities();
 
 //        context = FacesContext.getCurrentInstance();
 //        bundle = context.getApplication().getResourceBundle(context, "msg");
@@ -159,7 +182,6 @@ public class ManagementBacking implements Serializable {
             onInvDetailRowEdit(event);
             item = bundle.getString("invoiceDetail") + " #" + ((InvoiceDetails) event.getObject()).getId();
             editType = bundle.getString("editInvDetails");
-
         } else if (event.getObject() instanceof Client) {
             editClient((Client) event.getObject());
             item = bundle.getString("clnt") + " " + bundle.getString("id") + ((Client) event.getObject()).getId();
@@ -221,13 +243,6 @@ public class ManagementBacking implements Serializable {
         this.newsStatus = newsStatus;
     }
 
-    public void onRowAdd(RowEditEvent event) throws Exception {
-        Book newBook = (Book) event.getObject();
-        bkcon.create(newBook);
-        FacesMessage msg = new FacesMessage("Book Created", String.valueOf(newBook));
-        FacesContext.getCurrentInstance().addMessage(null, msg);
-    }
-
     private void onBookRowEdit(RowEditEvent event) throws Exception {
         Book editedItem = (Book) event.getObject();
         bkcon.edit(editedItem);
@@ -277,21 +292,6 @@ public class ManagementBacking implements Serializable {
         context.getCurrentInstance().addMessage(null, msg);
     }
 
-    public void onCellEdit(CellEditEvent event) {
-        Object oldValue = event.getOldValue();
-        Object newValue = event.getNewValue();
-
-        if (newValue != null && !newValue.equals(oldValue)) {
-
-        }
-
-    }
-
-    public void newLine() {
-        this.bk.add(new Book());
-        logger.log(Level.WARNING, "<<Book Inventory List: >>" + bk.get(bk.size() - 1));
-    }
-
     public List<Integer> getStatus() {
         return approvalStatus;
     }
@@ -315,6 +315,22 @@ public class ManagementBacking implements Serializable {
 
     public void setSelectedBook(Book selected) {
         this.selectedBook = selected;
+    }
+
+    public List<Publisher> getPubs() {
+        return pubs;
+    }
+
+    public void setPubs(List<Publisher> pubs) {
+        this.pubs = pubs;
+    }
+
+    public Book getNewBook() {
+        return newBook;
+    }
+
+    public void setNewBook(Book newBook) {
+        this.newBook = newBook;
     }
 
     public void deleteItem() throws Exception {
@@ -362,6 +378,23 @@ public class ManagementBacking implements Serializable {
 
     }
 
+    public void addBook() throws Exception {
+        logger.info("New Book is " + newBook);
+//        logger.info(newBook.getTitle());
+//        logger.info(newBook.getPublisherId().getName());
+        bkcon.create(newBook);
+//        newBook.setIsbn(null);
+//        newBook.setTitle(null);
+//        newBook.setPages(0);
+//        newBook.setGenre(null);
+//        newBook.setPublishDate(null);
+//        newBook.setWholesalePrice(BigDecimal.ZERO);
+//        newBook.setListPrice(BigDecimal.ZERO);
+//        newBook.setSalePrice(BigDecimal.ZERO);
+//        newBook.setEnteredDate(new Date());
+//        logger.info("New Book Added");
+    }
+
     public void addSurvey() throws Exception {
         logger.info(newSurvey.getQuestion());
         logger.info(newSurvey.getOption1());
@@ -374,6 +407,21 @@ public class ManagementBacking implements Serializable {
 
     public void deleteSurvey() {
         logger.info("Test Delete Survey");
+    }
+
+    public void handleDialogClose(CloseEvent event) {
+        logger.info("new book object");
+//        newBook = new Book();
+
+        newBook.setIsbn(null);
+        newBook.setTitle(null);
+        newBook.setPages(0);
+        newBook.setGenre(null);
+        newBook.setPublishDate(null);
+        newBook.setWholesalePrice(BigDecimal.ZERO);
+        newBook.setListPrice(BigDecimal.ZERO);
+        newBook.setSalePrice(BigDecimal.ZERO);
+        newBook.setEnteredDate(new Date());
     }
 
     public void updateBook(Book b) throws Exception {
@@ -389,6 +437,21 @@ public class ManagementBacking implements Serializable {
             }
         }
         news = newsCon.findNewsEntities();
+    }
+
+    private void createNewBook() {
+//        this.newBook = new Book();
+        newBook.setTitle("");
+        newBook.setIsbn("");
+        newBook.setDescription("");
+        newBook.setEnteredDate(new Date());
+        newBook.setGenre("");
+        newBook.setPages(0);
+        newBook.setListPrice(BigDecimal.ZERO);
+        newBook.setWholesalePrice(BigDecimal.ZERO);
+        newBook.setSalePrice(BigDecimal.ZERO);
+        newBook.setPublishDate(null);
+
     }
 
 }

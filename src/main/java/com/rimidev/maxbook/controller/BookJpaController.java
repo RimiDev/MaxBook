@@ -476,7 +476,7 @@ public class BookJpaController implements Serializable {
 //    }
 
     public Long getTotalSold(String isbn) {
-        logger.log(Level.INFO," IN Total sold "+isbn);
+//        logger.log(Level.INFO," IN Total sold "+isbn);
         
         String query = "Select COUNT(inv.isbn) FROM InvoiceDetails inv WHERE inv.isbn.isbn=:luIsbn GROUP BY inv.isbn";
         TypedQuery<Long> totalSold = em.createQuery(query, Long.class);
@@ -484,10 +484,10 @@ public class BookJpaController implements Serializable {
         
         
         if(totalSold.getResultList() == null || totalSold.getResultList().isEmpty()){
-            logger.log(Level.INFO,"List empty");
+//            logger.log(Level.INFO,"List empty");
             return (long) 0;
         }
-        logger.log(Level.INFO,"Total sold "+totalSold.getResultList().get(0));
+//        logger.log(Level.INFO,"Total sold "+totalSold.getResultList().get(0));
         return totalSold.getResultList().get(0);
     }
 
