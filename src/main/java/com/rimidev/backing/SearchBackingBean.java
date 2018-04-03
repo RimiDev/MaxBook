@@ -105,11 +105,16 @@ public class SearchBackingBean implements Serializable{
 
         if (book.getAuthorList().size() >= 1) {
             for (int i = 0; i < book.getAuthorList().size(); i++) {
+                if (i == 1){
+                    authorNameList.add(" , ");
+                }
                 authorNameList.add(
                         book.getAuthorList().get(i).getFirstName()
                         + " "
-                        + book.getAuthorList().get(i).getLastName());
-
+                        + book.getAuthorList().get(i).getLastName()
+                        );
+                
+                
             }
         }
 

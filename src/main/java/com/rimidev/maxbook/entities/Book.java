@@ -159,8 +159,8 @@ public class Book implements Serializable {
   }
 
   public String getTitle() {
-          if (title != null && title.length()>50){
-            return title.substring(0,50) + "...";
+          if (title != null && title.length()>20){
+            return title.substring(0,20) + "...";
         }
        return title;
   }
