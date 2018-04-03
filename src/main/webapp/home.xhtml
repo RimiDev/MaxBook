@@ -82,9 +82,9 @@
             <b:carousel id="topSelling" style="width:100%">
                 <c:forEach items="#{homeBackingBean.topSellingBooks}" var="books">
                     <b:carouselItem>
-                        <h:commandLink action="#{bookDisplayBacking.showDetails}">   
+                        <h:commandLink action="#{bookDisplayBacking.showDetails(books.isbn)}">   
                             <b:image style="height:35%;width:30%;align-content:center;margin-left:35%;" library="images" name="/books/#{books.isbn}.jpg" tooltip="#{books.genre}"/>
-                            <f:param name="isbn" value="#{books.isbn}"/>   
+                   
                         </h:commandLink> 
                     </b:carouselItem>
                 </c:forEach>
@@ -107,11 +107,11 @@
             <!--Recent sold books carousel --> 
             <div class="carousel-inner" role="listbox" style="">`
                 <b:carousel id="recentSold" style="width:100%;" interval="2000">
-                    <c:forEach items="#{homeBackingBean.recentSoldBooks}" var="books">
+                    <c:forEach items="#{homeBackingBean.recentSoldBooks}" var="book">
                         <b:carouselItem>
-                            <h:commandLink action="#{bookDisplayBacking.showDetails}">   
-                                <b:image style="height:600px;width:30%;align-content:center;margin-left:35%;" library="images" name="/books/#{books.isbn}.jpg" tooltip="#{books.genre}"/>
-                                <f:param name="isbn" value="#{books.isbn}"/>   
+                            <h:commandLink action="#{bookDisplayBacking.showDetails(book.isbn)}">   
+                                <b:image style="height:600px;width:30%;align-content:center;margin-left:35%;" library="images" name="/books/#{book.isbn}.jpg" tooltip="#{books.genre}"/>
+                                 
                             </h:commandLink> 
                         </b:carouselItem>
                     </c:forEach>
