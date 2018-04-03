@@ -5,6 +5,7 @@
  */
 package com.rimidev.maxbook.entities;
 
+import com.rimidev.maxbook.controller.*;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -17,15 +18,19 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author plang
+ * @author maximelacasse
  */
 @Entity
 @Table(name = "ads")
 @NamedQueries({
-    @NamedQuery(name = "Ads.findAll", query = "SELECT a FROM Ads a")})
+    @NamedQuery(name = "Ads.findAll", query = "SELECT a FROM Ads a")
+    , @NamedQuery(name = "Ads.findById", query = "SELECT a FROM Ads a WHERE a.id = :id")
+    , @NamedQuery(name = "Ads.findByImageName", query = "SELECT a FROM Ads a WHERE a.imageName = :imageName")
+    , @NamedQuery(name = "Ads.findByActive", query = "SELECT a FROM Ads a WHERE a.active = :active")})
 public class Ads implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -46,7 +51,7 @@ public class Ads implements Serializable {
     private String siteLink;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 1)
+    @Size(min = 1, max = 255)
     @Column(name = "active")
     private String active;
 
@@ -57,11 +62,9 @@ public class Ads implements Serializable {
         this.id = id;
     }
 
-    public Ads(Integer id, String imageName, String siteLink, String active) {
+    public Ads(Integer id, String imageName) {
         this.id = id;
         this.imageName = imageName;
-        this.siteLink = siteLink;
-        this.active = active;
     }
 
     public Integer getId() {
@@ -79,12 +82,12 @@ public class Ads implements Serializable {
     public void setImageName(String imageName) {
         this.imageName = imageName;
     }
-
-    public String getSiteLink() {
+    
+    public String getSiteLink(){
         return siteLink;
     }
-
-    public void setSiteLink(String siteLink) {
+    
+    public void setSiteLink(String siteLink){
         this.siteLink = siteLink;
     }
 
@@ -95,6 +98,9 @@ public class Ads implements Serializable {
     public void setActive(String active) {
         this.active = active;
     }
+    
+    
+    
 
     @Override
     public int hashCode() {
@@ -118,7 +124,9 @@ public class Ads implements Serializable {
 
     @Override
     public String toString() {
-        return "com.rimidev.maxbook.entities.Ads[ id=" + id + " ]";
+        return "com.rimidev.maxbook.controller.Ads[ id=" + id + " ]";
     }
+
     
 }
+

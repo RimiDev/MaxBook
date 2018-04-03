@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import com.rimidev.maxbook.entities.InvoiceDetails;
 import com.rimidev.maxbook.entities.Review;
+import com.rimidev.prerenderview.PreRenderViewBean;
 import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.HashMap;
@@ -351,10 +352,12 @@ public class BookJpaController implements Serializable {
 
     }
 
-    public Book findBook(String id) {
 
-        return em.find(Book.class, id);
-    }
+  public Book findBook(String id) {
+      
+    Book foundBook = em.find(Book.class, id);
+    return foundBook;
+  }    
 
     public Book findBookByIsbn(String isbn) {
         TypedQuery<Book> query
