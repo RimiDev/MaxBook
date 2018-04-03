@@ -35,50 +35,50 @@
           
 
 
-          <b:tab title="By Genre">
+          <b:tab title="#{msgs.byGenre}">
 
             <div class="add_listing_info">
-              <h2 class="form-title">Search Genre</h2>
+              <h2 class="form-title">#{msgs.byGenre}</h2>
               <br/>
               <div class="form-group">
-                <label class="col-md-4 col-xs-5 control-label" for="Genre">Genre</label>
+                <label class="col-md-4 col-xs-5 control-label" for="Genre">#{msgs.genre}</label>
                 <div class="col-md-5 col-xs-5">
-                  <b:inputText  placeholder="Genre" value="#{searchBackingBean.genre}"
+                  <b:inputText  placeholder="#{msgs.genre}" value="#{searchBackingBean.genre}"
                                 class="form-control input-md"></b:inputText>
                 </div>
               </div>
 
-              <b:commandButton class="btn btn-success" value="Search" action="#{searchBackingBean.getBookByGenre}"/>                                    
+              <b:commandButton class="btn btn-success" value="#{msgs.search}" action="#{searchBackingBean.getBookByGenre}"/>                                    
 
             </div>
 
           </b:tab>
 
-          Search by Author
+          #{msgs.searchByAuthor}
 
-          <b:tab title="By Author" style="">
+          <b:tab title="#{msgs.byAuthor}" >
 
             <div class="add_listing_info">
-              <h2 class="form-title">Search Authors</h2>
+              <h2 class="form-title">#{msgs.searchAuthor}</h2>
               <br/>
               <div class="form-group">
-                <label class="col-md-4 col-xs-4 control-label">First name</label>
+                <label class="col-md-4 col-xs-4 control-label">#{msgs.firstName}</label>
                 <div class="col-md-5 col-xs-6">
-                  <b:inputText  placeholder="First name"  value="#{searchBackingBean.firstName}"
+                  <b:inputText  placeholder="#{msgs.firstName}"  value="#{searchBackingBean.firstName}"
                                 class="form-control input-md"></b:inputText>                         
                 </div>
                 <div class="col-md-2 col-xs-2">
-                  <b:commandButton class="btn btn-success" value="Search" action="#{searchBackingBean.getBookByFirstName}"/>                                    
+                  <b:commandButton class="btn btn-success" value="#{msgs.search}" action="#{searchBackingBean.getBookByFirstName}"/>                                    
                 </div>
 
                 <div class="form-group">
-                  <label class="col-md-4 col-xs-4 control-label" for="LastName">Last name</label>
+                  <label class="col-md-4 col-xs-4 control-label" for="LastName">#{msgs.lastName}</label>
                   <div class="col-md-5 col-xs-6">
-                    <b:inputText  placeholder="Last name" value="#{searchBackingBean.lastName}"
+                    <b:inputText  placeholder="#{msgs.lastName}" value="#{searchBackingBean.lastName}"
                                   class="form-control"></b:inputText>                                                        
                   </div>
                   <div class="col-md-2 col-xs-2">
-                    <b:commandButton class="btn btn-success" value="Search" action="#{searchBackingBean.getBookByLastName}"/>                                    
+                    <b:commandButton class="btn btn-success" value="#{msgs.search}" action="#{searchBackingBean.getBookByLastName}"/>                                    
                   </div>                                       
 
 
@@ -109,7 +109,7 @@
         <b:panel>
 
 
-          <h2 style="text-align:center"> Search results </h2>
+          <h2 style="text-align:center"> #{msgs.searchResults} </h2>
 
 
 
@@ -127,9 +127,8 @@
                 <f:facet name="caption">
                   <h:commandLink action="#{bookDisplayBacking.showDetails(book.isbn)}">
 
-                    <b:image library="images" name="/books/#{book.isbn}.jpg" tooltip="#{book.genre}"/>
+                      <b:image style="width:200px;height:310px;" library="images" name="/books/#{book.isbn}.jpg" tooltip="#{book.genre}"/>
                     <h:outputText value="#{book.title}"/>
-                    <h:outputText value="#{book.isbn}"/>
 
 
                   </h:commandLink>
@@ -141,8 +140,8 @@
                   <h:outputText  value="$#{book.listPrice}"/>
                   <br/>
                   <ui:repeat value="#{searchBackingBean.getFullName(book)}" var="authors">
-                    <h:outputText value="#{authors}"/>
-                    <br/>
+                    <h:outputLabel value="#{authors}"/>
+
                   </ui:repeat>
                 </f:facet>
 
