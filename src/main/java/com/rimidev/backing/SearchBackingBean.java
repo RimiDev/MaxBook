@@ -34,6 +34,8 @@ public class SearchBackingBean implements Serializable{
     private BookJpaController bookJPA;
     @Inject
     private AuthorJpaController authorJPA;
+    @Inject
+    private BookDisplayBacking bookDetailsBacking;
 
     private Logger logger = Logger.getLogger(ClientJpaController.class.getName());
 
@@ -174,9 +176,9 @@ public class SearchBackingBean implements Serializable{
         if (searchedBooks.size() == 1) {
             BookDisplayBacking bkDp = new BookDisplayBacking();
             logger.log(Level.INFO, "List size 1>> Displaying Book " + searchedBooks.get(0).getIsbn());
-
-            
-            bkDp.showDetails(searchedBooks.get(0).getIsbn().toString());
+            bookDetailsBacking.setIsbn(searchedBooks.get(0).getIsbn().toString());
+           return  bookDetailsBacking.showDetails(searchedBooks.get(0).getIsbn().toString());
+           
             
         }
         return "advancedSearch";
