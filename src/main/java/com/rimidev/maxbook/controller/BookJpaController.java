@@ -435,6 +435,23 @@ public class BookJpaController implements Serializable {
         return books;
 
     }
+    
+        public List<Book> getBookByGenreExact(String genre) {
+
+        TypedQuery<Book> query = em.createNamedQuery("Book.findByGenre", Book.class);
+
+        query.setParameter("genre", genre);
+//        query.setParameter("genre", genre);
+
+        List<Book> books = query.getResultList();
+
+        logger.log(Level.INFO, "Genre Books>> " + books);
+
+        return books;
+
+    }
+    
+    
 
     public List<Book> getEmptyList() {
 
