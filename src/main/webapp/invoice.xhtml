@@ -22,7 +22,7 @@
       <b:container>
         <b:row>
           <b:column span="3">
-            <h:graphicImage value="resources/images/citrus.png" height="75"/>
+            <h:graphicImage value="resources/images/citrus_logo.png" height="75"/>
           </b:column>
         </b:row>
         <b:row>
@@ -137,7 +137,7 @@
               <h:outputText value="#{cartBooks.title}"/>
             </b:column>
             <b:column span="2">                           
-              <h:outputText value="$#{cartBooks.salePrice}"/>
+              <h:outputText value="$#{bookJpaController.isOnSale(cartBooks)}"/>
             </b:column>
           </b:row>
         </ui:repeat>
@@ -211,3 +211,4 @@
   </ui:define>
 
 </ui:composition>
+

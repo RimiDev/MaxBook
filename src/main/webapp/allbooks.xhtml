@@ -24,7 +24,7 @@
 <!--                            <f:param name="isbn" value="#{book.isbn}"/>-->
                         </h:commandLink>  
                         <br/>
-                        <h:outputText  value="$#{book.listPrice}"/>
+                        <h:outputText  value="$#{bookJpaController.isOnSale(book)}"/>
                     </b:column>
                 </ui:repeat>
             </b:panel>

@@ -137,7 +137,7 @@
 
 
 
-                  <h:outputText  value="$#{book.listPrice}"/>
+                  <h:outputText  value="$#{bookJpaController.isOnSale(book)}"/>
                   <br/>
                   <ui:repeat value="#{searchBackingBean.getFullName(book)}" var="authors">
                     <h:outputLabel value="#{authors}"/>
