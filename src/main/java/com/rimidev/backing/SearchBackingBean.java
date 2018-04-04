@@ -28,167 +28,159 @@ import javax.inject.Named;
  */
 @Named
 @SessionScoped
-public class SearchBackingBean implements Serializable{
+public class SearchBackingBean implements Serializable {
 
-    @Inject
-    private BookJpaController bookJPA;
-    @Inject
-    private AuthorJpaController authorJPA;
+  @Inject
+  private BookJpaController bookJPA;
+  @Inject
+  private AuthorJpaController authorJPA;
 
-    @Inject
-    private BookDisplayBacking bookDisplayBacking;
+  @Inject
+  private BookDisplayBacking bookDisplayBacking;
 
-    private Logger logger = Logger.getLogger(ClientJpaController.class.getName());
+  private Logger logger = Logger.getLogger(ClientJpaController.class.getName());
 
-    private String title;
-    private String genre;
-    private String firstName;
-    private String lastName;
-    private String fullName;
-    private String searchCriteria;
+  private String title;
+  private String genre;
+  private String firstName;
+  private String lastName;
+  private String fullName;
+  private String searchCriteria;
 
-    public String getSearchCriteria() {
-        return searchCriteria;
+  public String getSearchCriteria() {
+    return searchCriteria;
+  }
+
+  public void setSearchCriteria(String searchCriteria) {
+    this.searchCriteria = searchCriteria;
+  }
+
+  public List<Author> getSearchedAuthors() {
+    return searchedAuthors;
+  }
+
+  public void setSearchedAuthors(List<Author> searchedAuthors) {
+    this.searchedAuthors = searchedAuthors;
+  }
+
+  private List<Book> searchedBooks;
+  private List<Author> searchedAuthors;
+
+  //Queries
+  public List<Book> getBookByTitle() {
+
+    searchedBooks = bookJPA.getBookByTitle(title);
+
+    return searchedBooks;
+  }
+
+  public List<Book> getBookByGenre() {
+
+    searchedBooks = bookJPA.getBookByGenre(genre);
+
+    return searchedBooks;
+  }
+
+  public List<Book> getBookByFirstName() {
+    searchedAuthors = authorJPA.getBookByFirstName(firstName);
+
+    if (searchedAuthors.size() > 0) {
+      searchedBooks = searchedAuthors.get(0).getBookList();
     }
 
-    public void setSearchCriteria(String searchCriteria) {
-        this.searchCriteria = searchCriteria;
+    return searchedBooks;
+  }
+
+  public List<Book> getBookByLastName() {
+    searchedAuthors = authorJPA.getBookByLastName(lastName);
+
+    if (searchedAuthors.size() > 0) {
+      searchedBooks = searchedAuthors.get(0).getBookList();
     }
 
-    public List<Author> getSearchedAuthors() {
-        return searchedAuthors;
-    }
+    return searchedBooks;
+  }
 
-    public void setSearchedAuthors(List<Author> searchedAuthors) {
-        this.searchedAuthors = searchedAuthors;
-    }
+  //Getters & Setters
+  public List<String> getFullName(Book book) {
 
-    private List<Book> searchedBooks;
-    private List<Author> searchedAuthors;
+    List<String> authorNameList = new ArrayList<>();
 
-    //Queries
-    public List<Book> getBookByTitle() {
-
-        searchedBooks = bookJPA.getBookByTitle(title);
-
-        return searchedBooks;
-    }
-
-    public List<Book> getBookByGenre() {
-
-        searchedBooks = bookJPA.getBookByGenre(genre);
-
-        return searchedBooks;
-    }
-
-    public List<Book> getBookByFirstName() {
-        searchedAuthors = authorJPA.getBookByFirstName(firstName);
-
-        if (searchedAuthors.size() > 0) {
-            searchedBooks = searchedAuthors.get(0).getBookList();
+    if (book.getAuthorList().size() >= 1) {
+      for (int i = 0; i < book.getAuthorList().size(); i++) {
+        if (i == 1) {
+          authorNameList.add(" , ");
         }
+        authorNameList.add(
+                book.getAuthorList().get(i).getFirstName()
+                + " "
+                + book.getAuthorList().get(i).getLastName()
+        );
 
-        return searchedBooks;
+      }
     }
 
-    public List<Book> getBookByLastName() {
-        searchedAuthors = authorJPA.getBookByLastName(lastName);
+    return authorNameList;
+  }
 
-        if (searchedAuthors.size() > 0) {
-            searchedBooks = searchedAuthors.get(0).getBookList();
-        }
+  public String getFirstName() {
+    return firstName;
+  }
 
-        return searchedBooks;
+  public void setFirstName(String firstName) {
+    this.firstName = firstName;
+  }
+
+  public String getLastName() {
+    return lastName;
+  }
+
+  public void setLastName(String lastName) {
+    this.lastName = lastName;
+  }
+
+  public String getTitle() {
+    return title;
+  }
+
+  public void setTitle(String title) {
+    this.title = title;
+  }
+
+  public String getGenre() {
+    return genre;
+  }
+
+  public void setGenre(String genre) {
+    this.genre = genre;
+  }
+
+  public List<Author> getsearchedAuthors() {
+    return searchedAuthors;
+  }
+
+  public List<Book> getSearchedBooks() {
+    if (searchedBooks == null) {
+      searchedBooks = bookJPA.getBookByTitle("");
     }
 
-    //Getters & Setters
-    public List<String> getFullName(Book book) {
+    return searchedBooks;
+  }
 
-        List<String> authorNameList = new ArrayList<>();
+  public void setSearchedBooks(List<Book> searchedBooks) {
+    this.searchedBooks = searchedBooks;
+  }
 
-        if (book.getAuthorList().size() >= 1) {
-            for (int i = 0; i < book.getAuthorList().size(); i++) {
-                if (i == 1){
-                    authorNameList.add(" , ");
-                }
-                authorNameList.add(
-                        book.getAuthorList().get(i).getFirstName()
-                        + " "
-                        + book.getAuthorList().get(i).getLastName()
-                        );
-                
-                
-            }
-        }
+  public String searchBooks() {
+    searchedBooks = new ArrayList<>(bookJPA.searchBooks(searchCriteria));
+    logger.log(Level.INFO, "Books by search criteria (search Backing)>> " + searchedBooks.size());
+    if (searchedBooks.size() == 1) {
+      //bookDisplayBacking.setIsbn(searchedBooks.get(0).getIsbn())
+      logger.log(Level.INFO, "List size 1>> Displaying Book " + searchedBooks.get(0).getIsbn());
+      return bookDisplayBacking.showDetails(searchedBooks.get(0).getIsbn());
 
-        return authorNameList;
     }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getGenre() {
-        return genre;
-    }
-
-    public void setGenre(String genre) {
-        this.genre = genre;
-    }
-
-
-    
-    
-
-    public List<Author> getsearchedAuthors() {
-        return searchedAuthors;
-    }
-
-    public List<Book> getSearchedBooks() {
-        if (searchedBooks == null) {
-            searchedBooks = bookJPA.getBookByTitle("");
-        }
-        
-        return searchedBooks;
-    }
-
-    public void setSearchedBooks(List<Book> searchedBooks) {
-        this.searchedBooks = searchedBooks;
-    }
-
-    public String searchBooks() {
-        searchedBooks = new ArrayList<>(bookJPA.searchBooks(searchCriteria));
-        logger.log(Level.INFO, "Books by search criteria (search Backing)>> " + searchedBooks.size());
-        if (searchedBooks.size() == 1) {
-            //bookDisplayBacking.setIsbn(searchedBooks.get(0).getIsbn())
-            bookDisplayBacking.showDetails(searchedBooks.get(0).getIsbn());
-            logger.log(Level.INFO, "List size 1>> Displaying Book " + searchedBooks.get(0).getIsbn());
-
-            
-            
-            
-        }
-        return "advancedSearch";
-    }
+    return "advancedSearch";
+  }
 
 }
