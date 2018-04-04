@@ -67,8 +67,9 @@ public class PreRenderViewBean implements Serializable {
             genre = ((Cookie) my_cookie).getValue();
             LOG.info(((Cookie) my_cookie).getName());
             LOG.info(((Cookie) my_cookie).getValue());
+             genre = ((Cookie) my_cookie).getValue();
         }
-        genre = ((Cookie) my_cookie).getValue();
+       
 //        writeCookie(b);
     }
 
