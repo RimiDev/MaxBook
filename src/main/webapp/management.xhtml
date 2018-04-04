@@ -148,7 +148,7 @@
                             </p:contextMenu>
 
 
-                            <p:dialog header="#{msgs.newBook}" widgetVar="newBookPanel">
+<!--                            <p:dialog id="newBookDialogId" header="#{msgs.newBook}" widgetVar="newBookPanel">
                                 <p:ajax event="close" resetValues="true" listener="#{managementBacking.handleDialogClose}" />
                                 <h:form id="newBookForm">
                                     <p:panelGrid columns="2" layout="grid">            
@@ -190,14 +190,15 @@
                                         <p:commandButton type="submit" ajax="true" value="#{msgs.add}" update="" action="#{managementBacking.addBook()}" />
                                     </p:panelGrid>
                                 </h:form>
-                            </p:dialog>
+                            </p:dialog>-->
 
 
-                            <p:dialog header="#{msgs.bkInfo}" widgetVar="bookDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                            <p:dialog id="changePhotoDialogId" header="#{msgs.bkInfo}" widgetVar="bookDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="true">
                                 <p:outputPanel id="bookDetail" style="text-align:center;">
                                     <p:panelGrid  columns="2" rendered="#{not empty managementBacking.selectedBook}" >
                                         <f:facet name="header">
-                                            <h:graphicImage value="resources/images/books/#{managementBacking.selectedBook.isbn}.jpg"/> 
+                                            <b:image style="width:200px;height:310px;" library="images" 
+                                                     name="/books/#{managementBacking.selectedBook.isbn}.jpg" tooltip="#{book.genre}"/>
                                         </f:facet>
 
                                         <h:outputText value="Isbn:" />
@@ -208,7 +209,11 @@
                                         <h:form enctype="multipart/form-data"  prependId="false">
                                             <h:outputText value="File: "></h:outputText>
                                             <h:inputFile value="#{uploadPage.uploadedFile}"  />
-                                            <h:commandButton value="Save" type="submit" action="#{uploadPage.saveFile}" style="color: red;"></h:commandButton>
+                                            <h:commandButton value="Save" type="submit" 
+                                                             action="#{uploadPage.saveFile(managementBacking.selectedBook.isbn)}" 
+                                                             style="color: red;">
+                                            </h:commandButton>
+                                                             
                                         </h:form>
                                     </p:panelGrid>
                                 </p:outputPanel>

@@ -25,6 +25,7 @@ import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.logging.Logger;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.ExternalContext;
@@ -41,6 +42,7 @@ public class UploadPage implements Serializable {
 
   private Part uploadedFile;
   private String folder = "c:\\files";
+  private static final Logger LOG = Logger.getLogger("UploadPage.class");
 
   public Part getUploadedFile() {
     return uploadedFile;
@@ -50,17 +52,24 @@ public class UploadPage implements Serializable {
     this.uploadedFile = uploadedFile;
   }
 
-  public void saveFile() {
+  public void saveFile(String isbn) {
+
+    LOG.info("ISBN: SAVE FILES: " + isbn);
 
     try (InputStream input = uploadedFile.getInputStream()) {
       ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
 
       folder = ec.getRealPath("/");
-      
-      Files.copy(input, new File(folder, "978-0060256654" + ".jpg").toPath());
+      folder += "resources\\images\\books\\";
+      LOG.info("FOLDER: " + folder);
+      Path path = Paths.get(folder + isbn + ".jpg");
+      Files.deleteIfExists(path);
+      Files.copy(input, new File(folder, isbn + ".jpg").toPath());
     } catch (IOException e) {
       e.printStackTrace();
+      LOG.info("WTF");
     }
   }
 
 }
+
