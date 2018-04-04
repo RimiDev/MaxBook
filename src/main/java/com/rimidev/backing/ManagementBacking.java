@@ -48,8 +48,11 @@ import org.primefaces.event.CloseEvent;
 import org.primefaces.event.RowEditEvent;
 
 /**
+ * Backing Bean for the management section to help manage data.
  *
  * @author Rhai Hinds
+ * @author Eric Hughes
+ * @author Philippe Langlois-Pedroso
  */
 @Named
 @SessionScoped
@@ -155,12 +158,6 @@ public class ManagementBacking implements Serializable {
         this.rev = rev;
     }
 
-//  public void onRowAdd(RowEditEvent event) throws Exception {
-//    Book newBook = (Book) event.getObject();
-//    bkcon.create(newBook);
-//    FacesMessage msg = new FacesMessage("new Book");
-//    FacesContext.getCurrentInstance().addMessage(null, msg);
-//  }
     public void onRowEdit(RowEditEvent event) throws Exception {
         context = FacesContext.getCurrentInstance();
         bundle = context.getApplication().getResourceBundle(context, "msgs");
@@ -301,6 +298,7 @@ public class ManagementBacking implements Serializable {
         return revStatuses;
     }
 
+
     public List<Invoice> getInv() {
         return inv;
     }
@@ -315,6 +313,11 @@ public class ManagementBacking implements Serializable {
 
     public void setSelectedBook(Book selected) {
         this.selectedBook = selected;
+    }
+
+    public void deleteItem() throws Exception {
+        bkcon.destroy(((Book) selectedBook).getIsbn());
+        selectedBook = null;
     }
 
     public List<Publisher> getPubs() {
@@ -333,11 +336,6 @@ public class ManagementBacking implements Serializable {
         this.newBook = newBook;
     }
 
-    public void deleteItem() throws Exception {
-        bkcon.destroy(((Book) selectedBook).getIsbn());
-        selectedBook = null;
-    }
-
     public String checkStat(Integer stat) {
         if (stat.equals(1)) {
             return bundle.getString("avail");
@@ -350,7 +348,6 @@ public class ManagementBacking implements Serializable {
      * client management
      */
     private void editClient(Client c) throws Exception {
-
         clientJpaController.edit(c);
     }
 

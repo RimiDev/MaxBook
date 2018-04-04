@@ -105,11 +105,16 @@ public class SearchBackingBean implements Serializable{
 
         if (book.getAuthorList().size() >= 1) {
             for (int i = 0; i < book.getAuthorList().size(); i++) {
+                if (i == 1){
+                    authorNameList.add(" , ");
+                }
                 authorNameList.add(
                         book.getAuthorList().get(i).getFirstName()
                         + " "
-                        + book.getAuthorList().get(i).getLastName());
-
+                        + book.getAuthorList().get(i).getLastName()
+                        );
+                
+                
             }
         }
 
@@ -170,13 +175,14 @@ public class SearchBackingBean implements Serializable{
 
     public String searchBooks() {
         searchedBooks = new ArrayList<>(bookJPA.searchBooks(searchCriteria));
-        logger.log(Level.INFO, "Books by search criteria (search Backing)>> " + searchedBooks);
+        logger.log(Level.INFO, "Books by search criteria (search Backing)>> " + searchedBooks.size());
         if (searchedBooks.size() == 1) {
             BookDisplayBacking bkDp = new BookDisplayBacking();
             logger.log(Level.INFO, "List size 1>> Displaying Book " + searchedBooks.get(0).getIsbn());
 
             
-            bkDp.showDetails(searchedBooks.get(0).getIsbn());
+            bkDp.showDetails(searchedBooks.get(0).getIsbn().toString());
+            
         }
         return "advancedSearch";
     }

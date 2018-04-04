@@ -17,6 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 import com.rimidev.maxbook.entities.InvoiceDetails;
 import com.rimidev.maxbook.entities.Review;
+import com.rimidev.prerenderview.PreRenderViewBean;
+import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.logging.Level;
@@ -350,10 +352,12 @@ public class BookJpaController implements Serializable {
 
     }
 
-    public Book findBook(String id) {
 
-        return em.find(Book.class, id);
-    }
+  public Book findBook(String id) {
+      
+    Book foundBook = em.find(Book.class, id);
+    return foundBook;
+  }    
 
     public Book findBookByIsbn(String isbn) {
         TypedQuery<Book> query
@@ -431,6 +435,23 @@ public class BookJpaController implements Serializable {
         return books;
 
     }
+    
+        public List<Book> getBookByGenreExact(String genre) {
+
+        TypedQuery<Book> query = em.createNamedQuery("Book.findByGenre", Book.class);
+
+        query.setParameter("genre", genre);
+//        query.setParameter("genre", genre);
+
+        List<Book> books = query.getResultList();
+
+        logger.log(Level.INFO, "Genre Books>> " + books);
+
+        return books;
+
+    }
+    
+    
 
     public List<Book> getEmptyList() {
 
@@ -489,6 +510,28 @@ public class BookJpaController implements Serializable {
         }
 //        logger.log(Level.INFO,"Total sold "+totalSold.getResultList().get(0));
         return totalSold.getResultList().get(0);
+    }
+    
+    public BigDecimal isOnSale(Book book){
+      if(book.getSalePrice().doubleValue() < 0.01){
+          return book.getListPrice();
+      }else{
+        return book.getSalePrice();
+      }
+    }
+    
+    public List<Book> getBooksInStock(){
+        TypedQuery<Book> stock = em.createNamedQuery("Book.findByRemovalStatus", Book.class);
+        stock.setParameter("removalStatus", '0');
+        return stock.getResultList();
+    }
+    
+    public List<Author> getAuthors(String isbn) {
+        TypedQuery<Author> query = 
+                em.createQuery("SELECT a FROM Book b JOIN b.authorList a where b.isbn = :isbn", Author.class);
+        List<Author> list = query.getResultList();
+        return list;
+
     }
 
 }

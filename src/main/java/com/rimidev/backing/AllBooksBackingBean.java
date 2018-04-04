@@ -13,9 +13,11 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 /**
- *
+ * Backing Bean for the all books page to help manage data.
+ * 
  * @author Philippe Langlois-Pedroso, 1542705
  */
+
 @Named("allBooks")
 @ApplicationScoped
 public class AllBooksBackingBean implements Serializable {

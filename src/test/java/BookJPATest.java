@@ -3,12 +3,10 @@
  */
 
 
-import com.rimidev.backing.AllAuthorsForBook;
 import com.rimidev.maxbook.controller.AuthorJpaController;
 
 import com.rimidev.maxbook.controller.exceptions.RollbackFailureException;
 import com.rimidev.maxbook.entities.Author;
-import com.rimidev.backing.AllAuthorsForBook;
 import com.rimidev.maxbook.controller.InvoiceDetailsJpaController;
 import com.rimidev.maxbook.entities.InvoiceDetails;
 import org.jboss.arquillian.container.test.api.Deployment;

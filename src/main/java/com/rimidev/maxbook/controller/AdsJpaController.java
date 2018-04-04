@@ -180,4 +180,12 @@ public class AdsJpaController implements Serializable {
             return back.subList((back.size() / 2), back.size());
         }
         
+        public Ads getAd(int active){
+            
+            TypedQuery<Ads> query = em.createNamedQuery("Ads.findByActive", Ads.class);
+            query.setParameter("active", active + "");
+            
+            return query.getSingleResult();
+        }
+        
 }

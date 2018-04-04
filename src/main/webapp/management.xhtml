@@ -14,19 +14,7 @@
 
     <ui:define name="content">
         <h1>Test  panel</h1>
-        <!--
-                <h:form> 
-                    <p:growl id="growl" showDetail="true" sticky="true" />  
-        
-                    <p:panel header="Growl">  
-                        <h:panelGrid columns="2" cellpadding="5">  
-                            <p:outputLabel for="msg" value="Message:" />   
-                            <p:inputText id="msg" value="#{managementBacking.message}" required="true" />  
-                        </h:panelGrid>  
-        
-                        <p:commandButton value="Save" actionListener="#{managementBacking.saveMessage}" update="growl" />  
-                    </p:panel> 
-                </h:form>-->
+
         <p:growl id="bkGrowl" showDetail="true"/> 
 
         <b:tabView contentStyle="border-right: 1px solid #ddd;border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding:10px">
@@ -692,89 +680,396 @@
                     <h:form>
                         <span>From</span> 
                         <p:calendar value="#{reportsBackingBean.fromDate}" pattern="MM/dd/yyyy HH:mm:ss">
-                            <p:ajax event="dateSelect" listener="#{reportsBackingBean.checkDateRange}" update="bkGrowl"/>
+                      <p:ajax event="dateSelect" listener="#{reportsBackingBean.updateTotalInvoicesTable}" update="totalInvoicesTable"  
+                              />
                         </p:calendar>
 
                         <span>To</span> 
                         <p:calendar value="#{reportsBackingBean.toDate}" pattern="MM/dd/yyyy HH:mm:ss">
-                            <p:ajax event="dateSelect" listener="#{reportsBackingBean.checkDateRange}" update="bkGrowl"/>
+                      <p:ajax event="dateSelect" listener="#{reportsBackingBean.updateTotalInvoicesTable}"  update="totalInvoicesTable" 
+                              />
                         </p:calendar>
+                  </f:facet>
+                  <p:column headerText="Date Of Sale" sortBy="#{sale.dateOfSale}">
+                    <h:outputText value="#{sale.dateOfSale}"/>
+                  </p:column>
+                  <p:column headerText="Invoice #">
+                    <h:outputText value="#{sale.id}"/>
+                  </p:column>
+                  <p:column headerText="Gross Value">
 
-                        <span>Total sales for all items : #{reportsBackingBea.totalSales}</span>
-                        <p:dataTable id="totalSalesTable" var="invDetail" value="#{reportsBackingBean.totalSalesList}" editable="true" style="margin-bottom:20px">
+                    <h:outputText value="#{sale.grossValue}"/>
+
+                  </p:column>
+                  <p:column headerText="Net Value">
+
+                    <h:outputText value="#{sale.netValue}"/>
+
+                  </p:column>
+                </p:dataTable>
+              </b:tab>
+              <b:tab title="Total Invoice Detail Sales" class="">
+                <p:dataTable id="totalInvoiceDetailsTable" var="sale" 
+                             value="#{reportsBackingBean.getTotalInvoiceDetailSales()}" editable="true" style="margin-bottom:20px">
                             <f:facet name="header">
-                                <h:outputText value="Invoice ##{invoice.id}"/>
+                    <span>From</span> 
+                    <p:calendar value="#{reportsBackingBean.fromDate}" pattern="MM/dd/yyyy HH:mm:ss">
+                      <p:ajax event="dateSelect" listener="#{reportsBackingBean.updateTotalInvoiceDetailsTable}" update="totalInvoiceDetailsTable"  
+                              />
+                    </p:calendar>
+
+                    <span>To</span> 
+                    <p:calendar value="#{reportsBackingBean.toDate}" pattern="MM/dd/yyyy HH:mm:ss">
+                      <p:ajax event="dateSelect" listener="#{reportsBackingBean.updateTotalInvoiceDetailsTable}"  update="totalInvoiceDetailsTable" 
+                              />
+                    </p:calendar>
                             </f:facet>
 
                             <p:ajax event="rowEdit" listener="#{managementBacking.onRowEdit}" update="bkGrowl" />
                             <p:ajax event="rowEditCancel" listener="#{managementBacking.onRowCancel}" update="bkGrowl" />
 
-                            <p:column headerText="Item #">
-                                <h:outputText value="#{invDetail.invoiceId.dateOfSale}"/>
+
+                  <p:column headerText="Date of Purchase"  sortBy="#{sale.invoiceId.dateOfSale}">
+                    <h:outputText value="#{sale.invoiceId.dateOfSale}"/>
                             </p:column>
-                            <p:column headerText="Invoice #">
-                                <h:outputText value="#{invDetail.invoiceId.id}"/>
+                  <p:column headerText="Invoice Detail ID">
+                    <h:outputText value="#{sale.id}"/>
                             </p:column>
                             <p:column headerText="Isbn">
-                                <p:cellEditor>
-                                    <f:facet name="output"><h:outputText value="#{invDetail.isbn.isbn}"/></f:facet>
-                                    <f:facet name="input"><p:inputText id="modelInputInvIsbn" value="#{invDetail.isbn.isbn}" style="width:100%"/></f:facet>
-                                </p:cellEditor>
+
+                    <h:outputText value="#{sale.isbn.isbn}"/>
+
+
                             </p:column>
                             <p:column headerText="Book Price">
-                                <p:cellEditor>
-                                    <f:facet name="output"><h:outputText value="#{invDetail.bookPrice}"/></f:facet>
-                                    <f:facet name="input"><p:inputText id="modelInputBkPrice" value="#{invDetail.bookPrice}" style="width:100%"/></f:facet>
-                                </p:cellEditor>
+
+                    <h:outputText value="#{sale.bookPrice}"/>
+
+
                             </p:column>
 
+                  <p:column headerText="Total Sold">
+
+                    <h:outputText value="#{reportsBackingBean.getCountOfISBNSold(sale.isbn.isbn)}"/>
 
 
+                  </p:column>
                         </p:dataTable>
+
+              </b:tab>
+            </b:tabView>
                     </h:form>
                 </p:panel>
 
                 <p:panel id="salesByClientPanel" header="Sales by Client Report" toggleable="true" toggleOrientation="vertical" collapsed="true">
 
+        <p:panel id="SalesByClientReport" header="Sales By Client Report" toggleable="true" toggleOrientation="vertical" collapsed="false">
+
+
                     <h:form>
                         <p:dataTable id="salesByClientDataTable" var="client" value="#{managementBacking.clients}" editable="true" style="margin-bottom:20px" >
 
+
+<!--            <span>Total Sales by clients : #{reportsBackingBean.get()}</span>-->
+            <b:tabView contentStyle="border-right: 1px solid #ddd;border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding:10px">
+              <b:tab title="Total Inboices by Client" class="">
+                <p:dataTable id="totalSalesByClientTable" var="sale" 
+                             value="#{reportsBackingBean.getTotalInvoicesByClient()}" editable="true" style="margin-bottom:20px">
+
+                  <f:facet name="header">
+                    <span>From</span> 
+                    <p:calendar value="#{reportsBackingBean.fromDate}" pattern="MM/dd/yyyy HH:mm:ss">
+                      <p:ajax event="dateSelect" listener="#{reportsBackingBean.updateTotalSalesByClientTable}" update="totalSalesByClientTable"  
+                              />
+                    </p:calendar>
+                    <!--<-->
+                    <span>To</span> 
+                    <p:calendar value="#{reportsBackingBean.toDate}" pattern="MM/dd/yyyy HH:mm:ss">
+                      <p:ajax event="dateSelect" listener="#{reportsBackingBean.updateTotalSalesByClientTable}"  update="totalSalesByClientTable" 
+                              />
+                    </p:calendar>
+                  </f:facet>
+                  <p:column headerText="Date Of Sale" sortBy="#{sale.dateOfSale}">
+                    <h:outputText value="#{sale.dateOfSale}"/>
+                  </p:column>
+                  <p:column headerText="Invoice #">
+                    <h:outputText value="#{sale.id}"/>
+                  </p:column>
+                  <p:column headerText="Gross Value">
+
+                    <h:outputText value="#{sale.grossValue}"/>
+
+                  </p:column>
+                  <p:column headerText="Net Value">
+
+                    <h:outputText value="#{sale.netValue}"/>
+
+                  </p:column>
+                  <p:column headerText="Client email">
+
+                    <h:outputText value="#{sale.clientId.email}"/>
+
+                  </p:column>
+                  <p:column headerText="Client first name">
+
+                    <h:outputText value="#{sale.clientId.firstName}"/>
+
+                  </p:column>
+                  <p:column headerText="Client first name">
+
+                    <h:outputText value="#{sale.clientId.lastName}"/>
+
+                  </p:column>
                         </p:dataTable>
+              </b:tab>
+              <b:tab title="Total Invoice Detail Sales By Client" class="">
+                <p:dataTable id="totalInvoiceDetailsByClientTable" var="sale" 
+                             value="#{reportsBackingBean.getTotalInvoiceDetailsByClient()}" editable="true" style="margin-bottom:20px">
+                  <f:facet name="header">
+                    <span>From</span> 
+                    <p:calendar value="#{reportsBackingBean.fromDate}" pattern="MM/dd/yyyy HH:mm:ss">
+                      <p:ajax event="dateSelect" listener="#{reportsBackingBean.updateTotalSalesDetailsTable}" update="totalInvoiceDetailsByClientTable"  
+                              />
+                    </p:calendar>
+
+                    <span>To</span> 
+                    <p:calendar value="#{reportsBackingBean.toDate}" pattern="MM/dd/yyyy HH:mm:ss">
+                      <p:ajax event="dateSelect" listener="#{reportsBackingBean.updateTotalSalesDetailsTable}"  update="totalInvoiceDetailsByClientTable" 
+                              />
+                    </p:calendar>
+                  </f:facet>
+
+                  <p:column headerText="Date Of Sale" sortBy="#{sale.dateOfSale}">
+                    <h:outputText value="#{sale.invoiceId.dateOfSale}"/>
+                  </p:column>
+                  <p:column headerText="Invoice #">
+                    <h:outputText value="#{sale.id}"/>
+                  </p:column>
+                  <p:column headerText="Book Price">
+
+                    <h:outputText value="#{sale.bookPrice}"/>
+
+                  </p:column>
+                  <p:column headerText="Client email" filterBy="#{sale.invoiceId.clientId.email}" filterMatchMode="contains">
+
+                    <h:outputText value="#{sale.invoiceId.clientId.email}"/>
+
+                  </p:column>
+                  <p:column headerText="Client first name" filterBy="#{sale.invoiceId.clientId.firstName}" filterMatchMode="contains">
+
+                    <h:outputText value="#{sale.invoiceId.clientId.firstName}"/>
+
+                  </p:column >
+                  <p:column headerText="Client last name" filterBy="#{sale.invoiceId.clientId.lastName}" filterMatchMode="contains">
+
+                    <h:outputText value="#{sale.invoiceId.clientId.lastName}"/>
+
+                  </p:column>
+
+
+                        </p:dataTable>
+
+              </b:tab>
+            </b:tabView>
                     </h:form>
                 </p:panel>
 
-                <p:panel id="salesByPublisherPanel" header="Sales by Publisher Report" toggleable="true" toggleOrientation="vertical" collapsed="true">
-
+        <p:panel id="SalesByAuthorReport" header="Sales By Author Report" toggleable="true" toggleOrientation="vertical" collapsed="false">
                     <h:form>
-                        <p:dataTable id="salesByPublisherDataTable" var="client" value="#{managementBacking.clients}" editable="true" style="margin-bottom:20px" >
+            <!--sales by author<-->
+<!--            <span>Total Sales by clients : #{reportsBackingBean.get()}</span>-->
+            <b:tabView contentStyle="border-right: 1px solid #ddd;border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding:10px">
+              <b:tab title="Total Sales by Author" class="">
+                <p:dataTable id="totalSalesByAuthorTable" var="sale" 
+                             value="#{reportsBackingBean.getTotalInvoicesByClient()}" editable="true" style="margin-bottom:20px">
+
+                  <f:facet name="header">
+                    <span>From</span> 
+                    <p:calendar value="#{reportsBackingBean.fromDate}" pattern="MM/dd/yyyy HH:mm:ss">
+                      <p:ajax event="dateSelect" listener="#{reportsBackingBean.updateTotalSalesByClientTable}" update="totalSalesByAuthorTable"  
+                              />
+                    </p:calendar>
+
+                    <span>To</span> 
+                    <p:calendar value="#{reportsBackingBean.toDate}" pattern="MM/dd/yyyy HH:mm:ss">
+                      <p:ajax event="dateSelect" listener="#{reportsBackingBean.updateTotalSalesByClientTable}"  update="totalSalesByAuthorTable" 
+                              />
+                    </p:calendar>
+                  </f:facet>
+                  <p:column headerText="Date Of Sale">
+                    <h:outputText value="#{sale.dateOfSale}"/>
+                  </p:column>
+                  <p:column headerText="Invoice #">
+                    <h:outputText value="#{sale.id}"/>
+                  </p:column>
+                  <p:column headerText="Gross Value">
+
+                    <h:outputText value="#{sale.grossValue}"/>
+
+                  </p:column>
+                  <p:column headerText="Net Value">
+
+                    <h:outputText value="#{sale.netValue}"/>
+
+                  </p:column>
 
                         </p:dataTable>
-                    </h:form>
-                </p:panel>
+              </b:tab>
+              <b:tab title="Total Invoice Details by Author" class="">
+                <p:dataTable id="totalInvoiceDetailsByAuthorTable" var="sale" 
+                             value="#{reportsBackingBean.getTotalInvoiceDetailsByAuthor()}" editable="true" style="margin-bottom:20px">
+                  <f:facet name="header">
+                    <span>From</span> 
+                    <p:calendar value="#{reportsBackingBean.fromDate}" pattern="MM/dd/yyyy HH:mm:ss">
+                      <p:ajax event="dateSelect" listener="#{reportsBackingBean.updateTotalSalesDetailsTable}" update="totalInvoiceDetailsByAuthorTable"  
+                              />
+                    </p:calendar>
 
-                <p:panel id="topSellersPanel" header="Top Sellers Report" toggleable="true" toggleOrientation="vertical" collapsed="true">
+                    <span>To</span> 
+                    <p:calendar value="#{reportsBackingBean.toDate}" pattern="MM/dd/yyyy HH:mm:ss">
+                      <p:ajax event="dateSelect" listener="#{reportsBackingBean.updateTotalSalesDetailsTable}"  update="totalInvoiceDetailsByAuthorTable" 
+                              />
+                    </p:calendar>
+                  </f:facet>
 
-                    <h:form>
-                        <p:dataTable id="topSellersDataTable" var="client" value="#{managementBacking.clients}" editable="true" style="margin-bottom:20px" >
+                  <p:column headerText="Date Of Sale"  filterBy="#{sale[0].dateOfSale}" filterMatchMode="contains">
+                    <h:outputText value="#{sale[0].dateOfSale}"/>
+                  </p:column>
+                  <p:column headerText="Invoice #">
+                    <h:outputText value="#{sale[0].id}"/>
+                  </p:column>
+                  <p:column headerText="Gross Value">
 
-                        </p:dataTable>
+                    <h:outputText value="#{sale[1].invoiceId.grossValue}"/>
+
+                  </p:column>
+                  <p:column headerText="Net Value">
+
+                    <h:outputText value="#{sale[1].invoiceId.netValue}"/>
+
+                  </p:column>
+
+                  <p:column headerText="Author first name" filterBy="#{author.firstName}" filterMatchMode="contains">
+
+                    <ui:repeat value="#{sale[1].isbn.authorList}" var="author" >
+                      <h:outputText value="#{author.firstName}"/>
+
+                    </ui:repeat>
+                  </p:column>
+
+                  <p:column headerText="Author Last Name" filterBy="#{author.lastName}" filterMatchMode="contains">
+
+                    <ui:repeat value="#{sale[1].isbn.authorList}" var="author" >
+                      <h:outputText value="#{author.lastName}"/>
+
+                    </ui:repeat>
+                  </p:column>
+                </p:dataTable>
+
+              </b:tab>
+            </b:tabView>
                     </h:form>
                 </p:panel>
 
                 <p:panel id="topClientsPanel" header="Top Clients Report" toggleable="true" toggleOrientation="vertical" collapsed="true">
 
+        <p:panel id="SalesByPublisherReport" header="SalesByPublisherReport" toggleable="true" toggleOrientation="vertical" collapsed="false">
                     <h:form>
-                        <p:dataTable id="topClientsDataTable" var="client" value="#{managementBacking.clients}" editable="true" style="margin-bottom:20px" >
+            <!--sales by publisher<-->
+            <b:tabView contentStyle="border-right: 1px solid #ddd;border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding:10px">
+              <b:tab title="Total Sales by Publisher" class="">
+                <p:dataTable id="totalSalesByPublisherTable" var="sale" 
+                             value="#{reportsBackingBean.getTotalInvoicesByClient()}" editable="true" style="margin-bottom:20px">
+
+                  <f:facet name="header">
+                    <span>From</span> 
+                    <p:calendar value="#{reportsBackingBean.fromDate}" pattern="MM/dd/yyyy HH:mm:ss">
+                      <p:ajax event="dateSelect" listener="#{reportsBackingBean.updateTotalSalesByClientTable}" update="totalSalesByPublisherTable"  
+                              />
+                    </p:calendar>
+
+                    <span>To</span> 
+                    <p:calendar value="#{reportsBackingBean.toDate}" pattern="MM/dd/yyyy HH:mm:ss">
+                      <p:ajax event="dateSelect" listener="#{reportsBackingBean.updateTotalSalesByClientTable}"  update="totalSalesByPublisherTable" 
+                              />
+                    </p:calendar>
+                  </f:facet>
+                  <p:column headerText="Date Of Sale" sortBy="#{sale.dateOfSale}">
+                    <h:outputText value="#{sale.dateOfSale}"/>
+                  </p:column>
+                  <p:column headerText="Invoice #">
+                    <h:outputText value="#{sale.id}"/>
+                  </p:column>
+                  <p:column headerText="Gross Value">
+
+                    <h:outputText value="#{sale.grossValue}"/>
+
+                  </p:column>
+                  <p:column headerText="Net Value">
+
+                    <h:outputText value="#{sale.netValue}"/>
+
+                  </p:column>
 
                         </p:dataTable>
+              </b:tab>
+              <b:tab title="Total Invoice Details by Publisher" class="">
+                <p:dataTable id="totalInvoiceDetailsByPublisherTable" var="sale" 
+                             value="#{reportsBackingBean.getTotalInvoiceDetailsByClient()}" editable="true" style="margin-bottom:20px">
+                  <f:facet name="header">
+                    <span>From</span> 
+                    <p:calendar value="#{reportsBackingBean.fromDate}" pattern="MM/dd/yyyy HH:mm:ss">
+                      <p:ajax event="dateSelect" listener="#{reportsBackingBean.updateTotalSalesDetailsTable}" update="totalInvoiceDetailsByPublisherTable"  
+                              />
+                    </p:calendar>
+
+                    <span>To</span> 
+                    <p:calendar value="#{reportsBackingBean.toDate}" pattern="MM/dd/yyyy HH:mm:ss">
+                      <p:ajax event="dateSelect" listener="#{reportsBackingBean.updateTotalSalesDetailsTable}"  update="totalInvoiceDetailsByPublisherTable" 
+                              />
+                    </p:calendar>
+                  </f:facet>
+
+                  <p:column headerText="Date Of Sale" sortBy="#{sale.dateOfSale}">
+                    <h:outputText value="#{sale.invoiceId.dateOfSale}"/>
+                  </p:column>
+                  <p:column headerText="Invoice #">
+                    <h:outputText value="#{sale.id}"/>
+                  </p:column>
+
+                  <p:column headerText="Publisher">
+
+                    <h:outputText value="#{sale.isbn.publisherId.name}"/>
+
+                  </p:column>
+
+                </p:dataTable>
+
+               
+
+              </b:tab>
+            </b:tabView>
                     </h:form>
                 </p:panel>
 
+         <!--Zero Sales Report-->
                 <p:panel id="zeroSalesPanel" header="Zero Sales Report" toggleable="true" toggleOrientation="vertical" collapsed="true">
 
                     <h:form>
-                        <p:dataTable id="zeroSalesDataTable" var="client" value="#{managementBacking.clients}" editable="true" style="margin-bottom:20px" >
-
+                    <span>From</span> 
+                    <p:calendar value="#{reportsBackingBean.fromDate}" pattern="MM/dd/yyyy HH:mm:ss">
+                      <p:ajax event="dateSelect" listener="#{reportsBackingBean.setFromDate(reportsBackingBean.fromDate)}"/>
+                    </p:calendar>
+                    <span>To</span> 
+                    <p:calendar value="#{reportsBackingBean.toDate}" pattern="MM/dd/yyyy HH:mm:ss">
+                      <p:ajax event="dateSelect" listener="#{reportsBackingBean.setToDate(reportsBackingBean.toDate)}"/>
+                    </p:calendar>
+                    <p:dataTable id="zeroSalesDataTable" var="book" value="#{reportsBackingBean.getZeroSales()}" 
+                                 editable="false" style="margin-bottom:20px" 
+                                 emptyMessage="#{msgs.notFound}" filteredValue="#{reportsBackingBean.filteredBooks}">
+                      <p:column>
+                        <h:outputText value="#{book.isbn}"/>
+                      </p:column>
                         </p:dataTable>
                     </h:form>
                 </p:panel>
@@ -782,8 +1077,10 @@
                 <p:panel id="stockReportPanel" header="Stock Report" toggleable="true" toggleOrientation="vertical" collapsed="true">
 
                     <h:form>
-                        <p:dataTable id="stockReportDataTable" var="client" value="#{managementBacking.clients}" editable="true" style="margin-bottom:20px" >
-
+                    <p:dataTable id="stockReportDataTable" var="book" value="#{bookJpaController.getBooksInStock()}" editable="false" style="margin-bottom:20px" >
+                      <p:column>
+                        <h:outputText value="#{book.isbn}"/>
+                      </p:column>
                         </p:dataTable>
                     </h:form>
                 </p:panel>
@@ -791,16 +1088,6 @@
 
             </b:tab>
         </b:tabView>
-
-
-
-
-
-
-
-
-
-
 
     </ui:define>
 </ui:composition>

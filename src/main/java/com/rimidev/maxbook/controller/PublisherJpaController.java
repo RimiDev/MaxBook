@@ -16,13 +16,17 @@ import javax.persistence.criteria.Root;
 import com.rimidev.maxbook.entities.Book;
 import com.rimidev.maxbook.entities.Publisher;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
 import javax.annotation.Resource;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import javax.transaction.UserTransaction;
 
 /**
@@ -200,4 +204,5 @@ public class PublisherJpaController implements Serializable {
         
     }
     
+   
 }
