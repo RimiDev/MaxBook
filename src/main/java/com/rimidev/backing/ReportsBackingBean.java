@@ -23,11 +23,14 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.primefaces.event.SelectEvent;
@@ -46,142 +49,201 @@ import org.primefaces.event.SelectEvent;
 @SessionScoped
 public class ReportsBackingBean implements Serializable {
 
-  private Logger logger = Logger.getLogger(ReportsBackingBean.class.getName());
-  @Inject
-  InvoiceJpaController invcon;
+    private Logger logger = Logger.getLogger(ReportsBackingBean.class.getName());
+    private FacesContext context;
+    private ResourceBundle bundle;
 
-  @Inject
-  InvoiceDetailsJpaController invoiceDetailsJpaController;
-  
-  @Inject
-  BookJpaController bookJpaController;
+    @Inject
+    InvoiceJpaController invcon;
+    @Inject
+    InvoiceDetailsJpaController invoiceDetailsJpaController;
+    @Inject
+    BookJpaController bookJpaController;
 
-  private Date fromDate;
-  //private double totalSalesValue;
-  private List<Invoice> invoicesByClient;
-  private List<InvoiceDetails> invoiceDetailsByClient;
-  private List<Object[]> invoicesByAuthor;
-  private List<Object[]> publishers;
-  private List<Invoice> totalInvoiceSales;
+    private List<InvoiceDetails> totalSalesList;
+    private Date fromDate;
+    private Date toDate;
+    private double totalSales;
+    //private double totalSalesValue;
+    private List<Invoice> invoicesByClient;
+    private List<InvoiceDetails> invoiceDetailsByClient;
+    private List<Object[]> invoicesByAuthor;
+    private List<Object[]> publishers;
+    private List<Invoice> totalInvoiceSales;
 
-  private List<InvoiceDetails> totalInvoiceDetails;
-  private List<Object[]> filteredClients;
-  private List<Object[]> filteredAuthors;
+    private List<InvoiceDetails> totalInvoiceDetails;
+    private List<Object[]> filteredClients;
+    private List<Object[]> filteredAuthors;
 
-  private List<Object[]> filteredPublishers;
-
-  public int getCountOfISBNSold(String isbn) {
+    private List<Object[]> filteredPublishers;
     
-    return invoiceDetailsJpaController.getTotalSold(isbn, fromDate, toDate);
-  }
-  public Date getFromDate() {
-    return fromDate;
-  }
-
-  public void setFromDate(Date fromDate) {
-    this.fromDate = fromDate;
-  }
-
-  public Date getToDate() {
-    return toDate;
-  }
-
-  public void setToDate(Date toDate) {
-    this.toDate = toDate;
-  }
-  private Date toDate;
-
-  @PostConstruct
-  public void init() {
-    Calendar cal = Calendar.getInstance();
-    Date today = cal.getTime();
-    cal.add(Calendar.YEAR, -1); // to get previous year add -1
-    Date lastYear = cal.getTime();
-    fromDate = lastYear;
-    toDate = new Date();
-    totalInvoiceDetails = new ArrayList();
-    invoicesByClient = new ArrayList();
-    invoiceDetailsByClient = new ArrayList();
-    invoicesByAuthor = new ArrayList();
-    publishers = new ArrayList();
-    filteredClients = new ArrayList();
-    filteredAuthors = new ArrayList();
-    filteredPublishers = new ArrayList();
-  }
-
-  public List<Invoice> getTotalInvoiceSales() {
-    totalInvoiceSales = invoiceDetailsJpaController.getTotalInvoiceSales(fromDate, toDate);
-
-    return totalInvoiceSales;
-  }
-
-  public List<InvoiceDetails> getTotalInvoiceDetailSales() {
-    totalInvoiceDetails = invoiceDetailsJpaController.getTotalInvoiceDetailSales(fromDate, toDate);
-
-    return totalInvoiceDetails;
-  }
-
-  public double getTotalSalesValue() {
-    double totalSalesValue = 0;
-    totalInvoiceSales = invcon.findInvoiceEntities();
-    if (totalInvoiceSales != null) {
-      for (Invoice sale : totalInvoiceSales) {
-
-        totalSalesValue += sale.getGrossValue().doubleValue();
-      }
-      logger.log(Level.SEVERE, "total invoice sales value" + totalSalesValue);
+    
+     @PostConstruct
+    public void init() {
+        Calendar cal = Calendar.getInstance();
+        Date today = cal.getTime();
+        cal.add(Calendar.YEAR, -1); // to get previous year add -1
+        Date lastYear = cal.getTime();
+        fromDate = lastYear;
+        toDate = new Date();
+        totalInvoiceDetails = new ArrayList();
+        invoicesByClient = new ArrayList();
+        invoiceDetailsByClient = new ArrayList();
+        invoicesByAuthor = new ArrayList();
+        publishers = new ArrayList();
+        filteredClients = new ArrayList();
+        filteredAuthors = new ArrayList();
+        filteredPublishers = new ArrayList();
+        totalSalesList = new ArrayList();
+        context = FacesContext.getCurrentInstance();
+        bundle = context.getApplication().getResourceBundle(context, "msg");
     }
-    return totalSalesValue;
 
-  }
+    public double getTotalSales() {
+        if (totalSalesList != null) {
+            totalSales = totalSalesList.stream().map(InvoiceDetails::getBookPrice).reduce(BigDecimal.ZERO, BigDecimal::add).doubleValue();
+            logger.log(Level.SEVERE, "total sales" + totalSales);
+        }
+        return totalSales;
+    }
 
-  public List<Invoice> getTotalInvoicesByClient() {
-    invoicesByClient = invoiceDetailsJpaController.getTotalInvoicesByClient(fromDate, toDate);
-    return invoicesByClient;
-  }
+    public Date getFromDate() {
+        return fromDate;
+    }
 
-  public List<InvoiceDetails> getTotalInvoiceDetailsByClient() {
-    invoiceDetailsByClient = invoiceDetailsJpaController.getTotalInvoicesDetailsByClient(fromDate, toDate);
-    return invoiceDetailsByClient;
-  }
+    public void setFromDate(Date fromDate) {
+        this.fromDate = fromDate;
+    }
+
+    public Date getToDate() {
+        return toDate;
+    }
+
+    public void setToDate(Date toDate) {
+        this.toDate = toDate;
+    }
+
+    public List<InvoiceDetails> getTotalSalesList() {
+        List<Invoice> list = invcon.findInvoiceEntities();
+        if (list != null) {
+            for (Invoice invoice : list) {
+                totalSalesList.addAll(invoice.getInvoiceDetailsList());
+            }
+        }
+
+        return totalSalesList.stream().distinct().collect(Collectors.toList());
+    }
+
+
+    public void updateFromDate(Date d) {
+        this.fromDate = d;
+    }
+
   
-  public List<Object[]> getTotalInvoiceDetailsByAuthor() {
-    invoicesByAuthor = invoiceDetailsJpaController.getTotalInvoiceDetailsByAuthor(fromDate, toDate);
-    return invoicesByAuthor;
-  }
+    public int getCountOfISBNSold(String isbn) {
 
- 
+        return invoiceDetailsJpaController.getTotalSold(isbn, fromDate, toDate);
+    }
+   
 
-  public void setTotalSalesList(List<InvoiceDetails> totalSales) {
-    this.totalInvoiceDetails = totalSales;
-  }
+    public List<Invoice> getTotalInvoiceSales() {
+        totalInvoiceSales = invoiceDetailsJpaController.getTotalInvoiceSales(fromDate, toDate);
 
-  public void updateTotalInvoicesTable(SelectEvent event) {
-    this.getTotalInvoiceSales();
-  }
+        return totalInvoiceSales;
+    }
 
-  public void updateTotalInvoiceDetailsTable(SelectEvent event) {
-    this.getTotalInvoiceDetailSales();
-  }
+    public List<InvoiceDetails> getTotalInvoiceDetailSales() {
+        totalInvoiceDetails = invoiceDetailsJpaController.getTotalInvoiceDetailSales(fromDate, toDate);
 
-  public void updateTotalSalesByClientTable(SelectEvent event) {
-    this.getTotalInvoicesByClient();
-  }
+        return totalInvoiceDetails;
+    }
 
-  public void updateTotalSalesDetailsTable(SelectEvent event) {
-    this.getTotalInvoiceDetailSales();
-  }
-  
-   public List<Book> getZeroSales(){
-      List<Book> allBooks = bookJpaController.findBookEntities();
-      List<InvoiceDetails> details = invoiceDetailsJpaController.getTotalInvoiceDetailSales(fromDate, toDate);
-      for(InvoiceDetails d : details){
-          if(allBooks.contains(d.getIsbn())){
-              allBooks.remove(d.getIsbn());
-          }
-      }
-      return allBooks;
-  }
+    public double getTotalSalesValue() {
+        double totalSalesValue = 0;
+        totalInvoiceSales = invcon.findInvoiceEntities();
+        if (totalInvoiceSales != null) {
+            for (Invoice sale : totalInvoiceSales) {
 
+                totalSalesValue += sale.getGrossValue().doubleValue();
+            }
+            logger.log(Level.SEVERE, "total invoice sales value" + totalSalesValue);
+        }
+        return totalSalesValue;
+    }
 
+//    public void checkDateRange(SelectEvent event) {
+//        logger.log(Level.INFO, "FromDate: " + fromDate);
+//        logger.log(Level.INFO, "ToDate: " + toDate);
+//
+//        FacesMessage msg = new FacesMessage("FromDate: ", fromDate == null ? null : fromDate.toString());
+//        context.getCurrentInstance().addMessage(null, msg);
+//        msg = new FacesMessage("ToDate: ", (toDate == null ? null : toDate.toString()));
+//        context.getCurrentInstance().addMessage(null, msg);
+//
+//        if (fromDate != null && toDate != null) {
+//            if (fromDate.after(toDate) || toDate.before(fromDate)) {
+//                msg = new FacesMessage("Date Error", "Invalid Range");
+//                context.getCurrentInstance().addMessage(null, msg);
+//            } else {
+//                logger.log(Level.INFO, "dates not null");
+//                List<InvoiceDetails> filterList = new ArrayList();
+//                for (InvoiceDetails t : totalSalesList) {
+//                    if ((t.getInvoiceId().getDateOfSale().equals(fromDate) || fromDate.before(t.getInvoiceId().getDateOfSale())) && (t.getInvoiceId().getDateOfSale().equals(toDate) || toDate.after(t.getInvoiceId().getDateOfSale()))) {
+//                        logger.log(Level.INFO, "filtered item added");
+//                        filterList.add(t);
+//                    }
+//                }
+//                totalSalesList = filterList;
+//            }
+//        } else {
+//            logger.log(Level.INFO, "filter skipped");
+//            totalSalesList = getTotalSalesList();
+//        }
+//
+//    }
+    public List<Invoice> getTotalInvoicesByClient() {
+        invoicesByClient = invoiceDetailsJpaController.getTotalInvoicesByClient(fromDate, toDate);
+        return invoicesByClient;
+    }
+
+    public List<InvoiceDetails> getTotalInvoiceDetailsByClient() {
+        invoiceDetailsByClient = invoiceDetailsJpaController.getTotalInvoicesDetailsByClient(fromDate, toDate);
+        return invoiceDetailsByClient;
+    }
+
+    public List<Object[]> getTotalInvoiceDetailsByAuthor() {
+        invoicesByAuthor = invoiceDetailsJpaController.getTotalInvoiceDetailsByAuthor(fromDate, toDate);
+        return invoicesByAuthor;
+    }
+
+    public void setTotalSalesList(List<InvoiceDetails> totalSales) {
+        this.totalInvoiceDetails = totalSales;
+    }
+
+    public void updateTotalInvoicesTable(SelectEvent event) {
+        this.getTotalInvoiceSales();
+    }
+
+    public void updateTotalInvoiceDetailsTable(SelectEvent event) {
+        this.getTotalInvoiceDetailSales();
+    }
+
+    public void updateTotalSalesByClientTable(SelectEvent event) {
+        this.getTotalInvoicesByClient();
+    }
+
+    public void updateTotalSalesDetailsTable(SelectEvent event) {
+        this.getTotalInvoiceDetailSales();
+    }
+
+    public List<Book> getZeroSales() {
+        List<Book> allBooks = bookJpaController.findBookEntities();
+        List<InvoiceDetails> details = invoiceDetailsJpaController.getTotalInvoiceDetailSales(fromDate, toDate);
+        for (InvoiceDetails d : details) {
+            if (allBooks.contains(d.getIsbn())) {
+                allBooks.remove(d.getIsbn());
+            }
+        }
+        return allBooks;
+    }
 }

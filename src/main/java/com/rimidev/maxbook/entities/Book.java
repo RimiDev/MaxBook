@@ -311,9 +311,11 @@ public class Book implements Serializable {
     return true;
   }
 
-  @Override
-  public String toString() {
-    return "com.rimidev.maxbook.entities.Book[ isbn=" + isbn + " ]";
-  }
+    @Override
+    public String toString() {
+        return "Book{" + "isbn=" + isbn + ", title=" + title + ", publishDate=" + publishDate + ", pages=" + pages + ", genre=" + genre + ", listPrice=" + listPrice + ", salePrice=" + salePrice + ", wholesalePrice=" + wholesalePrice + ", format=" + format + ", enteredDate=" + enteredDate + ", removalStatus=" + removalStatus + ", description=" + description + ", authorList=" + authorList + ", invoiceDetailsList=" + invoiceDetailsList + ", reviewList=" + reviewList + ", publisherId=" + publisherId + '}';
+    }
+
+ 
 
 }

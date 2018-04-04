@@ -188,7 +188,8 @@ INSERT INTO PUBLISHER (name) VALUES
 ("Penguin Press"),
 ("HarperBusiness"),
 ("Harper Wave"),
-("Riverhead Books");
+("Riverhead Books"),
+("Pending");
 
 CREATE TABLE Taxes (
     province varchar(255) PRIMARY KEY,
