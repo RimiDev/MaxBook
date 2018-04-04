@@ -68,7 +68,7 @@
                       <h:outputText value="#{book.isbn}"/>
                     </h:commandLink>
                     <br/>
-                    <h:outputText  value="$#{book.listPrice}"/>
+                    <h:outputText  value="$#{bookJpaController.isOnSale(book)}"/>
                   </f:facet>
                 </b:thumbnail>
               </b:column>
@@ -91,7 +91,7 @@
                       <h:outputText value="#{book.isbn}"/>
                     </h:commandLink>
                     <br/>
-                    <h:outputText  value="$#{book.listPrice}"/>
+                    <h:outputText  value="$#{bookJpaController.isOnSale(book)}"/>
                   </f:facet>
                 </b:thumbnail>
               </b:column>
