@@ -43,21 +43,21 @@
                 <b:carouselItem style="text-align:center;height:200px;">
                     <h:commandLink action="allbooks?faces-redirect=true">
                         <br/>
-                        <h1 style="color:white;"> Check out all the books! </h1>
+                        <h1 style="color:white;"> #{msgs.checkOutBooks} </h1>
                         <br/>
                     </h:commandLink> 
                 </b:carouselItem>
                 <b:carouselItem style="text-align:center;height:200px;">
                     <h:commandLink action="advancedSearch?faces-redirect=true">
                         <br/>
-                        <h1 style="color:white;"> Specify the book you want! </h1>
+                        <h1 style="color:white;"> #{msgs.specifyBook} </h1>
                         <br/>
                     </h:commandLink>                                       
                 </b:carouselItem>
                 <b:carouselItem style="text-align:center;height:200px;">
                     <h:commandLink action="promotions?faces-redirect=true">
                         <br/>
-                        <h1 style="color:white;"> Book sales! </h1>
+                        <h1 style="color:white;"> #{msgs.bookSale} </h1>
                         <br/>
                     </h:commandLink> 
                 </b:carouselItem>
@@ -73,7 +73,7 @@
                     <c:forEach items="#{homeBackingBean.clientTrackedBooks}" var="books">
                         <b:carouselItem>
                             <h:commandLink action="#{bookDisplayBacking.showDetails(books.isbn)}">   
-                                <b:image style="height:600px;width:30%;align-content:center;margin-left:35%;" library="images" name="/books/#{books.isbn}.jpg" tooltip="#{books.genre}"/>
+                                <b:image style="height:35%;width:30%;align-content:center;margin-left:35%;" library="images" name="/books/#{books.isbn}.jpg" tooltip="#{books.genre}"/>
                             </h:commandLink> 
                         </b:carouselItem>
                     </c:forEach>
@@ -128,10 +128,10 @@
             <!--Recent sold books carousel --> 
             <div class="carousel-inner" role="listbox" style="">`
                 <b:carousel id="recentSold" style="width:100%;" interval="2000">
-                    <c:forEach items="#{homeBackingBean.recentSoldBooks}" var="book">
+                    <c:forEach items="#{homeBackingBean.recentSoldBooks}" var="books">
                         <b:carouselItem>
                             <h:commandLink action="#{bookDisplayBacking.showDetails(books.isbn)}">   
-                                <b:image style="height:600px;width:30%;align-content:center;margin-left:35%;" library="images" name="/books/#{books.isbn}.jpg" tooltip="#{books.genre}"/>
+                                <b:image style="height:35%;width:30%;align-content:center;margin-left:35%;" library="images" name="/books/#{books.isbn}.jpg" tooltip="#{books.genre}"/>
                             </h:commandLink> 
                         </b:carouselItem>
                     </c:forEach>
