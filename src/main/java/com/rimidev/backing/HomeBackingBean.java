@@ -82,7 +82,9 @@ public class HomeBackingBean {
             
             
         }
-        return null;
+        clientTrackedBooks = booksJpa.getTop5Books();
+        return clientTrackedBooks;
+        
     }
 }
         

@@ -32,7 +32,7 @@
               <b:commandButton class="btn btn-success" value="#{msgs.search}" action="#{searchBackingBean.getBookByTitle}"/>
             </div>
           </b:tab>
-          
+
 
 
           <b:tab title="#{msgs.byGenre}">
@@ -43,12 +43,13 @@
               <div class="form-group">
                 <label class="col-md-4 col-xs-5 control-label" for="Genre">#{msgs.genre}</label>
                 <div class="col-md-5 col-xs-5">
-                  <b:inputText  placeholder="#{msgs.genre}" value="#{searchBackingBean.genre}"
+                  <b:inputText  placeholder="#{msgs.genre}" value="#{searchBackingBean.genre}" 
                                 class="form-control input-md"></b:inputText>
                 </div>
               </div>
 
-              <b:commandButton class="btn btn-success" value="#{msgs.search}" action="#{searchBackingBean.getBookByGenre}"/>                                    
+              <b:commandButton type="Search" value="#{msgs.search}" class="btn btn-success" iconAwesome="fa-search" 
+                               action="#{searchBackingBean.getBookByGenre()}" ajax="false"/>
 
             </div>
 
@@ -127,7 +128,7 @@
                 <f:facet name="caption">
                   <h:commandLink action="#{bookDisplayBacking.showDetails(book.isbn)}">
 
-                      <b:image style="width:200px;height:310px;" library="images" name="/books/#{book.isbn}.jpg" tooltip="#{book.genre}"/>
+                    <b:image style="width:200px;height:310px;" library="images" name="/books/#{book.isbn}.jpg" tooltip="#{book.genre}"/>
                     <h:outputText value="#{book.title}"/>
 
 
