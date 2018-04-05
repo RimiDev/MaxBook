@@ -67,38 +67,42 @@ public class SearchBackingBean implements Serializable {
   private List<Author> searchedAuthors;
 
   //Queries
-  public List<Book> getBookByTitle() {
-
+  public String getBookByTitle() {
+    genre = "";
+    lastName = "";
+    firstName = "";
     searchedBooks = bookJPA.getBookByTitle(title);
 
-    return searchedBooks;
+    return "advancedSearch";
   }
 
-  public List<Book> getBookByGenre() {
+  public String getBookByGenre() {
 
     searchedBooks = bookJPA.getBookByGenre(genre);
-
-    return searchedBooks;
+    title = "";
+    lastName = "";
+    firstName = "";
+    return "advancedSearch";
   }
 
-  public List<Book> getBookByFirstName() {
+  public String getBookByFirstName() {
     searchedAuthors = authorJPA.getBookByFirstName(firstName);
-
+    genre = "";
     if (searchedAuthors.size() > 0) {
       searchedBooks = searchedAuthors.get(0).getBookList();
     }
-
-    return searchedBooks;
+    title = "";
+    return "advancedSearch";
   }
 
-  public List<Book> getBookByLastName() {
+  public String getBookByLastName() {
     searchedAuthors = authorJPA.getBookByLastName(lastName);
 
     if (searchedAuthors.size() > 0) {
       searchedBooks = searchedAuthors.get(0).getBookList();
     }
 
-    return searchedBooks;
+    return "advancedSearch";
   }
 
   //Getters & Setters
@@ -160,9 +164,6 @@ public class SearchBackingBean implements Serializable {
   }
 
   public List<Book> getSearchedBooks() {
-    if (searchedBooks == null) {
-      searchedBooks = bookJPA.getBookByTitle("");
-    }
 
     return searchedBooks;
   }
