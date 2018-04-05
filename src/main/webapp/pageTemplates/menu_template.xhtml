@@ -4,6 +4,20 @@
                  xmlns:b="http://bootsfaces.net/ui"
                  xmlns:p="http://primefaces.org/ui"
                  xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    
+              <style>
+                    
+                    .managerButtonVisible {
+                        visibility: visible;
+                    }
+                    
+                    .managerButtonHidden {
+                        visibility: hidden;
+                    }
+                    
+                    
+                </style>
+                
     <h:form>
         <p:menubar style="background-color:black !important;background:blue;max-height:60px;">
 
@@ -56,17 +70,19 @@
 
             </p:menuitem> 
 
+            
             <f:facet name="options">
-
-
-
+                
+                <b:commandButton  value="#{msgs.manager}" 
+                                  styleClass="managerButtonVisible"
+                                 action="management?faces-redirect=true"/>
 
                 <!--Account settings-->
                 <a href="account-details.xhtml">
                     <b:iconAwesome name="cog" tooltip="Account settings" style="color:white;margin-right:1em;" size="2x" />
                 </a>
 
-                <p:outputLabel value="#{msgs.welcome} #{sessionScope['current_user'].firstName}!" style="margin-right:10px;color:white"/>
+                <p:outputLabel value="#{msgs.welcome} #{sessionScope['current_user'].firstName}" style="margin-right:10px;color:white"/>
 
                 <!--Search-->
                 <p:inputText style="margin-right:10px; box-shadow: none" placeholder="#{msgs.search}" id="userSearch" value="#{searchBackingBean.searchCriteria}"/>

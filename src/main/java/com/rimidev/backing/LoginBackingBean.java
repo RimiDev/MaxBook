@@ -33,7 +33,6 @@ public class LoginBackingBean implements Serializable {
     @Inject
     private ClientJpaController clientJpaController;
     private Client client;
-    private String styling;
 
     private String comparePassword;
 
@@ -187,6 +186,25 @@ public class LoginBackingBean implements Serializable {
 
         return null;
 
+    }
+    
+    public String managerButton(){
+        
+        logger.info("INSIDE METHOD");
+        
+        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+        Client curr_user = (Client) session.getAttribute("current_user");
+
+        if (curr_user.getManager() != 1){
+                    logger.info("HIDDEN");
+
+            return "managerButtonHidden";
+        } else {
+                    logger.info("VISIBLE");
+
+            return "managerButtonVisible";
+        }
+        
     }
 
     /**

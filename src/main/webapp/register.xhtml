@@ -7,52 +7,7 @@
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
 
-  <ui:define name="top">
-    <h:form>
-      <p:menubar>
-            <p:menuitem>
-                <h:link outcome="/home.xhmtl">
-                   <h:graphicImage value="resources/images/citrus.png" height="40"/>
-                </h:link>
-            </p:menuitem>
-            <p:submenu label="Bookstore" icon="fa-search">
-                <p:menuitem value="All books" url="/allbooks.xhtml" />
-                <p:separator />
-                <p:submenu label="Genre" style="margin-right: 80%;">
-                    <p:menuitem value="Adventure" url="#" />
-                    <p:menuitem value="Science Fiction" url="#" />
-                    <p:menuitem value="Romance" url="#" />
-                    <p:menuitem value="Other" url="#" />
-                </p:submenu>
-                <p:submenu label="Year" icon="ui-icon-contact">
-                    <p:menuitem value="2017" url="#" />
-                    <p:menuitem value="2016" url="#" />
-                    <p:menuitem value="testdownloads" url="downloads.xhtml" />
-                    <p:menuitem value="testconfirmation" url="confirmation.xhtml" />
-                </p:submenu>
-            </p:submenu>
-            <f:facet name="options">
-                <h:commandLink action="#{localeBean.setLanguage('fr', 'CA')}">
-                    <h:graphicImage library="images" name="ca_flag.gif"
-                                    style="border: 0px; margin-right: 1em;"/>
-                </h:commandLink>
-                <h:commandLink action="#{localeBean.setLanguage('en', 'CA')}">
-                    <h:graphicImage library="images"
-                                    name="en_flag.gif" style="border: 0px; margin-right: 1em"/>
-                </h:commandLink>
-                <p:outputLabel value="Welcome #{user.username}!" style="margin-right:10px"/>
-                <p:inputText style="margin-right:10px; box-shadow: none" placeholder="Search" id="userSearch" value="#{user.searched}"/>
-                <b:commandButton type="Submit" value="Search" class="btn btn-success" iconAwesome="fa-search" action="search" ajax="false"/>                
-                <b:commandButton look="info" value="Cart" action="cart?faces-redirect=true" icon-awesome="fa-shopping-cart" />               
-                <b:commandButton type="Submit" class="btn btn-warning" value="#{loginBackingBean.styling}"
-                                 action="#{loginBackingBean.onLogout}" ajax="false"/>
-            </f:facet>
-        </p:menubar>
-    </h:form>
-
-  </ui:define>
-
-
+ 
   <!--LOGIN FORM-->
   <ui:define name="content">
 
@@ -94,14 +49,14 @@
                   <div style="margin-bottom: 25px" class="input-group">
                     
                     <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                    <h:inputText id="passwordBox" value="#{loginBackingBean.client.password}" 
+                    <h:inputSecret id="passwordBox" value="#{loginBackingBean.client.password}" 
                                  validator="#{loginBackingBean.checkPassword}"
                                   a:placeholder="Password"
                                  class="form-control"
                                  
                                  >
                       <f:ajax event="blur" render="nameError2"/>
-                    </h:inputText>
+                    </h:inputSecret>
                   </div>
                   
                   
@@ -110,14 +65,14 @@
                   <div style="margin-bottom: 25px" class="input-group">
                     
                     <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                    <h:inputText id="confirmPasswordBox" value="#{loginBackingBean.client.password}" 
+                    <h:inputSecret id="confirmPasswordBox" value="#{loginBackingBean.client.password}" 
                                  validator="#{loginBackingBean.checkMatchingPasswords}"
                                   a:placeholder="Confirm Password"
                                  class="form-control"
                                  
                                  >
                       <f:ajax event="blur" render="nameError3"/>
-                    </h:inputText>
+                    </h:inputSecret>
                   </div>
                   
 

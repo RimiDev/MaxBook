@@ -222,7 +222,7 @@ public class CartBackingBean implements Serializable {
      * @return
      */
     public String resetCreditCardValues() {
-
+        
         if (creditcard != null) {
             creditcard.setNumber("");
             creditcard.setName("");
