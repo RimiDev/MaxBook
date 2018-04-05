@@ -63,7 +63,7 @@
                 <b:thumbnail>
                   <f:facet name="caption">
                     <h:commandLink action="#{bookDisplayBacking.showDetails(book.isbn)}">
-                      <b:image library="images" name="/books/#{book.isbn}.jpg" tooltip="#{book.genre}"/>
+                      <b:image style="height:35%;width:30%;align-content:center;margin-left:35%;" library="images" name="/books/#{book.isbn}.jpg" tooltip="#{book.genre}"/>
                       <h:outputText value="#{book.title}"/>
                       <h:outputText value="#{book.isbn}"/>
                     </h:commandLink>
@@ -86,7 +86,7 @@
                 <b:thumbnail>
                   <f:facet name="caption">
                     <h:commandLink action="#{bookDisplayBacking.showDetails(book.isbn)}">
-                      <b:image library="images" name="/books/#{book.isbn}.jpg" tooltip="#{book.genre}"/>
+                      <b:image style="width:200px;height:310px;" library="images" name="/books/#{book.isbn}.jpg" tooltip="#{book.genre}"/>
                       <h:outputText value="#{book.title}"/>
                       <h:outputText value="#{book.isbn}"/>
                     </h:commandLink>
