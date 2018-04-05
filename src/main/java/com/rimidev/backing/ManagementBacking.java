@@ -38,11 +38,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.ConfigurableNavigationHandler;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.faces.event.ComponentSystemEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.http.HttpSession;
 import org.primefaces.event.CellEditEvent;
 import org.primefaces.event.CloseEvent;
 import org.primefaces.event.RowEditEvent;
@@ -450,5 +453,27 @@ public class ManagementBacking implements Serializable {
         newBook.setPublishDate(null);
 
     }
+    
+    public String checkIfManager(ComponentSystemEvent event){
+        
+        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+        Client curr_user = (Client) session.getAttribute("current_user");
+  
+        
+                
+        logger.info("INSIDE CHECKIFMANGER" + curr_user);
+        
+        
+        if (curr_user == null || curr_user.getManager() == 0){
+      FacesContext context = FacesContext.getCurrentInstance();
+      ConfigurableNavigationHandler handler = (ConfigurableNavigationHandler) context.getApplication().getNavigationHandler();
+      handler.performNavigation("404");
+        } else {
+            return "null";
+        }
+        return "null";
+    }
+    
+    
 
 }

@@ -33,6 +33,18 @@ public class LoginBackingBean implements Serializable {
     @Inject
     private ClientJpaController clientJpaController;
     private Client client;
+    
+    private String managerBtnStyle = "managerButtonHidden";
+
+    public String getManagerBtnStyle() {
+        return managerBtnStyle;
+    }
+
+    public void setManagerBtnStyle(String managerBtnStyle) {
+        this.managerBtnStyle = managerBtnStyle;
+    }
+    
+    
 
     private String comparePassword;
 
@@ -179,6 +191,8 @@ public class LoginBackingBean implements Serializable {
 
                     session.setAttribute("cartItems", new ArrayList<Book>());
                 }
+                
+                managerButton();
 
                 return "home?faces-redirect=true";
             }
@@ -188,21 +202,24 @@ public class LoginBackingBean implements Serializable {
 
     }
     
-    public String managerButton(){
+    public void managerButton(){
         
         logger.info("INSIDE METHOD");
         
         HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
         Client curr_user = (Client) session.getAttribute("current_user");
+        
+        logger.info("curr" + curr_user.getManager());
+     
 
-        if (curr_user.getManager() != 1){
+        if (curr_user.getManager() == null || curr_user.getManager() != 1){
                     logger.info("HIDDEN");
 
-            return "managerButtonHidden";
+            managerBtnStyle = "managerButtonHidden";
         } else {
                     logger.info("VISIBLE");
 
-            return "managerButtonVisible";
+            managerBtnStyle =  "managerButtonVisible";
         }
         
     }
@@ -213,6 +230,8 @@ public class LoginBackingBean implements Serializable {
      * @return 
      */
     public String onLogout() {
+        
+        managerBtnStyle = "managerButtonHidden";
 
         HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
         Client curr_user = (Client) session.getAttribute("current_user");
