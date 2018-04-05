@@ -82,10 +82,10 @@ public class Client implements Serializable {
     @Column(name = "last_name")
     private String lastName;
     @Basic(optional = false)
-    @Size(min = 1, max = 10)
+    
     @Column(name = "phone_number")
     private String phoneNumber;
-    @Size(max = 255)
+    
     @Column(name = "company_name")
     private String companyName;
     @Basic(optional = false)
