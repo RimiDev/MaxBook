@@ -23,6 +23,7 @@ import javax.servlet.http.HttpSession;
  * Backing Bean for the login page to help manage data.
  *
  * @author maximelacasse
+ * @author Eric Hughes
  */
 @Named("loginBackingBean")
 @SessionScoped

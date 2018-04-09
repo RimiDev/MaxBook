@@ -20,8 +20,10 @@ import javax.inject.Named;
 import javax.servlet.http.HttpSession;
 
 /**
- *
- * @author eric
+ * Backing Bean for the Account-Details page
+ * 
+ * @author Eric Hughes
+ * @author Philippe Langlois-Pedroso, 1542705
  */
 
 @Named("accountDetailsBacking")
