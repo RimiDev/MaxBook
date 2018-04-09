@@ -146,27 +146,12 @@
                     </c:forEach>
                 </b:carousel>    
             </div>
-
-            <!--            Third set of advertisements
-                        <div>
-                            <div style="margin-top:5%;text-align:center">
-                                <a href="#{adsJpaController.getAd(4).siteLink}">
-                                    <b:image library="images" name="ads/#{adsJpaController.getAd(4).imageName}"
-                                             style="max-height:300px;width:30%;"/>
-                                </a>  
-                            </div>
-                        </div>-->
-
-
-
         </h:form>
 
-
-
         <!-- Survey -->
-        <b:row style="margin-top:1em;">
-            <b:panel col-sm="4" offset="4" style="text-align: center;width:100%;float:right">
-                <h:form id="surveyForm"> 
+        <h:form id="surveyForm"> 
+            <b:row style="margin-top:1em;">
+                <b:panel col-sm="4" offset="4" style="text-align: center;width:100%;float:right">
                     <b:label value="#{surveyBacking.survey.question}" />
                     <b:radiobutton value="#{surveyBacking.answer}" required="true">
                         <f:selectItem  itemValue="1" itemLabel="#{surveyBacking.survey.option1}"  />
@@ -174,26 +159,16 @@
                         <f:selectItem itemValue="3" itemLabel="#{surveyBacking.survey.option3}" />
                         <f:selectItem itemValue="4" itemLabel="#{surveyBacking.survey.option4}" />
                     </b:radiobutton>
-                    <b:commandButton value="#{msgs.submit}" look="primary" action="#{surveyBacking.submit}" >
-                        <f:ajax execute="@form" render=":surveyForm"/>
-                    </b:commandButton>
-                </h:form>
-            </b:panel>
-        </b:row>
-
-
-
-
-
+                    <b:commandButton id="surveySubmit" value="#{msgs.submit}" look="primary" action="#{surveyBacking.submit}">
+                        <f:ajax execute="@form" render=":surveyForm" />
+                    </b:commandButton>         
+                </b:panel>
+            </b:row>
+            <b:row>
+                <b:column col-sm="6" offset="3">
+                    <p:chart id="chart" type="bar" model="#{surveyBacking.barModel}" style="height:300px"/>
+                </b:column>
+            </b:row>
+        </h:form>
     </ui:define>
 </ui:composition>
-
-
-
-                <!--                <p:ring id="topBooks" value="#{homeBackingBean.topSellingBooks}" var="book" styleClass="image-ring" easing="easeInOutBack" style="width: 50%">
-                                    <p:graphicImage id="img" library="images" name="/books/#{book.isbn}.jpg" styleClass="ringimg"/>
-                                    <h:commandLink value="#{books.title}" action="#{bookDisplayBacking.showDetails}" >
-                                        <p:button icon="ui-icon-search"/>
-                                        <f:param name="isbn" value="#{book.isbn}"/>
-                                    </h:commandLink>
-                                </p:ring>-->
