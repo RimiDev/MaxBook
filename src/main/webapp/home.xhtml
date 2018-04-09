@@ -62,7 +62,7 @@
                     </h:commandLink> 
                 </b:carouselItem>
             </b:carousel>
-            
+
 
             <!--Client tracking genre caro--> 
             <h3 style="text-align:center;margin-top:5%;margin-bottom:5%;">  
@@ -80,19 +80,20 @@
                 </b:carousel>    
             </div>
 
-
             <!-- First set of advertisements -->
+            <br/>
+            <br/>
             <div>
-                <div style="margin-top:5%;text-align:center">
-<!--                    <a href="#{adsJpaController.getAd(1).siteLink}">
-                        <b:image library="images" name="ads/#{adsJpaController.getAd(1).imageName}"
-                                 style="max-height:300px;width:30%;margin-left:10%;margin-right:5%"/>
-                    </a>  -->
-                    <a href="#{adsJpaController.getAd(2).siteLink}" >     
-                        <b:image library="images" name="ads/#{adsJpaController.getAd(2).imageName}"
-                                 style="max-height:300px;width:30%;"/>
-                    </a>
-                </div>
+                <b:row>
+                    <ui:repeat value="#{adsJpaController.getFrontAds()}" var="fadv">
+                        <b:column col-sm="3">
+                            <a href="#{fadv.siteLink}" >     
+                                <b:image library="images" name="ads/#{fadv.imageName}"
+                                         style="height:200px;width:100%;"/>
+                            </a>
+                        </b:column>
+                    </ui:repeat>
+                </b:row>
             </div>
             <br/>
 
@@ -112,14 +113,21 @@
             </b:carousel>
 
             <!--Second set of advertisements-->
+            <br/>
+            <br/>
             <div>
-                <div style="margin-top:5%;text-align:center">
-                    <a href="#{adsJpaController.getAd(3).siteLink}">
-                        <b:image library="images" name="ads/#{adsJpaController.getAd(3).imageName}"
-                                 style="max-height:300px;width:30%;"/>
-                    </a>  
-                </div>
+                <b:row>
+                    <ui:repeat value="#{adsJpaController.getBackAds()}" var="badv">
+                        <b:column col-sm="3">
+                            <a href="#{badv.siteLink}" >     
+                                <b:image library="images" name="ads/#{badv.imageName}"
+                                         style="height:200px;width:100%;"/>
+                            </a>
+                        </b:column>
+                    </ui:repeat>
+                </b:row>
             </div>
+            <br/>
 
             <h3 style="text-align:center;color:whitesmoke;margin-top:5%;margin-bottom:5%;">
                 <h:outputText value="#{msgs.recentSoldBook}"/>
@@ -138,15 +146,15 @@
                 </b:carousel>    
             </div>
 
-            <!--Third set of advertisements-->
-            <div>
-                <div style="margin-top:5%;text-align:center">
-                    <a href="#{adsJpaController.getAd(4).siteLink}">
-                        <b:image library="images" name="ads/#{adsJpaController.getAd(4).imageName}"
-                                 style="max-height:300px;width:30%;"/>
-                    </a>  
-                </div>
-            </div>
+            <!--            Third set of advertisements
+                        <div>
+                            <div style="margin-top:5%;text-align:center">
+                                <a href="#{adsJpaController.getAd(4).siteLink}">
+                                    <b:image library="images" name="ads/#{adsJpaController.getAd(4).imageName}"
+                                             style="max-height:300px;width:30%;"/>
+                                </a>  
+                            </div>
+                        </div>-->
 
 
 
