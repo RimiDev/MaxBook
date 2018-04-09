@@ -11,11 +11,12 @@ import javax.inject.Named;
 import javax.inject.Inject;
 
 /**
- *
- * @author plang
+ * Backing Bean to aid with the survey section of the home page
+ * 
+ * @author Philippe Langlois-Pedroso
  */
 @Named("surveyBacking")
-@RequestScoped
+@SessionScoped
 public class SurveyBacking implements Serializable {
 
     @Inject

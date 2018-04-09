@@ -4,7 +4,6 @@ import com.rimidev.maxbook.controller.BookJpaController;
 import com.rimidev.maxbook.controller.InvoiceDetailsJpaController;
 import com.rimidev.maxbook.controller.NewsJpaController;
 import com.rimidev.maxbook.entities.Book;
-import com.rimidev.maxbook.entities.Client;
 import com.rimidev.maxbook.entities.News;
 import java.util.List;
 import java.util.logging.Logger;
@@ -16,8 +15,10 @@ import javax.inject.Named;
 import javax.servlet.http.Cookie;
 
 /**
- *
- * @author maxime lacasse, Philippe Langlois-Pedroso
+ * Backing Bean for the home page
+ * 
+ * @author maxime lacasse
+ * @author Philippe Langlois-Pedroso, 1542705
  */
 @Named
 @RequestScoped

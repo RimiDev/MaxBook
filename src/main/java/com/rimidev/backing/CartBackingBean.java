@@ -27,6 +27,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author ehugh
  * @author maxime Lacasse
+ * @author Philippe Langlois-Pedroso, 1542705
  */
 @Named
 @SessionScoped

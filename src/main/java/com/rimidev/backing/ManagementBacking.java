@@ -1,26 +1,14 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.rimidev.backing;
 
 import com.rimidev.maxbook.controller.BookJpaController;
 import com.rimidev.maxbook.controller.InvoiceDetailsJpaController;
 import com.rimidev.maxbook.controller.InvoiceJpaController;
 import com.rimidev.maxbook.controller.ReviewJpaController;
-import com.rimidev.maxbook.controller.exceptions.NonexistentEntityException;
-import com.rimidev.maxbook.controller.exceptions.RollbackFailureException;
-import com.rimidev.maxbook.entities.Book;
-import com.rimidev.maxbook.entities.Invoice;
-import com.rimidev.maxbook.entities.InvoiceDetails;
 import com.rimidev.maxbook.entities.Review;
 import com.rimidev.maxbook.controller.ClientJpaController;
 import com.rimidev.maxbook.controller.NewsJpaController;
 import com.rimidev.maxbook.controller.PublisherJpaController;
 import com.rimidev.maxbook.controller.SurveyJpaController;
-import com.rimidev.maxbook.controller.exceptions.NonexistentEntityException;
-import com.rimidev.maxbook.controller.exceptions.RollbackFailureException;
 import com.rimidev.maxbook.entities.Book;
 import com.rimidev.maxbook.entities.Client;
 import com.rimidev.maxbook.entities.Invoice;
@@ -41,12 +29,10 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.application.ConfigurableNavigationHandler;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ActionEvent;
 import javax.faces.event.ComponentSystemEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpSession;
-import org.primefaces.event.CellEditEvent;
 import org.primefaces.event.CloseEvent;
 import org.primefaces.event.RowEditEvent;
 
@@ -55,7 +41,7 @@ import org.primefaces.event.RowEditEvent;
  *
  * @author Rhai Hinds
  * @author Eric Hughes
- * @author Philippe Langlois-Pedroso
+ * @author Philippe Langlois-Pedroso, 1542705
  */
 @Named
 @SessionScoped
