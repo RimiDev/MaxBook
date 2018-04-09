@@ -464,7 +464,13 @@ CREATE TABLE Client (
 INSERT INTO Client (email, password, title, first_name, last_name, phone_number,
     manager, company_name, address_1, address_2, city, province, country, postal_code) VALUES
 ("test@test.com", "password", "tester", "John", "Doe", "1234567890", 0, "testers", 
-"testaddress1", "testaddress2", "montreal", "quebec", "canada", "1A2B3C");
+"testaddress1", "testaddress2", "montreal", "quebec", "canada", "A1B2C3");
+INSERT INTO Client (email, password, title, first_name, last_name, phone_number,
+    manager, company_name, address_1, address_2, city, province, country, postal_code) VALUES
+("cst.send@gmail.com", "dawsoncollege", null, null, null, null, 0, null, null, null, null, null, null, null);
+INSERT INTO Client (email, password, title, first_name, last_name, phone_number,
+    manager, company_name, address_1, address_2, city, province, country, postal_code) VALUES
+("cst.receive@gmail.com", "collegedawson", null, null, null, null, 1, null, null, null, null, null, null, null);
 
 CREATE TABLE Review (
     id int PRIMARY KEY auto_increment,
@@ -531,9 +537,7 @@ CREATE TABLE Survey (
     removal_status boolean NOT NULL DEFAULT false
 );
 INSERT INTO Survey(question, option1, option2, option3, option4, count1, count2, count3, count4, removal_status) VALUES 
-("Do you like Horror?", "Very Much", "Yes", "No", "I hate it", 0, 0, 0, 0,true);
-
-
+("Do you like Horror?", "Very Much", "Yes", "No", "I hate it", 1, 2, 2, 1, true);
 
 CREATE TABLE Ads (
 id int PRIMARY KEY auto_increment,
@@ -544,11 +548,11 @@ active varchar(1) NOT NULL);
 INSERT INTO Ads (imageName,siteLink, active) VALUES
 ("gillette.jpg", "https://gillette.ca", "1");
 INSERT INTO Ads (imageName,siteLink, active) VALUES
-("gusta.png", "http://gustafoods.com", "2");
+("gusta.png", "http://gustafoods.com", "1");
 INSERT INTO Ads (imageName,siteLink, active) VALUES
-("mountainDew.jpg", "http://www.mountaindew.com", "3");
+("mountainDew.jpg", "http://www.mountaindew.com", "1");
 INSERT INTO Ads (imageName,siteLink, active) VALUES
-("museumFineArts.jpg", "https://www.mbam.qc.ca/en/", "4");
+("museumFineArts.jpg", "https://www.mbam.qc.ca/en/", "1");
 INSERT INTO Ads (imageName,siteLink, active) VALUES
 ("macbook.jpg", "https://www.apple.com/ca/macbook/", "0");
 

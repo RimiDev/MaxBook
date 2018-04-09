@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.rimidev.backing;
 
 import com.rimidev.maxbook.controller.BookJpaController;
@@ -22,7 +17,7 @@ import javax.servlet.http.Cookie;
 
 /**
  *
- * @author maximelacasse
+ * @author maxime lacasse, Philippe Langlois-Pedroso
  */
 @Named
 @RequestScoped
@@ -41,8 +36,7 @@ public class HomeBackingBean {
     
     private List<Book> clientTrackedBooks;
     
-        private static final Logger LOG = Logger.getLogger("PreRenderViewBean.class");
-
+    private static final Logger LOG = Logger.getLogger("PreRenderViewBean.class");
 
     public List<Book> getTopSellingBooks() {
         if (topSellingBooks == null) {
@@ -78,9 +72,7 @@ public class HomeBackingBean {
             clientTrackedBooks = booksJpa.getBookByGenre(((Cookie) my_cookie).getValue());
         }
         return clientTrackedBooks;
-            
-            
-            
+                       
         }
         clientTrackedBooks = booksJpa.getTop5Books();
         return clientTrackedBooks;

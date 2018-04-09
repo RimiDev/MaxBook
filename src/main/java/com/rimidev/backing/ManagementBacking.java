@@ -122,8 +122,8 @@ public class ManagementBacking implements Serializable {
         revStatuses = new ArrayList<String>();
 //        revStatuses.add(bundle.getString("pend"));
 //        revStatuses.add(bundle.getString("approve"));
-        revStatuses.add("pend");
-        revStatuses.add("approve");
+        revStatuses.add("Pending");
+        revStatuses.add("Approved");
 
         newsStatus = new ArrayList<Boolean>();
         newsStatus.add(true);

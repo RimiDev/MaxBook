@@ -1,16 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.rimidev.maxbook.controller;
 
 import com.rimidev.maxbook.controller.exceptions.NonexistentEntityException;
 import com.rimidev.maxbook.controller.exceptions.RollbackFailureException;
 import com.rimidev.maxbook.entities.Ads;
-import com.rimidev.maxbook.entities.Book;
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.List;
 import java.util.logging.Logger;
 import javax.annotation.Resource;
@@ -20,19 +13,18 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import javax.transaction.UserTransaction;
 
 /**
  *
- * @author maximelacasse
+ * @author maximelacasse, Philippe Langlois-Pedroso
  */
 @Named
 @RequestScoped
 public class AdsJpaController implements Serializable {
-    
+
     private Logger log = Logger.getLogger(AdsJpaController.class.getName());
 
     @Resource
@@ -156,36 +148,21 @@ public class AdsJpaController implements Serializable {
             em.close();
         }
     }
-    
+
     //Custom Queries
-    
-        public List<Ads> getAllAds() {
-        
-        TypedQuery<Ads> query = em.createNamedQuery("Ads.findAll", Ads.class);
-        
-//        Collection<Ads> Ads = query.getResultList();
-//        
-//        return (List<Ads>) Ads;
-        return query.getResultList();
-    
-}
-        
-        public List<Ads> getFrontAds(){
-            List<Ads> front = getAllAds();
-            return front.subList(0, (front.size() / 2));
-        }
-        
-        public List<Ads> getBackAds(){
-            List<Ads> back = getAllAds();
-            return back.subList((back.size() / 2), back.size());
-        }
-        
-        public Ads getAd(int active){
-            
-            TypedQuery<Ads> query = em.createNamedQuery("Ads.findByActive", Ads.class);
-            query.setParameter("active", active + "");
-            
-            return query.getSingleResult();
-        }
-        
+    public List<Ads> getAllAds() {
+        Query q = em.createNamedQuery("Ads.findByActive");
+        q.setParameter("active", "1");
+        return (List<Ads>) q.getResultList();
+    }
+
+    public List<Ads> getFrontAds() {
+        List<Ads> front = getAllAds();
+        return front.subList(0, (front.size() / 2));
+    }
+
+    public List<Ads> getBackAds() {
+        List<Ads> back = getAllAds();
+        return back.subList((back.size() / 2), back.size());
+    }
 }
