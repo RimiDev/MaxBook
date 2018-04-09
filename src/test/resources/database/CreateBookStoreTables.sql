@@ -464,7 +464,11 @@ CREATE TABLE Client (
 INSERT INTO Client (email, password, title, first_name, last_name, phone_number,
     manager, company_name, address_1, address_2, city, province, country, postal_code) VALUES
 ("test@test.com", "password", "tester", "John", "Doe", "1234567890", 0, "testers", 
-"testaddress1", "testaddress2", "montreal", "quebec", "canada", "1A2B3C");
+"testaddress1", "testaddress2", "montreal", "quebec", "canada", "A1B2C3");
+INSERT INTO Client (email, password, title, first_name, last_name, phone_number,
+    manager, company_name, address_1, address_2, city, province, country, postal_code) VALUES
+("phil@test.com", "password", "Mr.", "Philippe", "Langlois", "1234567890", 1, "testers", 
+"testaddress1", "testaddress2", "montreal", "quebec", "canada", "A1B2C3");
 
 CREATE TABLE Review (
     id int PRIMARY KEY auto_increment,
