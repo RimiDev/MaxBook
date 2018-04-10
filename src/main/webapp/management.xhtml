@@ -83,7 +83,7 @@
                                         <f:facet name="input"><p:inputText id="modelInputPages" value="#{book.pages}" style="width:100%"/></f:facet>
                                     </p:cellEditor>
                                 </p:column>
-                                <p:column headerText="#{msgs.genreHeader}">
+                                <p:column headerText="#{msgs.genreHeader}" filterBy="#{book.genre}">
                                     <p:cellEditor>
                                         <f:facet name="output"><h:outputText value="#{book.genre}"/></f:facet>
                                         <f:facet name="input"><p:inputText id="modelInputGenre" value="#{book.genre}" style="width:100%"/></f:facet>
@@ -121,7 +121,7 @@
                                         </f:facet>
                                     </p:cellEditor>
                                 </p:column>
-                                <p:column headerText="#{msgs.totalSold}">
+                                <p:column headerText="#{msgs.totalSold}" filterBy="#{bookJpaController.getTotalSold(book.isbn)}">
                                     <h:outputText value="#{bookJpaController.getTotalSold(book.isbn)}" />
                                 </p:column>
                                 <p:column headerText="#{msgs.removeStat}" filterBy="#{book.removalStatusBoolean}" filterMatchMode="equals">
