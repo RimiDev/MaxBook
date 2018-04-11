@@ -1,16 +1,137 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-    <head>
-        <title>TODO supply a title</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    </head>
-    <body>
-        <div>TODO write content</div>
-    </body>
-</html>
+<!-- Authors: Rhai Hinds, Eric Hughes, Philippe Langlois-Pedroso -->
+<ui:composition template="/pageTemplates/master_template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:b="http://bootsfaces.net/ui"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+  <ui:define name="title">#{msgs.details}</ui:define>
+  <ui:define name="content">
+    <f:view>
+      <f:event type="preRenderView" listener="#{bookDisplayBacking.checkBookExist}"/>
+      <ui:param  name="bookie" value="#{bookJpaController.findBook(bookDisplayBacking.isbn)}" />
+      <f:metadata>
+        <f:event type="postAddToView"
+                 listener="#{preRenderViewBean.writeCookie(bookie.genre)}" />
+      </f:metadata>
+
+      <!--start of book details<-->
+      <br/><br/>
+      <h:form>
+        <div class="container" >
+          <div class="card">
+            <div class="container-fliud">
+              <div class="wrapper row">
+                <div class="preview col-md-6">
+                  <div class="preview-pic tab-content">
+                    <div class="tab-pane active" id="pic-1">
+                        <b:image class="detailsImg" library="images" name="/books/#{bookie.isbn}.jpg"/></div>
+                  </div>
+                </div>
+                <div class="details col-md-6">
+                  <h3 class="product-title">#{bookie.title}</h3>
+                  <h:outputText value="#{bookie.isbn}"/>
+                  <div class="rating">
+                    <!-- need to convert to p:rating and use average rating for book-->
+                    <p:rating readonly="true"/>
+                    <span class="review-no">#{bookie.reviewList.size()} reviews</span>
+                  </div>
+                  <p class="product-description">#{bookie.description}</p>
+                  <!--create method in bookdisplayback bean to check saleprice -->
+                  <h4 class="price">current price: <span>$#{bookJpaController.isOnSale(bookie)}</span></h4>
+                  <div class="action">
+                    <b:commandButton icon="shopping-cart" action="#{cartBackingBean.addToCart(bookie.isbn)}" value="Add to cart" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </h:form>
+      <!--end of book details<-->
+      <h:form style="margin-top: 3%">
+        <h2 style="text-align:center">#{msgs.recommendations}</h2>
+        <b:container>
+          <b:row>
+            <h3>#{msgs.authorLabel}</h3>
+          </b:row>
+          <br/>
+          <b:row>
+            <ui:repeat value="#{bookDisplayBacking.getRecommendationsByAuthor(bookie.authorList)}" var="book" >
+              <b:column col-sm="4">
+                <b:thumbnail>
+                  <f:facet name="caption">
+                    <h:commandLink action="#{bookDisplayBacking.showDetails(book.isbn)}">
+                      <b:image style="height:35%;width:30%;align-content:center;margin-left:35%;" library="images" name="/books/#{book.isbn}.jpg" tooltip="#{book.genre}"/>
+                      <h:outputText value="#{book.title}"/>
+                      <h:outputText value="#{book.isbn}"/>
+                    </h:commandLink>
+                    <br/>
+                    <h:outputText  value="$#{bookJpaController.isOnSale(book)}"/>
+                  </f:facet>
+                </b:thumbnail>
+              </b:column>
+            </ui:repeat>
+          </b:row>
+        </b:container>
+        <br/>
+        <b:container>
+          <b:row>
+            <h3>#{msgs.genreLabel}</h3>
+          </b:row>
+          <b:row>
+            <ui:repeat value="#{bookDisplayBacking.getRecommendationsByGenre(bookie.genre)}" var="book"  >
+              <b:column col-sm="4">
+                <b:thumbnail>
+                  <f:facet name="caption">
+                    <h:commandLink action="#{bookDisplayBacking.showDetails(book.isbn)}">
+                      <b:image style="width:200px;height:310px;" library="images" name="/books/#{book.isbn}.jpg" tooltip="#{book.genre}"/>
+                      <h:outputText value="#{book.title}"/>
+                      <h:outputText value="#{book.isbn}"/>
+                    </h:commandLink>
+                    <br/>
+                    <h:outputText  value="$#{bookJpaController.isOnSale(book)}"/>
+                  </f:facet>
+                </b:thumbnail>
+              </b:column>
+            </ui:repeat>
+          </b:row>
+        </b:container>
+      </h:form>
+      <!--END OF RECOMMENDATIONS-->
+      <h:form style="margin-top: 3%">
+        <b:panel>
+          <h2>#{msgs.reviews}</h2>
+          <br/>
+          <ui:repeat var="rev" value="#{bookDisplayBacking.showPermittedReviews(bookie.reviewList)}">
+            <b:row style="margin-bottom: 3%">
+              <p:rating value="#{rev.rating}" readonly="true"/>
+              <h:outputText value="#{rev.reviewMessage}"/>
+              <br/>
+              <div class="container-fluid">
+                <div class="row">
+                  <h:outputText value="BY: #{rev.clientId.firstName} "/>
+                  <h:outputText value="#{rev.clientId.lastName}"/>
+                </div>
+              </div>
+            </b:row>                          
+          </ui:repeat>
+          <p:outputPanel id="revBox" styleClass="#{bookDisplayBacking.visibilityStyle}">
+            <b:row style="resize: none;display: block">
+              <h:message id="errLenght" for="msg" style="color: red"/>
+              <b:inputTextarea id="msg" value="#{reviewBacking.revMsg}" validator="#{reviewBacking.validateReview}" style="resize: none" span="6" rows="5" fieldSize="lg">
+                <f:ajax event="blur" render="errLenght"/>
+              </b:inputTextarea>
+            </b:row>
+            <b:row>
+              <p:rating value="#{reviewBacking.rating}"/>
+            </b:row>
+            <b:commandButton action="#{reviewBacking.addReview()}" look="info" value="submit"/>
+          </p:outputPanel>
+        </b:panel>
+      </h:form>
+    </f:view>
+  </ui:define>
+</ui:composition>

@@ -138,7 +138,7 @@ public class Taxes implements Serializable {
 
     @Override
     public String toString() {
-        return "com.rimidev.maxbook.entities.Taxes[ province=" + province + " ]";
+        return "com.rimidev.maxbook.entities.Taxes[ province=" + province + "GST " +  gSTrate + "]";
     }
     
 }

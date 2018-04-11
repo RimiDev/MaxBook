@@ -1,67 +1,100 @@
 .error {
-    color:red;
+  color:red;
 }
 
 .inputData{
-    text-align:center;
-    width:80%;
-    float:right;
+  text-align:center;
+  width:80%;
+  float:right;
 }
 
 .inputData input{
-    margin-left:9em;
-    margin-top:10px;
+  margin-left:9em;
+  margin-top:10px;
 }
 
 .inputData label{
-    position:absolute;
-    margin-top:10px;
+  position:absolute;
+  margin-top:10px;
 }
 
 .inputDataSelect {
-    margin-left:9em;
-    margin-bottom:3em;
-    vertical-align:middle;    
+  margin-left:9em;
+  margin-bottom:3em;
+  vertical-align:middle;    
 }
 
 .loginPanel {
-    text-align:center;
-    position:absolute;
-    margin-top:15em;
-    background-color:brown;
-    width:50%;
-    align-content:center;
+  text-align:center;
+  position:absolute;
+  margin-top:15em;
+  background-color:brown;
+  width:50%;
+  align-content:center;
 }
 
 .searchPanel {
-    margin-left:1em;
-    margin-top:3em;
-    text-align:center;
-   
+  margin-left:1em;
+  margin-top:3em;
+  text-align:center;
+
 }
 
 .searchPanel label {
-    
+
 }
 
 .searchPanel input {
-    margin-left:1em;
-    margin-bottom:1em;
+  margin-left:1em;
+  margin-bottom:1em;
 }
 
 .searchPanel div {
-    font-size:24px;
-    margin-bottom:1em;
+  font-size:24px;
+  margin-bottom:1em;
 }
 
 .feed {
-    width:20%;
-    float:left;
-    background:pink;
+  width:20%;
+  float:left;
+  background:pink;
 }
 
 .ads {
-    width:20%;
-    float:right;
-    background:pink;
+  width:20%;
+  float:right;
+  background:pink;
+}
+
+.bookDisplay {
+  text-align:center;
+  text-overflow: ellipsis;
+
+}
+
+.hideLoginBtn{
+  visibility: hidden;
+}
+
+.detailsImg {;
+    width:  85%;
+    height: 50%;
+   
+}
+
+.hideRevStyle{
+    visibility: hidden;
+}
+.showLoginBtn{
+  visibility: hidden;
+}
+
+.ringimg{
+    height: 175px;
+    width: 125px;
+}
+
+.adImage{
+    height: 125px;
+    width: 175px;
 }

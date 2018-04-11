@@ -18,12 +18,25 @@
             <var>msgs</var>
         </resource-bundle>
         
+        <resource-bundle>
+            <base-name>bundles.ValidationMessages</base-name>
+            
+        </resource-bundle>
+        
     <navigation-rule>
         <display-name>signUp.xhtml</display-name>
         <from-view-id>/signUp.xhtml</from-view-id>
         <navigation-case>
             <from-outcome>signUp</from-outcome>
             <to-view-id>/home.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>onLogin</from-outcome>
+            <to-view-id>/home.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>onSignUp</from-outcome>
+            <to-view-id>/register.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
         

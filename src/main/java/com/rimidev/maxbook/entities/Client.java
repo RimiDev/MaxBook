@@ -51,6 +51,9 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Client.findByPostalCode", query = "SELECT c FROM Client c WHERE c.postalCode = :postalCode")})
 public class Client implements Serializable {
 
+    @Column(name = "manager")
+    private Integer manager;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -64,7 +67,7 @@ public class Client implements Serializable {
     private String email;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 255)
+    
     @Column(name = "password")
     private String password;
     @Size(max = 10)
@@ -79,13 +82,10 @@ public class Client implements Serializable {
     @Column(name = "last_name")
     private String lastName;
     @Basic(optional = false)
-    @Size(min = 1, max = 10)
+    
     @Column(name = "phone_number")
     private String phoneNumber;
-    @Basic(optional = false)
-    @Column(name = "manager")
-    private int manager;
-    @Size(max = 255)
+    
     @Column(name = "company_name")
     private String companyName;
     @Basic(optional = false)
@@ -192,13 +192,6 @@ public class Client implements Serializable {
         this.phoneNumber = phoneNumber;
     }
 
-    public int getManager() {
-        return manager;
-    }
-
-    public void setManager(int manager) {
-        this.manager = manager;
-    }
 
     public String getCompanyName() {
         return companyName;
@@ -297,6 +290,14 @@ public class Client implements Serializable {
     @Override
     public String toString() {
         return "com.rimidev.maxbook.entities.Client[ id=" + id + " ]";
+    }
+
+    public Integer getManager() {
+        return manager;
+    }
+
+    public void setManager(Integer manager) {
+        this.manager = manager;
     }
     
 }

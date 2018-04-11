@@ -6,6 +6,7 @@
 package com.rimidev.maxbook.entities;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
@@ -26,21 +27,21 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author 1513733
  */
 @Entity
-@Table(name = "invoice", catalog = "BookStore_DB", schema = "")
+@Table(name = "invoice", catalog = "bookstore_db", schema = "")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Invoice.findAll", query = "SELECT i FROM Invoice i")
     , @NamedQuery(name = "Invoice.findById", query = "SELECT i FROM Invoice i WHERE i.id = :id")
     , @NamedQuery(name = "Invoice.findByDateOfSale", query = "SELECT i FROM Invoice i WHERE i.dateOfSale = :dateOfSale")
     , @NamedQuery(name = "Invoice.findByNetValue", query = "SELECT i FROM Invoice i WHERE i.netValue = :netValue")
-    , @NamedQuery(name = "Invoice.findByGrossValue", query = "SELECT i FROM Invoice i WHERE i.grossValue = :grossValue")})
+    , @NamedQuery(name = "Invoice.findByGrossValue", query = "SELECT i FROM Invoice i WHERE i.grossValue = :grossValue")
+    , @NamedQuery(name = "Invoice.findByRemovalStatus", query = "SELECT i FROM Invoice i WHERE i.removalStatus = :removalStatus")})
 public class Invoice implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -54,14 +55,19 @@ public class Invoice implements Serializable {
     @Column(name = "date_of_sale")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateOfSale;
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Basic(optional = false)
     @NotNull
     @Column(name = "net_value")
-    private int netValue;
+    private BigDecimal netValue;
     @Basic(optional = false)
     @NotNull
     @Column(name = "gross_value")
-    private int grossValue;
+    private BigDecimal grossValue;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "removal_status")
+    private boolean removalStatus;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "invoiceId", fetch = FetchType.LAZY)
     private List<InvoiceDetails> invoiceDetailsList;
     @JoinColumn(name = "client_id", referencedColumnName = "id")
@@ -75,11 +81,12 @@ public class Invoice implements Serializable {
         this.id = id;
     }
 
-    public Invoice(Integer id, Date dateOfSale, int netValue, int grossValue) {
+    public Invoice(Integer id, Date dateOfSale, BigDecimal netValue, BigDecimal grossValue, boolean removalStatus) {
         this.id = id;
         this.dateOfSale = dateOfSale;
         this.netValue = netValue;
         this.grossValue = grossValue;
+        this.removalStatus = removalStatus;
     }
 
     public Integer getId() {
@@ -98,23 +105,30 @@ public class Invoice implements Serializable {
         this.dateOfSale = dateOfSale;
     }
 
-    public int getNetValue() {
+    public BigDecimal getNetValue() {
         return netValue;
     }
 
-    public void setNetValue(int netValue) {
+    public void setNetValue(BigDecimal netValue) {
         this.netValue = netValue;
     }
 
-    public int getGrossValue() {
+    public BigDecimal getGrossValue() {
         return grossValue;
     }
 
-    public void setGrossValue(int grossValue) {
+    public void setGrossValue(BigDecimal grossValue) {
         this.grossValue = grossValue;
     }
 
-    @XmlTransient
+    public boolean getRemovalStatus() {
+        return removalStatus;
+    }
+
+    public void setRemovalStatus(boolean removalStatus) {
+        this.removalStatus = removalStatus;
+    }
+
     public List<InvoiceDetails> getInvoiceDetailsList() {
         return invoiceDetailsList;
     }

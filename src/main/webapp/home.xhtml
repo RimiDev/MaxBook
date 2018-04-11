@@ -1,75 +1,174 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
- 
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
-    <h:head>
-        <link type="text/css" rel="stylesheet" href="/project/faces/javax.faces.resource/theme.css?ln=primefaces-glass-x" />
-        <h:outputStylesheet library="css" name="styles.css" />
-        <title>#{msgs.allBooksTitle}</title>
-        <h:outputStylesheet library="webjars" name="bootstrap/3.3.7-1/css/bootstrap.min-jsf.css" />
-        <h:outputStylesheet library="webjars" name="bootstrap/3.3.7-1/css/bootstrap-theme.min-jsf.css" />
-        <h:outputStylesheet library="webjars" name="font-awesome/4.7.0/css/font-awesome.min-jsf.css" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    </h:head>
-    <h:body>
-        <!--MENU BAR-->  
-        <h:form class="menuBar">
-            <p:menubar>
-                <p:menuitem value="MaxBook" url="/home.xhtml"/>
-                <p:submenu label="Bookstore" icon="ui-icon-document">
-                    <p:menuitem value="All books" url="/allbooks.xhtml" />
-                    <p:separator />
-                    <p:submenu label="Genre" icon="ui-icon-contact">
-                        <p:menuitem value="Adventure" url="#" />
-                        <p:menuitem value="Science Fiction" url="#" />
-                        <p:menuitem value="Romance" url="#" />
-                        <p:menuitem value="Other" url="#" />
-                    </p:submenu>
-                    <p:submenu label="Year" icon="ui-icon-contact">
-                        <p:menuitem value="2017" url="#" />
-                        <p:menuitem value="2016" url="#" />
-                    </p:submenu>
-                </p:submenu>
-                <p:menuitem value="Search" url="/search.xhtml"/>
-                <f:facet name="options">
-                    <p:outputLabel value="Welcome #{user.username}!" style="margin-right:10px"/>
-                    <p:inputText style="margin-right:10px" placeholder="Search" id="userSearch" value="#{search.searchQuery}"/>
-                    <p:commandButton type="Submit" value="Search" icon="/resources/images/search.png" action="search" ajax="false"/>
-                    <p:commandButton type="Submit" value="Login" icon="ui-icon-extlink" action="login" ajax="false"/>
-                    <p:commandButton type="button" value="Logout" icon="ui-icon-extlink" />
-                </f:facet>
-            </p:menubar>
-        </h:form>
-        <p:stack icon="/resources/images/stack.png" expanded="true">
-            <p:menuitem value="Home"  icon="/resources/images/home.png" url="./home.xhtml"/>
-            <p:menuitem value="Cart" icon="/resources/images/shoppingCart.png" url="./cart.xhtml"/>
-            <p:menuitem value="Search" icon="/resources/images/search.png" url="./advancedSearch.xhtml"/>
-        </p:stack>
-        <div class="container-fluid">
-            <div class="col-sm-2">
-                PLACE ADS HERE
-            </div>
-            <div class="col-sm-8">
-                HOME PAGE HERE
-            </div>
-            <div class="col-sm-2">
-                <!-- FEED READER -->
-                <p:scrollPanel style="height:200px">
-                    <p:feedReader value="https://www.yahoo.com/news/rss/sports" var="feeder" class="rssfeed" size="4">
-                        <h:outputText value="#{feeder.title}" style="font-weight: bold;display:block"/>
-                        <h:outputText value="#{feeder.description.value}" escape="false"/>
-                        <p:separator />
-                    </p:feedReader>
-                </p:scrollPanel>
-            </div>
+<!-- Authors: Eric Hughes, Maxime Lacasse, Philippe Langlois-Pedroso -->
+<ui:composition template="/pageTemplates/master_template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:b="http://bootsfaces.net/ui"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">    
+
+
+
+    <ui:define name="title">Home</ui:define>
+    <ui:define name="css">
+    </ui:define>
+    <ui:define name="content">
+
+        <style>
+            body {
+                background-color:black;
+            }
+
+        </style>
+
+        <!--Welcome banner-->
+        <div style="text-align:center;margin-top:2%">
+            <h:graphicImage value="resources/images/citrus_lemon_logo.png" style="height:50px;"/>
+            <strong style="color:white;font-size:30px">ᑕITᖇᑌᔕ ᗷOOK</strong>
         </div>
-        <!-- load js at bottom for faster loading-->
-        <h:outputScript library="webjars" name="jquery/3.1.1-1/jquery.min.js"/>
-        <h:outputScript library="webjars" name="bootstrap/3.3.7-1/js/bootstrap.min.js" />
-    </h:body>
-</html>
+        <h:graphicImage value="resources/images/citrus_logo.png" style="width:50%;margin-left:25%;" height="250px"/>
+
+
+        <f:metadata>
+            <f:event type="preRenderView"
+                     listener="#{preRenderViewBean.checkCookies()}" />
+        </f:metadata>
+
+        <h:form id="form">
+
+
+            <!--Client site navigation options caro-->
+
+            <b:carousel id="ClientSiteNav" style="width:100%;height:20%;">
+                <b:carouselItem style="text-align:center;height:200px;">
+                    <h:commandLink action="allbooks?faces-redirect=true">
+                        <br/>
+                        <h1 style="color:white;"> #{msgs.checkOutBooks} </h1>
+                        <br/>
+                    </h:commandLink> 
+                </b:carouselItem>
+                <b:carouselItem style="text-align:center;height:200px;">
+                    <h:commandLink action="advancedSearch?faces-redirect=true">
+                        <br/>
+                        <h1 style="color:white;"> #{msgs.specifyBook} </h1>
+                        <br/>
+                    </h:commandLink>                                       
+                </b:carouselItem>
+                <b:carouselItem style="text-align:center;height:200px;">
+                    <h:commandLink action="promotions?faces-redirect=true">
+                        <br/>
+                        <h1 style="color:white;"> #{msgs.bookSale} </h1>
+                        <br/>
+                    </h:commandLink> 
+                </b:carouselItem>
+            </b:carousel>
+
+
+            <!--Client tracking genre caro--> 
+            <h3 style="text-align:center;margin-top:5%;margin-bottom:5%;">  
+                <h:outputText value="#{msgs.recentlyVisitedGenre}" style="align-content:center;color:whitesmoke;font-size:25px;" />
+            </h3> 
+            <div class="carousel-inner" role="listbox" style="">`
+                <b:carousel id="clientTrackedBooks" style="width:100%;" interval="2000">
+                    <c:forEach items="#{homeBackingBean.clientTrackedBooks}" var="books">
+                        <b:carouselItem>
+                            <h:commandLink action="#{bookDisplayBacking.showDetails(books.isbn)}">   
+                                <b:image style="height:35%;width:30%;align-content:center;margin-left:35%;" library="images" name="/books/#{books.isbn}.jpg" tooltip="#{books.genre}"/>
+                            </h:commandLink> 
+                        </b:carouselItem>
+                    </c:forEach>
+                </b:carousel>    
+            </div>
+
+            <!-- First set of advertisements -->
+            <br/>
+            <br/>
+            <div>
+                <b:row>
+                    <ui:repeat value="#{adsJpaController.getFrontAds()}" var="fadv">
+                        <b:column col-sm="3">
+                            <a href="#{fadv.siteLink}" >     
+                                <b:image library="images" name="ads/#{fadv.imageName}"
+                                         style="height:200px;width:100%;"/>
+                            </a>
+                        </b:column>
+                    </ui:repeat>
+                </b:row>
+            </div>
+            <br/>
+
+            <!--Top selling books -->  
+            <h3 style="text-align:center;margin-top:5%;margin-bottom:5%;">  
+                <h:outputText value="#{msgs.bestSellingBook}" style="align-content:center;color:whitesmoke;font-size:25px;" />
+            </h3> 
+            <!--Top selling carousel --> 
+            <b:carousel id="topSelling" style="width:100%">
+                <c:forEach items="#{homeBackingBean.topSellingBooks}" var="books">
+                    <b:carouselItem>
+                        <h:commandLink action="#{bookDisplayBacking.showDetails(books.isbn)}">   
+                            <b:image style="height:35%;width:30%;align-content:center;margin-left:35%;" library="images" name="/books/#{books.isbn}.jpg" tooltip="#{books.genre}"/>
+                        </h:commandLink> 
+                    </b:carouselItem>
+                </c:forEach>
+            </b:carousel>
+
+            <!--Second set of advertisements-->
+            <br/>
+            <br/>
+            <div>
+                <b:row>
+                    <ui:repeat value="#{adsJpaController.getBackAds()}" var="badv">
+                        <b:column col-sm="3">
+                            <a href="#{badv.siteLink}" >     
+                                <b:image library="images" name="ads/#{badv.imageName}"
+                                         style="height:200px;width:100%;"/>
+                            </a>
+                        </b:column>
+                    </ui:repeat>
+                </b:row>
+            </div>
+            <br/>
+
+            <h3 style="text-align:center;color:whitesmoke;margin-top:5%;margin-bottom:5%;">
+                <h:outputText value="#{msgs.recentSoldBook}"/>
+            </h3>
+
+            <!--Recent sold books carousel --> 
+            <div class="carousel-inner" role="listbox" style="">`
+                <b:carousel id="recentSold" style="width:100%;" interval="2000">
+                    <c:forEach items="#{homeBackingBean.recentSoldBooks}" var="books">
+                        <b:carouselItem>
+                            <h:commandLink action="#{bookDisplayBacking.showDetails(books.isbn)}">   
+                                <b:image style="height:35%;width:30%;align-content:center;margin-left:35%;" library="images" name="/books/#{books.isbn}.jpg" tooltip="#{books.genre}"/>
+                            </h:commandLink> 
+                        </b:carouselItem>
+                    </c:forEach>
+                </b:carousel>    
+            </div>
+        </h:form>
+
+        <!-- Survey -->
+        <h:form id="surveyForm"> 
+            <b:row style="margin-top:1em;">
+                <b:panel col-sm="4" offset="4" style="text-align: center;width:100%;float:right">
+                    <b:label value="#{surveyBacking.survey.question}" />
+                    <b:radiobutton value="#{surveyBacking.answer}" required="true">
+                        <f:selectItem  itemValue="1" itemLabel="#{surveyBacking.survey.option1}"  />
+                        <f:selectItem itemValue="2" itemLabel="#{surveyBacking.survey.option2}" />
+                        <f:selectItem itemValue="3" itemLabel="#{surveyBacking.survey.option3}" />
+                        <f:selectItem itemValue="4" itemLabel="#{surveyBacking.survey.option4}" />
+                    </b:radiobutton>
+                    <b:commandButton id="surveySubmit" value="#{msgs.submit}" look="primary" action="#{surveyBacking.submit}">
+                        <f:ajax execute="@form" render=":surveyForm" />
+                    </b:commandButton>         
+                </b:panel>
+            </b:row>
+            <b:row>
+                <b:column col-sm="6" offset="3">
+                    <p:chart id="chart" type="bar" model="#{surveyBacking.barModel}" style="height:300px"/>
+                </b:column>
+            </b:row>
+        </h:form>
+    </ui:define>
+</ui:composition>

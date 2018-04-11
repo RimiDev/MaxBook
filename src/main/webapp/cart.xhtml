@@ -1,4 +1,4 @@
-
+<!-- Authors: Eric Hughes, Maxime Lacasse, Philippe Langlois-Pedroso -->
 <ui:composition template="/pageTemplates/master_template.xhtml"
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:f="http://java.sun.com/jsf/core"
@@ -7,73 +7,62 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
+    <ui:define name="title">#{msgs.cart}</ui:define>
     <ui:define name="content">
-
-        <div class="container">
-            <table id="cart" class="table table-hover table-condensed">
-                <thead>
-                    <tr>
-                        <th style="width:50%">Cart</th>
-                        <th style="width:10%">Price</th>
-                        <th style="width:8%"> Quantity</th>
-                        <th style="width:22%" class="text-center">Subtotal</th>
-                        <th style="width:10%"></th>
-                    </tr>
-                </thead>
-                <p:commandButton class="btn btn-danger btn-sm" action="#{bookJpaController.setSessionVariables}"
-                                 value="Get Cart Items"></p:commandButton>
-
-                <ui:repeat var="b" value="#{sessionScope['cartItems'].keySet().toArray()}" varStatus="index">
-                    <tbody>
-
+        <h:form>
+            <div class="container">
+                <table id="cart" class="table table-hover table-condensed">
+                    <thead>
                         <tr>
-                            <td data-th="Product">
-                                <div class="row">
-                                    <div class="col-sm-2 hidden-xs"><img src="http://placehold.it/100x100" alt="..." class="img-responsive"/></div>
+                            <th style="width:50%">#{msgs.cart}</th>
+                            <th style="width:10%">#{msgs.price}</th>
+                            <th style="width:40%" class="text-center">#{msgs.subTotal}</th>
+                        </tr>
+                    </thead>
+                    <ui:repeat var="b" value="#{sessionScope['cartItems']}" varStatus="index">
+                        <tbody>
+                            <tr>
+                                <td data-th="#{msgs.product}">
+                                    <div class="row">
+                                        <div class="col-sm-2 hidden-xs">
+                                            <b:image library="images" name="/books/#{b.isbn}.jpg" tooltip="#{book.genre}" style="width:80px;height:80px;"/>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td data-th="#{msgs.price}">
                                     <div class="col-sm-10">
                                         <h4 class="nomargin"></h4>
-                                        <h:outputText value="#{sessionScope['cartItems'].keySet().toArray()[index.index].isbn}" /> 
+                                        <h:outputText value="#{bookJpaController.isOnSale(b)}"/> 
 
                                     </div>
-                                </div>
-                            </td>
-                            <td data-th="Price" value="">
-                                <div class="col-sm-10">
-                                    <h4 class="nomargin"></h4>
-                                    <h:outputText value="#{sessionScope['cartItems'].keySet().toArray()[index.index].listPrice}" /> 
-
-                                </div>
-                            </td>
-                            <td data-th="Quantity">
-
-                                <b:inputText type="number" class="form-control text-center" 
-                                             value="#{sessionScope['cartItems'].get(b)}"></b:inputText>
-                            </td>
-                            <td data-th="Subtotal" class="text-center">1.99</td>
-                            <td class="actions" data-th="">
-                                <button class="btn btn-info btn-sm"><i class="fa fa-refresh"></i></button>
-
-
-                            </td>
-
+                                </td>
+                                <td data-th="#{msgs.subTotal}" class="text-center"></td>
+                                <td class="actions" data-th="">
+                                    <b:commandButton  
+                                        action="#{cartBackingBean.removeFromCart(b.isbn)}" value="#{msgs.remove}" ajax="false" />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </ui:repeat>
+                    <tfoot>
+                        <tr class="visible-xs">
+                            <td class="text-center"><strong>#{cartbackingBean.generateTotal()}</strong></td>
                         </tr>
-                    </tbody>
-                </ui:repeat>
-                <tfoot>
-                    <tr class="visible-xs">
-                        <td class="text-center"><strong>Total 1.99</strong></td>
-                    </tr>
-                    <tr>
-                        <td><a href="#" class="btn btn-warning"><i class="fa fa-angle-left"></i> Continue Shopping</a></td>
-                        <td colspan="2" class="hidden-xs"></td>
-                        <td class="hidden-xs text-center"><strong>Total $1.99</strong></td>
-                        <td><a href="#" class="btn btn-success btn-block">Checkout <i class="fa fa-angle-right"></i></a></td>
-                    </tr>
-                </tfoot>
-            </table>
-        </div>
-
+                        <tr>
+                            <td><a href="javascript:history.back()" class="btn btn-warning"><i class="fa fa-angle-left"></i>#{msgs.continueShopping}</a></td>
+                            <td colspan="2" class="hidden-xs"></td>
+                            <td class="hidden-xs text-center"><p><strong>#{msgs.total} $#{cartBackingBean.generateTotal()}</strong></p></td>
+                            <td>
+                                <b:commandButton
+                                    class="btn btn-success btn-block"
+                                    action="#{cartBackingBean.emptyCartIntoCartVar}" value="#{msgs.checkout}" ></b:commandButton>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </h:form>    
+        <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+        <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
     </ui:define>
-
-
 </ui:composition>

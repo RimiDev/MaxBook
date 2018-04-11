@@ -1,0 +1,42 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:b="http://bootsfaces.net/ui"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:form>
+        <b:panel style="position:relative;bottom:0;background-color:black;width:100%;">
+            <b:row>    
+                <b:column span="2">
+                    <h:outputText value="#{msgs.contactUs}" style="color:white"/>
+                </b:column>
+                <b:column span="2" offset="6">
+                    <b:navLink href="help.xhtml" value="#{msgs.help}" style="color:white"/>
+                </b:column>
+            </b:row>
+            <b:row>
+                <b:column span="2" offset="7">
+                    <b:navLink href="allbooks.xhtml" value="#{msgs.allBooksTitle}"  style="color:white" offset="6"/>
+                </b:column>
+            </b:row>
+            <b:row>
+                <b:column span="2">
+                    <h:outputText value="#{msgs.contactEmail}" style="color:white"/>
+                </b:column>
+            </b:row>
+            <b:row>
+                <b:column span="2">
+                    <h:outputText value="#{msgs.contactPhone}" style="color:white"/>
+                </b:column>
+            </b:row>
+            <br/>
+            <b:row>
+                <b:column span="2">
+                    <h:link outcome="/home.xhmtl">
+                        <h:graphicImage value="resources/images/citrus_menu_logo.png" height="40"/>
+                    </h:link>
+                </b:column>
+            </b:row>
+        </b:panel>
+    </h:form>
+</ui:composition>
