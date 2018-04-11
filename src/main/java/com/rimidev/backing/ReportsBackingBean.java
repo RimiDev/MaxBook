@@ -50,7 +50,8 @@ public class ReportsBackingBean implements Serializable {
   private List<Object[]> invoicesByAuthor;
   private List<Object[]> invoicesByPublisher;
   private List<Invoice> totalInvoiceSales;
-
+  private List<Object[]> topSellers;
+  private List<Object[]> topClients;
   private List<InvoiceDetails> totalInvoiceDetails;
   private List<Object[]> filteredClients;
   private List<Object[]> filteredAuthors;
@@ -61,6 +62,15 @@ public class ReportsBackingBean implements Serializable {
 
     return invoiceDetailsJpaController.getTotalSold(isbn, fromDate, toDate);
   }
+  
+  public List<Object[]> getTopSellers() {
+    return topSellers;
+  }
+
+  public void setTopSellers(List<Object[]> list) {
+    topSellers = list;
+  }
+
 
   public Date getFromDate() {
     return fromDate;
@@ -213,5 +223,23 @@ public class ReportsBackingBean implements Serializable {
     this.getTotalInvoiceDetailSales();
   }
 
+ public void updateTopSellersTable(SelectEvent event) {
+    this.getTopSellers();
+  }
+  
+  public void updateTopClientsTable(SelectEvent event) {
+    this.getTopClients();
+  }
+
+  public List<Object[]> getTopSellingBooks() {
+    topSellers = invoiceDetailsJpaController.getTopSellers(fromDate, toDate);
+    return topSellers;
+  }
+
+  public List<Object[]> getTopClients() {
+    topClients = invoiceDetailsJpaController.getTopClients(fromDate, toDate);
+    return topClients;
+            
+  }
 
 }
