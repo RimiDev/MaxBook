@@ -121,7 +121,7 @@ public class ManagementBacking implements Serializable {
         approvalStatus.add(1);
         newBook = new Book();
         newBook.setTitle("");
-        newBook.setIsbn("");
+//        newBook.setIsbn("");
         newBook.setDescription("");
         newBook.setEnteredDate(new Date());
         newBook.setGenre("");
@@ -366,8 +366,8 @@ public class ManagementBacking implements Serializable {
 
     public void addBook() throws Exception {
         logger.info("New Book is " + newBook);
-//        logger.info(newBook.getTitle());
-//        logger.info(newBook.getPublisherId().getName());
+        logger.info(newBook.getTitle());
+        logger.info(newBook.getPublisherId().getName());
         bkcon.create(newBook);
 //        newBook.setIsbn(null);
 //        newBook.setTitle(null);

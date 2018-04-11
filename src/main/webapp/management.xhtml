@@ -49,14 +49,6 @@
                                         <f:facet name="input"><p:inputText id="modelInput" value="#{book.isbn}" style="width:100%"/></f:facet>
                                     </p:cellEditor>
                                 </p:column>
-
-<!--                <p:column headerText="Title" filterBy="#{book.title}" filterMatchMode="contains">
-                  <h:form enctype="multipart/form-data"  prependId="false">
-                    <h:outputText value="File: "></h:outputText>
-                    <h:inputFile value="#{uploadPage.uploadedFile}"  />
-                    <h:commandButton value="Save" type="submit" action="#{uploadPage.saveFile}" style="color: red;"></h:commandButton>
-                  </h:form>
-                </p:column>-->
                                 <p:column headerText="#{msgs.title}" filterBy="#{book.title}" filterMatchMode="contains">
                                     <p:cellEditor>
                                         <f:facet name="output"><h:outputText value="#{book.title}" /></f:facet>
@@ -152,9 +144,8 @@
                             <p:contextMenu for="books">
                                 <p:menuitem value="#{msgs.view}" update="bookDetail" icon="ui-icon-search" oncomplete="PF('bookDialog').show()"/>
                             </p:contextMenu>
-
-
-<!--                            <p:dialog id="newBookDialogId" header="#{msgs.newBook}" widgetVar="newBookPanel">
+                            
+                            <p:dialog id="newBookDialogId" header="#{msgs.newBook}" widgetVar="newBookPanel">
                                 <p:ajax event="close" resetValues="true" listener="#{managementBacking.handleDialogClose}" />
                                 <h:form id="newBookForm">
                                     <p:panelGrid columns="2" layout="grid">            
@@ -196,9 +187,9 @@
                                         <p:commandButton type="submit" ajax="true" value="#{msgs.add}" update="" action="#{managementBacking.addBook()}" />
                                     </p:panelGrid>
                                 </h:form>
-                            </p:dialog>-->
+                            </p:dialog>
 
-
+                            
                             <p:dialog id="changePhotoDialogId" header="#{msgs.bkInfo}" widgetVar="bookDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="true">
                                 <p:outputPanel id="bookDetail" style="text-align:center;">
                                     <p:panelGrid  columns="2" rendered="#{not empty managementBacking.selectedBook}" >
@@ -245,13 +236,13 @@
                                     <h:outputText value="#{review.id}" />
                                 </p:column>
 
-                                <p:column headerText="#{msgs.book}">
+                                <p:column headerText="#{msgs.book}" filterBy="#{review.isbn.title}">
                                     <h:outputText value="#{review.isbn.title}" />
                                 </p:column>
-                                <p:column headerText="#{msgs.clnt}">
+                                <p:column headerText="#{msgs.clnt}" filterBy="#{review.clientId.id}">
                                     <h:outputText value="#{review.clientId.id}"/>
                                 </p:column>
-                                <p:column headerText="#{msgs.rating}">
+                                <p:column headerText="#{msgs.rating}" filterBy="#{review.rating}">
                                     <p:rating value="#{review.rating}" readonly="true"/>
                                 </p:column>
                                 <p:column headerText="#{msgs.reviewMsg}">
@@ -309,7 +300,7 @@
                                     <h:outputText value="#{invoice.id}" />
                                 </p:column>
 
-                                <p:column headerText="#{msgs.clnt}">
+                                <p:column headerText="#{msgs.clnt}" filterBy="#{invoice.clientId.id}">
                                     <p:cellEditor>
                                         <f:facet name="output"><h:outputText value="#{invoice.clientId.id}" /></f:facet>
                                         <f:facet name="input"><p:inputText value="#{invoice.clientId.id}" style="width:100%" label="Client"/></f:facet>
@@ -340,7 +331,7 @@
                                         <f:facet name="input"><p:inputText id="modelInputGross" value="#{invoice.grossValue}" style="width:100%"/></f:facet>
                                     </p:cellEditor>
                                 </p:column>
-                                <p:column headerText="#{msgs.removeStat}">
+                                <p:column headerText="#{msgs.removeStat}" filterBy="#{invoice.removalStatus}">
                                     <p:cellEditor>
                                         <f:facet name="output"><h:outputText value="#{invoice.removalStatus}"/></f:facet>
                                         <f:facet name="input"><p:selectBooleanCheckbox id="modelInputInvStatus" value="#{invoice.removalStatus}" style="width:100%"/></f:facet>
@@ -447,7 +438,7 @@
                                 </p:column>
 
                                 <!--firstName<-->
-                                <p:column headerText="#{msgs.firstNameLabel}">
+                                <p:column headerText="#{msgs.firstNameLabel}" filterBy="#{client.firstName}">
                                     <p:cellEditor>
                                         <f:facet name="output"><h:outputText value="#{client.firstName}" /></f:facet>
                                         <f:facet name="input"><p:inputText value="#{client.firstName}" style="width:100%" label="Title"/></f:facet>
@@ -455,7 +446,7 @@
                                 </p:column>
 
                                 <!--lastName<-->
-                                <p:column headerText="#{msgs.lastNameLabel}">
+                                <p:column headerText="#{msgs.lastNameLabel}" filterBy="#{client.lastName}">
                                     <p:cellEditor>
                                         <f:facet name="output"><h:outputText value="#{client.lastName}" /></f:facet>
                                         <f:facet name="input"><p:inputText value="#{client.lastName}" style="width:100%" label="Title"/></f:facet>
@@ -463,7 +454,7 @@
                                 </p:column>
 
                                 <!--phone<-->
-                                <p:column headerText="#{msgs.phoneNumberLabel}">
+                                <p:column headerText="#{msgs.phoneNumberLabel}" filterBy="#{client.phoneNumber}">
                                     <p:cellEditor>
                                         <f:facet name="output"><h:outputText value="#{client.phoneNumber}"/></f:facet>
                                         <f:facet name="input"><p:inputText value="#{client.phoneNumber}" style="width:100%"/></f:facet>
@@ -473,7 +464,7 @@
 
 
                                 <!--company<-->
-                                <p:column headerText="#{msgs.companyLabel}" >
+                                <p:column headerText="#{msgs.companyLabel}" filterBy="#{client.companyName}">
                                     <p:cellEditor>
                                         <f:facet name="output"><h:outputText value="#{client.companyName}"/></f:facet>
                                         <f:facet name="input"><p:inputText  value="#{client.companyName}" style="width:100%"/></f:facet>
@@ -481,7 +472,7 @@
                                 </p:column>
 
                                 <!--address1<-->
-                                <p:column headerText="#{msgs.addressLabel}" style="width:300px">
+                                <p:column headerText="#{msgs.addressLabel}" filterBy="#{client.address1}" style="width:100px">
                                     <p:cellEditor>
                                         <f:facet name="output"><h:outputText value="#{client.address1}"/></f:facet>
                                         <f:facet name="input"><p:inputText  value="#{client.address1}" /></f:facet>
@@ -497,7 +488,7 @@
                                 </p:column>
 
                                 <!--city<-->
-                                <p:column headerText="#{msgs.cityLabel}">
+                                <p:column headerText="#{msgs.cityLabel}" filterBy="#{client.city}">
                                     <p:cellEditor>
                                         <f:facet name="output"><h:outputText value="#{client.city}"/></f:facet>
                                         <f:facet name="input"><p:inputText  value="#{client.city}"/></f:facet>
@@ -505,7 +496,7 @@
                                 </p:column>
 
                                 <!--province<-->
-                                <p:column headerText="#{msgs.provinceLabel}">
+                                <p:column headerText="#{msgs.provinceLabel}" filterBy="#{client.province.province}">
                                     <p:cellEditor>
                                         <f:facet name="output"><h:outputText value="#{client.province.province}"/></f:facet>
                                         <f:facet name="input"><p:inputText  value="#{client.province.province}" style="width:100%"/></f:facet>
@@ -513,7 +504,7 @@
                                 </p:column>
 
                                 <!--postalcode<-->
-                                <p:column headerText="#{msgs.postalCodeLabel}">
+                                <p:column headerText="#{msgs.postalCodeLabel}" filterBy="#{client.postalCode}">
                                     <p:cellEditor>
                                         <f:facet name="output"><h:outputText value="#{client.postalCode}"/></f:facet>
                                         <f:facet name="input"><p:inputText  value="#{client.postalCode}" maxlength="6" style="width:100%"/></f:facet>
@@ -521,7 +512,7 @@
                                 </p:column>
 
                                 <!--country<-->
-                                <p:column headerText="#{msgs.countryLabel}">
+                                <p:column headerText="#{msgs.countryLabel}" filterBy="#{client.country}">
                                     <p:cellEditor>
                                         <f:facet name="output"><h:outputText value="#{client.country}"/></f:facet>
                                         <f:facet name="input"><p:inputText  value="#{client.country}" style="width:100%"/></f:facet>
@@ -559,43 +550,50 @@
                                 <p:ajax event="rowEdit" listener="#{managementBacking.onRowEdit}" update="bkGrowl" />
                                 <p:ajax event="rowEditCancel" listener="#{managementBacking.onRowCancel}" update="bkGrowl" />
                                 <!--Question-->
-                                <p:column headerText="#{msgs.question}" style="width:220px">
+                                <p:column headerText="#{msgs.question}" filterBy="#{survey.question}">
                                     <p:cellEditor>
                                         <f:facet name="output"><h:outputText value="#{survey.question}"/></f:facet>
                                         <f:facet name="input"><p:inputText value="#{survey.question}" style="width:100%"/></f:facet>
                                     </p:cellEditor>
                                 </p:column>
                                 <!--Option1-->
-                                <p:column headerText="#{msgs.option1}" style="width:220px">
+                                <p:column headerText="#{msgs.option1}">
                                     <p:cellEditor>
                                         <f:facet name="output"><h:outputText value="#{survey.option1}"/></f:facet>
                                         <f:facet name="input"><p:inputText value="#{survey.option1}" style="width:100%"/></f:facet>
                                     </p:cellEditor>
                                 </p:column>
                                 <!--Option2-->
-                                <p:column headerText="#{msgs.option2}" style="width:220px">
+                                <p:column headerText="#{msgs.option2}">
                                     <p:cellEditor>
                                         <f:facet name="output"><h:outputText value="#{survey.option2}"/></f:facet>
                                         <f:facet name="input"><p:inputText value="#{survey.option2}" style="width:100%"/></f:facet>
                                     </p:cellEditor>
                                 </p:column>
                                 <!--Option3-->
-                                <p:column headerText="#{msgs.option3}" style="width:220px">
+                                <p:column headerText="#{msgs.option3}">
                                     <p:cellEditor>
                                         <f:facet name="output"><h:outputText value="#{survey.option3}"/></f:facet>
                                         <f:facet name="input"><p:inputText value="#{survey.option3}" style="width:100%"/></f:facet>
                                     </p:cellEditor>
                                 </p:column>
                                 <!--Option4-->
-                                <p:column headerText="#{msgs.option4}" style="width:220px">
+                                <p:column headerText="#{msgs.option4}">
                                     <p:cellEditor>
                                         <f:facet name="output"><h:outputText value="#{survey.option4}"/></f:facet>
                                         <f:facet name="input"><p:inputText value="#{survey.option4}" style="width:100%"/></f:facet>
                                     </p:cellEditor>
                                 </p:column>
-                                <p:column style="width:50px">
-                    <!--                            <p:commandButton value="#{survey.id}" action="#{managementBacking.testerMethod()}" />-->
-                                    <p:commandButton icon="ui-icon-trash" type="button" onclick="PF('deleteSurvey').show();"/>
+                                <!--Active-->
+                                <p:column headerText="#{msgs.activeStat}" filterBy="#{survey.removalStatus}">
+                                    <p:cellEditor>
+                                        <f:facet name="output"><h:outputText value="#{survey.removalStatus}"/></f:facet>
+                                        <f:facet name="input">
+                                            <h:selectOneMenu value="#{survey.removalStatus}" style="width:100%" onselect="#{managementBacking.resetActive(newsItem.id)}">
+                                                <f:selectItems value="#{managementBacking.newsStatus}" var="status" itemLabel="#{status}" itemValue="#{status}" />
+                                            </h:selectOneMenu>
+                                        </f:facet>
+                                    </p:cellEditor>
                                 </p:column>
                                 <p:column style="width:50px">
                                     <p:rowEditor />
@@ -644,7 +642,7 @@
                                 <p:ajax event="rowEdit" listener="#{managementBacking.onRowEdit}" update="bkGrowl" />
                                 <p:ajax event="rowEditCancel" listener="#{managementBacking.onRowCancel}" update="bkGrowl" />
 
-                                <p:column headerText="#{msgs.news} #">
+                                <p:column headerText="#{msgs.news} #" filterBy="#{newsItem.id}">
                                     <h:outputText value="#{newsItem.id}" />
                                 </p:column>
 
