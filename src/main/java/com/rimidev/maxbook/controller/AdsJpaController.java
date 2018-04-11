@@ -4,6 +4,7 @@ import com.rimidev.maxbook.controller.exceptions.NonexistentEntityException;
 import com.rimidev.maxbook.controller.exceptions.RollbackFailureException;
 import com.rimidev.maxbook.entities.Ads;
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
 import java.util.logging.Logger;
 import javax.annotation.Resource;
@@ -13,18 +14,19 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import javax.transaction.UserTransaction;
 
 /**
  *
- * @author maximelacasse, Philippe Langlois-Pedroso
+ * @author Philippe Langlois-Pedroso, Rhai Hinds, Eric Hughes
  */
 @Named
 @RequestScoped
 public class AdsJpaController implements Serializable {
-
+    
     private Logger log = Logger.getLogger(AdsJpaController.class.getName());
 
     @Resource
@@ -45,15 +47,10 @@ public class AdsJpaController implements Serializable {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }
             throw ex;
-        } finally {
-            if (em != null) {
-                em.close();
-            }
-        }
+        } 
     }
 
     public void edit(Ads ads) throws NonexistentEntityException, RollbackFailureException, Exception {
-        EntityManager em = null;
         try {
             utx.begin();
             ads = em.merge(ads);
@@ -72,15 +69,10 @@ public class AdsJpaController implements Serializable {
                 }
             }
             throw ex;
-        } finally {
-            if (em != null) {
-                em.close();
-            }
-        }
+        } 
     }
 
     public void destroy(Integer id) throws NonexistentEntityException, RollbackFailureException, Exception {
-        EntityManager em = null;
         try {
             utx.begin();
             Ads ads;
@@ -99,10 +91,6 @@ public class AdsJpaController implements Serializable {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }
             throw ex;
-        } finally {
-            if (em != null) {
-                em.close();
-            }
         }
     }
 
@@ -115,7 +103,6 @@ public class AdsJpaController implements Serializable {
     }
 
     private List<Ads> findAdsEntities(boolean all, int maxResults, int firstResult) {
-        try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             cq.select(cq.from(Ads.class));
             Query q = em.createQuery(cq);
@@ -124,45 +111,49 @@ public class AdsJpaController implements Serializable {
                 q.setFirstResult(firstResult);
             }
             return q.getResultList();
-        } finally {
-            em.close();
-        }
     }
 
     public Ads findAds(Integer id) {
-        try {
             return em.find(Ads.class, id);
-        } finally {
-            em.close();
-        }
     }
 
     public int getAdsCount() {
-        try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             Root<Ads> rt = cq.from(Ads.class);
             cq.select(em.getCriteriaBuilder().count(rt));
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();
-        } finally {
-            em.close();
-        }
     }
-
+    
     //Custom Queries
-    public List<Ads> getAllAds() {
-        Query q = em.createNamedQuery("Ads.findByActive");
-        q.setParameter("active", "1");
-        return (List<Ads>) q.getResultList();
-    }
-
-    public List<Ads> getFrontAds() {
-        List<Ads> front = getAllAds();
-        return front.subList(0, (front.size() / 2));
-    }
-
-    public List<Ads> getBackAds() {
-        List<Ads> back = getAllAds();
-        return back.subList((back.size() / 2), back.size());
-    }
+    
+        public List<Ads> getAllAds() {
+        
+        TypedQuery<Ads> query = em.createNamedQuery("Ads.findAll", Ads.class);
+        
+//        Collection<Ads> Ads = query.getResultList();
+//        
+//        return (List<Ads>) Ads;
+        return query.getResultList();
+    
+}
+        
+        public List<Ads> getFrontAds(){
+            List<Ads> front = getAllAds();
+            return front.subList(0, (front.size() / 2));
+        }
+        
+        public List<Ads> getBackAds(){
+            List<Ads> back = getAllAds();
+            return back.subList((back.size() / 2), back.size());
+        }
+        
+        public Ads getAd(int active){
+            
+            TypedQuery<Ads> query = em.createNamedQuery("Ads.findByActive", Ads.class);
+            query.setParameter("active", active + "");
+            
+            return query.getSingleResult();
+        }
+        
 }
