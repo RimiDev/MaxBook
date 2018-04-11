@@ -1,5 +1,6 @@
 package com.rimidev.backing;
 
+import com.rimidev.maxbook.controller.AdsJpaController;
 import com.rimidev.maxbook.controller.BookJpaController;
 import com.rimidev.maxbook.controller.InvoiceDetailsJpaController;
 import com.rimidev.maxbook.controller.InvoiceJpaController;
@@ -9,6 +10,7 @@ import com.rimidev.maxbook.controller.ClientJpaController;
 import com.rimidev.maxbook.controller.NewsJpaController;
 import com.rimidev.maxbook.controller.PublisherJpaController;
 import com.rimidev.maxbook.controller.SurveyJpaController;
+import com.rimidev.maxbook.entities.Ads;
 import com.rimidev.maxbook.entities.Book;
 import com.rimidev.maxbook.entities.Client;
 import com.rimidev.maxbook.entities.Invoice;
@@ -63,6 +65,8 @@ public class ManagementBacking implements Serializable {
     NewsJpaController newsCon;
     @Inject
     PublisherJpaController publisherController;
+    @Inject
+    AdsJpaController adsController;
 
     private List<Book> bk;
     private List<Review> rev;
@@ -72,6 +76,15 @@ public class ManagementBacking implements Serializable {
     private List<String> revStatuses;
     private List<Boolean> newsStatus;
     private List<Publisher> pubs;
+    private List<Ads> adsList;
+
+    public List<Ads> getAdsList() {
+        return adsList;
+    }
+
+    public void setAdsList(List<Ads> adsList) {
+        this.adsList = adsList;
+    }
     private Book selectedBook;
     private Book newBook;
     private boolean statusBool;
@@ -105,6 +118,7 @@ public class ManagementBacking implements Serializable {
         rev = revcon.findReviewEntities();
         inv = invcon.findInvoiceEntities();
         news = newsCon.findNewsEntities();
+        adsList = adsController.findAdsEntities();
         revStatuses = new ArrayList<String>();
 //        revStatuses.add(bundle.getString("pend"));
 //        revStatuses.add(bundle.getString("approve"));
@@ -180,6 +194,10 @@ public class ManagementBacking implements Serializable {
             onNewsRowEdit(event);
             item = bundle.getString("news") + " " + bundle.getString("id") + ((News) event.getObject()).getId();
             editType = bundle.getString("editNews");
+        } else if (event.getObject() instanceof Ads) {
+            onAdsRowEdit(event);
+            item = bundle.getString("ads") + " " + bundle.getString("id") + ((Ads) event.getObject()).getId();
+            editType = bundle.getString("editAds");
         }
 
         FacesMessage msg = new FacesMessage(editType, item);
@@ -287,6 +305,10 @@ public class ManagementBacking implements Serializable {
         return revStatuses;
     }
 
+    private void onAdsRowEdit(RowEditEvent event) throws Exception {
+        Ads ad = (Ads) event.getObject();
+        adsController.edit(ad);
+    }
 
     public List<Invoice> getInv() {
         return inv;
@@ -439,27 +461,22 @@ public class ManagementBacking implements Serializable {
         newBook.setPublishDate(null);
 
     }
-    
-    public String checkIfManager(ComponentSystemEvent event){
-        
+
+    public String checkIfManager(ComponentSystemEvent event) {
+
         HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
         Client curr_user = (Client) session.getAttribute("current_user");
-  
-        
-                
+
         logger.info("INSIDE CHECKIFMANGER" + curr_user);
-        
-        
-        if (curr_user == null || curr_user.getManager() == 0){
-      FacesContext context = FacesContext.getCurrentInstance();
-      ConfigurableNavigationHandler handler = (ConfigurableNavigationHandler) context.getApplication().getNavigationHandler();
-      handler.performNavigation("404");
+
+        if (curr_user == null || curr_user.getManager() == 0) {
+            FacesContext context = FacesContext.getCurrentInstance();
+            ConfigurableNavigationHandler handler = (ConfigurableNavigationHandler) context.getApplication().getNavigationHandler();
+            handler.performNavigation("404");
         } else {
             return "null";
         }
         return "null";
     }
-    
-    
 
 }

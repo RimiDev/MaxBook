@@ -94,7 +94,22 @@ public class Ads implements Serializable {
         this.active = active;
     }
     
-    
+    public boolean getActiveBoolean() {
+        if (active != null) {
+            return active.charAt(0) != '0';
+        }
+        return false;
+    }
+
+    public void setActiveBoolean(boolean active) {
+        if (active == true) {
+            this.active = "1";
+        } else {
+            this.active = "0";
+        }
+
+    }
+
     
 
     @Override
